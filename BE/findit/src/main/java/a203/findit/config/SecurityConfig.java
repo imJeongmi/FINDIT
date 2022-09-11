@@ -10,7 +10,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -20,6 +22,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class SecurityConfig {
 
     private final JwtProvider jwtProvider;
+    private final AuthenticationEntryPoint authenticationEntryPointHandler;
+    private final AccessDeniedHandler webAccessDeniedHandler;
 
 
     private final String frontUrl;
@@ -27,9 +31,11 @@ public class SecurityConfig {
     private static final String[] POST_PUBLIC_URI = {};
     private static final String[] DELETE_PUBLIC_URI = {};
 
-
-    public SecurityConfig(JwtProvider jwtProvider, @Value("${frontEnd}") String frontUrl) {
+    //TODO : frontUrl = public DNS
+    public SecurityConfig(AuthenticationEntryPoint authenticationEntryPointHandler, AccessDeniedHandler webAccessDeniedHandler, JwtProvider jwtProvider, @Value("${frontEnd}") String frontUrl) {
         this.jwtProvider = jwtProvider;
+        this.authenticationEntryPointHandler = authenticationEntryPointHandler;
+        this.webAccessDeniedHandler = webAccessDeniedHandler;
         this.frontUrl = frontUrl;
     }
 
@@ -56,7 +62,8 @@ public class SecurityConfig {
                 .and()
                 .csrf().disable();  // rest api이므로 csrf 보안이 필요없으므로 disable처리.
 
-        http.authorizeRequests()
+        http
+                .authorizeRequests()
                 .antMatchers("/public/**").permitAll()
                 .anyRequest().hasRole("USER");
 
@@ -66,6 +73,11 @@ public class SecurityConfig {
 
         http
                 .apply(new JwtSecurityConfig(jwtProvider));
+
+        http
+                .exceptionHandling()
+                .authenticationEntryPoint(authenticationEntryPointHandler)
+                .accessDeniedHandler(webAccessDeniedHandler);
 
         return http.build();
     }
