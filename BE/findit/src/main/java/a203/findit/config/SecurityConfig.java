@@ -31,7 +31,7 @@ public class SecurityConfig {
     private static final String[] POST_PUBLIC_URI = {};
     private static final String[] DELETE_PUBLIC_URI = {};
 
-    //TODO : frontUrl = public DNS
+
     public SecurityConfig(AuthenticationEntryPoint authenticationEntryPointHandler, AccessDeniedHandler webAccessDeniedHandler, JwtProvider jwtProvider, @Value("${frontEnd}") String frontUrl) {
         this.jwtProvider = jwtProvider;
         this.authenticationEntryPointHandler = authenticationEntryPointHandler;
