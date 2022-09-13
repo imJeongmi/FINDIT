@@ -1,6 +1,9 @@
 package a203.findit.model.entity;
 
+import org.springframework.data.annotation.CreatedDate;
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 public class User {
@@ -16,8 +19,16 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "nickname", unique = false, nullable = false)
+    @Column(name = "nickname", nullable = false)
     private String nickname;
+
+    @Column(name = "create_time", updatable = false)
+    @CreatedDate
+    private LocalDateTime createTime;
+
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "varchar(255) default 'ROLE_GUEST'")
+    private UserRole role;
 
 
     public void deleteUser(){
@@ -94,5 +105,9 @@ public class User {
 
     public String getNickname() {
         return nickname;
+    }
+
+    public UserRole getRole() {
+        return role;
     }
 }
