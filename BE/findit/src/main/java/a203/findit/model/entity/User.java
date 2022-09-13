@@ -4,6 +4,8 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class User {
@@ -22,14 +24,12 @@ public class User {
     @Column(name = "nickname", nullable = false)
     private String nickname;
 
-    @Column(name = "create_time", updatable = false)
-    @CreatedDate
-    private LocalDateTime createTime;
-
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "varchar(255) default 'ROLE_GUEST'")
     private UserRole role;
 
+    @OneToMany(mappedBy = "chief")
+    private List<Game> games = new ArrayList<>();
 
     public void deleteUser(){
         this.username = String.valueOf(this.id);
