@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "IGT_Player")
+
 public class IgtPlayer {
 
     @Id
@@ -16,7 +17,7 @@ public class IgtPlayer {
     private Player player;
 
     @ManyToOne
-    @JoinColumn(name = "treasure_id")
-    private Treasure treasure;
+    @JoinColumn(name = "igt_id")
+    private IGT igt;
 
 }

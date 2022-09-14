@@ -19,4 +19,7 @@ public class Treasure {
     @Column(name = "image_url")
     private String imageUrl;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 }
