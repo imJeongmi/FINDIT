@@ -28,8 +28,10 @@ public class User {
     @Column(columnDefinition = "varchar(255) default 'ROLE_GUEST'")
     private UserRole role;
 
+
     @OneToMany(mappedBy = "chief")
     private List<Game> games = new ArrayList<>();
+
 
     public void deleteUser(){
         this.username = String.valueOf(this.id);
