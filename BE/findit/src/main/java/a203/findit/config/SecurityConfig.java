@@ -31,7 +31,7 @@ public class SecurityConfig {
     private static final String[] POST_PUBLIC_URI = {};
     private static final String[] DELETE_PUBLIC_URI = {};
 
-    //TODO : frontUrl = public DNS
+
     public SecurityConfig(AuthenticationEntryPoint authenticationEntryPointHandler, AccessDeniedHandler webAccessDeniedHandler, JwtProvider jwtProvider, @Value("${frontEnd}") String frontUrl) {
         this.jwtProvider = jwtProvider;
         this.authenticationEntryPointHandler = authenticationEntryPointHandler;
@@ -65,7 +65,8 @@ public class SecurityConfig {
         http
                 .authorizeRequests()
                 .antMatchers("/public/**").permitAll()
-                .anyRequest().hasRole("USER");
+                .antMatchers("/games").hasAnyRole("GUEST","USER","ADMIN")
+                .anyRequest().hasRole("GUEST");
 
         http
                 .sessionManagement()
@@ -86,7 +87,8 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.addAllowedOrigin(frontUrl);
+        configuration.addAllowedOrigin("*");
+//        configuration.addAllowedOrigin(frontUrl);
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
         configuration.setAllowCredentials(true);

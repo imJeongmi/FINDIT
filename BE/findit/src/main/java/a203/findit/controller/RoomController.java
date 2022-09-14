@@ -3,7 +3,7 @@ package a203.findit.controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/room")
+@RequestMapping("room")
 public class RoomController {
 
     @PostMapping("create")
