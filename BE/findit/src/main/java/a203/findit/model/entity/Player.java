@@ -19,8 +19,8 @@ public class Player {
     @ColumnDefault("0")
     private Integer score;
 
-    @Column(name = "rank")
-    private Integer rank;
+    @Column(name = "ranking")
+    private Integer ranking;
 
     @ManyToOne
     @JoinColumn(name = "game_id")
@@ -36,7 +36,7 @@ public class Player {
     private Player(Builder builder){
         this.nickname = builder.nickname;
         this.score = builder.score;
-        this.rank = builder.rank;
+        this.ranking = builder.rank;
     }
 
     public static class Builder {
