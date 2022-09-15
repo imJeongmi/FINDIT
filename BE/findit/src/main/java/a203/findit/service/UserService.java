@@ -1,5 +1,4 @@
 package a203.findit.service;
-
 import a203.findit.model.repository.UserRepository;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.SetOperations;
@@ -20,4 +19,8 @@ public interface UserService {
     void deleteKey(String key);
     void deleteKey(String hashKey, String key);
     void setTokenBlackList(String token, String value, long expireTime);
+    
+    ApiResponse createUser(CreateUserDTO createUserDTO);
+
+
 }

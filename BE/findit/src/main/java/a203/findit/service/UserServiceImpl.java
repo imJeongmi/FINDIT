@@ -1,16 +1,29 @@
 package a203.findit.service;
 
+
 import a203.findit.model.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
+import a203.findit.exception.CustomException;
+import a203.findit.model.dto.req.CreateUserDTO;
+import a203.findit.model.dto.res.Code;
+import a203.findit.model.entity.User;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
 
-    @Autowired
-    private UserRepository userRepository;
+
+    private final UserRepository userRepository;
 
 
     @Override
@@ -62,4 +75,26 @@ public class UserServiceImpl implements UserService{
     public void setTokenBlackList(String token, String value, long expireTime) {
 
     }
+
+    @Override
+    public ApiResponse createUser(CreateUserDTO createUserDTO){
+        ApiResponse result = new ApiResponse();
+
+        Optional<User> tempUser = userRepository.findByUsername(createUserDTO.getId());
+
+        if(tempUser.isPresent()){
+            throw new CustomException(Code.C500);
+        }
+
+        userRepository.save(User.builder()
+                .username(createUserDTO.getId())
+                .password(createUserDTO.getPw())
+                .nickname(createUserDTO.getId())
+                .build());
+
+        return result;
+    };
+
+
 }
+
