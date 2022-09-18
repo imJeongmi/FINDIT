@@ -1,4 +1,4 @@
-package a203.findit.model.dto.req;
+package a203.findit.model.dto.req.User;
 
 import javax.validation.constraints.Size;
 

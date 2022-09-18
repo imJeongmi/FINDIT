@@ -2,18 +2,27 @@ package a203.findit.service;
 
 
 import a203.findit.model.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
 import a203.findit.exception.CustomException;
+
 import a203.findit.model.dto.req.CreateUserDTO;
 import a203.findit.model.dto.res.Code;
 import a203.findit.model.entity.User;
 import lombok.RequiredArgsConstructor;
+
+import a203.findit.model.dto.req.User.CreateUserDTO;
+import a203.findit.model.dto.req.User.LoginUserDTO;
+import a203.findit.model.dto.req.User.UpdateFormDTO;
+import a203.findit.model.dto.res.ApiResponse;
+import a203.findit.model.dto.res.Code;
+import a203.findit.model.entity.User;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
@@ -93,7 +102,54 @@ public class UserServiceImpl implements UserService{
                 .build());
 
         return result;
-    };
+    }
+
+    @Override
+    public ApiResponse login(LoginUserDTO loginUserDTO) {
+        return null;
+    }
+
+    @Override
+    public ApiResponse logout() {
+        return null;
+    }
+
+    @Override
+    public ApiResponse userDetails(String userId) {
+        return null;
+    }
+
+    @Override
+    public ApiResponse updateForm(UpdateFormDTO updateFormDTO) {
+        return null;
+    }
+
+    @Override
+    public ApiResponse getImgList(MultipartFile img) {
+        return null;
+    }
+
+    @Override
+    public ApiResponse updateUser() {
+        return null;
+    }
+
+    @Override
+    public ApiResponse deleteUser() {
+        return null;
+    }
+
+    @Override
+    public ApiResponse createTreasure() {
+        return null;
+    }
+
+    @Override
+    public ApiResponse getTreasure() {
+        return null;
+    }
+
+    ;
 
 
 }

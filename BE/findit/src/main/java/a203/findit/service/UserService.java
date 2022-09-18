@@ -1,8 +1,18 @@
 package a203.findit.service;
+
 import a203.findit.model.repository.UserRepository;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.SetOperations;
 import org.springframework.data.redis.core.ValueOperations;
+
+
+import a203.findit.model.dto.req.User.CreateUserDTO;
+import a203.findit.model.dto.req.User.LoginUserDTO;
+import a203.findit.model.dto.req.User.UpdateFormDTO;
+import a203.findit.model.dto.res.ApiResponse;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.validation.Valid;
 
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -22,5 +32,22 @@ public interface UserService {
     
     ApiResponse createUser(CreateUserDTO createUserDTO);
 
+    ApiResponse login(@Valid LoginUserDTO loginUserDTO);
+
+    ApiResponse logout();
+
+    ApiResponse userDetails(String userId);
+
+    ApiResponse updateForm(UpdateFormDTO updateFormDTO);
+
+    ApiResponse getImgList(MultipartFile img);
+
+    ApiResponse updateUser();
+
+    ApiResponse deleteUser();
+
+    ApiResponse createTreasure();
+
+    ApiResponse getTreasure();
 
 }
