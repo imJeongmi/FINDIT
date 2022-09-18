@@ -15,6 +15,7 @@ public class RoomController {
     public ApiResponse createRoom(){
         //token 처리 -> user식별자 받기
         UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = user.getUsername();
         System.out.println("*****************: "+username);
         ApiResponse result = new ApiResponse();
 //        result.
