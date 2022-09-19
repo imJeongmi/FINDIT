@@ -1,7 +1,6 @@
 package a203.findit.service;
 
 import org.springframework.stereotype.Service;
-import java.util.Set;
 import lombok.RequiredArgsConstructor;
 
 import a203.findit.exception.CustomException;
@@ -18,8 +17,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Optional;
-
 
 @Service
 @RequiredArgsConstructor
@@ -29,57 +26,6 @@ public class UserServiceImpl implements UserService {
     private final AuthenticationManager authenticationManager;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserRepository userRepos;
-
-    @Override
-    public void setValue(String key, String data) {
-
-    }
-
-    @Override
-    public String getStringValue(String key) {
-        return null;
-    }
-
-    @Override
-    public void setValue(String key, String[] data) {
-
-    }
-
-    @Override
-    public Set<String> getSetValue(String key) {
-        return null;
-    }
-
-    @Override
-    public void setValue(String key, Object obj1, Object obj2) {
-
-    }
-
-    @Override
-    public Object getHashValue(String key, String hash) {
-        return null;
-    }
-
-    @Override
-    public void setStringValueAndExpire(String key, String token, long expireDate) {
-
-    }
-
-    @Override
-    public void deleteKey(String key) {
-
-    }
-
-    @Override
-    public void deleteKey(String hashKey, String key) {
-
-    }
-
-    @Override
-    public void setTokenBlackList(String token, String value, long expireTime) {
-
-    }
-
 
     @Override
     public ResponseEntity createUser(CreateUserDTO createUserDTO) throws CustomException {
