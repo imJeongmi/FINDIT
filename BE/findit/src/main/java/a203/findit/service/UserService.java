@@ -10,6 +10,7 @@ import a203.findit.model.dto.req.User.CreateUserDTO;
 import a203.findit.model.dto.req.User.LoginUserDTO;
 import a203.findit.model.dto.req.User.UpdateFormDTO;
 import a203.findit.model.dto.res.ApiResponse;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
@@ -18,6 +19,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public interface UserService {
+
 
     void setValue(String key, String data);
     String getStringValue(String key);
@@ -32,22 +34,27 @@ public interface UserService {
     
     ApiResponse createUser(CreateUserDTO createUserDTO);
 
-    ApiResponse login(@Valid LoginUserDTO loginUserDTO);
+    ResponseEntity createUser(CreateUserDTO createUserDTO);
 
-    ApiResponse logout();
+    ResponseEntity login(@Valid LoginUserDTO loginUserDTO);
 
-    ApiResponse userDetails(String userId);
+    ResponseEntity logout();
 
-    ApiResponse updateForm(UpdateFormDTO updateFormDTO);
+    ResponseEntity userDetails(String userId);
 
-    ApiResponse getImgList(MultipartFile img);
+    ResponseEntity updateForm(UpdateFormDTO updateFormDTO);
 
-    ApiResponse updateUser();
+    ResponseEntity getImgList(MultipartFile img);
 
-    ApiResponse deleteUser();
+    ResponseEntity updateUser();
 
-    ApiResponse createTreasure();
+    ResponseEntity deleteUser();
+
+    ResponseEntity createTreasure();
+
 
     ApiResponse getTreasure();
+
+    ResponseEntity getTreasure();
 
 }

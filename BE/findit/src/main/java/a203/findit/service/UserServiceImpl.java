@@ -16,11 +16,22 @@ import lombok.RequiredArgsConstructor;
 import a203.findit.model.dto.req.User.CreateUserDTO;
 import a203.findit.model.dto.req.User.LoginUserDTO;
 import a203.findit.model.dto.req.User.UpdateFormDTO;
-import a203.findit.model.dto.res.ApiResponse;
 import a203.findit.model.dto.res.Code;
 import a203.findit.model.entity.User;
 
+
+
+import a203.findit.model.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,11 +40,12 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
-
-    private final UserRepository userRepository;
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
+    private final AuthenticationManager authenticationManager;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final UserRepository userRepos;
 
     @Override
     public void setValue(String key, String data) {
@@ -85,67 +97,67 @@ public class UserServiceImpl implements UserService{
 
     }
 
+
+
     @Override
-    public ApiResponse createUser(CreateUserDTO createUserDTO){
-        ApiResponse result = new ApiResponse();
-
-        Optional<User> tempUser = userRepository.findByUsername(createUserDTO.getId());
-
-        if(tempUser.isPresent()){
-            throw new CustomException(Code.C500);
-        }
-
-        userRepository.save(User.builder()
-                .username(createUserDTO.getId())
-                .password(createUserDTO.getPw())
-                .nickname(createUserDTO.getId())
-                .build());
-
-        return result;
+    public ResponseEntity createUser(CreateUserDTO createUserDTO) throws CustomException {
+//        String encPw = bCryptPasswordEncoder.encode(createUserDTO.getPw());
+//
+//        if (userRepos.existsByUsername(createUserDTO.getId())) {
+//            throw new CustomException(Code.C402);
+//        }
+//
+//        userRepos.save(User.builder()
+//                .username(createUserDTO.getId())
+//                .password(encPw)
+//                .nickname(createUserDTO.getId())
+//                .build());
+//
+        return ResponseEntity.status(200).build();
     }
 
     @Override
-    public ApiResponse login(LoginUserDTO loginUserDTO) {
+    public ResponseEntity login(LoginUserDTO loginUserDTO) {
         return null;
     }
 
     @Override
-    public ApiResponse logout() {
+    public ResponseEntity logout() {
         return null;
     }
 
     @Override
-    public ApiResponse userDetails(String userId) {
+    public ResponseEntity userDetails(String userId) {
         return null;
     }
 
     @Override
-    public ApiResponse updateForm(UpdateFormDTO updateFormDTO) {
+    public ResponseEntity updateForm(UpdateFormDTO updateFormDTO) {
         return null;
     }
 
     @Override
-    public ApiResponse getImgList(MultipartFile img) {
+    public ResponseEntity getImgList(MultipartFile img) {
         return null;
     }
 
     @Override
-    public ApiResponse updateUser() {
+    public ResponseEntity updateUser() {
         return null;
     }
 
     @Override
-    public ApiResponse deleteUser() {
+    public ResponseEntity deleteUser() {
         return null;
     }
 
     @Override
-    public ApiResponse createTreasure() {
+    public ResponseEntity createTreasure() {
         return null;
     }
 
     @Override
-    public ApiResponse getTreasure() {
+    public ResponseEntity getTreasure() {
         return null;
     }
 
