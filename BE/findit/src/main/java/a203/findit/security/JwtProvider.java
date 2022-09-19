@@ -1,11 +1,10 @@
 package a203.findit.security;
 
+import a203.findit.service.AuthService;
 import a203.findit.service.UserService;
-import a203.findit.util.RedisService;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -42,7 +41,7 @@ public class JwtProvider {
 
     private MyUserDetailService myUserDetailService;
 
-    private final UserService userService;
+    private final AuthService authService;
 
     /*
     public JwtProvider(MyUserDetailService myUserDetailService, RedisService redisService) {
@@ -51,9 +50,9 @@ public class JwtProvider {
     }
     */
 
-    public JwtProvider(MyUserDetailService myUserDetailService, UserService userService) {
+    public JwtProvider(MyUserDetailService myUserDetailService, AuthService authService) {
         this.myUserDetailService = myUserDetailService;
-        this.userService = userService;
+        this.authService = authService;
     }
     /**
      * Key Encryption
@@ -96,7 +95,7 @@ public class JwtProvider {
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
         //redisService.setStringValueAndExpire(refreshToken, id, refreshTokenExpireTime);
-        userService.setStringValueAndExpire(refreshToken,id,refreshTokenExpireTime);
+        authService.setStringValueAndExpire(refreshToken,id,refreshTokenExpireTime);
         return refreshToken;
     }
 
@@ -144,7 +143,7 @@ public class JwtProvider {
             LOGGER.debug("[JwtProvider.validateToken(token)]");
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
 //            if ("logout".equals(redisService.getStringValue(token))){
-            if ("logout".equals(userService.getStringValue(token))){
+            if ("logout".equals(authService.getStringValue(token))){
                 throw new MalformedJwtException("BlackList");
             }
             return true;
