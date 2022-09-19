@@ -8,7 +8,7 @@ public class IGT {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "in_game_treasure_id")
+    @Column(name = "igt_id")
     private Long id;
 
     @Column(name = "base_score")

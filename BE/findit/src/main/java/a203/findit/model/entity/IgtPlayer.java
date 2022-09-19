@@ -3,12 +3,13 @@ package a203.findit.model.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "ItemPlayer")
-public class ItemPlayer {
+@Table(name = "IGT_Player")
+
+public class IgtPlayer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "item_user_id", columnDefinition = "BIGINT(20) UNSIGNED")
+    @Column(name = "igt_player_id", columnDefinition = "BIGINT(20) UNSIGNED")
     private Long id;
 
     @ManyToOne
@@ -16,7 +17,7 @@ public class ItemPlayer {
     private Player player;
 
     @ManyToOne
-    @JoinColumn(name = "treasure_id")
-    private Treasure treasure;
+    @JoinColumn(name = "igt_id")
+    private IGT igt;
 
 }
