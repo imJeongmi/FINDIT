@@ -49,11 +49,11 @@ public class JwtProvider {
         this.redisService = redisService;
     }
     */
-
     public JwtProvider(MyUserDetailService myUserDetailService, AuthService authService) {
         this.myUserDetailService = myUserDetailService;
         this.authService = authService;
     }
+
     /**
      * Key Encryption
      */
