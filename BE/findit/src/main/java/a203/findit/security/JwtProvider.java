@@ -1,5 +1,6 @@
 package a203.findit.security;
 
+import a203.findit.service.UserService;
 import a203.findit.util.RedisService;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
@@ -25,7 +26,10 @@ public class JwtProvider {
     // Logger Setting
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtProvider.class);
 
+    /*
+    redis
     private final RedisService redisService;
+     */
 
     @Value("${jwt.secret-key}")
     private String secretKey;
@@ -38,11 +42,19 @@ public class JwtProvider {
 
     private MyUserDetailService myUserDetailService;
 
+    private final UserService userService;
+
+    /*
     public JwtProvider(MyUserDetailService myUserDetailService, RedisService redisService) {
         this.myUserDetailService = myUserDetailService;
         this.redisService = redisService;
     }
+    */
 
+    public JwtProvider(MyUserDetailService myUserDetailService, UserService userService) {
+        this.myUserDetailService = myUserDetailService;
+        this.userService = userService;
+    }
     /**
      * Key Encryption
      */
@@ -83,7 +95,8 @@ public class JwtProvider {
                 .setExpiration(expireTime)
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
-        redisService.setStringValueAndExpire(refreshToken, id, refreshTokenExpireTime);
+        //redisService.setStringValueAndExpire(refreshToken, id, refreshTokenExpireTime);
+        userService.setStringValueAndExpire(refreshToken,id,refreshTokenExpireTime);
         return refreshToken;
     }
 
@@ -130,7 +143,8 @@ public class JwtProvider {
         try {
             LOGGER.debug("[JwtProvider.validateToken(token)]");
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
-            if ("logout".equals(redisService.getStringValue(token))){
+//            if ("logout".equals(redisService.getStringValue(token))){
+            if ("logout".equals(userService.getStringValue(token))){
                 throw new MalformedJwtException("BlackList");
             }
             return true;
