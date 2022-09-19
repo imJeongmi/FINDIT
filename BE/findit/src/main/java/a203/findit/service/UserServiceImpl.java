@@ -1,38 +1,21 @@
 package a203.findit.service;
 
-
-import a203.findit.model.repository.UserRepository;
 import org.springframework.stereotype.Service;
-
 import java.util.Set;
-
-import a203.findit.exception.CustomException;
-
-import a203.findit.model.dto.req.CreateUserDTO;
-import a203.findit.model.dto.res.Code;
-import a203.findit.model.entity.User;
 import lombok.RequiredArgsConstructor;
 
+import a203.findit.exception.CustomException;
 import a203.findit.model.dto.req.User.CreateUserDTO;
 import a203.findit.model.dto.req.User.LoginUserDTO;
 import a203.findit.model.dto.req.User.UpdateFormDTO;
-import a203.findit.model.dto.res.Code;
-import a203.findit.model.entity.User;
-
-
-
 import a203.findit.model.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
@@ -98,7 +81,6 @@ public class UserServiceImpl implements UserService {
     }
 
 
-
     @Override
     public ResponseEntity createUser(CreateUserDTO createUserDTO) throws CustomException {
 //        String encPw = bCryptPasswordEncoder.encode(createUserDTO.getPw());
@@ -160,8 +142,6 @@ public class UserServiceImpl implements UserService {
     public ResponseEntity getTreasure() {
         return null;
     }
-
-    ;
 
 
 }

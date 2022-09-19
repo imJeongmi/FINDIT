@@ -32,7 +32,6 @@ public interface UserService {
     void deleteKey(String hashKey, String key);
     void setTokenBlackList(String token, String value, long expireTime);
     
-    ApiResponse createUser(CreateUserDTO createUserDTO);
 
     ResponseEntity createUser(CreateUserDTO createUserDTO);
 
@@ -51,9 +50,6 @@ public interface UserService {
     ResponseEntity deleteUser();
 
     ResponseEntity createTreasure();
-
-
-    ApiResponse getTreasure();
 
     ResponseEntity getTreasure();
 
