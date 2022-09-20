@@ -1,5 +1,12 @@
 package a203.findit.service;
 
+import a203.findit.model.entity.User;
+import a203.findit.model.repository.RefreshTokenRepository;
+import a203.findit.security.JwtProvider;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
@@ -17,45 +24,70 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
+
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
+
+    private final JwtProvider jwtProvider;
     private final AuthenticationManager authenticationManager;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserRepository userRepos;
+    private final RefreshTokenRepository refreshTokenRepos;
 
     @Override
-    public ResponseEntity createUser(CreateUserDTO createUserDTO) throws CustomException {
-//        String encPw = bCryptPasswordEncoder.encode(createUserDTO.getPw());
-//
-//        if (userRepos.existsByUsername(createUserDTO.getId())) {
-//            throw new CustomException(Code.C402);
-//        }
-//
-//        userRepos.save(User.builder()
-//                .username(createUserDTO.getId())
-//                .password(encPw)
-//                .nickname(createUserDTO.getId())
-//                .build());
-//
-        return ResponseEntity.status(200).build();
+    public boolean createUser(CreateUserDTO createUserDTO) {
+        String encPw = bCryptPasswordEncoder.encode(createUserDTO.getPw());
+
+        if (userRepos.existsByUsername(createUserDTO.getId())) {
+            return false;
+        }
+
+        userRepos.save(User.builder()
+                .username(createUserDTO.getId())
+                .password(encPw)
+                .nickname(createUserDTO.getNickname())
+                .build());
+
+        return true;
+    }
+
+
+    @Override
+    public Map<String, String> login(LoginUserDTO loginUserDTO) throws CustomException{
+
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginUserDTO.getId(),loginUserDTO.getPw());
+
+        Authentication authentication = authenticationManager.authenticate(token);
+
+        Map<String, String> result = createToken(authentication.getName());
+
+        return result;
     }
 
     @Override
-    public ResponseEntity login(LoginUserDTO loginUserDTO) {
-        return null;
+    public boolean logout(HttpServletRequest req, String username, String refreshToken) {
+
+        refreshTokenRepos.deleteByValue(refreshToken);
+
+        return true;
     }
 
     @Override
-    public ResponseEntity logout() {
-        return null;
-    }
+    public Map<String, String> userDetails(String userId) {
+        Map<String, String> result = new HashMap<>();
 
-    @Override
-    public ResponseEntity userDetails(String userId) {
+        UserDetails principal =  (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+
+
+
         return null;
     }
 
@@ -89,6 +121,17 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
+    private Map<String, String> createToken(String name) {
+        Map<String, String> result = new HashMap<>();
+
+        String accessToken = jwtProvider.generateAccessToken(name);
+        String refreshToken = jwtProvider.generateRefreshToken(name);
+
+        result.put("accessToken", accessToken);
+        result.put("refreshToken", refreshToken);
+
+        return result;
+    }
 
 }
 

@@ -9,7 +9,8 @@ public enum Code {
     C200 (200, "SUCCESS"),
     C401 (300, "INVALID"),
     C500 (500, "INTERNAL SERVER ERROR"),
-    C402 (402, "Invalid ID");
+    C402 (402, "Invalid ID"),
+    C403(403, "No Such User");
 
 
     private int errCode;
