@@ -2,9 +2,6 @@ package a203.findit.security;
 
 import a203.findit.model.entity.auth.RefreshToken;
 import a203.findit.model.repository.RefreshTokenRepository;
-import a203.findit.service.AuthService;
-import a203.findit.service.UserService;
-import a203.findit.util.RedisService;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

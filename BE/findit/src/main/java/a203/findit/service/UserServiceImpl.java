@@ -36,8 +36,8 @@ public class UserServiceImpl implements UserService {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
     private final JwtProvider jwtProvider;
-    private final AuthenticationManager authenticationManager;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private AuthenticationManager authenticationManager;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserRepository userRepos;
     private final RefreshTokenRepository refreshTokenRepos;
 
