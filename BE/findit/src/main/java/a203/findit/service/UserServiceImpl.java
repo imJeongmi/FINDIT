@@ -1,11 +1,12 @@
 package a203.findit.service;
 
-import a203.findit.model.dto.res.Code;
 import a203.findit.model.entity.User;
+import a203.findit.model.repository.RefreshTokenRepository;
 import a203.findit.security.JwtProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
@@ -23,6 +24,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,52 +39,55 @@ public class UserServiceImpl implements UserService {
     private final AuthenticationManager authenticationManager;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserRepository userRepos;
+    private final RefreshTokenRepository refreshTokenRepos;
 
     @Override
-    public ResponseEntity createUser(CreateUserDTO createUserDTO) throws CustomException {
+    public boolean createUser(CreateUserDTO createUserDTO) {
         String encPw = bCryptPasswordEncoder.encode(createUserDTO.getPw());
 
         if (userRepos.existsByUsername(createUserDTO.getId())) {
-            throw new CustomException(Code.C402);
+            return false;
         }
 
         userRepos.save(User.builder()
                 .username(createUserDTO.getId())
                 .password(encPw)
-                .nickname(createUserDTO.getId())
+                .nickname(createUserDTO.getNickname())
                 .build());
 
-        return ResponseEntity.status(200).build();
+        return true;
     }
 
-    @Override
-    public ResponseEntity login(LoginUserDTO loginUserDTO) throws CustomException{
 
-        ResponseEntity response = new ResponseEntity();
+    @Override
+    public Map<String, String> login(LoginUserDTO loginUserDTO) throws CustomException{
 
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginUserDTO.getId(),loginUserDTO.getPw());
 
         Authentication authentication = authenticationManager.authenticate(token);
 
-        User user = userRepos.findByUsername(authentication.getName()).orElseThrow(
-                ()-> new CustomException(Code.C403)
-        );
+        Map<String, String> result = createToken(authentication.getName());
 
-        Map<String, String> tokens = createToken(authentication.getName());
-
-
-
-
-        return null;
+        return result;
     }
 
     @Override
-    public ResponseEntity logout() {
-        return null;
+    public boolean logout(HttpServletRequest req, String username, String refreshToken) {
+
+        refreshTokenRepos.deleteByValue(refreshToken);
+
+        return true;
     }
 
     @Override
-    public ResponseEntity userDetails(String userId) {
+    public Map<String, String> userDetails(String userId) {
+        Map<String, String> result = new HashMap<>();
+
+        UserDetails principal =  (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+
+
+
         return null;
     }
 

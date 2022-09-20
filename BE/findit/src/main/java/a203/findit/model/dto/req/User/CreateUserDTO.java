@@ -5,6 +5,10 @@ public class CreateUserDTO {
     private String id;
     //    @Size(min = 4, max = 12)
     private String pw;
+    private String nickname;
+
+    public CreateUserDTO() {
+    }
 
     public String getId() {
         return id;
@@ -12,5 +16,9 @@ public class CreateUserDTO {
 
     public String getPw() {
         return pw;
+    }
+
+    public String getNickname() {
+        return nickname;
     }
 }
