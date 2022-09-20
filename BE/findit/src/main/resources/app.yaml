@@ -1,0 +1,53 @@
+spring:
+  jpa:
+    generate-ddl: true
+    properties:
+      hibernate:
+        show_sql: true
+        ddl-auto : none
+        format_sql: true
+    hibernate:
+      ddl-auto: update
+    #      naming:
+    #        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+    #        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+
+  #  redis:
+  #    host: localhost
+  #    port: 6000
+
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: false
+
+  freemarker:
+    cache: false
+
+  #  jackson:
+  #    serialization: false
+
+  datasource:
+    password: ?p27IQiwci941Ykol
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: a203
+    url: jdbc:mysql://j7a203.p.ssafy.io:3306/FindIt
+
+server:
+  servlet:
+    contextPath: /api/v1
+  address: localhost
+  port: 8399
+
+password:
+  reset:
+    expire-time: 300000
+
+jwt:
+  secret-key: sasdKAnzkaAlfmFimmAzsQkgYodiuqlxw
+  access-token-expire-time: 1800000
+  refresh-token-expire-time: 1209600000
+
+frontEnd: http://localhost:3000
