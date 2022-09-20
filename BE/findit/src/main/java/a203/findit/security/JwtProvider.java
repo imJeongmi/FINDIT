@@ -97,7 +97,7 @@ public class JwtProvider {
                 .compact();
         //redisService.setStringValueAndExpire(refreshToken, id, refreshTokenExpireTime);
 
-        refreshTokenRepos.save(RefreshToken.builder().refreshToken(refreshToken).build());
+        refreshTokenRepos.save(RefreshToken.builder().value(refreshToken).build());
 
         return refreshToken;
     }
