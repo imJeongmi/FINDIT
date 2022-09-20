@@ -7,17 +7,19 @@ import a203.findit.model.dto.req.User.UpdateFormDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Map;
 
 public interface UserService {
 
-    ResponseEntity createUser(CreateUserDTO createUserDTO);
+    boolean createUser(CreateUserDTO createUserDTO);
 
-    ResponseEntity login(@Valid LoginUserDTO loginUserDTO);
+    Map<String, String> login(@Valid LoginUserDTO loginUserDTO);
 
-    ResponseEntity logout();
+    boolean logout(HttpServletRequest req, String username, String refreshToken);
 
-    ResponseEntity userDetails(String userId);
+    Map<String, String> userDetails(String userId);
 
     ResponseEntity updateForm(UpdateFormDTO updateFormDTO);
 

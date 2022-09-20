@@ -1,10 +1,14 @@
 package a203.findit.security;
 
+import a203.findit.model.entity.auth.RefreshToken;
+import a203.findit.model.repository.RefreshTokenRepository;
 import a203.findit.service.AuthService;
 import a203.findit.service.UserService;
+import a203.findit.util.RedisService;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -30,6 +34,7 @@ public class JwtProvider {
     private final RedisService redisService;
      */
 
+
     @Value("${jwt.secret-key}")
     private String secretKey;
 
@@ -39,21 +44,17 @@ public class JwtProvider {
     @Value("${jwt.refresh-token-expire-time}")
     private long refreshTokenExpireTime;
 
+    @Autowired
+    private RefreshTokenRepository refreshTokenRepos;
+
     private MyUserDetailService myUserDetailService;
 
-    private final AuthService authService;
 
-    /*
-    public JwtProvider(MyUserDetailService myUserDetailService, RedisService redisService) {
+    public JwtProvider(MyUserDetailService myUserDetailService) {
         this.myUserDetailService = myUserDetailService;
-        this.redisService = redisService;
     }
-    */
 
-    public JwtProvider(MyUserDetailService myUserDetailService, AuthService authService) {
-        this.myUserDetailService = myUserDetailService;
-        this.authService = authService;
-    }
+
     /**
      * Key Encryption
      */
@@ -65,8 +66,8 @@ public class JwtProvider {
     /**
      * generate a AccessToken
      */
-    public String generateAccessToken(String id) {
-        Claims claims = Jwts.claims().setSubject(id);
+    public String generateAccessToken(String username) {
+        Claims claims = Jwts.claims().setSubject(username);
         Date now = new Date();
         Date expireTime = new Date(now.getTime() + accessTokenExpireTime);
 
@@ -80,11 +81,11 @@ public class JwtProvider {
 
     /**
      * Generate a RefreshToken
-     * @param id
+     * @param username
      * @return
      */
-    public String generateRefreshToken(String id) {
-        Claims claims = Jwts.claims().setSubject(id);
+    public String generateRefreshToken(String username) {
+        Claims claims = Jwts.claims().setSubject(username);
         Date now = new Date();
         Date expireTime = new Date(now.getTime() + refreshTokenExpireTime);
 
@@ -95,7 +96,9 @@ public class JwtProvider {
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
         //redisService.setStringValueAndExpire(refreshToken, id, refreshTokenExpireTime);
-        authService.setStringValueAndExpire(refreshToken,id,refreshTokenExpireTime);
+
+        refreshTokenRepos.save(RefreshToken.builder().refreshToken(refreshToken).build());
+
         return refreshToken;
     }
 
@@ -105,7 +108,7 @@ public class JwtProvider {
      * @return
      */
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = myUserDetailService.loadUserByUsername(this.getUserId(token));
+        UserDetails userDetails = myUserDetailService.loadUserByUsername(this.getUsername(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
@@ -114,7 +117,7 @@ public class JwtProvider {
      * @param token
      * @return
      */
-    public String getUserId(String token) {
+    public String getUsername(String token) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }
 
@@ -142,10 +145,6 @@ public class JwtProvider {
         try {
             LOGGER.debug("[JwtProvider.validateToken(token)]");
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
-//            if ("logout".equals(redisService.getStringValue(token))){
-            if ("logout".equals(authService.getStringValue(token))){
-                throw new MalformedJwtException("BlackList");
-            }
             return true;
         } catch (SignatureException e) {
             LOGGER.error("Invalid JWT Signature", e);
@@ -177,5 +176,5 @@ public class JwtProvider {
     public long getAccessTokenExpireTime() {
         return accessTokenExpireTime;
     }
-    
+
 }
