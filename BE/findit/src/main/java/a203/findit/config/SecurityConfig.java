@@ -6,10 +6,13 @@ import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -28,7 +31,10 @@ public class SecurityConfig {
 
     private final String frontUrl;
     private static final String[] GET_PUBLIC_URI = {};
-    private static final String[] POST_PUBLIC_URI = {};
+    private static final String[] POST_PUBLIC_URI = {
+            "/users",
+            "/users/login",
+    };
     private static final String[] DELETE_PUBLIC_URI = {};
 
 
@@ -47,7 +53,7 @@ public class SecurityConfig {
      */
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring()
+        return web -> web.ignoring()
                 .antMatchers(HttpMethod.GET, GET_PUBLIC_URI)
                 .antMatchers(HttpMethod.POST, POST_PUBLIC_URI)
                 .antMatchers(HttpMethod.DELETE, DELETE_PUBLIC_URI)
@@ -71,6 +77,7 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/public/**").permitAll()
                 .antMatchers("/games").hasAnyRole("GUEST","USER","ADMIN")
+                .antMatchers("/users/**").permitAll()
                 .antMatchers("/**").permitAll()
                 .anyRequest().hasRole("GUEST");
 
@@ -105,4 +112,14 @@ public class SecurityConfig {
         return source;
     }
 
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
 }
