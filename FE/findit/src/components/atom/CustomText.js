@@ -58,12 +58,12 @@ function getColor(variant) {
 //   }
 // }
 
-export default function CustomText({ variant, children, size, weight }) {
+export default function CustomText({ variant, children, size }) {
   return (
     //  텍스트는 크게 large, medium, small 사이즈로 구분되며
     // 색상은 primary, black, white 로 구분됩니다.
     // 두가지 모두 적용시켜주셔야 합니다.
-    <CustomSpan variant={variant} size={size} weight={weight}>
+    <CustomSpan variant={variant} size={size}>
       {children}
     </CustomSpan>
   );
