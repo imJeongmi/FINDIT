@@ -64,15 +64,21 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .httpBasic().disable()  // Http basic Auth 기반으로 로그인 인증창이 뜸. disable 시에 인증창 뜨지 않음.
-                .cors().configurationSource(corsConfigurationSource())
+//                .cors().configurationSource(corsConfigurationSource())
+                .cors().disable()
+                .csrf().disable()
+                .headers()
+                .frameOptions().sameOrigin()
                 .and()
-                .csrf().disable();  // rest api이므로 csrf 보안이 필요없으므로 disable처리.
+                .authorizeRequests();  // rest api이므로 csrf 보안이 필요없으므로 disable처리.
+
 
         http
                 .authorizeRequests()
                 .antMatchers("/public/**").permitAll()
                 .antMatchers("/games").hasAnyRole("GUEST","USER","ADMIN")
                 .antMatchers("/users/**").permitAll()
+                .antMatchers("/**").permitAll()
                 .anyRequest().hasRole("GUEST");
 
         http
