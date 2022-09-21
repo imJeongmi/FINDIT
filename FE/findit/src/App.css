@@ -1,1 +1,6 @@
-
+@font-face {
+  font-family: "WendyOne";
+  src: url("static/fonts/WendyOne-Regular.woff") format("woff");
+  /* font-weight: normal;
+  font-style: normal; */
+}
