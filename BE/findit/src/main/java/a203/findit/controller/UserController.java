@@ -29,6 +29,7 @@ public class UserController {
 
     private final UserService userService;
 
+    private final String ACCESS_TOKEN_KEY = "accessToken";
     private final String REFRESH_TOKEN_KEY = "refreshToken";
 
     @PostMapping("")
@@ -51,15 +52,12 @@ public class UserController {
     @Transactional
     public ResponseEntity logout(HttpServletRequest request, HttpServletResponse response) {
 
-        UserDetails principal =  (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
         Cookie[] cookies = request.getCookies();
 
         String refreshToken = "";
 
         if(cookies!=null){
-            for (Cookie c :
-                    cookies) {
+            for (Cookie c : cookies) {
                 if(c.getName().equals(REFRESH_TOKEN_KEY)){
                     refreshToken = c.getValue().trim();
                     break;
@@ -67,7 +65,7 @@ public class UserController {
             }
         }
 
-        userService.logout(request,principal.getUsername(),refreshToken);
+        userService.logout(request,refreshToken);
 
         SetCookie.deleteAccessTokenCookie(response);
         SetCookie.deleteRefreshTokenCookie(response);
@@ -93,7 +91,9 @@ public class UserController {
 
     @PostMapping("/{userId}/update")
     public ResponseEntity updateUser(@PathVariable("userId") String userId) {
-        return userService.updateUser();
+        UserDetails currUser = (UserDetails) (SecurityContextHolder.getContext().getAuthentication()).getDetails();
+
+        return userService.updateUser(currUser.getUsername());
     }
 
     @PostMapping("/{userId}/delete")

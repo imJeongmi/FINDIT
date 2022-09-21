@@ -17,7 +17,7 @@ public interface UserService {
 
     Map<String, String> login(@Valid LoginUserDTO loginUserDTO);
 
-    boolean logout(HttpServletRequest req, String username, String refreshToken);
+    boolean logout(HttpServletRequest req, String refreshToken);
 
     Map<String, String> userDetails(String userId);
 
@@ -25,7 +25,7 @@ public interface UserService {
 
     ResponseEntity getImgList(MultipartFile img);
 
-    ResponseEntity updateUser();
+    ResponseEntity updateUser(String username);
 
     ResponseEntity deleteUser();
 
