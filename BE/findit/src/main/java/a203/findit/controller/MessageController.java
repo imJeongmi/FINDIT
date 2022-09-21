@@ -1,5 +1,7 @@
 package a203.findit.controller;
 
+import a203.findit.model.dto.req.User.EntercodeDTO;
+import a203.findit.model.dto.req.User.MessageDTO;
 import a203.findit.model.dto.res.RoomDTO;
 import a203.findit.model.socket.Message;
 import lombok.RequiredArgsConstructor;
@@ -21,11 +23,18 @@ public class MessageController {
     private final SimpMessagingTemplate simpMessagingTemplate;
 
     @MessageMapping("/hello")
-    public void message(@Valid RoomDTO roomDTO) throws InterruptedException {
+    public void message(@Valid MessageDTO MessageDTO) throws InterruptedException {
         Thread.sleep(1000);
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("userId",roomDTO.getUserId());
-        simpMessagingTemplate.convertAndSend("/sub/room/"+roomDTO.getRoomId(),jsonObject);
+        jsonObject.put("roomId",MessageDTO.getRoomId());
+        simpMessagingTemplate.convertAndSend("/sub/room/"+MessageDTO.getRoomId(),jsonObject);
+    }
+    @MessageMapping("/hello2")
+    public void message2(@Valid EntercodeDTO entercodeDTO) throws InterruptedException {
+//        Thread.sleep(1000);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("roomId",entercodeDTO.getEntercode());
+        simpMessagingTemplate.convertAndSend("/sub/room/"+entercodeDTO.getEntercode(),jsonObject);
     }
 
 }

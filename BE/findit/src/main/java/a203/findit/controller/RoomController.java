@@ -1,6 +1,7 @@
 package a203.findit.controller;
 
 import a203.findit.model.dto.req.User.CreateRoomDTO;
+import a203.findit.model.dto.req.User.EntercodeDTO;
 import a203.findit.model.dto.res.ApiResponse;
 import a203.findit.model.dto.res.RoomDTO;
 import a203.findit.service.RoomServiceImpl;
@@ -17,12 +18,11 @@ import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/room")
 public class RoomController {
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final RoomServiceImpl roomService;
 
-    @PostMapping("/create2")
+    @PostMapping("/room/create2")
     @ResponseBody
     public ApiResponse create2(){
         UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -32,19 +32,18 @@ public class RoomController {
         return result;
     }
 
-    @PostMapping("/create")
+    @PostMapping("/room/create")
     public ResponseEntity<String> create(@Valid @RequestBody CreateRoomDTO createRoomDTO){
         RoomDTO roomDTO = roomService.join(createRoomDTO.getUsername(), createRoomDTO.getMode(), createRoomDTO.getLimitminute());
         String entercode= roomDTO.getEnterCode();
         return ResponseEntity.ok(entercode);
     }
 
-    @MessageMapping("/start")
-    public void startSocket(String entercode){
+    @MessageMapping("/open")
+    public void socketOpen(@Valid EntercodeDTO entercodeDTO) {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("entercode",entercode);
-        simpMessagingTemplate.convertAndSend("sub/room/"+entercode,jsonObject);
-
+        jsonObject.put("entercode",entercodeDTO.getEntercode());
+        simpMessagingTemplate.convertAndSend("/sub/room/"+entercodeDTO.getEntercode(),jsonObject);
     }
 
 

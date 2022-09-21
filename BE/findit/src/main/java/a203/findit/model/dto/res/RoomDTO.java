@@ -27,7 +27,7 @@ public class RoomDTO {
 
     private LocalDateTime startTime;
 
-    private int limitMinute;
+    private int limitminute;
 
     private LocalDateTime endTime;
 
@@ -38,6 +38,6 @@ public class RoomDTO {
     public RoomDTO (Game game){
         this.roomId = game.getId();
         this.userId = game.getUser().getId();
-        this.limitMinute = game.getLimitMin();
+        this.limitminute = game.getLimitMin();
     }
 }
