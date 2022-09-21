@@ -29,7 +29,7 @@ public class User {
     private UserRole role;
 
 
-    @OneToMany(mappedBy = "chief")
+    @OneToMany(mappedBy = "user")
     private List<Game> games = new ArrayList<>();
 
 

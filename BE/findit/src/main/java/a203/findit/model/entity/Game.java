@@ -1,11 +1,18 @@
 package a203.findit.model.entity;
 
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "game")
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Game {
 
     @Id
@@ -20,30 +27,11 @@ public class Game {
     @Column(name="start_time")
     private LocalDateTime startTime;
 
-    @Column(name="end_time")
-    private LocalDateTime endTime;
-
-    @Column(name="limit_time")
-    private LocalDateTime limitTime;
-
-    @Column(name = "mode")
-    private Mode mode;
-
-    @Column(name = "enter_code")
-    private String enterCode;
-
-    @Enumerated(EnumType.ORDINAL)
-    @Column(name = "status")
-    private Status status;
-
-    @Column(name = "player_cnt")
-    private Integer playerCnt;
-
-    @Column(name = "treasure_cnt")
-    private Integer treasureCnt;
+    @Column(name="limit_min")
+    private int limitMin;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User chief;
+    private User user;
 
 }

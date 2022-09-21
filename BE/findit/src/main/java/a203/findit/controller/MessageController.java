@@ -1,6 +1,6 @@
 package a203.findit.controller;
 
-import a203.findit.model.dto.res.GameDTO;
+import a203.findit.model.dto.res.RoomDTO;
 import a203.findit.model.socket.Message;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
@@ -21,11 +21,11 @@ public class MessageController {
     private final SimpMessagingTemplate simpMessagingTemplate;
 
     @MessageMapping("/hello")
-    public void message(@Valid GameDTO gameDTO) throws InterruptedException {
+    public void message(@Valid RoomDTO roomDTO) throws InterruptedException {
         Thread.sleep(1000);
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("userId",gameDTO.getUserId());
-        simpMessagingTemplate.convertAndSend("/sub/room/"+gameDTO.getRoomId(),jsonObject);
+        jsonObject.put("userId",roomDTO.getUserId());
+        simpMessagingTemplate.convertAndSend("/sub/room/"+roomDTO.getRoomId(),jsonObject);
     }
 
 }
