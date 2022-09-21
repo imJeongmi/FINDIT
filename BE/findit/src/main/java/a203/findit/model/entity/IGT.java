@@ -3,7 +3,7 @@ package a203.findit.model.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "IGT")
+@Table(name = "igt")
 public class IGT {
 
     @Id
