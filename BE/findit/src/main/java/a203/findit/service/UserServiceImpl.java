@@ -1,5 +1,6 @@
 package a203.findit.service;
 
+import a203.findit.model.dto.res.Code;
 import a203.findit.model.entity.User;
 import a203.findit.model.repository.RefreshTokenRepository;
 import a203.findit.security.JwtProvider;
@@ -36,8 +37,8 @@ public class UserServiceImpl implements UserService {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
     private final JwtProvider jwtProvider;
-    private AuthenticationManager authenticationManager;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final AuthenticationManager authenticationManager;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserRepository userRepos;
     private final RefreshTokenRepository refreshTokenRepos;
 
@@ -61,18 +62,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Map<String, String> login(LoginUserDTO loginUserDTO) throws CustomException{
-
+        System.out.println("login");
+        System.out.println(loginUserDTO.getId());
+        System.out.println(loginUserDTO.getPw());
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginUserDTO.getId(),loginUserDTO.getPw());
 
         Authentication authentication = authenticationManager.authenticate(token);
-
+        System.out.println(authentication.getName());
         Map<String, String> result = createToken(authentication.getName());
 
         return result;
     }
 
     @Override
-    public boolean logout(HttpServletRequest req, String username, String refreshToken) {
+    public boolean logout(HttpServletRequest req, String refreshToken) {
 
         refreshTokenRepos.deleteByValue(refreshToken);
 
@@ -85,10 +88,14 @@ public class UserServiceImpl implements UserService {
 
         UserDetails principal =  (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
+        User currUser = userRepos.findByUsername(principal.getUsername()).orElseThrow(
+                ()->new CustomException(Code.C403)
+        );
 
+        result.put("nickname", currUser.getNickname());
+//        result.put("img", currUser.getNickname());
 
-
-        return null;
+        return result;
     }
 
     @Override
@@ -98,11 +105,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseEntity getImgList(MultipartFile img) {
+
         return null;
     }
 
     @Override
-    public ResponseEntity updateUser() {
+    public ResponseEntity updateUser(String username) {
+
+        User user = userRepos.findByUsername(username).orElseThrow(
+                ()->new CustomException(Code.C403)
+        );
+
+
+
         return null;
     }
 
