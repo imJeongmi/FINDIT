@@ -1,15 +1,9 @@
 import React from "react";
-import CircleButton from "./components/atom/CircleButton";
+
+import "./App.css";
 
 function App() {
-  return (
-    <div style={{ backgroundColor: "crimson" }}>
-      <h1>Find It!</h1>
-      <CircleButton size="large" icon="camera" />
-      <CircleButton size="small" icon="rank" />
-      <CircleButton size="small" icon="treasure" />
-    </div>
-  );
+  return <h1>Find It!</h1>;
 }
 
 export default App;
