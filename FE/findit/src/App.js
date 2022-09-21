@@ -1,6 +1,8 @@
 import { Box } from "@mui/system";
 import React from "react";
 
+import "./App.css";
+
 const BodyStyle = {
   width: "80vw",
   m: "auto",

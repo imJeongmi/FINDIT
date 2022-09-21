@@ -2,9 +2,7 @@ import { createTheme } from "@mui/material/styles";
 
 export default createTheme({
   typography: {
-    fontFamily: [
-      "Roboto",
-    ].join(','),
+    fontFamily: ["Roboto", "WendyOne"].join(","),
   },
   palette: {
     type: "light",
