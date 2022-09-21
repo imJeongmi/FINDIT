@@ -1,15 +1,18 @@
+import { Box } from "@mui/system";
 import React from "react";
-import CircleButton from "./components/atom/CircleButton";
+
+const BodyStyle = {
+  width: "80vw",
+  m: "auto",
+  mt: 10,
+}
 
 function App() {
   return (
-    <div style={{ backgroundColor: "crimson" }}>
-      <h1>Find It!</h1>
-      <CircleButton size="large" icon="camera" />
-      <CircleButton size="small" icon="rank" />
-      <CircleButton size="small" icon="treasure" />
-    </div>
-  );
+    <Box sx={BodyStyle}>
+      {/* 테스트할 컴포넌트 넣어주세용 */}
+    </Box>
+  )
 }
 
 export default App;
