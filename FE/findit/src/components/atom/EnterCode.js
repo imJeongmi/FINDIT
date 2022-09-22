@@ -1,109 +1,29 @@
-import { Box, styled } from "@mui/system";
-import React, { useEffect } from "react";
-import CustomText from "./CustomText";
+import { useState } from "react";
+import ReactInputVerificationCode from "react-input-verification-code";
 
-const DigitInput = styled("input")(
-  () => `
-  display: block;
-    height: 50px;
-    margin-right: 0.5rem;
-    text-align: center;
-    font-size: 1.25rem;
-    min-width: 0;
-  `,
-);
+import './EnterCode.css'
 
 export default function EnterCode() {
-  useEffect(() => {
-    const form = document.querySelector("form");
-    const inputs = window.document.querySelectorAll("DigitInput");
-  }, []);
-
-  const KEYBOARDS = {
-    backspace: 8,
-    arrowLeft: 37,
-    arrowRight: 39,
-  };
-
-  function handleInput(e) {
-    const input = e.target;
-    const nextInput = input.nextElementSibling;
-    if (nextInput && input.value) {
-      nextInput.focus();
-      if (nextInput.value) {
-        nextInput.select();
-      }
-    }
-  }
-
-  function handlePaste(e) {
-    e.preventDefault();
-    const paste = e.clipboardData.getData("text");
-    inputs.forEach((input, i) => {
-      input.value = paste[i] || "";
-    });
-  }
-
-  function handleBackspace(e) {
-    const input = e.target;
-    if (input.value) {
-      input.value = "";
-      return;
-    }
-
-    input.previousElementSibling.focus();
-  }
-
-  function handleArrowLeft(e) {
-    const previousInput = e.target.previousElementSibling;
-    if (!previousInput) return;
-    previousInput.focus();
-  }
-
-  function handleArrowRight(e) {
-    const nextInput = e.target.nextElementSibling;
-    if (!nextInput) return;
-    nextInput.focus();
-  }
-
-  form.addEventListener("input", handleInput);
-  inputs[0].addEventListener("paste", handlePaste);
-
-  inputs.forEach(input => {
-    input.addEventListener("focus", e => {
-      setTimeout(() => {
-        e.target.select();
-      }, 0);
-    });
-
-    input.addEventListener("keydown", e => {
-      switch (e.keyCode) {
-        case KEYBOARDS.backspace:
-          handleBackspace(e);
-          break;
-        case KEYBOARDS.arrowLeft:
-          handleArrowLeft(e);
-          break;
-        case KEYBOARDS.arrowRight:
-          handleArrowRight(e);
-          break;
-        default:
-      }
-    });
-  });
+  const [value, setValue] = useState("");
+  // const [isInvalid, setIsInvalid] = useState(false);
+  const [error, setError] = useState(null);
 
   return (
-    <form action="#">
-      <CustomText size="large">Enter your code</CustomText>
-      <Box sx={{ display: "flex", my: 3 }}>
-        <DigitInput type="tel" maxlength="1" pattern="[0-9]" />
-        <DigitInput type="tel" maxlength="1" pattern="[0-9]" />
-        <DigitInput type="tel" maxlength="1" pattern="[0-9]" />
-        <DigitInput type="tel" maxlength="1" pattern="[0-9]" />
-        <DigitInput type="tel" maxlength="1" pattern="[0-9]" />
-        <DigitInput type="tel" maxlength="1" pattern="[0-9]" />
-      </Box>
-      <button type="submit">Verify account</button>
-    </form>
+    <div className="custom-styles">
+      <ReactInputVerificationCode
+        value={value}
+        placeholder={null}
+        length={6}
+        onChange={(newValue) => {
+          setValue(newValue);
+
+          if (newValue !== "") {
+            setError(null);
+          }
+        }}
+      />
+
+      {/* 버튼 */}
+    </div>
   );
 }
