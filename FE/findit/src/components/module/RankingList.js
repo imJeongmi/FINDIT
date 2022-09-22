@@ -1,6 +1,6 @@
 import React from "react";
-import CustomText from "../atom/CustomText";
-import ProfileImage from "../atom/ProfileImage";
+import CustomText from "components/atom/CustomText";
+import ProfileImage from "components/atom/ProfileImage";
 import Box from "@mui/material/Box";
 import { styled } from "@mui/system";
 
@@ -17,26 +17,26 @@ const RankingDiv = styled("div")(
 );
 
 const TextBoxStyle = {
-    margin: "0 15px" 
+  margin: "0 15px",
 };
 
 function getRank(rankNum) {
   switch (rankNum) {
     case 1:
-      return <img src={require("../../assets/1st_place_medal_color.svg").default} width="25px" />;
+      return <img src={require("static/1st_place_medal.svg").default} width="25px" />;
     case 2:
-      return <img src={require("../../assets/2nd_place_medal_color.svg").default} width="25px" />;
+      return <img src={require("static/2nd_place_medal.svg").default} width="25px" />;
     case 3:
-      return <img src={require("../../assets/3rd_place_medal_color.svg").default} width="25px" />;
+      return <img src={require("static/3rd_place_medal.svg").default} width="25px" />;
     default:
       return rankNum;
   }
 }
 
 export default function RankingList({ rankNum, userName, gameScore }) {
-//   rankNum = 1;
-//   userName = "김싸피";
-//   gameScore = 210;
+  //   rankNum = 1;
+  //   userName = "김싸피";
+  //   gameScore = 210;
 
   return (
     <RankingDiv>
