@@ -4,7 +4,11 @@ export default createTheme({
   typography: {
     fontFamily: [
       "Roboto",
-    ].join(','),
+      "WendyOne",
+      "GmarketSansLight",
+      "GmarketSansMedium",
+      "GmarketSansBold",
+    ].join(","),
   },
   palette: {
     type: "light",
