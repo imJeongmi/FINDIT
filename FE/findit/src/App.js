@@ -1,12 +1,12 @@
 import { Box } from "@mui/system";
+
+import EnterVerificationCode from "components/page/EnterVerificationCode";
 import React from "react";
 
 import "./App.css";
 
 const BodyStyle = {
-  width: "80vw",
-  m: "auto",
-  mt: 10,
+ marginTop: "4vh"
 }
 
 function App() {
