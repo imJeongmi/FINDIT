@@ -35,7 +35,7 @@ public class UserController {
     @PostMapping("")
     public ResponseEntity createUser(@Valid @RequestBody CreateUserDTO createUserDTO) {
         boolean result = userService.createUser(createUserDTO);
-        if(result){
+        if (result) {
             return ResponseEntity.status(HttpStatus.OK).build();
         }
         return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
@@ -20,7 +21,7 @@ import java.util.Optional;
 public class RoomServiceImpl implements RoomService{
 
     static Long standardMillisecond = LocalDateTime.of(2022, 9, 21, 13, 00, 00).atZone(ZoneId.of("UTC")).toInstant().toEpochMilli();
-
+    public static ArrayList<RoomDTO> roomDTOs = new ArrayList<RoomDTO>();
     private final UserRepository userRepository;
     private final GameRepository gameRepository;
 
@@ -62,6 +63,8 @@ public class RoomServiceImpl implements RoomService{
         RoomDTO roomDTO = new RoomDTO(game);
         roomDTO.setMode(mode);
         roomDTO.setEnterCode(entercode);
+
+        roomDTOs.add(roomDTO);
 
         return roomDTO;
     }
