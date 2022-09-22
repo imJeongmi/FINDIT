@@ -1,6 +1,11 @@
 .custom-styles {
     --ReactInputVerificationCode-itemWidth: 2.5rem;
     --ReactInputVerificationCode-itemHeight: 3.5rem;
+   
+}
+
+.custom-styles .ReactInputVerificationCode__container {
+    margin: 5vh auto ;
 }
 
 .custom-styles .ReactInputVerificationCode__item {

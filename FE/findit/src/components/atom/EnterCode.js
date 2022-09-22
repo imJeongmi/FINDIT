@@ -6,7 +6,7 @@ import './EnterCode.css'
 export default function EnterCode() {
   const [value, setValue] = useState("");
   // const [isInvalid, setIsInvalid] = useState(false);
-  const [error, setError] = useState(null);
+  // const [error, setError] = useState(null);
 
   return (
     <div className="custom-styles">
@@ -17,9 +17,9 @@ export default function EnterCode() {
         onChange={(newValue) => {
           setValue(newValue);
 
-          if (newValue !== "") {
-            setError(null);
-          }
+          // if (newValue !== "") {
+          //   setError(null);
+          // }
         }}
       />
 
