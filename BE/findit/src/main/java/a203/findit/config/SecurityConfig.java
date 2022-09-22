@@ -76,7 +76,7 @@ public class SecurityConfig {
         http
                 .authorizeRequests()
                 .antMatchers("/public/**").permitAll()
-                .antMatchers("/games").hasAnyRole("GUEST","USER","ADMIN")
+                .antMatchers("/games/**").hasAnyRole("GUEST","USER","ADMIN")
                 .antMatchers("/users/**").permitAll()
                 .antMatchers("/**").permitAll()
                 .anyRequest().hasRole("GUEST");
