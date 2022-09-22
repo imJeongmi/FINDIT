@@ -67,7 +67,6 @@ public class UserController {
 
         userService.logout(request,refreshToken);
 
-        SetCookie.deleteAccessTokenCookie(response);
         SetCookie.deleteRefreshTokenCookie(response);
 
         return ResponseEntity.status(HttpStatus.OK).build();
