@@ -1,1 +1,27 @@
+@font-face {
+  font-family: "WendyOne";
+  src: url("static/fonts/WendyOne-Regular.woff") format("woff");
+  /* font-weight: normal;
+  font-style: normal; */
+}
 
+@font-face {
+  font-family: "GmarketSansLight";
+  src: url("static/fonts/GmarketSansTTFLight.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "GmarketSansMedium";
+  src: url("static/fonts/GmarketSansTTFMedium.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "GmarketSansBold";
+  src: url("static/fonts/GmarketSansTTFBold.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
