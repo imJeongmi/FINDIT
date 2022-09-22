@@ -28,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 
 @Service
@@ -41,6 +42,14 @@ public class UserServiceImpl implements UserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserRepository userRepos;
     private final RefreshTokenRepository refreshTokenRepos;
+
+    public Optional<User> findByUsername(String username){
+        return userRepos.findByUsername(username);
+    }
+
+    public Optional<User> findByUserId(Long userId){
+        return userRepos.findById(userId);
+    }
 
     @Override
     public boolean createUser(CreateUserDTO createUserDTO) {
