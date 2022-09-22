@@ -49,6 +49,10 @@ public class RoomController {
         simpMessagingTemplate.convertAndSend("/sub/room/"+entercodeDTO.getEntercode(),jsonObject);
     }
 
+    @MessageMapping("/enter")
+    public void socketEnter(@Valid EntercodeDTO entercodeDTO ){
+
+    }
 
 
 }
