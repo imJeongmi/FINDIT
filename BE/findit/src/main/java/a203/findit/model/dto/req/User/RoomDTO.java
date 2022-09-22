@@ -1,4 +1,4 @@
-package a203.findit.model.dto.res;
+package a203.findit.model.dto.req.User;
 
 import a203.findit.model.entity.Game;
 import a203.findit.model.entity.Mode;

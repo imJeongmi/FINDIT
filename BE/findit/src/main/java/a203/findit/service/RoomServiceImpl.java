@@ -1,6 +1,6 @@
 package a203.findit.service;
 
-import a203.findit.model.dto.res.RoomDTO;
+import a203.findit.model.dto.req.User.RoomDTO;
 import a203.findit.model.entity.Game;
 import a203.findit.model.entity.Mode;
 import a203.findit.model.entity.User;

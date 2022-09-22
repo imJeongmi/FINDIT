@@ -9,10 +9,21 @@ import java.lang.reflect.Type;
 
 public class WebSocketHandler implements StompSessionHandler {
 
+//    @Override
+//    public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
+//        session.send("/sub/info", )
+//    }
     @Override
-    public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
-
+    public void afterConnected( StompSession session, StompHeaders connectedHeaders)
+    {
+//        session.subscribe("/topic/messages", this);
+//        session.send("/app/chat", getSampleMessage());
     }
+//    @Override public void handleFrame(StompHeaders headers, Object payload)
+//    {
+//        Message msg = (Message) payload;
+//        logger.info("Received : " + msg.getText()+ " from : " + msg.getFrom());
+//    }
 
     @Override
     public void handleException(StompSession session, StompCommand command, StompHeaders headers, byte[] payload, Throwable exception) {

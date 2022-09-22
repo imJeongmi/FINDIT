@@ -2,9 +2,8 @@ package a203.findit.controller;
 
 import a203.findit.model.dto.req.User.CreateRoomDTO;
 import a203.findit.model.dto.req.User.EntercodeDTO;
-import a203.findit.model.dto.req.User.RoomIdDTO;
 import a203.findit.model.dto.res.ApiResponse;
-import a203.findit.model.dto.res.RoomDTO;
+import a203.findit.model.dto.req.User.RoomDTO;
 import a203.findit.model.entity.User;
 import a203.findit.service.RoomServiceImpl;
 import a203.findit.service.UserServiceImpl;
