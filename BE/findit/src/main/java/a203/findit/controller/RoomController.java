@@ -34,7 +34,10 @@ public class RoomController {
 
     @PostMapping("/room/create")
     public ResponseEntity<String> create(@Valid @RequestBody CreateRoomDTO createRoomDTO){
-        RoomDTO roomDTO = roomService.join(createRoomDTO.getUsername(), createRoomDTO.getMode(), createRoomDTO.getLimitminute());
+        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = principal.getUsername();
+
+        RoomDTO roomDTO = roomService.join(username, createRoomDTO.getMode(), createRoomDTO.getLimitminute());
         String entercode= roomDTO.getEnterCode();
         return ResponseEntity.ok(entercode);
     }

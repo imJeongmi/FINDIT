@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateRoomDTO {
-    private String username;
+//    private String username;
     private Mode mode;
     private int limitminute;
 }
