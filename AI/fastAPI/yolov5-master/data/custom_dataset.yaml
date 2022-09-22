@@ -1,0 +1,26 @@
+train: custom_dataset/train/  
+val: custom_dataset/val/ 
+
+nc: 20
+
+names:
+  0:binch
+  1:oreoblack
+  2:oreored
+  3:cushcush
+  4:gosomi
+  5:yegamcheese
+  6:oreothinstaramisu
+  7:oreothinsvanillamooth
+  8:chocchochanchocochip
+  9:chicchoc
+  10:yuginongblueberrytt
+  11:yuginongaroniatt
+  12:yuginongsiguemchitt
+  13:yuginongbananatt
+  14:yuginongplaneyogurtcube
+  15:yuginongbluberryyogurtcube
+  16:uginongbananayogurtcube
+  17:yuginongddalgiyogurtcube
+  18:finggercheeseblueberry
+  19:finggercheeseorigin
