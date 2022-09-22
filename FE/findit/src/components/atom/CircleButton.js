@@ -1,8 +1,9 @@
 import React from "react";
-import "./CircleButton.scss";
 import CameraIcon from "static/camera.svg";
 import RankIcon from "static/trophy.svg";
 import TreasureIcon from "static/wrapped_gift.svg";
+
+import "./CircleButton.scss";
 
 function getIcon(icon) {
   switch (icon) {
