@@ -1,7 +1,10 @@
 package a203.findit.service;
 
+import a203.findit.model.dto.req.User.UpdateFormDTO;
 import a203.findit.model.dto.res.Code;
+import a203.findit.model.entity.Icon;
 import a203.findit.model.entity.User;
+import a203.findit.model.repository.IconRepository;
 import a203.findit.model.repository.RefreshTokenRepository;
 import a203.findit.security.JwtProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 import a203.findit.exception.CustomException;
 import a203.findit.model.dto.req.User.CreateUserDTO;
 import a203.findit.model.dto.req.User.LoginUserDTO;
-import a203.findit.model.dto.req.User.UpdateFormDTO;
 import a203.findit.model.repository.UserRepository;
 
 import org.slf4j.Logger;
@@ -23,10 +25,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -42,6 +44,7 @@ public class UserServiceImpl implements UserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserRepository userRepos;
     private final RefreshTokenRepository refreshTokenRepos;
+    private final IconRepository iconRepos;
 
     public Optional<User> findByUsername(String username){
         return userRepos.findByUsername(username);
@@ -71,9 +74,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Map<String, String> login(LoginUserDTO loginUserDTO) throws CustomException{
-        System.out.println("login");
-        System.out.println(loginUserDTO.getId());
-        System.out.println(loginUserDTO.getPw());
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginUserDTO.getId(),loginUserDTO.getPw());
 
         Authentication authentication = authenticationManager.authenticate(token);
@@ -102,24 +102,46 @@ public class UserServiceImpl implements UserService {
         );
 
         result.put("nickname", currUser.getNickname());
-//        result.put("img", currUser.getNickname());
+        result.put("img", currUser.getIcon().getImageUrl());
 
         return result;
     }
 
     @Override
-    public ResponseEntity updateForm(UpdateFormDTO updateFormDTO) {
-        return null;
+    public Map<String, Object> updateForm(UpdateFormDTO nickname) {
+        Map<String, Object> result = new HashMap<>();
+
+        List<Icon> icons = iconRepos.findAll();
+
+        result.put("imgList", icons);
+
+        return result;
     }
 
     @Override
-    public ResponseEntity getImgList(MultipartFile img) {
+    public boolean updateImg(Long userId, String img) {
+        User user = userRepos.findById(userId).orElseThrow(
+                () -> new CustomException(Code.C403)
+        );
 
-        return null;
+        UserDetails principal =  (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if(!user.getUsername().equals(principal.getUsername())){
+            throw new CustomException(Code.C404);
+        }
+
+        Icon icon = iconRepos.findByImageUrl(img).orElseThrow(
+                ()->new CustomException(Code.C401)
+        );
+
+        user.setIcon(icon);
+        userRepos.save(user);
+
+        return true;
     }
 
     @Override
-    public ResponseEntity updateUser(String username) {
+    public ResponseEntity updatePw(String username) {
 
         User user = userRepos.findByUsername(username).orElseThrow(
                 ()->new CustomException(Code.C403)
@@ -131,8 +153,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity deleteUser() {
-        return null;
+    public boolean deleteUser(Long userId) {
+        User user = userRepos.findById(userId).orElseThrow(
+                () -> new CustomException(Code.C403)
+        );
+
+        UserDetails principal =  (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if(!user.getUsername().equals(principal.getUsername())){
+            throw new CustomException(Code.C404);
+        }
+
+        userRepos.deleteById(userId);
+        return true;
     }
 
     @Override

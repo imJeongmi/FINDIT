@@ -10,8 +10,8 @@ public enum Code {
     C401 (300, "INVALID"),
     C500 (500, "INTERNAL SERVER ERROR"),
     C402 (402, "Invalid ID"),
-    C403(403, "No Such User");
-
+    C403(403, "No Such User"),
+    C404(404, "Unauthorized");
 
     private int errCode;
 

@@ -3,11 +3,9 @@ package a203.findit.controller;
 import a203.findit.model.dto.req.User.CreateUserDTO;
 import a203.findit.model.dto.req.User.LoginUserDTO;
 import a203.findit.model.dto.req.User.UpdateFormDTO;
-import a203.findit.model.dto.res.ApiResponse;
 import a203.findit.service.UserService;
 import a203.findit.util.SetCookie;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,6 +18,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -73,31 +72,38 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity getDetails(@PathVariable("userId") String userId) {
-        Map<String, String> result = userService.userDetails(userId);
-        return null;
+    public ResponseEntity<Map<String, String>> getDetails(@PathVariable("userId") String userId) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.userDetails(userId));
     }
 
     @GetMapping("/updateForm")
-    public ResponseEntity getUpdateForm(@RequestBody UpdateFormDTO updateFormDTO) {
-        return userService.updateForm(updateFormDTO);
+    public ResponseEntity<Map<String,Object>> getUpdateForm(@RequestBody UpdateFormDTO updateFormDTO) {
+        Map<String, Object> result = new HashMap<>();
+        userService.updateForm(updateFormDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    @GetMapping("/imgList")
-    public ResponseEntity getImgList(MultipartFile img) {
-        return userService.getImgList(img);
+    @PostMapping("/{userId}/updateImg")
+    public ResponseEntity updateImg(@PathVariable("userId") Long userId, String img) {
+        if(userService.updateImg(userId, img)){
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
-    @PostMapping("/{userId}/update")
-    public ResponseEntity updateUser(@PathVariable("userId") String userId) {
+    @PostMapping("/{userId}/updatePw")
+    public ResponseEntity updatePw(@PathVariable("userId") String userId, String pw) {
         UserDetails currUser = (UserDetails) (SecurityContextHolder.getContext().getAuthentication()).getDetails();
 
-        return userService.updateUser(currUser.getUsername());
+        return userService.updatePw(currUser.getUsername());
     }
 
     @PostMapping("/{userId}/delete")
-    public ResponseEntity deleteUser(@PathVariable("userId") String userId) {
-        return userService.deleteUser();
+    public ResponseEntity deleteUser(@PathVariable("userId") Long userId) {
+        if(userService.deleteUser(userId)){
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
     @PostMapping("/treasures")

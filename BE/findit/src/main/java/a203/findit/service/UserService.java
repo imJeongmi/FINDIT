@@ -5,7 +5,6 @@ import a203.findit.model.dto.req.User.CreateUserDTO;
 import a203.findit.model.dto.req.User.LoginUserDTO;
 import a203.findit.model.dto.req.User.UpdateFormDTO;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -21,16 +20,17 @@ public interface UserService {
 
     Map<String, String> userDetails(String userId);
 
-    ResponseEntity updateForm(UpdateFormDTO updateFormDTO);
+    Map<String, Object> updateForm(UpdateFormDTO nickname);
 
-    ResponseEntity getImgList(MultipartFile img);
+    boolean updateImg(Long userId, String img);
 
-    ResponseEntity updateUser(String username);
+    ResponseEntity updatePw(String username);
 
-    ResponseEntity deleteUser();
+    boolean deleteUser(Long userId);
 
     ResponseEntity createTreasure();
 
     ResponseEntity getTreasure();
+
 
 }
