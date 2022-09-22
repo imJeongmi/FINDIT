@@ -28,7 +28,7 @@ const StyledButton = styled(Button)(
 function getWidthBySize(size) {
   switch (size) {
     case "large":
-      return "90vw";
+      return "80vw";
     case "medium":
       return "75vw";
     case "small":
