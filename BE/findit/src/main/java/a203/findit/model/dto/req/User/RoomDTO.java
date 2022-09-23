@@ -35,7 +35,7 @@ public class RoomDTO {
 
     private Mode mode;
 
-    private String enterCode;
+//    private String enterCode;
 
     // sessionId, playerInfoDTO
     private HashMap<String, PlayerInfoDTO> playerInfoDTOBySessionId;
