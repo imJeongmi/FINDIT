@@ -1,13 +1,10 @@
 package a203.findit.service;
 
 import a203.findit.model.dto.req.User.PlayerEnterDTO;
-import a203.findit.model.dto.req.User.PlayerInfoDTO;
-import a203.findit.model.repository.memory.MemoryPlayerRepository;
+import a203.findit.model.repository.MemoryPlayerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
 
 @Service
 @RequiredArgsConstructor

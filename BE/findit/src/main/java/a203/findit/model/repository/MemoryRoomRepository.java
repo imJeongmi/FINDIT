@@ -1,12 +1,14 @@
-package a203.findit.model.repository.memory;
+package a203.findit.model.repository;
 
 import a203.findit.model.dto.req.User.RoomDTO;
 import a203.findit.model.entity.Game;
 import a203.findit.model.entity.Mode;
 import a203.findit.model.repository.RoomRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 
+@Repository
 public class MemoryRoomRepository implements RoomRepository {
     public static HashMap<String, RoomDTO> roomDTOHashMap = new HashMap<String, RoomDTO>();
     //entercode

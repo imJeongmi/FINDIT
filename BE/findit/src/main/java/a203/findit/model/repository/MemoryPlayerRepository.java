@@ -1,16 +1,12 @@
-package a203.findit.model.repository.memory;
+package a203.findit.model.repository;
 
 import a203.findit.model.dto.req.User.PlayerEnterDTO;
 import a203.findit.model.dto.req.User.PlayerInfoDTO;
-import a203.findit.model.dto.req.User.RoomDTO;
-import a203.findit.model.entity.Player;
-import a203.findit.model.repository.PlayerRepository;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-
-import java.util.HashMap;
+import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
+@Repository
 public class MemoryPlayerRepository implements PlayerRepository {
     final private MemoryRoomRepository roomRepository;
 

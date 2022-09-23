@@ -6,14 +6,13 @@ import a203.findit.model.entity.Mode;
 import a203.findit.model.entity.User;
 import a203.findit.model.repository.GameRepository;
 import a203.findit.model.repository.UserRepository;
-import a203.findit.model.repository.memory.MemoryRoomRepository;
+import a203.findit.model.repository.MemoryRoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Optional;
 
 @Service

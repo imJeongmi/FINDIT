@@ -5,7 +5,6 @@ import a203.findit.model.dto.req.User.EntercodeDTO;
 import a203.findit.model.dto.res.ApiResponse;
 import a203.findit.model.dto.req.User.RoomDTO;
 import a203.findit.model.entity.User;
-import a203.findit.model.repository.memory.MemoryRoomRepository;
 import a203.findit.service.RoomServiceImpl;
 import a203.findit.service.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -14,14 +13,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Objects;
 import java.util.Optional;
 
 @RestController
