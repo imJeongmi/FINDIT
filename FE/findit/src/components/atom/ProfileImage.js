@@ -4,7 +4,7 @@ import { Avatar } from "@mui/material";
 
 const Image = styled(Avatar)(
   ({ type }) => `
-  margin: auto;
+  margin: 0;
   width: ${getSizeByType(type)};
   height: ${getSizeByType(type)};
   border-radius: ${getBorderRadiusByType(type)};
@@ -24,6 +24,8 @@ function getSizeByType(type) {
   switch (type) {
     case "rounded":
       return "150px";
+    case "winner":
+      return "90px";
     default:
       return "45px";
   }
