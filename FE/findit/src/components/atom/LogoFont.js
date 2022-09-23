@@ -20,7 +20,7 @@ function getSize(size) {
     case "xl":
       return "55px";
     case "medium":
-      return "35px";
+      return "40px";
     default:
       return "15px";
   }

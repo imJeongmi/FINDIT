@@ -54,9 +54,9 @@ function getHeightBySize(size) {
     case "medium":
       return "5vh";
     case "small":
-      return "6vh";
+      return "5vh";
     case "smaller":
-      return "4vh";
+      return "5vh";
     case "smallest":
       return "5vh";
     default:
