@@ -13,36 +13,39 @@ const CustomSpan = styled("span")(
 
 function getSize(size) {
   switch (size) {
-    case "large":
+    case "xxl":
       return "30px";
-    case "medium":
+    case "xl":
+      return "25px";
+    case "l":
+      return "22px";
+    case "m":
       return "19px";
-    case "small":
+    case "s":
       return "16px";
-    case "smaller":
+    case "xs":
       return "14px";
-    case "smallest":
+    case "xxs":
       return "10px";
     default:
-      return "15px";
+      return "16px";
   }
 }
 
 function getColor(variant) {
   switch (variant) {
     case "primary":
-      return "#e37373";
+      return "#9FAFD8";
     case "secondary":
-      return "#F1A6A7";
+      return "#DA9B9A";
     case "warning":
       return "#FFCC33";
-    case "gray":
     case "grey":
-      return "grey";
+      return "#A7A7A7";
     case "white":
       return "white";
     default:
-      return "black";
+      return "#333333";
   }
 }
 
