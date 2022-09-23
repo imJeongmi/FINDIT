@@ -11,11 +11,9 @@ const BodyStyle = {
 };
 
 function App() {
-  return (
-    <Box sx={BodyStyle}>
-      <GameSetting />
-    </Box>
-  );
+  return <Box sx={BodyStyle}>
+    
+  </Box>;
 }
 
 export default App;

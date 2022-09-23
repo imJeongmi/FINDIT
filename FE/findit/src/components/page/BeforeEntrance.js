@@ -11,8 +11,7 @@ import compass from "static/compass_400.png";
 
 const StyledCompass = styled("img")(
   () => `
-width: 250px;
-height: 250px;
+height: 30vh;
 `,
 );
 
