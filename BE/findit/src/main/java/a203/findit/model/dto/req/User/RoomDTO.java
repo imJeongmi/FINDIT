@@ -13,6 +13,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.HashMap;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -34,6 +36,9 @@ public class RoomDTO {
     private Mode mode;
 
     private String enterCode;
+
+    // sessionId, playerInfoDTO
+    private HashMap<String, PlayerInfoDTO> playerInfoDTOBySessionId;
 
     public RoomDTO (Game game){
         this.roomId = game.getId();

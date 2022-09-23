@@ -1,6 +1,8 @@
 package a203.findit.controller;
 
 import a203.findit.model.dto.req.User.EntercodeDTO;
+import a203.findit.model.dto.req.User.PlayerEnterDTO;
+import a203.findit.service.PlayerServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.springframework.messaging.handler.annotation.Header;
@@ -15,14 +17,16 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class PlayerController {
     private final SimpMessagingTemplate simpMessagingTemplate;
+    private final PlayerServiceImpl playerService;
 
     @MessageMapping("/enter")
-    public void socketEnter(@Valid EntercodeDTO entercodeDTO, @Header("simpSessionId") String sessionId){
+    public void socketEnter(@Valid PlayerEnterDTO playerEnterDTO, @Header("simpSessionId") String sessionId){
         JSONObject jsonObject = new JSONObject();
-        //세션ID 저장 method 구현하기
-        
+        //join playerinfo
+        playerService.join(playerEnterDTO,sessionId);
         jsonObject.put("playerid",sessionId);
-        simpMessagingTemplate.convertAndSend("/sub/room/"+entercodeDTO.getEntercode(),jsonObject);
+        jsonObject.put("nickname",playerEnterDTO.getNickname());
+        simpMessagingTemplate.convertAndSend("/sub/room/"+playerEnterDTO.getEntercode(),jsonObject);
     }
     @MessageMapping("/private")
     // 다 푼사람 private 구독한 사람(방장) 한테만 보내주기
@@ -31,5 +35,8 @@ public class PlayerController {
         jsonObject.put("playerid",sessionId);
         simpMessagingTemplate.convertAndSend("/sub/private/"+entercodeDTO.getEntercode(),jsonObject);
     }
+
+
+
 
 }
