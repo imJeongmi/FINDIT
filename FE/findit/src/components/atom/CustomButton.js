@@ -12,6 +12,7 @@ const StyledButton = styled(Button)(
   ({ size, color }) => `
   width: ${getWidthBySize(size)};
   height: ${getHeightBySize(size)};
+  margin: 3vh 1vw;
   border-radius: 25px;
   border: solid;
   border-width: 3.5px;
@@ -32,7 +33,7 @@ function getWidthBySize(size) {
     case "medium":
       return "75vw";
     case "small":
-      return "50vw";
+      return "40vw";
     case "smaller":
       return "20vw";
     case "smallest":
@@ -53,7 +54,7 @@ function getHeightBySize(size) {
     case "medium":
       return "5vh";
     case "small":
-      return "4vh";
+      return "6vh";
     case "smaller":
       return "4vh";
     case "smallest":
