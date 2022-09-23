@@ -12,6 +12,7 @@ const StyledButton = styled(Button)(
   ({ size, color }) => `
   width: ${getWidthBySize(size)};
   height: ${getHeightBySize(size)};
+  margin: 3vh 1vw;
   border-radius: 25px;
   border: solid;
   border-width: 3.5px;
