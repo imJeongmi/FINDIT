@@ -6,7 +6,7 @@ const StyledBox = styled(Box)(
   ({ variant }) => `
 background: ${getColor(variant)};
 width: 280px;
-height: 140px;
+height: 130px;
 box-shadow: ${getBoxShadow(variant)};
 border-radius: 15px;
 margin: 10px auto 70px;

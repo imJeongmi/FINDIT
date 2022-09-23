@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Box, styled } from "@mui/system";
 
@@ -65,27 +65,67 @@ top: -50px;
 
 const ModeButtonBox = styled(Box)(
   () => `
-margin: 40px 30px 5px;
+margin: 30px 30px 5px;
 display: flex;
 justify-content: space-around;
 `,
 );
 
-const ModeSelectButton = styled("button")(
+const SelectedModeButton = styled("button")(
+  () => `
+border: 0;
+width: 98px;
+height: 42px;
+background: #9FAFD8;
+border-radius: 15px;
+box-shadow: inset 1px 1px 2px #babecc , inset -1px -1px 2px #ffffff;
+cursor: pointer;
+`,
+);
+
+const ModeButton = styled("button")(
   () => `
 border: 0;
 width: 98px;
 height: 42px;
 background: white;
 border-radius: 15px;
+box-shadow: -2px -2px 5px #ffffff, 2px 2px 5px #babecc;
+transition: all 0.2s ease-in-out;
+cursor: pointer;
+`,
+);
+
+const ModeInfoText = styled(Box)(
+  () => `
+text-align: center;
+margin-top: 8px;
 `,
 );
 
 export default function GameSettingSection() {
   // const dispatch = useDispatch()
+  const [timer, setTimer] = useState(10);
   // const timer = useSelector((state) => state.timer);
   // const show = useSelector((state) => state.showCounter);
 
+  function incrementHandler() {
+    setTimer(timer + 5);
+  }
+
+  function decrementHandler() {
+    if (timer <= 0) {
+      setTimer(0);
+    } else {
+      setTimer(timer - 5);
+    }
+  }
+
+  const [isRandomMode, setIsRandomMode] = useState(false);
+
+  function invertModeHandler() {
+    setIsRandomMode(!isRandomMode);
+  }
   // const incrementHandler = () => {
   //   dispatch({ type: "increment", amount: 5 });
   // };
@@ -106,19 +146,16 @@ export default function GameSettingSection() {
             5분 단위로 설정 가능합니다.
           </CustomText>
           <TimerSettingBox>
-            {/* <button onClick={decrementHandler}>-</button> */}
-            <HandlerButtom>-</HandlerButtom>
+            <HandlerButtom onClick={decrementHandler}>-</HandlerButtom>
             <TimerNum>
               <CustomText variant="secondary" weight="bold" size="xl">
-                10
-                {/* 나중에 timer로 바꿀것 */}
+                {timer}
               </CustomText>
             </TimerNum>
             <CustomText variant="secondary" weight="bold" size="xl">
               min
             </CustomText>
-            {/* <button onClick={incrementHandler}>+</button> */}
-            <HandlerButtom>+</HandlerButtom>
+            <HandlerButtom onClick={incrementHandler}>+</HandlerButtom>
           </TimerSettingBox>
         </StyledTextBox>
       </GameSettingBox>
@@ -129,21 +166,48 @@ export default function GameSettingSection() {
             모드 선택
           </CustomText>
         </StyledTextBox>
-        <ModeButtonBox>
-          <ModeSelectButton>
-            <CustomText size="s" weight="normal" variant="primary">
-              일반 모드
-            </CustomText>
-          </ModeSelectButton>
-          <ModeSelectButton>
-            <CustomText size="s" weight="normal" variant="primary">
-              랜덤 모드
-            </CustomText>
-          </ModeSelectButton>
-        </ModeButtonBox>
-        {/* <CustomText variant="primary" size="xxs" margin="3">
-            5분 단위로 설정 가능합니다.
-          </CustomText> */}
+        {!isRandomMode && (
+          <Box>
+            <ModeButtonBox>
+              <SelectedModeButton>
+                <CustomText size="s" weight="normal" variant="white">
+                  일반 모드
+                </CustomText>
+              </SelectedModeButton>
+              <ModeButton onClick={invertModeHandler}>
+                <CustomText size="s" weight="normal" variant="primary">
+                  랜덤 모드
+                </CustomText>
+              </ModeButton>
+            </ModeButtonBox>
+            <ModeInfoText>
+              <CustomText variant="primary" size="xxs" margin="3">
+                * 보물을 찾은 순서대로 점수가 차등부여 됩니다 *
+              </CustomText>
+            </ModeInfoText>
+          </Box>
+        )}
+        {isRandomMode && (
+          <Box>
+            <ModeButtonBox>
+              <ModeButton onClick={invertModeHandler}>
+                <CustomText size="s" weight="normal" variant="primary">
+                  일반 모드
+                </CustomText>
+              </ModeButton>
+              <SelectedModeButton onClick={invertModeHandler}>
+                <CustomText size="s" weight="normal" variant="white">
+                  랜덤 모드
+                </CustomText>
+              </SelectedModeButton>
+            </ModeButtonBox>
+            <ModeInfoText>
+              <CustomText variant="primary" size="xxs" margin="3">
+                * 보물을 찾을 때 랜덤으로 효과가 발동하는 모드입니다 *
+              </CustomText>
+            </ModeInfoText>
+          </Box>
+        )}
       </GameSettingBox>
     </Box>
   );
