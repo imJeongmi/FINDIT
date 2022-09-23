@@ -8,7 +8,7 @@ import a203.findit.model.repository.RoomRepository;
 import java.util.HashMap;
 
 public class MemoryRoomRepository implements RoomRepository {
-    private static HashMap<String, RoomDTO> roomDTOHashMap = new HashMap<String, RoomDTO>();
+    public static HashMap<String, RoomDTO> roomDTOHashMap = new HashMap<String, RoomDTO>();
     //entercode
 
     public String gameIdToCode(Long v, Long id) {
@@ -41,6 +41,10 @@ public class MemoryRoomRepository implements RoomRepository {
         roomDTO.setMode(mode);
         roomDTOHashMap.put(entercode,roomDTO);
         return roomDTO;
+    }
+
+    public RoomDTO findByEnterCode(String entercode){
+        return roomDTOHashMap.get(entercode);
     }
 
 }

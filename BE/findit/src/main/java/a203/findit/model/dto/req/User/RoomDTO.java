@@ -35,7 +35,7 @@ public class RoomDTO {
 
     private Mode mode;
 
-    private HashMap<String, PlayerInfoDTO> playerInfoDTOBySessionId;
+    public HashMap<String, PlayerInfoDTO> playerInfoDTOBySessionId;
 
     public RoomDTO (Game game){
         this.roomId = game.getId();

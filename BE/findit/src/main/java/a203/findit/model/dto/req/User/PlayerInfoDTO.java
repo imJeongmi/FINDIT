@@ -17,7 +17,7 @@ public class PlayerInfoDTO {
     private Long score;
 
     // sessionId, set of igtid
-    private HashMap<String, Set<Long>> IGTIdBySessionId;
+    Set<Long> IGTIds;
 
     public PlayerInfoDTO(PlayerEnterDTO playerEnterDTO){
         this.profileImg = playerEnterDTO.getProfileImg();
