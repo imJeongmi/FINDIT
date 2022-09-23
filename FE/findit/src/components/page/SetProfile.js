@@ -1,4 +1,6 @@
 import { Box } from "@mui/system";
+import CustomButton from "components/atom/CustomButton";
+import Input from "components/atom/Input";
 import React from "react";
 import CustomText from "../atom/CustomText";
 import ProfileImage from "../atom/ProfileImage";
@@ -8,16 +10,28 @@ const ProfileBoxStyle = {
   textAlign: "center",
 };
 
+const BoxStyle = {
+  margin: "7vh auto",
+};
+
 function PlayerProfile() {
   return (
     <Box sx={ProfileBoxStyle}>
-      <CustomText size="large">프로필 설정</CustomText>
-      <ProfileImage type="rounded"></ProfileImage>
+      <Box sx={BoxStyle}>
+        <CustomText size="large" weight="bold">
+          프로필 설정
+        </CustomText>
+      </Box>
+      <Box sx={BoxStyle}>
+        <ProfileImage type="rounded"></ProfileImage>
+      </Box>
       <Box>
         <CustomText>닉네임을 등록해주세요</CustomText>
-        {/* input */}
+        <Input type="text" placeholder="닉네임"></Input>
       </Box>
-      {/* 버튼 */}
+      <CustomButton size="large" color="primary">
+        확인
+      </CustomButton>
     </Box>
   );
 }
@@ -25,15 +39,24 @@ function PlayerProfile() {
 function UserProfile() {
   return (
     <Box sx={ProfileBoxStyle}>
-      <CustomText size="large">마이 페이지</CustomText>
-      <Box sx={{ my: 5, }}>
+      <Box sx={BoxStyle}>
+        <CustomText size="large" weight="bold">
+          마이 페이지
+        </CustomText>
+      </Box>
+      <Box sx={BoxStyle}>
         <ProfileImage type="rounded"></ProfileImage>
       </Box>
       <Box>
-        <CustomText size="small">닉네임을 등록해주세요</CustomText>
-        {/* input */}
+        <CustomText>닉네임을 등록해주세요</CustomText>
+        <Input type="text" placeholder="닉네임"></Input>
       </Box>
-      {/* 버튼 */}
+      <CustomButton size="small" color="secondary">
+        비밀번호 변경
+      </CustomButton>
+      <CustomButton size="small" color="primary">
+        프로필 변경
+      </CustomButton>
     </Box>
   );
 }
