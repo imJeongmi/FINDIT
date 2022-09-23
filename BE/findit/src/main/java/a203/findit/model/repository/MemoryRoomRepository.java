@@ -39,12 +39,13 @@ public class MemoryRoomRepository implements RoomRepository {
     public RoomDTO save(String entercode, Game game, Mode mode){
         RoomDTO roomDTO = new RoomDTO(game);
         roomDTO.setMode(mode);
+        roomDTO.setEnterCode(entercode);
         roomDTOHashMap.put(entercode,roomDTO);
         return roomDTO;
     }
 
     public RoomDTO findByEnterCode(String entercode){
-        return roomDTOHashMap.get(entercode);
+        return roomDTOHashMap.getOrDefault(entercode,null);
     }
 
 }
