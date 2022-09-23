@@ -1,11 +1,9 @@
+import React from "react";
+
 import { Box } from "@mui/system";
 import RouterConfiguration from "configs/router";
 
-import React from "react";
-
 import "./App.css";
-
-import GameSetting from "components/page/GameSettings";
 
 const BodyStyle = {
   marginTop: "4vh",
