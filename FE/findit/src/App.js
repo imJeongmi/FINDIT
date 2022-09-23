@@ -1,21 +1,18 @@
-import { Box } from "@mui/system";
-
 import React from "react";
 
-import "./App.css";
+import { Box } from "@mui/system";
+import RouterConfiguration from "configs/router";
 
-import GameSettings from "components/page/GameSettings";
+import "./App.css";
 
 const BodyStyle = {
   marginTop: "4vh",
 };
 
 function App() {
-  return (
-    <Box sx={BodyStyle}>
-      <GameSettings />
-    </Box>
-  );
+  return <Box sx={BodyStyle}>
+    <RouterConfiguration />
+  </Box>;
 }
 
 export default App;
