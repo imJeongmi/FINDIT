@@ -4,12 +4,18 @@ import React from "react";
 
 import "./App.css";
 
+import GameSetting from "components/page/GameSettings";
+
 const BodyStyle = {
   marginTop: "4vh",
 };
 
 function App() {
-  return <Box sx={BodyStyle}>{/* 테스트할 컴포넌트 넣어주세용 */}</Box>;
+  return (
+    <Box sx={BodyStyle}>
+      <GameSetting />
+    </Box>
+  );
 }
 
 export default App;
