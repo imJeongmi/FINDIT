@@ -32,7 +32,7 @@ function getWidthBySize(size) {
     case "medium":
       return "75vw";
     case "small":
-      return "50vw";
+      return "40vw";
     case "smaller":
       return "20vw";
     case "smallest":
@@ -53,9 +53,9 @@ function getHeightBySize(size) {
     case "medium":
       return "5vh";
     case "small":
-      return "4vh";
+      return "5vh";
     case "smaller":
-      return "4vh";
+      return "5vh";
     case "smallest":
       return "5vh";
     default:
