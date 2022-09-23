@@ -6,7 +6,7 @@ import ProfileImage from "components/atom/ProfileImage";
 import RankingList from "components/module/RankingList";
 
 const CenterStyle = {
-  margin: "40px auto",
+  margin: "7vh auto",
   textAlign: "center",
 };
 
@@ -22,8 +22,8 @@ const AwardsBox = styled(Box)(
 const RankingBox = styled(Box)(
   () => `
   width: 80vw;
-  height: 50vh;
-  margin: 40px auto;
+  height: 40vh;
+  margin: 3vh auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -34,8 +34,8 @@ const RankingBox = styled(Box)(
 
 const ButtonBox = styled(Box)(
   () => `
-  width: 65vw;
-  margin: 40px auto;
+  width: 80%;
+  margin: 3vh auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -71,13 +71,13 @@ export default function Result() {
   return (
     <Box>
       <Box sx={CenterStyle}>
-        <CustomText size="large" weight="bold">
+        <CustomText size="xxl" weight="bold">
           결과
         </CustomText>
       </Box>
       <AwardsBox>
         <AwardsList rankNum={1} />
-        <AwardsList rankNum={2} />
+        <AwardsList rankNum={2} /> 
         <AwardsList rankNum={3} />
       </AwardsBox>
       <RankingBox>
@@ -88,10 +88,10 @@ export default function Result() {
         <RankingList />
       </RankingBox>
       <ButtonBox>
-        <CustomButton size="smaller" color="secondary">
+        <CustomButton size="small" color="secondary">
           메인
         </CustomButton>
-        <CustomButton size="smaller">저장하기</CustomButton>
+        <CustomButton size="small">저장하기</CustomButton>
       </ButtonBox>
     </Box>
   );

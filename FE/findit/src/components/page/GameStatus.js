@@ -5,25 +5,21 @@ import CustomText from "components/atom/CustomText";
 import RankingList from "components/module/RankingList";
 
 const CenterStyle = {
-  margin: "auto",
+  margin: "7vh 0 5vh 0",
   textAlign: "center",
 };
 
 const ButtonStyle = {
-    height: "8vh",
     display: "flex",
     flexDirection: "column",
-    textAlign: "center",
     alignItems: "center",
-    justifyContent: "space-between"
 
 }
 
 const RankingBox = styled(Box)(
   () => `
-    width: 80vw;
     height: 50vh;
-    margin: 40px auto;
+    margin: 3vh auto;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -33,15 +29,15 @@ const RankingBox = styled(Box)(
 );
 
 function DeactivateButton() {
-  return <CustomButton size="small" color="secondary">게임 종료</CustomButton>;
+  return <CustomButton size="medium" color="secondary">게임 종료</CustomButton>;
 }
 
 function ActivateButton() {
   return (
     // solid style
     <Box sx={ButtonStyle}>
-      <CustomButton size="small" color="secondary">게임 종료</CustomButton>
-      <CustomText variant="grey" size="smaller">보물을 모두 찾은 사람이 있어요</CustomText>
+      <CustomButton size="medium" color="secondary">게임 종료</CustomButton>
+      <CustomText variant="grey" size="xs">보물을 모두 찾은 사람이 있어요</CustomText>
     </Box>
   );
 }
@@ -54,11 +50,11 @@ export default function GameStatus({ target }) {
   return (
     <Box>
       <Box sx={CenterStyle}>
-        <CustomText size="larger medium" weight="bold">
+        <CustomText size="l" weight="bold">
           남은 시간
         </CustomText>
         <br />
-        <CustomText size="largest" weight="bold">
+        <CustomText size="xxxl" weight="bold">
           04:10
         </CustomText>
       </Box>
@@ -70,7 +66,7 @@ export default function GameStatus({ target }) {
         <RankingList />
         <RankingList />
       </RankingBox>
-      <Box sx={CenterStyle}>{isFinished(target) ? <ActivateButton /> : <DeactivateButton />}</Box>
+      <Box>{isFinished(target) ? <ActivateButton /> : <DeactivateButton />}</Box>
     </Box>
   );
 }
