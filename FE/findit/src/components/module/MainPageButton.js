@@ -9,7 +9,7 @@ import LockIcon from "static/locked.svg";
 import TreasureIcon from "static/wrapped_gift.svg";
 
 import Box from "@mui/material/Box";
-// import { styled } from "@mui/system";
+import { styled } from "@mui/system";
 
 function getIcon(icon) {
   switch (icon) {
@@ -82,20 +82,30 @@ const managerStartButtonContentList = [
   },
 ];
 
+const StyledTextBox = styled("div")(
+  () => `
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+height: 35px;
+`,
+);
+
 export default function MainPageButton({ page }) {
   if (page === "start") {
     return (
       <Box>
         {startButtonContentList.map((item, key) => (
           <BoxButton key={key} size="medium">
-            <Box>
+            <StyledTextBox sx={{ marginLeft: "15px" }}>
               <CustomText size="smallest" weight="lighter">
                 {item.explanation}
               </CustomText>
-              <br></br>
-              <CustomText size="medium">{item.title}</CustomText>
-            </Box>
-            <Box>
+              <CustomText size="small" weight="bold">
+                {item.title}
+              </CustomText>
+            </StyledTextBox>
+            <Box sx={{ marginRight: "15px" }}>
               <img
                 src={getIcon(item.icon)}
                 alt={item.icon}

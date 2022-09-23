@@ -1,13 +1,7 @@
 import React from "react";
 
 import { styled } from "@mui/system";
-// import JoystickIcon from "static/joystick.svg";
-// import TutorialIcon from "static/open_book.svg";
-// import LockIcon from "static/locked.svg";
-// import TreasureIcon from "static/wrapped_gift.svg";
 import Box from "@mui/material/Box";
-
-// import "./BoxButton.scss";
 
 const StyledBoxButton = styled(Box)(
   ({ size, color }) => `
