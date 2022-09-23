@@ -2,8 +2,6 @@ import { Box } from "@mui/system";
 
 import React from "react";
 
-import BeforeEntrance from "components/page/BeforeEntrance";
-
 import "./App.css";
 
 const BodyStyle = {
@@ -11,11 +9,9 @@ const BodyStyle = {
 };
 
 function App() {
-  return (
-    <Box sx={BodyStyle}>
-      <BeforeEntrance />
-    </Box>
-  );
+  return <Box sx={BodyStyle}>
+    
+  </Box>;
 }
 
 export default App;
