@@ -12,34 +12,35 @@ const CenterStyle = {
 
 const AwardsBox = styled(Box)(
   () => `
-    width: 50vw;
-    margin: 40px auto;
-    display: flex;
-    justify-content: space-between;
-    `,
+  width: 60vw;
+  margin: 40px auto;
+  display: flex;
+  justify-content: space-between;
+  `,
 );
 
 const RankingBox = styled(Box)(
   () => `
-      width: 80vw;
-      height: 50vh;
-      margin: 40px auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      overflow: scroll;
-      overflow-x: hidden;
-      `,
+  width: 80vw;
+  height: 50vh;
+  margin: 40px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: scroll;
+  overflow-x: hidden;
+  `,
 );
 
 const ButtonBox = styled(Box)(
   () => `
-  width: 70vw;
+  width: 65vw;
   margin: 40px auto;
   display: flex;
   align-items: center;
-  `
-)
+  justify-content: space-between;
+  `,
+);
 
 function getRank(rankNum) {
   switch (rankNum) {
@@ -58,12 +59,9 @@ function AwardsList(playerNum, rankNum) {
   rankNum = 1;
   playerNum = 1;
   return (
-    <Box>
+    <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
       {rankNum === 1 ? <ProfileImage type="winner" /> : <ProfileImage />}
-      <CustomText>
-        {"Player " + playerNum}
-        <br />
-      </CustomText>
+      <CustomText>{"Player " + playerNum}</CustomText>
       {getRank(rankNum)}
     </Box>
   );
@@ -90,8 +88,10 @@ export default function Result() {
         <RankingList />
       </RankingBox>
       <ButtonBox>
-        <CustomButton>메인</CustomButton>
-        <CustomButton>저장하기</CustomButton>
+        <CustomButton size="smaller" color="secondary">
+          메인
+        </CustomButton>
+        <CustomButton size="smaller">저장하기</CustomButton>
       </ButtonBox>
     </Box>
   );
