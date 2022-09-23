@@ -1,4 +1,5 @@
 import { Box } from "@mui/system";
+import RouterConfiguration from "configs/router";
 
 import React from "react";
 
@@ -10,7 +11,7 @@ const BodyStyle = {
 
 function App() {
   return <Box sx={BodyStyle}>
-    
+    <RouterConfiguration />
   </Box>;
 }
 
