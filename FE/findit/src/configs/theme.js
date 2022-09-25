@@ -5,8 +5,8 @@ export default createTheme({
     fontFamily: [
       "Roboto",
       "WendyOne",
-      "GmarketSansLight",
       "GmarketSansMedium",
+      "GmarketSansLight",
       "GmarketSansBold",
     ].join(","),
   },
