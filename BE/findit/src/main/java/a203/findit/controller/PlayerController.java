@@ -1,9 +1,6 @@
 package a203.findit.controller;
 
-import a203.findit.model.dto.req.User.AfterFindDTO;
-import a203.findit.model.dto.req.User.EntercodeDTO;
-import a203.findit.model.dto.req.User.PlayerEnterDTO;
-import a203.findit.model.dto.req.User.BeforeFindDTO;
+import a203.findit.model.dto.req.User.*;
 import a203.findit.service.PlayerServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
@@ -13,6 +10,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 
 @RestController
 @RequiredArgsConstructor
@@ -46,6 +44,12 @@ public class PlayerController {
         jsonObject.put("effectIndex", afterFindDTO.getEffect());
         jsonObject.put("finalscore", afterFindDTO.getFinalscore());
         simpMessagingTemplate.convertAndSend("/sub/player/" + sessionId,jsonObject);
+
+        ArrayList<PlayerInfoDTO> playersRank = playerService.rankChange(beforeFindDTO.getEntercode());
+        // list to json 구현하기
+        simpMessagingTemplate.convertAndSend("/sub/room/"+beforeFindDTO.getEntercode(),jsonObject);
+
     }
+
 
 }
