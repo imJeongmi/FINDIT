@@ -12,7 +12,7 @@ const BodyStyle = {
 
 function App() {
   return <Box sx={BodyStyle}>
-    <Tutorial />
+    <RouterConfiguration />
   </Box>;
 }
 
