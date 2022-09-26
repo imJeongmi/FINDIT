@@ -21,17 +21,17 @@ text-align: center;
 `,
 );
 
-export default function BeforeEnter() {
+export default function PlayerMain() {
   return (
     <Box>
       <StyledCompassBox>
         <StyledCompass src={compass} alt="compass" />
       </StyledCompassBox>
-      <Box sx={{ textAlign: "center", marginBottom: "50px" }}>
+      <Box sx={{ textAlign: "center", marginBottom: "40px" }}>
         <LogoFont size="medium" />
       </Box>
       <Box>
-        <MainPageButton page="start" />
+        <MainPageButton page="playerMain" />
       </Box>
     </Box>
   );

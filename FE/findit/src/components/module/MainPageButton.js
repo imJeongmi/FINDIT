@@ -37,7 +37,7 @@ function getIconSize(size) {
   }
 }
 
-const startButtonContentList = [
+const playerMainButtonContentList = [
   {
     key: 1,
     explanation: "참여자로 게임을 시작하고 싶다면",
@@ -58,7 +58,7 @@ const startButtonContentList = [
   },
 ];
 
-const managerStartButtonContentList = [
+const hostMainButtonContentList = [
   {
     key: 1,
     explanation: "새로운 게임을 시작하고 싶다면",
@@ -86,56 +86,63 @@ const StyledTextBox = styled("div")(
   () => `
 display: flex;
 flex-direction: column;
-justify-content: space-between;
-height: 35px;
+margin-left: 15px;
 `,
 );
 
 export default function MainPageButton({ page }) {
-  if (page === "start") {
+  if (page === "playerMain") {
     return (
       <Box>
-        {startButtonContentList.map((item, key) => (
-          <BoxButton key={key} size="medium">
-            <StyledTextBox sx={{ marginLeft: "15px" }}>
-              <CustomText size="xxs" weight="lighter">
-                {item.explanation}
-              </CustomText>
-              <CustomText size="s" weight="bold">
-                {item.title}
-              </CustomText>
-            </StyledTextBox>
-            <Box sx={{ marginRight: "15px" }}>
-              <img
-                src={getIcon(item.icon)}
-                alt={item.icon}
-                style={{ width: getIconSize("medium") }}
-              />
-            </Box>
-          </BoxButton>
+        {playerMainButtonContentList.map((item, key) => (
+          <Box>
+            <BoxButton key={key} size="medium">
+              <StyledTextBox>
+                <CustomText size="xxs" weight="lighter" marginY="5">
+                  {item.explanation}
+                </CustomText>
+                <CustomText size="s" weight="bold">
+                  {item.title}
+                </CustomText>
+              </StyledTextBox>
+              <Box sx={{ marginRight: "15px" }}>
+                <img
+                  src={getIcon(item.icon)}
+                  alt={item.icon}
+                  style={{ width: getIconSize("medium") }}
+                />
+              </Box>
+            </BoxButton>
+            <Box sx={{ height: "5px" }} />
+          </Box>
         ))}
       </Box>
     );
   } else {
     return (
       <Box>
-        {managerStartButtonContentList.map((item, key) => (
-          <BoxButton key={key} size="large" color={item.color}>
-            <Box>
-              <CustomText size="smallest" weight="lighter">
-                {item.explanation}
-              </CustomText>
-              <br></br>
-              <CustomText size="medium">{item.title}</CustomText>
-            </Box>
-            <Box>
-              <img
-                src={getIcon(item.icon)}
-                alt={item.icon}
-                style={{ width: getIconSize("large") }}
-              />
-            </Box>
-          </BoxButton>
+        {hostMainButtonContentList.map((item, key) => (
+          <Box>
+            <Box sx={{ height: "12px" }} />
+            <BoxButton key={key} size="large" color={item.color}>
+              <Box>
+                <StyledTextBox>
+                  <CustomText size="xxs" weight="lighter">
+                    {item.explanation}
+                  </CustomText>
+                  <Box sx={{ marginBottom: "7px" }} />
+                  <CustomText size="m">{item.title}</CustomText>
+                </StyledTextBox>
+              </Box>
+              <Box sx={{ marginRight: "15px" }}>
+                <img
+                  src={getIcon(item.icon)}
+                  alt={item.icon}
+                  style={{ width: getIconSize("large") }}
+                />
+              </Box>
+            </BoxButton>
+          </Box>
         ))}
       </Box>
     );

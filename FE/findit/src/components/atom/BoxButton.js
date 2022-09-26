@@ -10,7 +10,7 @@ background-color: ${getColor(color)};
 border: 0;
 outline: 0;
 padding: 15px;
-margin: 25px;
+margin: 12.5px 25px;
 color: #61677c;
 box-shadow: -5px -5px 10px #ffffff, 5px 5px 10px #babecc;
 transition: all 0.2s ease-in-out;
