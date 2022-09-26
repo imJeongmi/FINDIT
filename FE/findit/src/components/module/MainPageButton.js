@@ -98,10 +98,10 @@ export default function MainPageButton({ page }) {
         {startButtonContentList.map((item, key) => (
           <BoxButton key={key} size="medium">
             <StyledTextBox sx={{ marginLeft: "15px" }}>
-              <CustomText size="smallest" weight="lighter">
+              <CustomText size="xxs" weight="lighter">
                 {item.explanation}
               </CustomText>
-              <CustomText size="small" weight="bold">
+              <CustomText size="s" weight="bold">
                 {item.title}
               </CustomText>
             </StyledTextBox>
