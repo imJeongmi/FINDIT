@@ -1,4 +1,5 @@
 import { Box } from "@mui/system";
+import CircleButton from "components/atom/CircleButton";
 import CustomButton from "components/atom/CustomButton";
 import Input from "components/atom/Input";
 import React from "react";
@@ -11,6 +12,7 @@ const ProfileBoxStyle = {
 };
 
 const BoxStyle = {
+  textAlign: "center",
   margin: "7vh auto",
 };
 
@@ -37,8 +39,12 @@ function PlayerProfile() {
 }
 
 function UserProfile() {
+  // 로그아웃 함수 작성
   return (
     <Box sx={ProfileBoxStyle}>
+      <Box sx={{ textAlign: "end" }}>
+        <CircleButton icon="logout" size="smaller"></CircleButton>
+      </Box>
       <Box sx={BoxStyle}>
         <CustomText size="large" weight="bold">
           마이 페이지

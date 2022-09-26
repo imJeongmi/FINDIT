@@ -2,10 +2,10 @@ import React from "react";
 import { styled } from "@mui/system";
 
 const CustomSpan = styled("span")(
-  ({ size, variant, weight }) => `
+  ({ size, variant, weight, margin }) => `
   color: ${getColor(variant)};
   font-size: ${getSize(size)};
-  margin: 0;
+  margin: ${getMargin(margin)}px 0;
   padding: 0;
   font-family: ${getWeight(weight)}
   `,
@@ -13,40 +13,39 @@ const CustomSpan = styled("span")(
 
 function getSize(size) {
   switch (size) {
-    case "largest":
-      return "40px";
-    case "large":
+    case "xxl":
       return "30px";
-    case "larger medium":
+    case "xl":
+      return "25px";
+    case "l":
       return "22px";
-    case "medium":
+    case "m":
       return "19px";
-    case "small":
+    case "s":
       return "16px";
-    case "smaller":
+    case "xs":
       return "14px";
-    case "smallest":
+    case "xxs":
       return "10px";
     default:
-      return "15px";
+      return "16px";
   }
 }
 
 function getColor(variant) {
   switch (variant) {
     case "primary":
-      return "#e37373";
+      return "#9FAFD8";
     case "secondary":
-      return "#F1A6A7";
+      return "#DA9B9A";
     case "warning":
       return "#FFCC33";
-    case "gray":
     case "grey":
-      return "grey";
+      return "#A7A7A7";
     case "white":
       return "white";
     default:
-      return "black";
+      return "#333333";
   }
 }
 
@@ -63,12 +62,20 @@ function getWeight(weight) {
   }
 }
 
-export default function CustomText({ variant, children, weight, size }) {
+function getMargin(margin) {
+  if (!!margin) {
+    return margin;
+  } else {
+    return 0;
+  }
+}
+
+export default function CustomText({ variant, children, weight, size, margin }) {
   return (
     //  텍스트는 크게 large, medium, small 사이즈로 구분되며
     // 색상은 primary, black, white 로 구분됩니다.
     // 두가지 모두 적용시켜주셔야 합니다.
-    <CustomSpan variant={variant} size={size} weight={weight}>
+    <CustomSpan variant={variant} size={size} weight={weight} margin={margin}>
       {children}
     </CustomSpan>
   );

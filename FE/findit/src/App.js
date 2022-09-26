@@ -1,8 +1,8 @@
-import { Box } from "@mui/system";
-
 import React from "react";
 
-import BeforeEntrance from "components/page/BeforeEntrance";
+import { Box } from "@mui/system";
+import RouterConfiguration from "configs/router";
+import Tutorial from "components/page/Tutorial";
 
 import "./App.css";
 
@@ -11,11 +11,9 @@ const BodyStyle = {
 };
 
 function App() {
-  return (
-    <Box sx={BodyStyle}>
-      <BeforeEntrance />
-    </Box>
-  );
+  return <Box sx={BodyStyle}>
+    <Tutorial />
+  </Box>;
 }
 
 export default App;
