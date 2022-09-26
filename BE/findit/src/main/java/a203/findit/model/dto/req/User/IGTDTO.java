@@ -1,5 +1,12 @@
 package a203.findit.model.dto.req.User;
 
-public class IGTDTO {
+import lombok.*;
 
+@Setter
+@Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class IGTDTO {
+    int index;
 }

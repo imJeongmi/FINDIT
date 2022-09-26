@@ -14,10 +14,10 @@ import java.util.Set;
 public class PlayerInfoDTO {
     private int profileImg;
     private String nickname;
-    private Long score;
+    private int score;
 
     // sessionId, set of igtid
-    Set<Long> IGTIds;
+//    public Set<Integer> IGTIds;
 
     public PlayerInfoDTO(PlayerEnterDTO playerEnterDTO){
         this.profileImg = playerEnterDTO.getProfileImg();

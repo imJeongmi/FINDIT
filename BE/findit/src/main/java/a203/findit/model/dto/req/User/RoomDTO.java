@@ -38,6 +38,9 @@ public class RoomDTO {
     private String enterCode;
 
     public HashMap<String, PlayerInfoDTO> playerInfoDTOBySessionId;
+    // 방문시 init 구현 필요
+    
+    public HashMap<Integer, Set<String>> sessionIdByIGTID;
 
     public RoomDTO (Game game){
         this.roomId = game.getId();
