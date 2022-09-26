@@ -92,10 +92,12 @@ public class UserController {
     }
 
     @PostMapping("/{userId}/updatePw")
-    public ResponseEntity updatePw(@PathVariable("userId") String userId, String pw) {
+    public ResponseEntity updatePw(@PathVariable("userId") Long userId, String pw) {
         UserDetails currUser = (UserDetails) (SecurityContextHolder.getContext().getAuthentication()).getDetails();
-
-        return userService.updatePw(currUser.getUsername());
+        if(userService.updatePw(userId, pw, currUser.getUsername())){
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
     @PostMapping("/{userId}/delete")

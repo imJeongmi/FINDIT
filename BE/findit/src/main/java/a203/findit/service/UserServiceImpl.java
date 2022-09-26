@@ -141,15 +141,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity updatePw(String username) {
-
+    public boolean updatePw(Long userId, String pw, String username) {
         User user = userRepos.findByUsername(username).orElseThrow(
                 ()->new CustomException(Code.C403)
         );
 
+        if(user.getId()!=userId){
+            throw new CustomException(Code.C404);
+        }
 
-
-        return null;
+        user.setPassword(bCryptPasswordEncoder.encode(pw));
+        userRepos.save(user);
+        return true;
     }
 
     @Override
@@ -170,6 +173,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseEntity createTreasure() {
+
         return null;
     }
 

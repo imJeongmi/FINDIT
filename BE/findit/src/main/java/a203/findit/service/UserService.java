@@ -24,7 +24,7 @@ public interface UserService {
 
     boolean updateImg(Long userId, String img);
 
-    ResponseEntity updatePw(String username);
+    boolean updatePw(Long userId, String pw, String username);
 
     boolean deleteUser(Long userId);
 
