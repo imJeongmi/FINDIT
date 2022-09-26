@@ -45,7 +45,7 @@ function ActivateButton() {
 export default function GameStatus({ target }) {
   function isFinished(target) {
     target = 1;
-    if (target != 0) return true;
+    if (target !== 0) return true;
   }
   return (
     <Box>
