@@ -3,7 +3,7 @@ import axios from "axios";
 import storage from "../helper/storage";
 
 // configuration
-const api = axios.create({
+const UserApi = axios.create({
   baseURL: "",
   headers: {
     "Content-Type": "application/json",
@@ -14,7 +14,7 @@ api.interceptors.request.use(
   config => {
     const token = storage.get("token");
     if (token) {
-      config.headers["token"] = token;
+      config.headers["Authorization"] = "Bearer " + token;
     }
     return config;
   },
@@ -23,4 +23,4 @@ api.interceptors.request.use(
   },
 );
 
-export default api;
+export default UserApi;
