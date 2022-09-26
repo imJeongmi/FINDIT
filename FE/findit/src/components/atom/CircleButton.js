@@ -1,8 +1,10 @@
 import React from "react";
-import "./CircleButton.scss";
 import CameraIcon from "static/camera.svg";
 import RankIcon from "static/trophy.svg";
 import TreasureIcon from "static/wrapped_gift.svg";
+import LogoutIcon from "static/logout.svg";
+
+import "./CircleButton.scss";
 
 function getIcon(icon) {
   switch (icon) {
@@ -12,6 +14,8 @@ function getIcon(icon) {
       return RankIcon;
     case "treasure":
       return TreasureIcon;
+    case "logout":
+      return LogoutIcon;
     default:
       return CameraIcon;
   }
@@ -23,6 +27,8 @@ function getSize(size) {
       return "10vh";
     case "small":
       return "8vh";
+    case "smaller":
+      return "7vh";
     default:
       return "9vh";
   }
@@ -34,6 +40,8 @@ function getIconSize(size) {
       return "7vh";
     case "small":
       return "4.8vh";
+    case "smaller":
+      return "3vh";
     default:
       return "7vh";
   }

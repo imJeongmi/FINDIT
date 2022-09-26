@@ -3,7 +3,7 @@ import { styled } from "@mui/system";
 
 const CustomLogo = styled("span")(
   ({ size }) => `
-color: #504B43;
+color: #333333;
 font-size: ${getSize(size)};
 margin: .5rem;
 padding: 0;
@@ -20,7 +20,7 @@ function getSize(size) {
     case "xl":
       return "55px";
     case "medium":
-      return "35px";
+      return "40px";
     default:
       return "15px";
   }

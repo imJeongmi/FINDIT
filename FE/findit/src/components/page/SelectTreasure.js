@@ -1,11 +1,17 @@
 import { Box, styled } from "@mui/system";
+import CustomButton from "components/atom/CustomButton";
 import React from "react";
 
 import CustomText from "../atom/CustomText";
 import TreasureItem from "../atom/TreasureItem";
 
+const BoxStyle = {
+  width: "80vw",
+  margin: "auto",
+}
+
 const TreasureBoxStyle = {
-  mt: 4,
+  my: 5,
   height: "50vh",
   overflow: "scroll",
 };
@@ -27,7 +33,7 @@ const AddTreasureButton = styled(Box)(
 export default function SelectTreasure() {
   // treasure_list 받아오면
   return (
-    <Box>
+    <Box sx={BoxStyle}>
       <Box>
         <CustomText size="large">보물 선택</CustomText>
         <br />
@@ -54,7 +60,7 @@ export default function SelectTreasure() {
           </CustomText>
         </AddTreasureButton>
       </Box>
-      {/* 버튼 */}
+      <CustomButton size="large" color="secondary">보물 설정 완료</CustomButton>
     </Box>
   );
 }

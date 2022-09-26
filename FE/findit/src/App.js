@@ -1,20 +1,18 @@
-import { Box } from "@mui/system";
 import React from "react";
+
+import { Box } from "@mui/system";
+import RouterConfiguration from "configs/router";
 
 import "./App.css";
 
 const BodyStyle = {
-  width: "80vw",
-  m: "auto",
-  mt: 10,
-}
+  marginTop: "4vh",
+};
 
 function App() {
-  return (
-    <Box sx={BodyStyle}>
-      {/* 테스트할 컴포넌트 넣어주세용 */}
-    </Box>
-  )
+  return <Box sx={BodyStyle}>
+    <RouterConfiguration />
+  </Box>;
 }
 
 export default App;

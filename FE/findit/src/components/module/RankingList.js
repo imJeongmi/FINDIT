@@ -1,24 +1,26 @@
 import React from "react";
+import { Box, styled } from "@mui/system";
 import CustomText from "components/atom/CustomText";
 import ProfileImage from "components/atom/ProfileImage";
-import Box from "@mui/material/Box";
-import { styled } from "@mui/system";
-
-const RankingDiv = styled("div")(
-  () => `
-    width: 310px;
-    height: 55px;
-    background-color: white;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
-    `,
-);
 
 const TextBoxStyle = {
   margin: "0 15px",
 };
+
+const RankingBox = styled("div")(
+  () => `
+    width: 75vw;
+    // 고정 필요
+    height: 55px; 
+    background-color: white;
+    border-radius: 10px;
+    margin: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+    `,
+);
 
 function getRank(rankNum) {
   switch (rankNum) {
@@ -34,20 +36,20 @@ function getRank(rankNum) {
 }
 
 export default function RankingList({ rankNum, userName, gameScore }) {
-  //   rankNum = 1;
-  //   userName = "김싸피";
-  //   gameScore = 210;
+    rankNum = 1;
+    userName = "김싸피";
+    gameScore = 210;
 
   return (
-    <RankingDiv>
+    <RankingBox>
+      {/* <Box>
+        <Box sx={TextBoxStyle}>{getRank(rankNum)}</Box>
+        <ProfileImage />
+      </Box> */}
       <Box sx={TextBoxStyle}>{getRank(rankNum)}</Box>
       <ProfileImage />
-      <Box sx={{ margin: "0 auto" }}>
-        <CustomText variant="black" size="medium" weight="normal">
-          {userName}
-        </CustomText>
-      </Box>
+      <CustomText size="medium">{userName}</CustomText>
       <Box sx={TextBoxStyle}>{gameScore}</Box>
-    </RankingDiv>
+    </RankingBox>
   );
 }
