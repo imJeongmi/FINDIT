@@ -35,7 +35,7 @@ function getWidthBySize(size) {
     case "small":
       return "40vw";
     case "smaller":
-      return "20vw";
+      return "30vw";
     case "smallest":
       return "5vw";
     case "none":

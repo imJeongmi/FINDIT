@@ -36,9 +36,9 @@ function getRank(rankNum) {
 }
 
 export default function RankingList({ rankNum, userName, gameScore }) {
-  //   rankNum = 1;
-  //   userName = "김싸피";
-  //   gameScore = 210;
+    rankNum = 1;
+    userName = "김싸피";
+    gameScore = 210;
 
   return (
     <RankingBox>

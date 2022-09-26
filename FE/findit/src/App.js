@@ -2,6 +2,7 @@ import React from "react";
 
 import { Box } from "@mui/system";
 import RouterConfiguration from "configs/router";
+import Tutorial from "components/page/Tutorial";
 
 import "./App.css";
 
@@ -11,7 +12,7 @@ const BodyStyle = {
 
 function App() {
   return <Box sx={BodyStyle}>
-    <RouterConfiguration />
+    <Tutorial />
   </Box>;
 }
 
