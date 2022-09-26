@@ -18,10 +18,9 @@ const ButtonStyle = {
 
 const RankingBox = styled(Box)(
   () => `
-    height: 50vh;
+    width: 90vw;
+    height: 45vh;
     margin: 3vh auto;
-    display: flex;
-    flex-direction: column;
     align-items: center;
     overflow: scroll;
     overflow-x: hidden;
@@ -29,14 +28,14 @@ const RankingBox = styled(Box)(
 );
 
 function DeactivateButton() {
-  return <CustomButton size="medium" color="secondary">게임 종료</CustomButton>;
+  return <CustomButton size="large" color="secondary">게임 종료</CustomButton>;
 }
 
 function ActivateButton() {
   return (
     // solid style
     <Box sx={ButtonStyle}>
-      <CustomButton size="medium" color="secondary">게임 종료</CustomButton>
+      <CustomButton size="large" color="secondary">게임 종료</CustomButton>
       <CustomText variant="grey" size="xs">보물을 모두 찾은 사람이 있어요</CustomText>
     </Box>
   );
@@ -50,7 +49,7 @@ export default function GameStatus({ target }) {
   return (
     <Box>
       <Box sx={CenterStyle}>
-        <CustomText size="l" weight="bold">
+        <CustomText size="xl" weight="bold">
           남은 시간
         </CustomText>
         <br />
@@ -59,6 +58,7 @@ export default function GameStatus({ target }) {
         </CustomText>
       </Box>
       <RankingBox>
+        <RankingList />
         <RankingList />
         <RankingList />
         <RankingList />
