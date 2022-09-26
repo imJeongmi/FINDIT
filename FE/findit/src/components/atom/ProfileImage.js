@@ -25,7 +25,7 @@ function getSizeByType(type) {
     case "rounded":
       return "150px";
     case "winner":
-      return "90px";
+      return "70px";
     default:
       return "45px";
   }
