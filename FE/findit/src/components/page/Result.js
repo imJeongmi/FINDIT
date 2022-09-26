@@ -12,7 +12,7 @@ const CenterStyle = {
 
 const AwardsBox = styled(Box)(
   () => `
-  width: 60vw;
+  width: 80vw;
   margin: 40px auto;
   display: flex;
   justify-content: space-between;
@@ -21,11 +21,9 @@ const AwardsBox = styled(Box)(
 
 const RankingBox = styled(Box)(
   () => `
-  width: 80vw;
-  height: 40vh;
-  margin: 3vh auto;
-  display: flex;
-  flex-direction: column;
+  width: 90vw;
+  height: 45vh;
+  margin: 0 auto;
   align-items: center;
   overflow: scroll;
   overflow-x: hidden;
@@ -34,8 +32,8 @@ const RankingBox = styled(Box)(
 
 const ButtonBox = styled(Box)(
   () => `
-  width: 80%;
-  margin: 3vh auto;
+  width: 85%;
+  margin: 2vh auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -45,23 +43,21 @@ const ButtonBox = styled(Box)(
 function getRank(rankNum) {
   switch (rankNum) {
     case 1:
-      return <img src={require("static/1st_place_medal.svg").default} width="40px" />;
+      return <img src={require("static/1st_place_medal.svg").default} width="50px" />;
     case 2:
-      return <img src={require("static/2nd_place_medal.svg").default} width="30px" />;
+      return <img src={require("static/2nd_place_medal.svg").default} width="40px" />;
     case 3:
-      return <img src={require("static/3rd_place_medal.svg").default} width="30px" />;
+      return <img src={require("static/3rd_place_medal.svg").default} width="40px" />;
     default:
       return rankNum;
   }
 }
 
-function AwardsList(playerNum, rankNum) {
-  rankNum = 1;
-  playerNum = 1;
+function AwardsList(rankNum) {
   return (
     <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
       {rankNum === 1 ? <ProfileImage type="winner" /> : <ProfileImage />}
-      <CustomText>{"Player " + playerNum}</CustomText>
+      <CustomText>{"Player 1"}</CustomText>
       {getRank(rankNum)}
     </Box>
   );
@@ -76,9 +72,9 @@ export default function Result() {
         </CustomText>
       </Box>
       <AwardsBox>
-        <AwardsList rankNum={1} />
-        <AwardsList rankNum={2} /> 
-        <AwardsList rankNum={3} />
+        {AwardsList(2)}
+        {AwardsList(1)}
+        {AwardsList(3)}
       </AwardsBox>
       <RankingBox>
         <RankingList />
@@ -86,12 +82,14 @@ export default function Result() {
         <RankingList />
         <RankingList />
         <RankingList />
+        <RankingList />
+        <RankingList />
       </RankingBox>
       <ButtonBox>
-        <CustomButton size="small" color="secondary">
+        <CustomButton size="large" color="secondary">
           메인
         </CustomButton>
-        <CustomButton size="small">저장하기</CustomButton>
+        <CustomButton size="large">저장하기</CustomButton>
       </ButtonBox>
     </Box>
   );

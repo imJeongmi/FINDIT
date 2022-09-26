@@ -11,9 +11,9 @@ const CenterStyle = {
 
 const RankingBox = styled(Box)(
   () => `
-    height: 40vh; 
-    display: flex;
-    flex-direction: column;
+    width: 90vw;  
+    height: 45vh; 
+    margin: 0 auto;
     align-items: center;
     overflow: scroll;
     overflow-x: hidden; 
@@ -21,13 +21,13 @@ const RankingBox = styled(Box)(
 );
 
 function PlayerButton() {
-  return <CustomButton size="medium">튜토리얼 보기</CustomButton>;
+  return <CustomButton size="large">튜토리얼 보기</CustomButton>;
 }
 
 function UserButton() {
   return (
     // solid style
-    <CustomButton size="medium">PLAY</CustomButton>
+    <CustomButton size="large">PLAY</CustomButton>
   );
 }
 
@@ -47,6 +47,8 @@ export default function WaitPlaying({ target }) {
         <CustomText size="xs" variant="grey">방장이 시작 버튼을 누르면 게임이 시작돼요</CustomText>
       </Box>
       <RankingBox>
+        <RankingList />
+        <RankingList />
         <RankingList />
         <RankingList />
         <RankingList />

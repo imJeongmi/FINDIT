@@ -13,6 +13,8 @@ const CustomSpan = styled("span")(
 
 function getSize(size) {
   switch (size) {
+    case "xxxl":
+      return "40px";
     case "xxl":
       return "30px";
     case "xl":

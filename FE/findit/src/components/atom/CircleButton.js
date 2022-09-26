@@ -29,6 +29,8 @@ function getSize(size) {
       return "8vh";
     case "smaller":
       return "7vh";
+    case "smallest":
+      return "7vh";
     default:
       return "9vh";
   }
@@ -41,16 +43,30 @@ function getIconSize(size) {
     case "small":
       return "4.8vh";
     case "smaller":
+      return "3.5vh";
+    case "smallest":
       return "3vh";
     default:
       return "7vh";
   }
 }
 
-export default function CircleButton({ size, icon }) {
+function getOpacity(opacity) {
+  switch (opacity) {
+    case "0.5":
+      return "rgba(255, 255, 255, 0.5)";
+    default:
+      return "rgb(255, 255, 255)";
+  }
+}
+
+export default function CircleButton({ size, icon, opacity }) {
   return (
     <div>
-      <button className="button unit" style={{ height: getSize(size), width: getSize(size) }}>
+      <button
+        className="button unit"
+        style={{ height: getSize(size), width: getSize(size), background: getOpacity(opacity) }}
+      >
         <img
           src={getIcon(icon)}
           alt={icon}
