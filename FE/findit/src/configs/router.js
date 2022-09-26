@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route, Navigate, BrowserRouter as Router } from "react-router-dom";
 
-import BeforeEnter from "components/page/BeforeEntrance";
+import PlayerMain from "components/page/PlayerMain";
 import EnterVerificationCode from "components/page/EnterVerificationCode";
 import Intro from "components/page/Intro";
 import SelectTreasure from "components/page/SelectTreasure";
@@ -32,7 +32,7 @@ export default function RouterConfiguration() {
 
         {/* 공통 */}
         <Route path="/" element={<Intro />} />
-        <Route path="/playermain" element={<BeforeEnter />} />
+        <Route path="/main" element={<PlayerMain />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route
@@ -42,7 +42,6 @@ export default function RouterConfiguration() {
             <Result />
           }
         />
-
 
         {/* player */}
         <Route path="/code" element={<EnterVerificationCode />} />

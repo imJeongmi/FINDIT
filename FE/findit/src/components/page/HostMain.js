@@ -1,0 +1,71 @@
+import React from "react";
+
+import { Box, styled } from "@mui/system";
+
+import LogoFont from "components/atom/LogoFont";
+import CustomText from "components/atom/CustomText";
+import ProfileImage from "components/atom/ProfileImage";
+import MainPageButton from "components/module/MainPageButton";
+
+const hostNickname = "player1234";
+
+const StyledHostNickname = styled("span")(
+  () => `
+margin: 0 10px
+`,
+);
+
+const StyledHeader = styled(Box)(
+  () => `
+margin: 25px;
+padding: 10px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+`,
+);
+
+const LogoNickname = styled(Box)(
+  () => `
+display: flex;
+flex-direction: column
+`,
+);
+
+const StyledProfileBox = styled(Box)(
+  () => `
+  height: 55px;
+  width: 55px;
+  border: 1px solid #FFCC33;
+  background: #FFFFFF;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`,
+);
+
+export default function HostMain() {
+  return (
+    <Box>
+      <StyledHeader>
+        <LogoNickname>
+          <LogoFont size="medium" margin="0" />
+          <CustomText size="xs">
+            반가워요,
+            <StyledHostNickname>
+              <CustomText size="xs" weight="bold">
+                {hostNickname}
+              </CustomText>
+            </StyledHostNickname>
+            님
+          </CustomText>
+        </LogoNickname>
+        <StyledProfileBox>
+          <ProfileImage></ProfileImage>
+        </StyledProfileBox>
+      </StyledHeader>
+      <MainPageButton />
+    </Box>
+  );
+}

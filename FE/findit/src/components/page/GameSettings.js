@@ -17,10 +17,10 @@ export default function GameSetting() {
   return (
     <Box>
       <StyledTitleBox>
-        <CustomText variant="black" weight="bold" size="xxl" margin="10">
+        <CustomText variant="black" weight="bold" size="xxl" marginY="10">
           게임 설정
         </CustomText>
-        <CustomText variant="grey" size="xs" margin="5">
+        <CustomText variant="grey" size="xs" marginY="5">
           게임 유형을 선택해주세요.
         </CustomText>
       </StyledTitleBox>
