@@ -1,19 +1,17 @@
 import React from "react";
 import { Box, styled } from "@mui/system";
-import CustomText from "components/atom/CustomText";
+import CustomText from "components/atom/CustomText"; 
 import CustomButton from "components/atom/CustomButton";
 import RankingList from "components/module/RankingList";
 
 const CenterStyle = {
-  margin: "auto",
+  margin: "7vh auto",
   textAlign: "center",
 };
 
 const RankingBox = styled(Box)(
   () => `
-    weight: 80vw;
-    height: 50vh;
-    margin: 40px 0;
+    height: 40vh; 
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -23,16 +21,14 @@ const RankingBox = styled(Box)(
 );
 
 function PlayerButton() {
-    return (
-        <CustomButton size="small">튜토리얼 보기</CustomButton>
-    )
+  return <CustomButton size="medium">튜토리얼 보기</CustomButton>;
 }
 
 function UserButton() {
-    return (
-        // solid style 
-        <CustomButton size="small">PLAY</CustomButton> 
-    )
+  return (
+    // solid style
+    <CustomButton size="medium">PLAY</CustomButton>
+  );
 }
 
 export default function WaitPlaying({ target }) {
@@ -41,13 +37,14 @@ export default function WaitPlaying({ target }) {
     else return true;
   }
 
-  return (
+  return ( 
     <Box>
       <Box sx={CenterStyle}>
-        <CustomText size="large" weight="bold">대기중</CustomText>
+        <CustomText size="xxl" weight="bold">
+          대기중
+        </CustomText>
         <br />
-        <br />
-        <CustomText variant="grey">방장이 시작 버튼을 누르면 게임이 시작돼요</CustomText>
+        <CustomText size="xs" variant="grey">방장이 시작 버튼을 누르면 게임이 시작돼요</CustomText>
       </Box>
       <RankingBox>
         <RankingList />
@@ -56,9 +53,7 @@ export default function WaitPlaying({ target }) {
         <RankingList />
         <RankingList />
       </RankingBox>
-      <Box sx={CenterStyle}>
-        {isPlayer(target) ? <PlayerButton /> : <UserButton /> }
-      </Box>
+      <Box sx={CenterStyle}>{isPlayer(target) ? <PlayerButton /> : <UserButton />}</Box>
     </Box>
   );
 }

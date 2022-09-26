@@ -8,6 +8,8 @@ const CustomModal = styled("div")(
   border-radius: 30px 30px 0 0;
   position: absolute;
   bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
   box-shadow: 0 3px 10px grey;
   background-color: white;
   `

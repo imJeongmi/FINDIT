@@ -1,4 +1,4 @@
-package a203.findit.model.dto.res;
+package a203.findit.model.dto.req.User;
 
 import a203.findit.model.entity.Game;
 import a203.findit.model.entity.Mode;
@@ -13,6 +13,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.HashMap;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -34,6 +36,11 @@ public class RoomDTO {
     private Mode mode;
 
     private String enterCode;
+
+    public HashMap<String, PlayerInfoDTO> playerInfoDTOBySessionId;
+    // 방문시 init 구현 필요
+    
+    public HashMap<Integer, Set<String>> sessionIdByIGTID;
 
     public RoomDTO (Game game){
         this.roomId = game.getId();
