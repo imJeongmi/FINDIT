@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, styled } from "@mui/system";
+import { Box } from "@mui/system";
 import Modal from "components/atom/Modal";
 import Input from "components/atom/Input";
 import CustomButton from "components/atom/CustomButton";
