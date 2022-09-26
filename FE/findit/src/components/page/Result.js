@@ -45,11 +45,17 @@ const ButtonBox = styled(Box)(
 function getRank(rankNum) {
   switch (rankNum) {
     case 1:
-      return <img src={require("static/1st_place_medal.svg").default} width="40px" />;
+      return (
+        <img src={require("static/1st_place_medal.svg").default} width="40px" alt="gold medal" />
+      );
     case 2:
-      return <img src={require("static/2nd_place_medal.svg").default} width="30px" />;
+      return (
+        <img src={require("static/2nd_place_medal.svg").default} width="30px" alt="silver medal" />
+      );
     case 3:
-      return <img src={require("static/3rd_place_medal.svg").default} width="30px" />;
+      return (
+        <img src={require("static/3rd_place_medal.svg").default} width="30px" alt="bronze medal" />
+      );
     default:
       return rankNum;
   }
@@ -77,7 +83,7 @@ export default function Result() {
       </Box>
       <AwardsBox>
         <AwardsList rankNum={1} />
-        <AwardsList rankNum={2} /> 
+        <AwardsList rankNum={2} />
         <AwardsList rankNum={3} />
       </AwardsBox>
       <RankingBox>
