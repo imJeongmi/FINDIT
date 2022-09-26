@@ -3,7 +3,7 @@ import axios from "axios";
 import ss from "../helper/SessionStorage";
 
 // configuration
-const UserApi = axios.create({
+const PlayerApi = axios.create({
 	baseURL: "",
 	headers: {
 		"Content-Type": "application/json",
@@ -23,4 +23,4 @@ api.interceptors.request.use(
 	},
 );
 
-export default UserApi;
+export default PlayerApi;
