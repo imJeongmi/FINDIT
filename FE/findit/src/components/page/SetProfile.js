@@ -20,7 +20,7 @@ function PlayerProfile() {
   return (
     <Box sx={ProfileBoxStyle}>
       <Box sx={BoxStyle}>
-        <CustomText size="large" weight="bold">
+        <CustomText size="xl" weight="bold">
           프로필 설정
         </CustomText>
       </Box>
