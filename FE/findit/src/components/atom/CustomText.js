@@ -2,10 +2,10 @@ import React from "react";
 import { styled } from "@mui/system";
 
 const CustomSpan = styled("span")(
-  ({ size, variant, weight, margin }) => `
+  ({ size, variant, weight, marginX, marginY }) => `
   color: ${getColor(variant)};
   font-size: ${getSize(size)};
-  margin: ${getMargin(margin)}px 0;
+  margin: ${getMarginY(marginY)}px ${getMarginX(marginX)}px;
   padding: 0;
   font-family: ${getWeight(weight)}
   `,
@@ -64,20 +64,28 @@ function getWeight(weight) {
   }
 }
 
-function getMargin(margin) {
-  if (!!margin) {
-    return margin;
+function getMarginY(marginY) {
+  if (!!marginY) {
+    return marginY;
   } else {
     return 0;
   }
 }
 
-export default function CustomText({ variant, children, weight, size, margin }) {
+function getMarginX(marginX) {
+  if (!!marginX) {
+    return marginX;
+  } else {
+    return 0;
+  }
+}
+
+export default function CustomText({ variant, children, weight, size, marginX, marginY }) {
   return (
     //  텍스트는 크게 large, medium, small 사이즈로 구분되며
     // 색상은 primary, black, white 로 구분됩니다.
     // 두가지 모두 적용시켜주셔야 합니다.
-    <CustomSpan variant={variant} size={size} weight={weight} margin={margin}>
+    <CustomSpan variant={variant} size={size} weight={weight} marginX={marginX} marginY={marginY}>
       {children}
     </CustomSpan>
   );

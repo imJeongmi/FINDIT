@@ -1,18 +1,18 @@
 package a203.findit.service;
 
-import a203.findit.model.dto.res.RoomDTO;
+import a203.findit.model.dto.req.User.RoomDTO;
 import a203.findit.model.entity.Game;
 import a203.findit.model.entity.Mode;
 import a203.findit.model.entity.User;
 import a203.findit.model.repository.GameRepository;
 import a203.findit.model.repository.UserRepository;
+import a203.findit.model.repository.MemoryRoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
@@ -21,28 +21,11 @@ import java.util.Optional;
 public class RoomServiceImpl implements RoomService{
 
     static Long standardMillisecond = LocalDateTime.of(2022, 9, 21, 13, 00, 00).atZone(ZoneId.of("UTC")).toInstant().toEpochMilli();
-    public static ArrayList<RoomDTO> roomDTOs = new ArrayList<RoomDTO>();
+    //public static ArrayList<RoomDTO> roomDTOs = new ArrayList<RoomDTO>();
     private final UserRepository userRepository;
     private final GameRepository gameRepository;
+    private final MemoryRoomRepository roomRepository;
 
-
-    public static String gameIdToCode(Long v, Long id) {
-        String ret="";
-        String time = Long.toString(v);
-        String gid = Long.toString(id);
-
-        int timeLen = time.length();
-        while(gid.length() < 3){
-            gid='0'+gid;
-        }
-
-        for(int i=0;i<3;i++) {
-            String temp = String.valueOf(time.charAt(timeLen-i-1)) + String.valueOf(gid.charAt(i));
-            ret+=temp;
-        }
-
-        return ret;
-    }
 
     @Transactional
     public RoomDTO join(String username, Mode mode, int limitMinute){
@@ -58,14 +41,11 @@ public class RoomServiceImpl implements RoomService{
 
         Long gameId = game.getId();
         Long nowmillisecond = now.atZone(ZoneId.of("UTC")).toInstant().toEpochMilli();
-        String entercode = gameIdToCode(nowmillisecond - standardMillisecond, gameId);
+        String entercode = roomRepository.gameIdToCode(nowmillisecond - standardMillisecond, gameId);
 
-        RoomDTO roomDTO = new RoomDTO(game);
-        roomDTO.setMode(mode);
-        roomDTO.setEnterCode(entercode);
-
-        roomDTOs.add(roomDTO);
-
-        return roomDTO;
+        return roomRepository.save(entercode,game, mode);
+    }
+    public RoomDTO find(String entercode){
+        return roomRepository.findByEnterCode(entercode);
     }
 }

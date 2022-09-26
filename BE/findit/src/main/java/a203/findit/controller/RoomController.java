@@ -2,9 +2,8 @@ package a203.findit.controller;
 
 import a203.findit.model.dto.req.User.CreateRoomDTO;
 import a203.findit.model.dto.req.User.EntercodeDTO;
-import a203.findit.model.dto.req.User.RoomIdDTO;
 import a203.findit.model.dto.res.ApiResponse;
-import a203.findit.model.dto.res.RoomDTO;
+import a203.findit.model.dto.req.User.RoomDTO;
 import a203.findit.model.entity.User;
 import a203.findit.service.RoomServiceImpl;
 import a203.findit.service.UserServiceImpl;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
-import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -55,24 +53,13 @@ public class RoomController {
     @MessageMapping("/open")
     public void socketOpen(@Valid EntercodeDTO entercodeDTO) {
         JSONObject jsonObject = new JSONObject();
-        int len = RoomServiceImpl.roomDTOs.size();
-        RoomDTO roomDTO = new RoomDTO();
-
-        boolean isExist=false;
-        for(int i=0;i<len;i++){
-            if(Objects.equals(RoomServiceImpl.roomDTOs.get(i).getEnterCode(), entercodeDTO.getEntercode())){
-                roomDTO = RoomServiceImpl.roomDTOs.get(i);
-                isExist = true;
-                break;
-            }
-        }
-        if(!isExist){
+        RoomDTO roomDTO = roomService.find(entercodeDTO.getEntercode());
+        if(roomDTO == null) {
             jsonObject.put("code", "no such entercode");
         }
-        else if(roomDTO.getEndTime()!=null){
+        else if(roomDTO.getEndTime()!= null){
             jsonObject.put("code", "expired room");
-        }
-        else{
+        }else{
             jsonObject.put("code", "success");
             jsonObject.put("mode",roomDTO.getMode());
             Optional<User> user = userService.findByUserId(roomDTO.getUserId());
@@ -87,16 +74,7 @@ public class RoomController {
     @MessageMapping("/gamestart")
     public void gameStart(@Valid EntercodeDTO entercodeDTO){
         JSONObject jsonObject = new JSONObject();
-
-        RoomDTO roomDTO = new RoomDTO();
-
-        int len = RoomServiceImpl.roomDTOs.size();
-        for(int i=0;i<len;i++){
-            if(Objects.equals(RoomServiceImpl.roomDTOs.get(i).getEnterCode(), entercodeDTO.getEntercode())){
-                roomDTO = RoomServiceImpl.roomDTOs.get(i);
-                break;
-            }
-        }
+        RoomDTO roomDTO = roomService.find(entercodeDTO.getEntercode());
         roomDTO.setStartTime(LocalDateTime.now());
         jsonObject.put("code", "success");
         jsonObject.put("mode",roomDTO.getMode());
