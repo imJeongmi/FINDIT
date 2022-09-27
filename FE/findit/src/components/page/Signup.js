@@ -17,7 +17,7 @@ const LoginStyle = {
 export default function Signup() {
   return (
     <Box sx={{ textAlign: "center" }}>
-      <Box>
+      <Box sx={{ mt: "3vh" }}>
         <img src={compass} alt="compass" width="100" />
       </Box>
       <Modal>
@@ -40,7 +40,9 @@ export default function Signup() {
           <Input placeholder="비밀번호" />
           <Input placeholder="비밀번호 확인" />
         </Box>
-        <CustomButton size="medium" color="secondary">회원가입</CustomButton>
+        <CustomButton size="medium" color="secondary">
+          회원가입
+        </CustomButton>
       </Modal>
     </Box>
   );

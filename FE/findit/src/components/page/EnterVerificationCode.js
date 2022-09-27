@@ -12,20 +12,23 @@ import CustomButton from "components/atom/CustomButton";
 export default function EnterVerificationCode() {
   return (
     <Box sx={{ textAlign: "center" }}>
-      <Box>
+      <Box sx={{ mt: "3vh" }}>
         <img src={compass} alt="compass" width="100"></img>
       </Box>
       <Modal>
         <Box sx={{ textAlign: "center", my: 10 }}>
-          <CustomText size="large" weight="bold">입장코드 입력</CustomText>
+          <CustomText size="xl" weight="bold">
+            입장코드 입력
+          </CustomText>
           <br />
           <br />
-          <CustomText size="smaller">게임에 입장하기 위해 전달받은 코드를 입력하세요.</CustomText>
+          <CustomText size="xs">게임에 입장하기 위해 전달받은 코드를 입력하세요.</CustomText>
           <EnterCode></EnterCode>
         </Box>
-        <CustomButton size="large" color="primary">입장하기</CustomButton>
+        <CustomButton size="large" color="primary">
+          입장하기
+        </CustomButton>
       </Modal>
-
     </Box>
   );
 }

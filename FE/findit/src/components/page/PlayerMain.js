@@ -18,6 +18,7 @@ height: 30vh;
 const StyledCompassBox = styled(Box)(
   () => `
 text-align: center;
+margin-top: 5vh
 `,
 );
 
@@ -27,7 +28,7 @@ export default function PlayerMain() {
       <StyledCompassBox>
         <StyledCompass src={compass} alt="compass" />
       </StyledCompassBox>
-      <Box sx={{ textAlign: "center", marginBottom: "40px" }}>
+      <Box sx={{ textAlign: "center", marginBottom: "30px" }}>
         <LogoFont size="medium" />
       </Box>
       <Box>

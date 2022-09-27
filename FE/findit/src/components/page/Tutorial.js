@@ -31,31 +31,33 @@ export default function Tutorial({ target }) {
 
   return (
     <Box sx={{ textAlign: "center" }}>
-      <Box>
+      <Box sx={{ mt: "3vh" }}>
         <img src={compass} alt="compass" width="100"></img>
       </Box>
       <Modal>
         <Box>
           <Carousel showArrows={false} showStatus={false} showThumbs={false}>
-            {target === "user" ? (orderedUserText.map((text, index) => (
-              <Box sx={{ mt: "4vh", mb: "4vh", mx: "auto", width: "80vw" }}>
-                <Box sx={{ mb: "1vh" }}>
-                  <img src="https://placeimg.com/200/300/any" alt="img" />
-                </Box>
-                <CustomText size="xs" variant="black" key={index} sx={{ mt: "5vh" }}>
-                  {text}
-                </CustomText>
-              </Box>
-            ))) : (orderedPlayerText.map((text, index) => (
-              <Box sx={{ mt: "4vh", mb: "4vh", mx: "auto", width: "80vw" }}>
-                <Box sx={{ mb: "1vh" }}>
-                  <img src="https://placeimg.com/200/300/any" alt="img" />
-                </Box>
-                <CustomText size="xs" variant="black" key={index} sx={{ mt: "5vh" }}>
-                  {text}
-                </CustomText>
-              </Box>
-            )))}
+            {target === "user"
+              ? orderedUserText.map((text, index) => (
+                  <Box sx={{ mt: "4vh", mb: "4vh", mx: "auto", width: "60vw" }}>
+                    <Box sx={{ mb: "1vh" }}>
+                      <img src="https://placeimg.com/200/300/any" alt="img" />
+                    </Box>
+                    <CustomText size="xs" variant="black" key={index} sx={{ mt: "5vh" }}>
+                      {text}
+                    </CustomText>
+                  </Box>
+                ))
+              : orderedPlayerText.map((text, index) => (
+                  <Box sx={{ mt: "4vh", mb: "4vh", mx: "auto", width: "60vw" }}>
+                    <Box sx={{ mb: "1vh" }}>
+                      <img src="https://placeimg.com/200/300/any" alt="img" />
+                    </Box>
+                    <CustomText size="xs" variant="black" key={index} sx={{ mt: "5vh" }}>
+                      {text}
+                    </CustomText>
+                  </Box>
+                ))}
           </Carousel>
         </Box>
         <CustomButton size="medium" color="primary">
