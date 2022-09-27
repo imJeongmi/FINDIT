@@ -4,8 +4,7 @@ import ss from "../helper/SessionStorage";
 
 // configuration
 const PlayerApi = axios.create({
-	// baseURL: "https://j7a203.p.ssafy.io/api/v1/",
-	baseURL: "http://localhost:8399/api/v1/",
+	baseURL: "https://findit.life/api/v1/",
 	headers: {
 		"Content-Type": "application/json",
 	},
@@ -13,9 +12,9 @@ const PlayerApi = axios.create({
 
 PlayerApi.interceptors.request.use(
 	config => {
-		const token = ss.get("token");
-		if (token) {
-			config.headers["Authorization"] = "Bearer " + token;
+		const playeraccessToken = ss.get("playeraccessToken");
+		if (playeraccessToken) {
+			config.headers["Authorization"] = "Bearer " + playeraccessToken;
 		}
 		return config;
 	},
