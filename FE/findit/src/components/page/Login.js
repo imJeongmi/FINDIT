@@ -6,6 +6,8 @@ import CustomButton from "components/atom/CustomButton";
 import CustomText from "components/atom/CustomText";
 import compass from "static/compass_100.png";
 
+import { useNavigate } from "react-router-dom";
+
 const LoginStyle = {
   mt: "5vh",
   mb: "3vh",
@@ -15,6 +17,12 @@ const LoginStyle = {
 };
 
 export default function Login() {
+  const navigate = useNavigate();
+
+  function goToSignup() {
+    navigate("/Signup");
+  }
+
   return (
     <Box sx={{ textAlign: "center" }}>
       <Box sx={{ mt: "3vh" }}>
@@ -25,9 +33,11 @@ export default function Login() {
           <CustomText size="xl" weight="bold">
             {"Login | "}
           </CustomText>
-          <CustomText size="xl" weight="bold" variant="grey">
-            Signup
-          </CustomText>
+          <span onClick={goToSignup}>
+            <CustomText size="xl" weight="bold" variant="grey">
+              Signup
+            </CustomText>
+          </span>
         </Box>
         <Box>
           <CustomText size="xs" variant="grey">
