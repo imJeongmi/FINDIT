@@ -19,7 +19,7 @@ public class MemoryPlayerRepository implements PlayerRepository {
     public PlayerInfoDTO save(PlayerEnterDTO playerEnterDTO, String sessionId){
         PlayerInfoDTO playerInfoDTO = new PlayerInfoDTO(playerEnterDTO,sessionId);
         //init
-        roomRepository.findByEnterCode(playerEnterDTO.getEntercode()).playerInfoDTOBySessionId.put(sessionId,playerInfoDTO);
+        roomRepository.findByEnterCode(playerEnterDTO.getEntercode()).getPlayerInfoDTOBySessionId().put(sessionId,playerInfoDTO);
         return playerInfoDTO;
     }
 
