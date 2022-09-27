@@ -84,4 +84,9 @@ public class RoomController {
         simpMessagingTemplate.convertAndSend("/sub/room/"+entercodeDTO.getEntercode(),jsonObject);
     }
 
+    @MessageMapping("finish")
+    public void gameFinish(@Valid EntercodeDTO entercodeDTO){
+        JSONObject jsonObject = new JSONObject();
+        roomService.finish(entercodeDTO.getEntercode());
+    }
 }

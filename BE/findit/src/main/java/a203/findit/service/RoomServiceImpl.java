@@ -48,4 +48,12 @@ public class RoomServiceImpl implements RoomService{
     public RoomDTO find(String entercode){
         return roomRepository.findByEnterCode(entercode);
     }
+
+    @Transactional
+    public void finish(String entercode){
+        //inmemory
+        roomRepository.findByEnterCode(entercode).setEndTime(LocalDateTime.now());
+        //DB
+        //db에 저장하기 구현하기
+    }
 }
