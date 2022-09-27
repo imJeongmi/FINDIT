@@ -11,6 +11,8 @@ import { requestLogin } from "api/user";
 
 import ls from 'helper/LocalStorage'
 
+import { useNavigate } from "react-router-dom";
+
 const LoginStyle = {
   mt: "5vh",
   mb: "3vh",
@@ -20,6 +22,11 @@ const LoginStyle = {
 };
 
 export default function Login() {
+  const navigate = useNavigate();
+
+  function goToSignup() {
+    navigate("/Signup");
+
   // const navigate = useNavigate();
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
@@ -62,9 +69,11 @@ export default function Login() {
           <CustomText size="xl" weight="bold">
             {"Login | "}
           </CustomText>
-          <CustomText size="xl" weight="bold" variant="grey">
-            Signup
-          </CustomText>
+          <span onClick={goToSignup}>
+            <CustomText size="xl" weight="bold" variant="grey">
+              Signup
+            </CustomText>
+          </span>
         </Box>
         <Box>
           <CustomText size="xs" variant="grey">
