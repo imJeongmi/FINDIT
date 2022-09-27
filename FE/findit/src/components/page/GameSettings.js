@@ -3,7 +3,6 @@ import React from "react";
 import { Box, styled } from "@mui/system";
 
 import CustomText from "components/atom/CustomText";
-import CircleButton from "components/atom/CircleButton";
 import GameSettingSection from "components/module/GameSettingSection";
 
 const StyledTitleBox = styled(Box)(
@@ -11,13 +10,6 @@ const StyledTitleBox = styled(Box)(
 margin: 5vh 10vw;
 display: flex;
 flex-direction: column;
-`,
-);
-
-const NextButtonBox = styled(Box)(
-  () => `
-margin: 3vh 10vw;
-text-align: end
 `,
 );
 
@@ -33,9 +25,6 @@ export default function GameSetting() {
         </CustomText>
       </StyledTitleBox>
       <GameSettingSection />
-      <NextButtonBox>
-        <CircleButton icon="next" size="smallest" />
-      </NextButtonBox>
     </Box>
   );
 }

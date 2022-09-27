@@ -7,6 +7,8 @@ import CustomText from "components/atom/CustomText";
 import compass from "static/compass_100.png";
 import { requestJoin } from "api/user";
 
+import { useNavigate } from "react-router-dom";
+
 const LoginStyle = {
   mt: "5vh",
   mb: "3vh",
@@ -16,6 +18,11 @@ const LoginStyle = {
 };
 
 export default function Signup() {
+  const navigate = useNavigate();
+
+  function goToLogin() {
+    navigate("/login");
+
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
   const [nickname, setNickname] = useState("");
@@ -76,9 +83,11 @@ export default function Signup() {
       </Box>
       <Modal>
         <Box sx={{ mt: "5vh", mb: "1vh" }}>
-          <CustomText size="xl" weight="bold" variant="grey">
-            Login
-          </CustomText>
+          <span onClick={goToLogin}>
+            <CustomText size="xl" weight="bold" variant="grey">
+              Login
+            </CustomText>
+          </span>
           <CustomText size="xl" weight="bold">
             {" | Signup"}
           </CustomText>
@@ -99,8 +108,7 @@ export default function Signup() {
             onChange={onChangeConfirm}
           />
         </Box>
-
-        <CustomButton size="medium" color="secondary" marginY="0" onClick={onClickSignup}>
+        <CustomButton size="medium" color="secondary" my="0" onClick={onClickSignup}>
           회원가입
         </CustomButton>
       </Modal>
