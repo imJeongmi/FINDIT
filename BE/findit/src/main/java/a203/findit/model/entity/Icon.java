@@ -1,8 +1,11 @@
 package a203.findit.model.entity;
 
+import lombok.Getter;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
 public class Icon {
 
     @Id

@@ -1,9 +1,17 @@
 package a203.findit.service;
 
+import a203.findit.model.dto.req.User.UpdateFormDTO;
 import a203.findit.model.dto.res.Code;
+import a203.findit.model.entity.Icon;
+import a203.findit.model.entity.Treasure;
 import a203.findit.model.entity.User;
+import a203.findit.model.repository.IconRepository;
 import a203.findit.model.repository.RefreshTokenRepository;
+import a203.findit.model.repository.TreasureRepository;
 import a203.findit.security.JwtProvider;
+import a203.findit.util.AwsService;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,7 +22,6 @@ import lombok.RequiredArgsConstructor;
 import a203.findit.exception.CustomException;
 import a203.findit.model.dto.req.User.CreateUserDTO;
 import a203.findit.model.dto.req.User.LoginUserDTO;
-import a203.findit.model.dto.req.User.UpdateFormDTO;
 import a203.findit.model.repository.UserRepository;
 
 import org.slf4j.Logger;
@@ -26,9 +33,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -40,8 +50,13 @@ public class UserServiceImpl implements UserService {
     private final JwtProvider jwtProvider;
     private final AuthenticationManager authenticationManager;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final AwsService awsService;
+
     private final UserRepository userRepos;
     private final RefreshTokenRepository refreshTokenRepos;
+    private final IconRepository iconRepos;
+    private final TreasureRepository treasureRepos;
+
 
     public Optional<User> findByUsername(String username){
         return userRepos.findByUsername(username);
@@ -52,11 +67,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean createUser(CreateUserDTO createUserDTO) {
+    public boolean createUser(CreateUserDTO createUserDTO) throws CustomException {
         String encPw = bCryptPasswordEncoder.encode(createUserDTO.getPw());
 
         if (userRepos.existsByUsername(createUserDTO.getId())) {
-            return false;
+            throw new CustomException(Code.C402);
         }
 
         userRepos.save(User.builder()
@@ -71,9 +86,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Map<String, String> login(LoginUserDTO loginUserDTO) throws CustomException{
-        System.out.println("login");
-        System.out.println(loginUserDTO.getId());
-        System.out.println(loginUserDTO.getPw());
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginUserDTO.getId(),loginUserDTO.getPw());
 
         Authentication authentication = authenticationManager.authenticate(token);
@@ -102,47 +114,93 @@ public class UserServiceImpl implements UserService {
         );
 
         result.put("nickname", currUser.getNickname());
-//        result.put("img", currUser.getNickname());
+        result.put("img", currUser.getIcon().getImageUrl());
 
         return result;
     }
 
     @Override
-    public ResponseEntity updateForm(UpdateFormDTO updateFormDTO) {
-        return null;
+    public Map<String, Object> updateForm(UpdateFormDTO nickname) {
+        Map<String, Object> result = new HashMap<>();
+
+        List<Icon> icons = iconRepos.findAll();
+
+        result.put("imgList", icons);
+
+        return result;
     }
 
     @Override
-    public ResponseEntity getImgList(MultipartFile img) {
+    public boolean updateImg(Long userId, String img) {
+        User user = userRepos.findById(userId).orElseThrow(
+                () -> new CustomException(Code.C403)
+        );
 
-        return null;
+        UserDetails principal =  (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if(!user.getUsername().equals(principal.getUsername())){
+            throw new CustomException(Code.C404);
+        }
+
+        Icon icon = iconRepos.findByImageUrl(img).orElseThrow(
+                ()->new CustomException(Code.C401)
+        );
+
+        user.setIcon(icon);
+        userRepos.save(user);
+
+        return true;
     }
 
     @Override
-    public ResponseEntity updateUser(String username) {
-
+    public boolean updatePw(Long userId, String pw, String username) {
         User user = userRepos.findByUsername(username).orElseThrow(
                 ()->new CustomException(Code.C403)
         );
 
+        if(user.getId()!=userId){
+            throw new CustomException(Code.C404);
+        }
 
-
-        return null;
+        user.setPassword(bCryptPasswordEncoder.encode(pw));
+        userRepos.save(user);
+        return true;
     }
 
     @Override
-    public ResponseEntity deleteUser() {
-        return null;
+    public boolean deleteUser(Long userId) {
+        User user = userRepos.findById(userId).orElseThrow(
+                () -> new CustomException(Code.C403)
+        );
+
+        UserDetails principal =  (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if(!user.getUsername().equals(principal.getUsername())){
+            throw new CustomException(Code.C404);
+        }
+
+        userRepos.deleteById(userId);
+        return true;
     }
 
     @Override
-    public ResponseEntity createTreasure() {
-        return null;
+    @Transactional(rollbackOn = {Exception.class})
+    public boolean createTreasure(String username, String treasureName, Integer roomId, MultipartFile img) {
+        User currUser = userRepos.findByUsername(username).orElseThrow(
+                ()->new CustomException(Code.C403)
+        );
+
+        //TODO : 생성된 Room에 보물추가
+
+        treasureRepos.save(Treasure.builder().treasureName(treasureName).user(currUser).imageUrl(awsService.imageUpload(img)).build());
+        return true;
     }
 
     @Override
-    public ResponseEntity getTreasure() {
-        return null;
+    public List<String> getTreasure() {
+        List<Treasure> treasureList = treasureRepos.findAll();
+        List<String> treasures = treasureList.stream().map(x->x.getImageUrl()).collect(Collectors.toList());
+        return treasures;
     }
 
     private Map<String, String> createToken(String name) {
