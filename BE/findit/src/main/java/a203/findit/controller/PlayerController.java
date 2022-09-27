@@ -3,6 +3,7 @@ package a203.findit.controller;
 import a203.findit.model.dto.req.User.*;
 import a203.findit.service.PlayerServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -46,8 +47,16 @@ public class PlayerController {
         simpMessagingTemplate.convertAndSend("/sub/player/" + sessionId,jsonObject);
 
         ArrayList<PlayerInfoDTO> playersRank = playerService.rankChange(beforeFindDTO.getEntercode());
-        // list to json 구현하기
-        simpMessagingTemplate.convertAndSend("/sub/room/"+beforeFindDTO.getEntercode(),jsonObject);
+        JSONArray rankJson = new JSONArray();
+        for (PlayerInfoDTO playerInfoDTO : playersRank) {
+            JSONObject temp = new JSONObject();
+            temp.put("profileImg", playerInfoDTO.getProfileImg());
+            temp.put("nickname", playerInfoDTO.getNickname());
+            temp.put("score", playerInfoDTO.getScore());
+            temp.put("sessionId", playerInfoDTO.getSessionId());
+            rankJson.add(temp);
+        }
+        simpMessagingTemplate.convertAndSend("/sub/room/"+beforeFindDTO.getEntercode(),rankJson);
 
     }
 
