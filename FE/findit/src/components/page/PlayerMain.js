@@ -18,6 +18,7 @@ height: 30vh;
 const StyledCompassBox = styled(Box)(
   () => `
 text-align: center;
+margin-top: 3vh
 `,
 );
 
