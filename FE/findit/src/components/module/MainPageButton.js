@@ -98,7 +98,7 @@ export default function MainPageButton({ page }) {
           <Box>
             <BoxButton key={key} size="medium">
               <StyledTextBox>
-                <CustomText size="xxs" weight="lighter" marginY="5">
+                <CustomText size="xxs" weight="lighter" my="5">
                   {item.explanation}
                 </CustomText>
                 <CustomText size="s" weight="bold">
