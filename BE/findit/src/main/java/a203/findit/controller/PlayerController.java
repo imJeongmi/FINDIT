@@ -36,6 +36,7 @@ public class PlayerController {
         simpMessagingTemplate.convertAndSend("/sub/private/"+entercodeDTO.getEntercode(),jsonObject);
     }
 
+    //igt 구현시 inmemory 재설정 및 테스트 해보기
     @MessageMapping("/find")
     public void find(@Header("simpSessionId") String sessionId, @Valid BeforeFindDTO beforeFindDTO){
         AfterFindDTO afterFindDTO= playerService.findTreasure(beforeFindDTO,sessionId);

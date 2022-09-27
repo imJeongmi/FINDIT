@@ -3,6 +3,7 @@ package a203.findit.model.repository;
 import a203.findit.model.dto.req.User.*;
 import a203.findit.model.entity.Mode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -63,7 +64,24 @@ public class MemoryPlayerRepository implements PlayerRepository {
         else if(effectIndex == 7 ) effectScore = -30;
         else if(effectIndex == 8) effectScore = nowScore + plusscore;
         else if(effectIndex == 9){
-            //exchange 점수 구현하기
+            //점수 exchange
+            ArrayList<PlayerInfoDTO> playerRank = rankChange(entercode);
+            int len = playerRank.size();
+            for(int i=0;i<len;i++){
+                PlayerInfoDTO playerInfoDTO = playerRank.get(i);
+                if(playerInfoDTO.getSessionId().equals(sessionId)){
+                    if(i==0){
+                        return nowScore+plusscore;
+                    }else{
+                        PlayerInfoDTO befPlayerInfoDTO = playerRank.get(i-1);
+                        int befScore = playerRank.get(i-1).getScore();
+                        String befSessionId = befPlayerInfoDTO.getSessionId();
+                        roomRepository.findByEnterCode(entercode).getPlayerInfoDTOBySessionId().get(befSessionId).setScore(nowScore+plusscore);
+                        roomRepository.findByEnterCode(entercode).getPlayerInfoDTOBySessionId().get(sessionId).setScore(befScore);
+                        return befScore;
+                    }
+                }
+            }
         }
         return nowScore+plusscore+effectScore;
     }
