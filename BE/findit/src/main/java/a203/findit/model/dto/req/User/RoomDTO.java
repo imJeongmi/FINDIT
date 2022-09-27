@@ -46,5 +46,7 @@ public class RoomDTO {
         this.roomId = game.getId();
         this.userId = game.getUser().getId();
         this.limitminute = game.getLimitMin();
+        this.playerInfoDTOBySessionId = new HashMap<>();
+        this.sessionIdByIGTID = new HashMap<>();
     }
 }
