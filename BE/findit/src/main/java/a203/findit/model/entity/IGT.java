@@ -11,9 +11,6 @@ public class IGT {
     @Column(name = "igt_id")
     private Long id;
 
-    @Column(name = "base_score")
-    private Integer base_score;
-
     @ManyToOne
     @JoinColumn(name = "game_id")
     private Game game;

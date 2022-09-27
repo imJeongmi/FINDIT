@@ -1,5 +1,6 @@
 package a203.findit.model.entity;
 
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Setter
 public class User {
 
     @Id
@@ -28,6 +30,9 @@ public class User {
     @Column(columnDefinition = "varchar(255) default 'ROLE_GUEST'")
     private UserRole role;
 
+    @ManyToOne
+    @JoinColumn(name = "icon_id")
+    private Icon icon;
 
     @OneToMany(mappedBy = "user")
     private List<Game> games = new ArrayList<>();
@@ -111,5 +116,9 @@ public class User {
 
     public UserRole getRole() {
         return role;
+    }
+
+    public Icon getIcon(){
+        return icon;
     }
 }
