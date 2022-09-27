@@ -4,10 +4,11 @@ package a203.findit.service;
 import a203.findit.model.dto.req.User.CreateUserDTO;
 import a203.findit.model.dto.req.User.LoginUserDTO;
 import a203.findit.model.dto.req.User.UpdateFormDTO;
-import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Map;
 
 public interface UserService {
@@ -28,9 +29,9 @@ public interface UserService {
 
     boolean deleteUser(Long userId);
 
-    ResponseEntity createTreasure();
+    boolean createTreasure(String username, String treasureName, Integer roomId, MultipartFile img);
 
-    ResponseEntity getTreasure();
+    List<String> getTreasure();
 
 
 }

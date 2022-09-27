@@ -3,10 +3,15 @@ package a203.findit.service;
 import a203.findit.model.dto.req.User.UpdateFormDTO;
 import a203.findit.model.dto.res.Code;
 import a203.findit.model.entity.Icon;
+import a203.findit.model.entity.Treasure;
 import a203.findit.model.entity.User;
 import a203.findit.model.repository.IconRepository;
 import a203.findit.model.repository.RefreshTokenRepository;
+import a203.findit.model.repository.TreasureRepository;
 import a203.findit.security.JwtProvider;
+import a203.findit.util.AwsService;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,12 +30,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -42,9 +50,13 @@ public class UserServiceImpl implements UserService {
     private final JwtProvider jwtProvider;
     private final AuthenticationManager authenticationManager;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final AwsService awsService;
+
     private final UserRepository userRepos;
     private final RefreshTokenRepository refreshTokenRepos;
     private final IconRepository iconRepos;
+    private final TreasureRepository treasureRepos;
+
 
     public Optional<User> findByUsername(String username){
         return userRepos.findByUsername(username);
@@ -55,11 +67,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean createUser(CreateUserDTO createUserDTO) {
+    public boolean createUser(CreateUserDTO createUserDTO) throws CustomException {
         String encPw = bCryptPasswordEncoder.encode(createUserDTO.getPw());
 
         if (userRepos.existsByUsername(createUserDTO.getId())) {
-            return false;
+            throw new CustomException(Code.C402);
         }
 
         userRepos.save(User.builder()
@@ -172,14 +184,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity createTreasure() {
+    @Transactional(rollbackOn = {Exception.class})
+    public boolean createTreasure(String username, String treasureName, Integer roomId, MultipartFile img) {
+        User currUser = userRepos.findByUsername(username).orElseThrow(
+                ()->new CustomException(Code.C403)
+        );
 
-        return null;
+        //TODO : 생성된 Room에 보물추가
+
+        treasureRepos.save(Treasure.builder().treasureName(treasureName).user(currUser).imageUrl(awsService.imageUpload(img)).build());
+        return true;
     }
 
     @Override
-    public ResponseEntity getTreasure() {
-        return null;
+    public List<String> getTreasure() {
+        List<Treasure> treasureList = treasureRepos.findAll();
+        List<String> treasures = treasureList.stream().map(x->x.getImageUrl()).collect(Collectors.toList());
+        return treasures;
     }
 
     private Map<String, String> createToken(String name) {
