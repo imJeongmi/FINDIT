@@ -201,6 +201,7 @@ export default function GameSettingSection() {
           </TimerSettingBox>
         </StyledTextBox>
       </GameSettingBox>
+      <Box sx={{ height: "10px" }}></Box>
       <GameSettingBox variant="primaryWeek">
         <StyledTextBox>
           <StyledIcon src={TreasureIcon} alt="timer icon" />
