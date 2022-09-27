@@ -3,12 +3,15 @@ package a203.findit.service;
 import a203.findit.model.dto.req.User.AfterFindDTO;
 import a203.findit.model.dto.req.User.BeforeFindDTO;
 import a203.findit.model.dto.req.User.PlayerEnterDTO;
+import a203.findit.model.dto.req.User.PlayerInfoDTO;
 import a203.findit.model.entity.Mode;
 import a203.findit.model.repository.MemoryPlayerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service
@@ -56,5 +59,9 @@ public class PlayerServiceImpl implements PlayerService {
         afterFindDTO.setFinalscore(playerRepository.getFinalScore(effectIndex, entercode,sessionId, plusscore));
         playerRepository.saveTreasure(beforeFindDTO,sessionId,afterFindDTO);
         return afterFindDTO;
+    }
+
+    public ArrayList<PlayerInfoDTO> rankChange(String entercode){
+        return playerRepository.rankChange(entercode);
     }
 }

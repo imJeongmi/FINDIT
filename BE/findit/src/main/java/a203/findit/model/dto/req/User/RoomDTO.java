@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -38,7 +39,6 @@ public class RoomDTO {
     private String enterCode;
 
     public HashMap<String, PlayerInfoDTO> playerInfoDTOBySessionId;
-    // 방문시 init 구현 필요
     
     public HashMap<Integer, Set<String>> sessionIdByIGTID;
 
