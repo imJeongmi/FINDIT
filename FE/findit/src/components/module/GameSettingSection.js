@@ -104,13 +104,14 @@ margin-top: 8px;
 );
 
 export default function GameSettingSection() {
-  // const dispatch = useDispatch()
   const [timer, setTimer] = useState(10);
-  // const timer = useSelector((state) => state.timer);
-  // const show = useSelector((state) => state.showCounter);
 
   function incrementHandler() {
-    setTimer(timer + 5);
+    if (timer >= 60) {
+      setTimer(60);
+    } else {
+      setTimer(timer + 5);
+    }
   }
 
   function decrementHandler() {
@@ -126,13 +127,54 @@ export default function GameSettingSection() {
   function invertModeHandler() {
     setIsRandomMode(!isRandomMode);
   }
-  // const incrementHandler = () => {
-  //   dispatch({ type: "increment", amount: 5 });
-  // };
 
-  // const decrementHandler = () => {
-  //   dispatch({ type: "decrement", amount: 5 });
-  // };
+  function SelectNormalMode() {
+    return (
+      <Box>
+        <ModeButtonBox>
+          <SelectedModeButton>
+            <CustomText size="s" weight="normal" variant="white">
+              일반 모드
+            </CustomText>
+          </SelectedModeButton>
+          <ModeButton onClick={invertModeHandler}>
+            <CustomText size="s" weight="normal" variant="primary">
+              랜덤 모드
+            </CustomText>
+          </ModeButton>
+        </ModeButtonBox>
+        <ModeInfoText>
+          <CustomText variant="primary" size="xxs" margin="3">
+            * 보물을 찾은 순서대로 점수가 차등부여 됩니다 *
+          </CustomText>
+        </ModeInfoText>
+      </Box>
+    );
+  }
+
+  function SelectRandomMode() {
+    return (
+      <Box>
+        <ModeButtonBox>
+          <ModeButton onClick={invertModeHandler}>
+            <CustomText size="s" weight="normal" variant="primary">
+              일반 모드
+            </CustomText>
+          </ModeButton>
+          <SelectedModeButton>
+            <CustomText size="s" weight="normal" variant="white">
+              랜덤 모드
+            </CustomText>
+          </SelectedModeButton>
+        </ModeButtonBox>
+        <ModeInfoText>
+          <CustomText variant="primary" size="xxs" margin="3">
+            * 보물을 찾을 때 랜덤으로 효과가 발동하는 모드입니다 *
+          </CustomText>
+        </ModeInfoText>
+      </Box>
+    );
+  }
 
   return (
     <Box>
@@ -166,47 +208,10 @@ export default function GameSettingSection() {
             모드 선택
           </CustomText>
         </StyledTextBox>
-        {!isRandomMode && (
-          <Box>
-            <ModeButtonBox>
-              <SelectedModeButton>
-                <CustomText size="s" weight="normal" variant="white">
-                  일반 모드
-                </CustomText>
-              </SelectedModeButton>
-              <ModeButton onClick={invertModeHandler}>
-                <CustomText size="s" weight="normal" variant="primary">
-                  랜덤 모드
-                </CustomText>
-              </ModeButton>
-            </ModeButtonBox>
-            <ModeInfoText>
-              <CustomText variant="primary" size="xxs" margin="3">
-                * 보물을 찾은 순서대로 점수가 차등부여 됩니다 *
-              </CustomText>
-            </ModeInfoText>
-          </Box>
-        )}
-        {isRandomMode && (
-          <Box>
-            <ModeButtonBox>
-              <ModeButton onClick={invertModeHandler}>
-                <CustomText size="s" weight="normal" variant="primary">
-                  일반 모드
-                </CustomText>
-              </ModeButton>
-              <SelectedModeButton onClick={invertModeHandler}>
-                <CustomText size="s" weight="normal" variant="white">
-                  랜덤 모드
-                </CustomText>
-              </SelectedModeButton>
-            </ModeButtonBox>
-            <ModeInfoText>
-              <CustomText variant="primary" size="xxs" margin="3">
-                * 보물을 찾을 때 랜덤으로 효과가 발동하는 모드입니다 *
-              </CustomText>
-            </ModeInfoText>
-          </Box>
+        {isRandomMode ? (
+          <SelectRandomMode></SelectRandomMode>
+        ) : (
+          <SelectNormalMode></SelectNormalMode>
         )}
       </GameSettingBox>
     </Box>

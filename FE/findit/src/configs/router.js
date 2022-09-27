@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route, Navigate, BrowserRouter as Router } from "react-router-dom";
 
+import HostMain from "components/page/HostMain";
 import PlayerMain from "components/page/PlayerMain";
 import EnterVerificationCode from "components/page/EnterVerificationCode";
 import Intro from "components/page/Intro";
@@ -35,38 +36,26 @@ export default function RouterConfiguration() {
         <Route path="/main" element={<PlayerMain />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route
-          path="/result/:gameid"
-          component={Result}
-          element={
-            <Result />
-          }
-        />
+        <Route path="/result/:gameid" component={Result} element={<Result />} />
 
         {/* player */}
         <Route path="/code" element={<EnterVerificationCode />} />
         <Route path="/playerprofile" element={<SetProfile />} />
         <Route path="/tutorial" element={<Tutorial target="player" />} />
-        <Route
-          path="/waiting/:gameid"
-          component={WaitPlaying}
-          element={
-            <WaitPlaying />
-          }
-        />
+        <Route path="/waiting/:gameid" component={WaitPlaying} element={<WaitPlaying />} />
 
         {/* player 게임 플레이 */}
 
         {/* User */}
-        {/* <Route
+        <Route
           path="/hostmain"
-          component={}
+          component={HostMain}
           element={
             <CheckAuth>
-              <SelectTreasure />
+              <HostMain />
             </CheckAuth>
           }
-        /> */}
+        />
 
         <Route
           path="/treasure"

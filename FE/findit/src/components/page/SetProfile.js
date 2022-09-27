@@ -13,14 +13,14 @@ const ProfileBoxStyle = {
 
 const BoxStyle = {
   textAlign: "center",
-  margin: "7vh auto",
+  margin: "6vh auto",
 };
 
 function PlayerProfile() {
   return (
     <Box sx={ProfileBoxStyle}>
       <Box sx={BoxStyle}>
-        <CustomText size="large" weight="bold">
+        <CustomText size="xxl" weight="bold">
           프로필 설정
         </CustomText>
       </Box>
@@ -42,11 +42,11 @@ function UserProfile() {
   // 로그아웃 함수 작성
   return (
     <Box sx={ProfileBoxStyle}>
-      <Box sx={{ textAlign: "end" }}>
+      <Box sx={{ textAlign: "end", marginTop: "4vh", marginRight: "10vw" }}>
         <CircleButton icon="logout" size="smaller"></CircleButton>
       </Box>
       <Box sx={BoxStyle}>
-        <CustomText size="large" weight="bold">
+        <CustomText size="xxl" weight="bold">
           마이 페이지
         </CustomText>
       </Box>

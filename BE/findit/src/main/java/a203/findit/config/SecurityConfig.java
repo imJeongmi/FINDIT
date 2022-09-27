@@ -68,9 +68,9 @@ public class SecurityConfig {
                 .cors().disable()
                 .csrf().disable()
                 .headers()
-                .frameOptions().sameOrigin()
-                .and()
-                .authorizeRequests();  // rest api이므로 csrf 보안이 필요없으므로 disable처리.
+                .frameOptions().sameOrigin();
+//                .and()
+//                .authorizeRequests();  // rest api이므로 csrf 보안이 필요없으므로 disable처리.
 
 
         http

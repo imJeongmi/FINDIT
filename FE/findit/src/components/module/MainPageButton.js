@@ -29,9 +29,9 @@ function getIcon(icon) {
 function getIconSize(size) {
   switch (size) {
     case "large":
-      return "7vh";
+      return "8vh";
     case "medium":
-      return "5vh";
+      return "6vh";
     default:
       return "7vh";
   }

@@ -3,6 +3,7 @@ import CameraIcon from "static/camera.svg";
 import RankIcon from "static/trophy.svg";
 import TreasureIcon from "static/wrapped_gift.svg";
 import LogoutIcon from "static/logout.svg";
+import NextIcon from "static/next.svg";
 
 import "./CircleButton.scss";
 
@@ -16,6 +17,8 @@ function getIcon(icon) {
       return TreasureIcon;
     case "logout":
       return LogoutIcon;
+    case "next":
+      return NextIcon;
     default:
       return CameraIcon;
   }
