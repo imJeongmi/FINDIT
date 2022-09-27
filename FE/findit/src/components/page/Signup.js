@@ -60,7 +60,7 @@ export default function Signup() {
   }
 
   function joinFail(res) {
-    console.log("실패", res.data);
+    console.log("실패", res);
   }
   function onClickSignup() {
     requestJoin(id, pw, nickname, joinSuccess, joinFail);

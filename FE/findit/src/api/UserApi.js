@@ -7,6 +7,9 @@ const UserApi = axios.create({
   baseURL: "https://j7a203.p.ssafy.io/",
   headers: {
     "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+    // "Host": "findit.life:8399"
+
   },
 });
 
