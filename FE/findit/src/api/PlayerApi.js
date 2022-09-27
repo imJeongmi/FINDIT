@@ -4,13 +4,13 @@ import ss from "../helper/SessionStorage";
 
 // configuration
 const PlayerApi = axios.create({
-	baseURL: "",
+	baseURL: "https://j7a203.p.ssafy.io/",
 	headers: {
 		"Content-Type": "application/json",
 	},
 });
 
-api.interceptors.request.use(
+PlayerApi.interceptors.request.use(
 	config => {
 		const token = ss.get("token");
 		if (token) {
