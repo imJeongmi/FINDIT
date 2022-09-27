@@ -31,7 +31,7 @@ public class User {
     private UserRole role;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "icon_id")
     private Icon icon;
 
     @OneToMany(mappedBy = "user")
