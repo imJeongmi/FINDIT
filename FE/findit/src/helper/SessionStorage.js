@@ -26,4 +26,4 @@ const ss = {
   },
 };
 
-export default ls;
+export default ss;

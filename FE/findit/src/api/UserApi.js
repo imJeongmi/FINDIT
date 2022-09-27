@@ -7,17 +7,14 @@ const UserApi = axios.create({
   baseURL: "https://findit.life/api/v1/",
   headers: {
     "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
-    // "Host": "findit.life:8399"
-
   },
 });
 
 UserApi.interceptors.request.use(
   config => {
-    const token = ls.get("token");
-    if (token) {
-      config.headers["Authorization"] = "Bearer " + token;
+    const accessToken = ls.get("accessToken");
+    if (accessToken) {
+      config.headers["Authorization"] = "Bearer " + accessToken;
     }
     return config;
   },
