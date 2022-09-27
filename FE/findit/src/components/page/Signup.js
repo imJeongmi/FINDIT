@@ -40,7 +40,7 @@ export default function Signup() {
           <Input placeholder="비밀번호" />
           <Input placeholder="비밀번호 확인" />
         </Box>
-        <CustomButton size="medium" color="secondary">
+        <CustomButton size="medium" color="secondary" marginY="0">
           회원가입
         </CustomButton>
       </Modal>
