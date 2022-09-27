@@ -46,7 +46,7 @@ export default function PlayingRanking({ setModalOpen }) {
           <RankingList />
         </RankingBox>
         <ButtonBox>
-          <CircleButton icon="rank" size="smaller" opacity="0.5" />
+          <CircleButton icon="rank" size="smaller" opacity="0.6" />
         </ButtonBox>
       </PlayingModal>
     </Box>
