@@ -3,7 +3,7 @@ import Button from "@mui/material/Button";
 import { styled } from "@mui/system";
 
 // const style = {
-  
+
 //   borderWidth: "6px",
 //   border: "solid",
 // }
@@ -15,16 +15,16 @@ const StyledButton = styled(Button)(
   margin: 3vh 1vw;
   border-radius: 25px;
   border: solid;
-  border-width: 3.5px;
+  border-width: 2px;
   text-align: center;
-  font-size: 18px;
-  font-weight: bold;
+  font-size: 16px;
+  font-weight: normal;
   background-color: white;
   color: ${getColor(color)}
   border-color : ${getColor(color)}
   
-  `
-)
+  `,
+);
 
 function getWidthBySize(size) {
   switch (size) {
@@ -64,8 +64,7 @@ function getHeightBySize(size) {
   }
 }
 
-
-function getColor(color) { 
+function getColor(color) {
   switch (color) {
     case "primary":
       return "#9FAFD8";
@@ -83,6 +82,8 @@ export default function CustomButton({ size, onClick, color, children }) {
     // color : primary(파랑) secondary(분홍) warning(노랑)
     // size : 추후 변경 예정, large, medium, small만 있으면 될듯
     // onClick : 클릭 시 필요한 함수 상위 컴포넌트에서 작성하면 됨!
-    <StyledButton size={size} onClick={onClick} color={color}>{children}</StyledButton>
-  )
+    <StyledButton size={size} onClick={onClick} color={color}>
+      {children}
+    </StyledButton>
+  );
 }

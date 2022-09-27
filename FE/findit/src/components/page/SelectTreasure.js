@@ -8,7 +8,7 @@ import TreasureItem from "../atom/TreasureItem";
 const BoxStyle = {
   width: "80vw",
   margin: "auto",
-}
+};
 
 const TreasureBoxStyle = {
   my: 5,
@@ -34,10 +34,12 @@ export default function SelectTreasure() {
   // treasure_list 받아오면
   return (
     <Box sx={BoxStyle}>
-      <Box>
-        <CustomText size="large">보물 선택</CustomText>
+      <Box sx={{ marginTop: "5vh" }}>
+        <CustomText size="xxl" weight="bold">
+          보물 선택
+        </CustomText>
         <br />
-        <CustomText size="small" variant="grey">
+        <CustomText size="xs" variant="grey">
           원하는 보물을 추가해볼까요?
         </CustomText>
       </Box>
@@ -60,7 +62,9 @@ export default function SelectTreasure() {
           </CustomText>
         </AddTreasureButton>
       </Box>
-      <CustomButton size="large" color="secondary">보물 설정 완료</CustomButton>
+      <CustomButton size="large" color="secondary">
+        보물 설정 완료
+      </CustomButton>
     </Box>
   );
 }

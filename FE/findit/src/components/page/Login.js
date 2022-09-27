@@ -17,7 +17,7 @@ const LoginStyle = {
 export default function Login() {
   return (
     <Box sx={{ textAlign: "center" }}>
-      <Box>
+      <Box sx={{ mt: "3vh" }}>
         <img src={compass} alt="compass" width="100" />
       </Box>
       <Modal>

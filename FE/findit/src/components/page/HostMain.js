@@ -9,19 +9,19 @@ import MainPageButton from "components/module/MainPageButton";
 
 const hostNickname = "player1234";
 
-const StyledHostNickname = styled("span")(
-  () => `
-margin: 0 10px
-`,
-);
-
 const StyledHeader = styled(Box)(
   () => `
-margin: 25px;
+margin: 40px 25px 25px;
 padding: 10px;
 display: flex;
 justify-content: space-between;
 align-items: center;
+`,
+);
+
+const StyledHostNickname = styled("span")(
+  () => `
+margin: 0 10px
 `,
 );
 
