@@ -29,7 +29,6 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-//@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/users")
 public class UserController {
 
@@ -38,7 +37,6 @@ public class UserController {
     private final String ACCESS_TOKEN_KEY = "accessToken";
     private final String REFRESH_TOKEN_KEY = "refreshToken";
 
-//    @CrossOrigin(origins = "http://localhost:3000") //해당 리액트 포트 번호.
     @PostMapping("")
     public ResponseEntity createUser(@Valid @RequestBody CreateUserDTO createUserDTO) {
 
