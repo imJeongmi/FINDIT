@@ -2,6 +2,8 @@ package a203.findit.controller;
 
 import a203.findit.exception.CustomException;
 import a203.findit.model.dto.req.ReqCreateTreasureDTO;
+import a203.findit.model.dto.req.ReqUpdateImgDTO;
+import a203.findit.model.dto.req.ReqUpdatePwDTO;
 import a203.findit.model.dto.req.User.CreateUserDTO;
 import a203.findit.model.dto.req.User.LoginUserDTO;
 import a203.findit.model.dto.req.User.UpdateFormDTO;
@@ -37,13 +39,15 @@ public class UserController {
 
     @PostMapping("")
     public ResponseEntity createUser(@Valid @RequestBody CreateUserDTO createUserDTO) {
+
         try {
             userService.createUser(createUserDTO);
 
         } catch (CustomException customException) {
             if (customException.getCode() == Code.C402) {
-                return ResponseEntity.badRequest().build();
+                return ResponseEntity.badRequest().body("중복입니다.");
             }
+
         }
 
         return ResponseEntity.ok().build();
@@ -87,23 +91,24 @@ public class UserController {
 
     @GetMapping("/updateForm")
     public ResponseEntity<Map<String, Object>> getUpdateForm(@RequestBody UpdateFormDTO updateFormDTO) {
-        Map<String, Object> result = new HashMap<>();
-        userService.updateForm(updateFormDTO);
-        return ResponseEntity.ok().body(result);
+        return ResponseEntity.ok().body(userService.updateForm(updateFormDTO));
     }
 
     @PostMapping("/{userId}/updateImg")
-    public ResponseEntity updateImg(@PathVariable("userId") Long userId, String img) {
-        if (userService.updateImg(userId, img)) {
+    public ResponseEntity updateImg(@PathVariable("userId") Long userId, @RequestBody ReqUpdateImgDTO reqUpdateImgDTO) {
+        System.out.println(reqUpdateImgDTO.getImg());
+        if (userService.updateImg(userId, reqUpdateImgDTO.getImg())) {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.badRequest().build();
     }
 
     @PostMapping("/{userId}/updatePw")
-    public ResponseEntity updatePw(@PathVariable("userId") Long userId, String pw) {
-        UserDetails currUser = (UserDetails) (SecurityContextHolder.getContext().getAuthentication()).getDetails();
-        if (userService.updatePw(userId, pw, currUser.getUsername())) {
+    public ResponseEntity updatePw(@PathVariable("userId") Long userId, @RequestBody ReqUpdatePwDTO reqUpdatePwDTO) {
+        UserDetails currUser = (UserDetails) (SecurityContextHolder.getContext().getAuthentication()).getPrincipal();
+        System.out.println(reqUpdatePwDTO.getPw());
+        System.out.println(currUser.getUsername());
+        if (userService.updatePw(userId, reqUpdatePwDTO.getPw(), currUser.getUsername())) {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.badRequest().build();
@@ -119,7 +124,7 @@ public class UserController {
 
     @PostMapping("/treasures")
     public ResponseEntity createTreasure(@RequestPart ReqCreateTreasureDTO reqCreateTreasureDTO, @RequestPart MultipartFile img) {
-        UserDetails currUser = (UserDetails) (SecurityContextHolder.getContext().getAuthentication()).getDetails();
+        UserDetails currUser = (UserDetails) (SecurityContextHolder.getContext().getAuthentication()).getPrincipal();
         if (userService.createTreasure(currUser.getUsername(), reqCreateTreasureDTO.getTreasureName(), reqCreateTreasureDTO.getRoomId(), img)) {
             return ResponseEntity.ok().build();
         }
