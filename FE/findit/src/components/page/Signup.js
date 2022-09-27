@@ -54,15 +54,18 @@ export default function Signup() {
 
   function joinSuccess(res) {
     console.log("성공", res.data);
+
     setId("");
     setPw("");
     setNickname("");
+    setConfirm("");
   }
 
   function joinFail(res) {
     console.log("실패", res);
   }
-  function onClickSignup() {
+  function onClickSignup(e) {
+    e.preventDefault();
     requestJoin(id, pw, nickname, joinSuccess, joinFail);
   }
 
