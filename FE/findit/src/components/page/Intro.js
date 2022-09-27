@@ -25,7 +25,7 @@ export default function Intro() {
 
   return (
     <Box sx={IntroBoxStyle}>
-      {/* img에 온클릭 달기! */}
+      {/* 나침반 클릭 시 main page로 이동 */}
       <img src={Compass} alt="Compass" width="300px" onClick={goToMain} />
       <Box sx={TextStyle}>
         <LogoFont size="xl" />
