@@ -38,9 +38,9 @@ public class PlayerController {
 
     @MessageMapping("/find")
     public void find(@Header("simpSessionId") String sessionId, @Valid BeforeFindDTO beforeFindDTO){
+        AfterFindDTO afterFindDTO= playerService.findTreasure(beforeFindDTO,sessionId);
         JSONObject jsonObject = new JSONObject();
         // 얻은 점수, 효과, 최종점수
-        AfterFindDTO afterFindDTO= playerService.findTreasure(beforeFindDTO,sessionId);
         jsonObject.put("plusscore", afterFindDTO.getPlusscore());
         jsonObject.put("effectIndex", afterFindDTO.getEffect());
         jsonObject.put("finalscore", afterFindDTO.getFinalscore());
