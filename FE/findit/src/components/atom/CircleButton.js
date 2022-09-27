@@ -56,8 +56,10 @@ function getIconSize(size) {
 
 function getOpacity(opacity) {
   switch (opacity) {
-    case "0.5":
-      return "rgba(255, 255, 255, 0.5)";
+    case "0.6":
+      return "rgba(255, 255, 255, 0.6)";
+    case "0.8":
+      return "rgba(255, 255, 255, 0.8)";
     default:
       return "rgb(255, 255, 255)";
   }
