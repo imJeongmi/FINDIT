@@ -9,10 +9,10 @@ import { styled } from "@mui/system";
 // }
 
 const StyledButton = styled(Button)(
-  ({ size, color }) => `
+  ({ size, color, marginY }) => `
   width: ${getWidthBySize(size)};
   height: ${getHeightBySize(size)};
-  margin: 3vh 1vw;
+  margin: ${getMarginY(marginY)} 1vw;
   border-radius: 25px;
   border: solid;
   border-width: 2px;
@@ -77,12 +77,20 @@ function getColor(color) {
   }
 }
 
-export default function CustomButton({ size, onClick, color, children }) {
+function getMarginY(marginY) {
+  if (!marginY) {
+    return "3vh";
+  } else {
+    return marginY;
+  }
+}
+
+export default function CustomButton({ size, onClick, color, marginY, children }) {
   return (
     // color : primary(파랑) secondary(분홍) warning(노랑)
     // size : 추후 변경 예정, large, medium, small만 있으면 될듯
     // onClick : 클릭 시 필요한 함수 상위 컴포넌트에서 작성하면 됨!
-    <StyledButton size={size} onClick={onClick} color={color}>
+    <StyledButton size={size} onClick={onClick} color={color} marginY={marginY}>
       {children}
     </StyledButton>
   );
