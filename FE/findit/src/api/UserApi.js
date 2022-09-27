@@ -4,13 +4,16 @@ import ls from "../helper/LocalStorage";
 
 // configuration
 const UserApi = axios.create({
-  baseURL: "",
+  baseURL: "https://j7a203.p.ssafy.io/",
   headers: {
     "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+    // "Host": "findit.life:8399"
+
   },
 });
 
-api.interceptors.request.use(
+UserApi.interceptors.request.use(
   config => {
     const token = ls.get("token");
     if (token) {
