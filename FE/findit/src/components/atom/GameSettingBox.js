@@ -9,7 +9,7 @@ width: 280px;
 height: 130px;
 box-shadow: ${getBoxShadow(variant)};
 border-radius: 15px;
-margin: 10px auto 70px;
+margin: 60px auto 10px;
 padding: 20px
 `,
 );
