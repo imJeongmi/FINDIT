@@ -39,7 +39,7 @@ export default function Tutorial({ target }) {
           <Carousel showArrows={false} showStatus={false} showThumbs={false}>
             {target === "user"
               ? orderedUserText.map((text, index) => (
-                  <Box sx={{ mt: "4vh", mb: "4vh", mx: "auto", width: "80vw" }}>
+                  <Box sx={{ mt: "4vh", mb: "4vh", mx: "auto", width: "60vw" }}>
                     <Box sx={{ mb: "1vh" }}>
                       <img src="https://placeimg.com/200/300/any" alt="img" />
                     </Box>
@@ -49,7 +49,7 @@ export default function Tutorial({ target }) {
                   </Box>
                 ))
               : orderedPlayerText.map((text, index) => (
-                  <Box sx={{ mt: "4vh", mb: "4vh", mx: "auto", width: "80vw" }}>
+                  <Box sx={{ mt: "4vh", mb: "4vh", mx: "auto", width: "60vw" }}>
                     <Box sx={{ mb: "1vh" }}>
                       <img src="https://placeimg.com/200/300/any" alt="img" />
                     </Box>
