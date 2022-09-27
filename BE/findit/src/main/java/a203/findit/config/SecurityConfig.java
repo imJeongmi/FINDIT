@@ -75,10 +75,11 @@ public class SecurityConfig {
 
         http
                 .authorizeRequests()
-                .antMatchers("/public/**").permitAll()
-                .antMatchers("/games/**").hasAnyRole("GUEST","USER","ADMIN")
-                .antMatchers("/users/**").permitAll()
+                .antMatchers("/api/v1/public/**").permitAll()
+                .antMatchers("/api/v1/games/**").hasAnyRole("GUEST","USER","ADMIN")
+                .antMatchers("/api/v1/users/**").permitAll()
                 .antMatchers("/**").permitAll()
+                .antMatchers("/api/v1/**").permitAll()
                 .anyRequest().hasRole("GUEST");
 
         http
@@ -99,16 +100,15 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-
-        configuration.setAllowCredentials(true);
-        configuration.addAllowedOriginPattern("*");
+        configuration.setAllowCredentials(true); // 내 서버가 응답을 할 때 Json 을 자바스크립트에서 처리할 수 있게 할지를 설정하는 것
+        configuration.addAllowedOriginPattern("*"); // 모든 url에 응답을 허용
         configuration.addAllowedOrigin("*");
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
-        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
+        source.registerCorsConfiguration("/api/v1", configuration);
 
         return source;
     }

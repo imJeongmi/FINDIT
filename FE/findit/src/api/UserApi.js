@@ -4,7 +4,7 @@ import ls from "../helper/LocalStorage";
 
 // configuration
 const UserApi = axios.create({
-  baseURL: "https://j7a203.p.ssafy.io/",
+  baseURL: "https://findit.life/api/v1/",
   headers: {
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
