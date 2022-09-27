@@ -5,7 +5,7 @@ import a203.findit.model.entity.Mode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Repository
@@ -17,9 +17,9 @@ public class MemoryPlayerRepository implements PlayerRepository {
     }
 
     public PlayerInfoDTO save(PlayerEnterDTO playerEnterDTO, String sessionId){
-        PlayerInfoDTO playerInfoDTO = new PlayerInfoDTO(playerEnterDTO);
-
-        roomRepository.findByEnterCode(playerEnterDTO.getEntercode()).playerInfoDTOBySessionId.put(sessionId,playerInfoDTO);
+        PlayerInfoDTO playerInfoDTO = new PlayerInfoDTO(playerEnterDTO,sessionId);
+        //init
+        roomRepository.findByEnterCode(playerEnterDTO.getEntercode()).getPlayerInfoDTOBySessionId().put(sessionId,playerInfoDTO);
         return playerInfoDTO;
     }
 
@@ -81,6 +81,28 @@ public class MemoryPlayerRepository implements PlayerRepository {
     public void saveTreasure(BeforeFindDTO beforeFindDTO, String sessionId, AfterFindDTO afterFindDTO){
         roomRepository.findByEnterCode(beforeFindDTO.getEntercode()).getPlayerInfoDTOBySessionId().get(sessionId).setScore(afterFindDTO.getFinalscore());
         roomRepository.findByEnterCode(beforeFindDTO.getEntercode()).getSessionIdByIGTID().get(beforeFindDTO.getTreasureId()).add(sessionId);
+    }
+
+    /*
+    rank
+     */
+    public ArrayList<PlayerInfoDTO> rankChange(String entercode){
+
+        HashMap<String, PlayerInfoDTO> rankInfo = new HashMap<>(roomRepository.findByEnterCode(entercode).getPlayerInfoDTOBySessionId());
+
+        ArrayList<PlayerInfoDTO> arr = new ArrayList<>();
+        for(String session : rankInfo.keySet()){
+            arr.add(rankInfo.get(session));
+        }
+
+        Collections.sort(arr, new Comparator<PlayerInfoDTO>() {
+            @Override
+            public int compare(PlayerInfoDTO o1, PlayerInfoDTO o2) {
+                return o1.getScore() - o2.getScore();
+            }
+        });
+
+        return arr;
     }
 
 }

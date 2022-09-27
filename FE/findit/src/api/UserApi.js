@@ -1,9 +1,9 @@
 import axios from "axios";
 
-import storage from "../helper/storage";
+import ls from "../helper/LocalStorage";
 
 // configuration
-const api = axios.create({
+const UserApi = axios.create({
   baseURL: "",
   headers: {
     "Content-Type": "application/json",
@@ -12,9 +12,9 @@ const api = axios.create({
 
 api.interceptors.request.use(
   config => {
-    const token = storage.get("token");
+    const token = ls.get("token");
     if (token) {
-      config.headers["token"] = token;
+      config.headers["Authorization"] = "Bearer " + token;
     }
     return config;
   },
@@ -23,4 +23,4 @@ api.interceptors.request.use(
   },
 );
 
-export default api;
+export default UserApi;

@@ -1,11 +1,9 @@
 package a203.findit.controller;
 
-import a203.findit.model.dto.req.User.AfterFindDTO;
-import a203.findit.model.dto.req.User.EntercodeDTO;
-import a203.findit.model.dto.req.User.PlayerEnterDTO;
-import a203.findit.model.dto.req.User.BeforeFindDTO;
+import a203.findit.model.dto.req.User.*;
 import a203.findit.service.PlayerServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -13,6 +11,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 
 @RestController
 @RequiredArgsConstructor
@@ -46,6 +45,20 @@ public class PlayerController {
         jsonObject.put("effectIndex", afterFindDTO.getEffect());
         jsonObject.put("finalscore", afterFindDTO.getFinalscore());
         simpMessagingTemplate.convertAndSend("/sub/player/" + sessionId,jsonObject);
+
+        ArrayList<PlayerInfoDTO> playersRank = playerService.rankChange(beforeFindDTO.getEntercode());
+        JSONArray rankJson = new JSONArray();
+        for (PlayerInfoDTO playerInfoDTO : playersRank) {
+            JSONObject temp = new JSONObject();
+            temp.put("profileImg", playerInfoDTO.getProfileImg());
+            temp.put("nickname", playerInfoDTO.getNickname());
+            temp.put("score", playerInfoDTO.getScore());
+            temp.put("sessionId", playerInfoDTO.getSessionId());
+            rankJson.add(temp);
+        }
+        simpMessagingTemplate.convertAndSend("/sub/room/"+beforeFindDTO.getEntercode(),rankJson);
+
     }
+
 
 }
