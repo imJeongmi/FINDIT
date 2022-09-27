@@ -13,7 +13,7 @@ const TreasureBox = styled(Box)(
     transform: translate(-50%, -50%);
     width: 80vw;
     height: 50vh;
-    overflow: scroll;
+    overflow: scroll; 
     `,
 );
 
@@ -33,9 +33,13 @@ const ButtonBox = styled(Box)(
     `,
 );
 
-export default function PlayingRanking({ src }) {
+export default function PlayingTreasureList({ setModalOpen }) {
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
   return (
-    <Box sx={{ mx: "auto", textAlign: "center" }}>
+    <Box sx={{ mx: "auto", textAlign: "center", zIndex: "100" }} onClick={closeModal}>
       <PlayingModal color="pink">
         <Box sx={{ mt: "7vh", mb: "5vh" }}>
           <CustomText weight="bold" size="xxl">
@@ -43,21 +47,21 @@ export default function PlayingRanking({ src }) {
           </CustomText>
         </Box>
         <TreasureBox>
-          <TreasureItem src="https://placeimg.com/100/100/any"></TreasureItem>
-          <TreasureItem src="https://placeimg.com/100/100/any"></TreasureItem>
-          <TreasureItem src="https://placeimg.com/100/100/any"></TreasureItem>
-          <TreasureItem src="https://placeimg.com/100/100/any"></TreasureItem>
-          <TreasureItem src="https://placeimg.com/100/100/any"></TreasureItem>
-          <TreasureItem src="https://placeimg.com/100/100/any"></TreasureItem>
-          <TreasureItem src="https://placeimg.com/100/100/any"></TreasureItem>
-          <TreasureItem src="https://placeimg.com/100/100/any"></TreasureItem>
-          <TreasureItem src="https://placeimg.com/100/100/any"></TreasureItem>
+          <TreasureItem src="https://placeimg.com/100/100/any" alt=""></TreasureItem>
+          <TreasureItem src="https://placeimg.com/100/100/any" alt=""></TreasureItem>
+          <TreasureItem src="https://placeimg.com/100/100/any" alt=""></TreasureItem>
+          <TreasureItem src="https://placeimg.com/100/100/any" alt=""></TreasureItem>
+          <TreasureItem src="https://placeimg.com/100/100/any" alt=""></TreasureItem>
+          <TreasureItem src="https://placeimg.com/100/100/any" alt=""></TreasureItem>
+          <TreasureItem src="https://placeimg.com/100/100/any" alt=""></TreasureItem>
+          <TreasureItem src="https://placeimg.com/100/100/any" alt=""></TreasureItem>
+          <TreasureItem src="https://placeimg.com/100/100/any" alt=""></TreasureItem>
         </TreasureBox>
         <TextBox>
-            <CustomText size="xs">찾은 개수 : 2 / 6</CustomText>
+          <CustomText size="xs">찾은 개수 : 2 / 6</CustomText>
         </TextBox>
         <ButtonBox>
-          <CircleButton icon="treasure" size="smaller" opacity="0.5" />
+          <CircleButton icon="treasure" size="smaller" opacity="0.6" />
         </ButtonBox>
       </PlayingModal>
     </Box>

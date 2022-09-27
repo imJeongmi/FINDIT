@@ -2,19 +2,20 @@ import axios from "axios";
 
 import ls from "../helper/LocalStorage";
 
+axios.defaults.withCredentials = true
 // configuration
 const UserApi = axios.create({
-  baseURL: "",
+  baseURL: "https://j7a203.p.ssafy.io/api/v1/",
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-api.interceptors.request.use(
+UserApi.interceptors.request.use(
   config => {
-    const token = ls.get("token");
-    if (token) {
-      config.headers["Authorization"] = "Bearer " + token;
+    const accessToken = ls.get("accessToken");
+    if (accessToken) {
+      config.headers["Authorization"] = "Bearer " + accessToken;
     }
     return config;
   },

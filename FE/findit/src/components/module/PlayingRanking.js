@@ -23,10 +23,14 @@ const ButtonBox = styled(Box)(
     left: 3vw;
     `,
 );
+ 
+export default function PlayingRanking({ setModalOpen }) {
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
-export default function PlayingRanking() {
   return (
-    <Box sx={{ mx: "auto", textAlign: "center" }}>
+    <Box sx={{ mx: "auto", textAlign: "center", zIndex: "100" }} onClick={closeModal}>
       <PlayingModal>
         <Box sx={{ mt: "7vh", mb: "5vh" }}>
           <CustomText weight="bold" size="xxl">
@@ -42,7 +46,7 @@ export default function PlayingRanking() {
           <RankingList />
         </RankingBox>
         <ButtonBox>
-          <CircleButton icon="rank" size="smaller" opacity="0.5" />
+          <CircleButton icon="rank" size="smaller" opacity="0.6" />
         </ButtonBox>
       </PlayingModal>
     </Box>
