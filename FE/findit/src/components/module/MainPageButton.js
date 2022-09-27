@@ -3,6 +3,8 @@ import React from "react";
 import CustomText from "components/atom/CustomText";
 import BoxButton from "components/atom/BoxButton";
 
+import { useNavigate } from "react-router-dom";
+
 import JoystickIcon from "static/joystick.svg";
 import TutorialIcon from "static/open_book.svg";
 import LockIcon from "static/locked.svg";
@@ -91,12 +93,40 @@ margin-left: 15px;
 );
 
 export default function MainPageButton({ page }) {
+  const navigate = useNavigate();
+  // const [tmp, setTmp] = useState(0);
+  function goToNextPage(item) {
+    // console.log(item);
+    if (item.key === 1) {
+      navigate("/code");
+    } else if (item.key === 2) {
+      navigate("/tutorial");
+    } else if (item.key === 3) {
+      navigate("/login");
+    }
+  }
+
+  // useEffect(() => {
+  //   if (tmp === 1) {
+  //     navigate("/code");
+  //   } else if (tmp === 2) {
+  //     navigate("/tutorial");
+  //   } else if (tmp === 3) {
+  //     navigate("/login");
+  //   }
+  // });
+
+  // function goToNextPage(event) {
+  //   setPage()
+  //   console.log(event);
+  // }
+
   if (page === "playerMain") {
     return (
       <Box>
         {playerMainButtonContentList.map((item, key) => (
-          <Box>
-            <BoxButton key={key} size="medium">
+          <Box key={key} onClick={() => goToNextPage(item)}>
+            <BoxButton size="medium">
               <StyledTextBox>
                 <CustomText size="xxs" weight="lighter" my="5">
                   {item.explanation}
