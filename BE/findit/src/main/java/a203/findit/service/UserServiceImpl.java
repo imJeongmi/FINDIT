@@ -217,6 +217,7 @@ public class UserServiceImpl implements UserService {
                 ()-> new CustomException(Code.C401)
         );
 
+
         igtRepos.save(IGT.builder().game(game).treasure(treasure).build());
 
         return true;
