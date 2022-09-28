@@ -36,7 +36,7 @@ const ScoreBox = styled(Box)(
     background-color: rgba(255, 255, 255, 0.2);
     border-radius: 10px;
     position: absolute;
-    top: 8vh;
+    top: 9vh;
     left: 3vw;
     display: flex;
     flex-direction: column;
