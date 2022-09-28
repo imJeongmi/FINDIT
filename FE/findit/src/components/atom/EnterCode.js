@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ReactInputVerificationCode from "react-input-verification-code";
 
-import './EnterCode.css'
+import "./EnterCode.css";
 
 export default function EnterCode() {
   const [value, setValue] = useState("");
@@ -14,13 +14,14 @@ export default function EnterCode() {
         value={value}
         placeholder={null}
         length={6}
-        onChange={(newValue) => {
+        onChange={newValue => {
           setValue(newValue);
 
           // if (newValue !== "") {
           //   setError(null);
           // }
         }}
+        // style={{ fontFamily: "GmarketSansBold" }}
       />
 
       {/* 버튼 */}
