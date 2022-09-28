@@ -145,7 +145,7 @@ public class UserController {
 
     @PostMapping("/treasures")
     public ResponseEntity selectTreasure(@RequestBody ReqSelectTreasure reqSelectTreasure){
-        if(userService.selectTreasure(reqSelectTreasure.getTid(),reqSelectTreasure.getGameId())){
+        if(userService.selectTreasure(reqSelectTreasure.getTid(),reqSelectTreasure.getEntercode())){
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.badRequest().build();

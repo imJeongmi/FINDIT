@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ReqSelectTreasure {
     private Long tid;
-    private Long gameId;
+    private String entercode;
 }
