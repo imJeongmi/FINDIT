@@ -37,6 +37,7 @@ public class RoomServiceImpl implements RoomService{
         game.setLimitMin(limitMinute);
         LocalDateTime now = LocalDateTime.now();
         game.setCreateTime(now);
+        gameRepository.save(game);
 
         Long gameId = game.getId();
         Long nowmillisecond = now.atZone(ZoneId.of("UTC")).toInstant().toEpochMilli();

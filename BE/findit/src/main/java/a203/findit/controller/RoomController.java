@@ -61,6 +61,7 @@ public class RoomController {
             jsonObject.put("code", "expired room");
         }else{
             jsonObject.put("code", "success");
+            jsonObject.put("status","ready");
             jsonObject.put("mode",roomDTO.getMode());
             Optional<User> user = userService.findByUserId(roomDTO.getUserId());
             jsonObject.put("username",user.get().getUsername());
@@ -78,6 +79,7 @@ public class RoomController {
 //        RoomDTO roomDTO = roomService.find(entercodeDTO.getEntercode());
 //        roomDTO.setStartTime(LocalDateTime.now());
         jsonObject.put("code", "success");
+        jsonObject.put("status","start");
         jsonObject.put("mode",roomDTO.getMode());
         jsonObject.put("limitminute",roomDTO.getLimitminute());
         jsonObject.put("starttime",roomDTO.getStartTime());
@@ -89,5 +91,8 @@ public class RoomController {
     public void gameFinish(@Valid EntercodeDTO entercodeDTO){
         JSONObject jsonObject = new JSONObject();
         roomService.finish(entercodeDTO.getEntercode());
+        jsonObject.put("code", "success");
+        jsonObject.put("status","end");
+        simpMessagingTemplate.convertAndSend("/sub/room/"+entercodeDTO.getEntercode(),jsonObject);
     }
 }
