@@ -37,11 +37,13 @@ public class RoomServiceImpl implements RoomService{
         game.setLimitMin(limitMinute);
         LocalDateTime now = LocalDateTime.now();
         game.setCreateTime(now);
-        gameRepository.save(game);
 
         Long gameId = game.getId();
         Long nowmillisecond = now.atZone(ZoneId.of("UTC")).toInstant().toEpochMilli();
         String entercode = roomRepository.gameIdToCode(nowmillisecond - standardMillisecond, gameId);
+
+        game.setEntercode(entercode);
+        gameRepository.save(game);
 
         return roomRepository.save(entercode,game, mode);
     }
@@ -51,9 +53,12 @@ public class RoomServiceImpl implements RoomService{
 
     @Transactional
     public void finish(String entercode){
+        LocalDateTime now = LocalDateTime.now();
         //inmemory
-        roomRepository.findByEnterCode(entercode).setEndTime(LocalDateTime.now());
+        roomRepository.findByEnterCode(entercode).setEndTime(now);
         //DB
-        //db에 저장하기 구현하기
+        Optional<Game> game = gameRepository.findByEnterCode(entercode);
+        game.get().setEndTime(now);
+        gameRepository.save(game.get());
     }
 }
