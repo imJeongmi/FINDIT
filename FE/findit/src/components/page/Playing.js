@@ -118,7 +118,7 @@ export default function Playing() {
         <br />
         <CustomText size="xxs">
           <br />
-          가이드라인 내부에서 보물을 인식시켜주세요
+          가이드 라인 내부에서 보물을 인식시켜주세요
         </CustomText>
       </GuidelineBox>
 
