@@ -1,10 +1,16 @@
 package a203.findit.model.entity;
 
+import a203.findit.util.JsonToMapConverter;
+import com.vladmihalcea.hibernate.type.json.JsonType;
 import lombok.*;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @Entity
 @Table(name = "game")
@@ -14,7 +20,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Game {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "game_id", columnDefinition = "BIGINT(20) UNSIGNED")
@@ -32,6 +37,9 @@ public class Game {
 
     @Column(name="end_time")
     private LocalDateTime endTime;
+
+    @Column(name="mode")
+    private Mode mode;
 
     @Column(name="entercode")
     private String entercode;
