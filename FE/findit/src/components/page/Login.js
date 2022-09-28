@@ -36,7 +36,7 @@ export default function Login() {
     const refreshToken = res.data.refreshToken;
     ls.set("accessToken", accessToken);
     ls.set("refreshToken", refreshToken);
-    // navigate("/hostmain");
+    navigate("/hostmain");
   }
 
   function loginFail(res) {
