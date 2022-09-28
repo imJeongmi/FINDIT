@@ -4,6 +4,7 @@ import CircleButton from "components/atom/CircleButton";
 import PlayingModal from "components/atom/PlayingModal";
 import CustomText from "components/atom/CustomText";
 import TreasureItem from "components/atom/TreasureItem";
+import ExitButton from "components/atom/ExitButton";
 
 const TreasureBox = styled(Box)(
   () => `
@@ -39,8 +40,11 @@ export default function PlayingTreasureList({ setModalOpen }) {
   };
 
   return (
-    <Box sx={{ mx: "auto", textAlign: "center", zIndex: "100" }} onClick={closeModal}>
+    <Box sx={{ mx: "auto", textAlign: "center", zIndex: "100" }}>
       <PlayingModal color="pink">
+        <Box sx={{ position: "absolute", top: "3%", right: "5%" }} onClick={closeModal}>
+          <ExitButton />
+        </Box>
         <Box sx={{ mt: "7vh", mb: "5vh" }}>
           <CustomText weight="bold" size="xxl">
             보물 현황
