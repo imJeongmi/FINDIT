@@ -58,6 +58,10 @@ export default function Login() {
     setPw(pw);
   }
 
+  function goToMain(e) {
+    navigate("/main");
+  }
+
   return (
     <Box sx={{ textAlign: "center" }}>
       <Box sx={{ mt: "3vh" }}>
@@ -82,9 +86,12 @@ export default function Login() {
         <Box sx={LoginStyle}>
           <Input placeholder="아이디" value={id} onChange={onChangeId} />
           <Input placeholder="비밀번호" value={pw} type="password" onChange={onChangePw} />
-          <Box sx={{ padding: "0 5vh" }}>
-            <CustomText size="xs" variant="grey">
+          <Box sx={{ padding: "0 5vh" }} onClick={goToMain}>
+            {/* <CustomText size="xs" variant="grey">
               비밀번호를 잊어버리셨나요?
+            </CustomText> */}
+            <CustomText size="xs" variant="grey">
+              메인 페이지로 돌아가기
             </CustomText>
           </Box>
         </Box>
