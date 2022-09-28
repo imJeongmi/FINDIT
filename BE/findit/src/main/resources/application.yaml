@@ -2,6 +2,7 @@ spring:
   config:
     import: app.yaml
 
+
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
@@ -16,7 +17,7 @@ spring:
     properties:
       hibernate:
         show_sql: true
-        ddl-auto : none
+        ddl-auto: none
         format_sql: true
 
 #logging:
@@ -25,4 +26,6 @@ spring:
 #    org.hibernate.type: trace
 
 server:
+  servlet:
+    contextPath: /api/v1
   port: 8399
