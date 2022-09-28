@@ -7,7 +7,6 @@ import Modal from "components/atom/Modal";
 
 import compass from "static/compass_100.png";
 import CustomText from "components/atom/CustomText";
-import CustomButton from "components/atom/CustomButton";
 
 export default function EnterVerificationCode() {
   return (
@@ -25,9 +24,6 @@ export default function EnterVerificationCode() {
           <CustomText size="xs">게임에 입장하기 위해 전달받은 코드를 입력하세요.</CustomText>
           <EnterCode></EnterCode>
         </Box>
-        <CustomButton size="large" color="primary">
-          입장하기
-        </CustomButton>
       </Modal>
     </Box>
   );

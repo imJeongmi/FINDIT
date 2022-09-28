@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ReactInputVerificationCode from "react-input-verification-code";
 
+import CustomButton from "./CustomButton";
 import "./EnterCode.css";
 
 export default function EnterCode() {
@@ -23,8 +24,9 @@ export default function EnterCode() {
         }}
         // style={{ fontFamily: "GmarketSansBold" }}
       />
-
-      {/* 버튼 */}
+      <CustomButton size="large" color="primary">
+        입장하기
+      </CustomButton>
     </div>
   );
 }

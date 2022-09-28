@@ -40,7 +40,7 @@ export default function RouterConfiguration() {
 
         {/* player */}
         <Route path="/code" element={<EnterVerificationCode />} />
-        <Route path="/playerprofile" element={<SetProfile />} />
+        <Route path="/playerprofile/:gameid" component={SetProfile} element={<SetProfile />} />
         <Route path="/tutorial" element={<Tutorial target="player" />} />
         <Route path="/waiting/:gameid" component={WaitPlaying} element={<WaitPlaying />} />
 

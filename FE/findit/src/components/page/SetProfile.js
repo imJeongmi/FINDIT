@@ -2,9 +2,12 @@ import { Box } from "@mui/system";
 import CircleButton from "components/atom/CircleButton";
 import CustomButton from "components/atom/CustomButton";
 import Input from "components/atom/Input";
-import React from "react";
+import { getWebsocket } from "helper/websocket";
+import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 import CustomText from "../atom/CustomText";
 import ProfileImage from "../atom/ProfileImage";
+
 
 const ProfileBoxStyle = {
   margin: "auto",
@@ -16,7 +19,43 @@ const BoxStyle = {
   margin: "6vh auto",
 };
 
-function PlayerProfile() {
+function PlayerProfile({ gameId }) {
+  const ws = getWebsocket();
+
+  const [nickname, setNickname] = useState();
+  // const enterCode = gameId
+  // const profileImg = "1"
+
+  function connect() {
+    if (!ws.active) {
+      // ws.onConnect({}, connectSuccess, connectFail);
+      // ws.activate();
+    }
+  }
+
+  // function connectSuccess(frame) {
+  //   ws.subscribe(`/sub/room/${enterCode}`);
+    // sendPlayerInfo();
+  // }
+
+  // function sendPlayerInfo() {
+  //   const playerInfo = {
+  //     entercode: enterCode,
+  //     profileImg: profileImg,
+  //     nickname: nickname,
+  //   };
+  //   ws.send(`/pub/enter`, {}, JSON.stringify(playerInfo))
+  // }
+
+  // function connectFail(error) {
+  //   console.log(error)
+  // }
+
+  function changeNickname(e) {
+    setNickname(e.target.value)
+    console.log(nickname)
+  }
+
   return (
     <Box sx={ProfileBoxStyle}>
       <Box sx={BoxStyle}>
@@ -29,9 +68,9 @@ function PlayerProfile() {
       </Box>
       <Box>
         <CustomText>닉네임을 등록해주세요</CustomText>
-        <Input type="text" placeholder="닉네임"></Input>
+        <Input type="text" placeholder="닉네임" onChange={changeNickname}></Input>
       </Box>
-      <CustomButton size="large" color="primary">
+      <CustomButton size="large" color="primary" onClick={connect}>
         확인
       </CustomButton>
     </Box>
@@ -68,6 +107,7 @@ function HostProfile() {
 }
 
 export default function SetProfile({ target }) {
+  const { gameId } = useParams();
   function isPlayer(target) {
     if (target === "user") {
       return false;
@@ -77,6 +117,6 @@ export default function SetProfile({ target }) {
   }
 
   return (
-    <Box>{isPlayer(target) ? <PlayerProfile></PlayerProfile> : <HostProfile></HostProfile>}</Box>
+    <Box>{isPlayer(target) ? <PlayerProfile gameId={gameId}></PlayerProfile> : <HostProfile></HostProfile>}</Box>
   );
 }
