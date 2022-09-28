@@ -11,6 +11,8 @@ import TreasureIcon from "static/wrapped_gift.svg";
 
 import { requestGameConfiguration } from "api/game";
 
+import { useNavigate } from "react-router-dom";
+
 const StyledTextBox = styled(Box)(
   () => `
 display: flex;
@@ -113,6 +115,7 @@ text-align: end
 );
 
 export default function GameSettingSection() {
+  const navigate = useNavigate;
   const [timer, setTimer] = useState(10);
 
   function incrementHandler() {
@@ -190,7 +193,13 @@ export default function GameSettingSection() {
   }
 
   function gameConfigurationSuccess(res) {
-    navigate(``);
+    // navigate(`/waiting/:gameid`);
+    console.log(localStorage);
+  }
+
+  function gameConfigurationFail(res) {
+    // alert 띄우기
+    console.log("게임 설정 실패", res.data);
   }
 
   function postGameConfiguration(event) {
