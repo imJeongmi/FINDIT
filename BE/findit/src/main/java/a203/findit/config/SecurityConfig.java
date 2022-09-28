@@ -36,7 +36,7 @@ public class SecurityConfig {
     private static final String[] GET_PUBLIC_URI = {};
     private static final String[] POST_PUBLIC_URI = {
             "/users",
-            "/users/login",
+            "/users/login"
     };
     private static final String[] DELETE_PUBLIC_URI = {};
 
@@ -67,7 +67,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .httpBasic().disable()  // Http basic Auth 기반으로 로그인 인증창이 뜸. disable 시에 인증창 뜨지 않음.
-                .cors().configurationSource(corsConfigurationSource()).disable()
+//                .cors().configurationSource(corsConfigurationSource()).disable()
                 .cors().disable()
                 .csrf().disable()
                 .headers()
@@ -106,15 +106,17 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowCredentials(true); // 내 서버가 응답을 할 때 Json 을 자바스크립트에서 처리할 수 있게 할지를 설정하는 것
-//        configuration.addAllowedOrigin("*");
-        configuration.addAllowedOriginPattern("*"); // 모든 url에 응답을 허용
+
+        configuration.addAllowedOrigin("*");
+//        configuration.addAllowedOriginPattern("*"); // 모든 url에 응답을 허용
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
 
+        configuration.setAllowCredentials(true); // 내 서버가 응답을 할 때 Json 을 자바스크립트에서 처리할 수 있게 할지를 설정하는 것
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
-        source.registerCorsConfiguration("/api/v1/**", configuration);
+//        source.registerCorsConfiguration("/api/v1/**", configuration);
 
         return source;
     }
