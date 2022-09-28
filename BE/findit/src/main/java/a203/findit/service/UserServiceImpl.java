@@ -208,12 +208,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean selectTreasure(Long tid, Long gameId) {
+    public boolean selectTreasure(Long tid, String entercode) {
         Treasure treasure = treasureRepos.findById(tid).orElseThrow(
                 ()->new CustomException(Code.C401)
         );
 
-        Game game = gameRepos.findById(gameId).orElseThrow(
+        Game game = gameRepos.findByEntercode(entercode).orElseThrow(
                 ()-> new CustomException(Code.C401)
         );
 
