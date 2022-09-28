@@ -2,6 +2,7 @@ package a203.findit.controller;
 
 import a203.findit.exception.CustomException;
 import a203.findit.model.dto.req.ReqCreateTreasureDTO;
+import a203.findit.model.dto.req.ReqSelectTreasure;
 import a203.findit.model.dto.req.ReqUpdateImgDTO;
 import a203.findit.model.dto.req.ReqUpdatePwDTO;
 import a203.findit.model.dto.req.User.CreateUserDTO;
@@ -122,10 +123,15 @@ public class UserController {
         return ResponseEntity.badRequest().build();
     }
 
-    @PostMapping("/treasures")
+    @PostMapping("/treasures/add")
     public ResponseEntity createTreasure(@RequestPart(value = "data") ReqCreateTreasureDTO reqCreateTreasureDTO, @RequestPart(value = "img") MultipartFile img) {
         UserDetails currUser = (UserDetails) (SecurityContextHolder.getContext().getAuthentication()).getPrincipal();
-        if (userService.createTreasure(currUser.getUsername(), reqCreateTreasureDTO.getTreasureName(), reqCreateTreasureDTO.getRoomId(), img)) {
+
+        if(reqCreateTreasureDTO.getGameId()==null){
+            throw new CustomException(Code.C401);
+        }
+
+        if (userService.createTreasure(currUser.getUsername(), reqCreateTreasureDTO.getTreasureName(), reqCreateTreasureDTO.getGameId(), img)) {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.badRequest().build();
@@ -134,6 +140,14 @@ public class UserController {
     @GetMapping("/treasures")
     public ResponseEntity getTreasures() {
         return ResponseEntity.ok(userService.getTreasure());
+    }
+
+    @PostMapping("/treasures")
+    public ResponseEntity selectTreasure(@RequestBody ReqSelectTreasure reqSelectTreasure){
+        if(userService.selectTreasure(reqSelectTreasure.getTid(),reqSelectTreasure.getGameId())){
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
     }
 
 }

@@ -24,6 +24,8 @@ public class PlayerController {
         JSONObject jsonObject = new JSONObject();
         //join playerinfo
         playerService.join(playerEnterDTO,sessionId);
+        jsonObject.put("code", "success");
+        jsonObject.put("status","waiting");
         jsonObject.put("playerid",sessionId);
         jsonObject.put("nickname",playerEnterDTO.getNickname());
         simpMessagingTemplate.convertAndSend("/sub/room/"+playerEnterDTO.getEntercode(),jsonObject);
@@ -32,6 +34,8 @@ public class PlayerController {
     // 다 푼사람 private 구독한 사람(방장) 한테만 보내주기
     public void privateInfo(@Valid EntercodeDTO entercodeDTO, @Header("simpSessionId") String sessionId){
         JSONObject jsonObject = new JSONObject();
+        jsonObject.put("code", "success");
+        jsonObject.put("status","progress");
         jsonObject.put("playerid",sessionId);
         simpMessagingTemplate.convertAndSend("/sub/private/"+entercodeDTO.getEntercode(),jsonObject);
     }
@@ -42,6 +46,8 @@ public class PlayerController {
         AfterFindDTO afterFindDTO= playerService.findTreasure(beforeFindDTO,sessionId);
         JSONObject jsonObject = new JSONObject();
         // 얻은 점수, 효과, 최종점수
+        jsonObject.put("code", "success");
+        jsonObject.put("status","progress");
         jsonObject.put("plusscore", afterFindDTO.getPlusscore());
         jsonObject.put("effectIndex", afterFindDTO.getEffect());
         jsonObject.put("finalscore", afterFindDTO.getFinalscore());
@@ -51,6 +57,8 @@ public class PlayerController {
         JSONArray rankJson = new JSONArray();
         for (PlayerInfoDTO playerInfoDTO : playersRank) {
             JSONObject temp = new JSONObject();
+            jsonObject.put("code", "success");
+            jsonObject.put("status","progress");
             temp.put("profileImg", playerInfoDTO.getProfileImg());
             temp.put("nickname", playerInfoDTO.getNickname());
             temp.put("score", playerInfoDTO.getScore());

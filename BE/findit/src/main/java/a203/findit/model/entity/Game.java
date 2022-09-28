@@ -30,6 +30,12 @@ public class Game {
     @Column(name="limit_min")
     private int limitMin;
 
+    @Column(name="end_time")
+    private LocalDateTime endTime;
+
+    @Column(name="entercode")
+    private String entercode;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;

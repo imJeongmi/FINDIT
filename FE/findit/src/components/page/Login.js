@@ -88,7 +88,7 @@ export default function Login() {
             </CustomText>
           </Box>
         </Box>
-        <CustomButton size="medium" onClick={onClickLogin}>
+        <CustomButton size="large" onClick={onClickLogin}>
           로그인
         </CustomButton>
       </Modal>

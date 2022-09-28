@@ -43,9 +43,37 @@ public class RoomServiceImpl implements RoomService{
         Long nowmillisecond = now.atZone(ZoneId.of("UTC")).toInstant().toEpochMilli();
         String entercode = roomRepository.gameIdToCode(nowmillisecond - standardMillisecond, gameId);
 
+        game.setEntercode(entercode);
+        gameRepository.save(game);
+
         return roomRepository.save(entercode,game, mode);
     }
     public RoomDTO find(String entercode){
+        return roomRepository.findByEnterCode(entercode);
+    }
+
+    @Transactional
+    public void finish(String entercode){
+        LocalDateTime now = LocalDateTime.now();
+        //inmemory
+        roomRepository.findByEnterCode(entercode).setEndTime(now);
+        //DB
+        Optional<Game> game = gameRepository.findByEnterCode(entercode);
+        game.get().setEndTime(now);
+        gameRepository.save(game.get());
+    }
+
+    @Transactional
+    public RoomDTO start(String entercode){
+        LocalDateTime now= LocalDateTime.now();
+
+        //DB
+        Optional<Game> game = gameRepository.findByEnterCode(entercode);
+        game.get().setStartTime(now);
+        gameRepository.save(game.get());
+
+        //inmemory
+        roomRepository.findByEnterCode(entercode).setStartTime(now);
         return roomRepository.findByEnterCode(entercode);
     }
 }
