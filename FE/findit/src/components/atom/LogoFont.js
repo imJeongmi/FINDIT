@@ -7,7 +7,7 @@ color: #333333;
 font-size: ${getSize(size)};
 margin: ${getMargin(margin)};
 padding: 0;
-letter-spacing: .1rem;
+letter-spacing: .2rem;
 font-family: 'WendyOne';
 font-style: normal;
 font-weight: 400;
@@ -37,7 +37,7 @@ function getMargin(margin) {
 export default function LogoFont({ size, margin }) {
   return (
     <CustomLogo size={size} margin={margin}>
-      Find It!
+      FindIt!
     </CustomLogo>
   );
 }
