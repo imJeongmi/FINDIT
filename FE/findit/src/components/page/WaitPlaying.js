@@ -24,7 +24,7 @@ function PlayerButton() {
   return <CustomButton size="large">튜토리얼 보기</CustomButton>;
 }
 
-function UserButton() {
+function HostButton() {
   return (
     // solid style
     <CustomButton size="large">PLAY</CustomButton>
@@ -37,14 +37,16 @@ export default function WaitPlaying({ target }) {
     else return true;
   }
 
-  return ( 
+  return (
     <Box>
       <Box sx={CenterStyle}>
         <CustomText size="xxl" weight="bold">
           대기중
         </CustomText>
         <br />
-        <CustomText size="xs" variant="grey">방장이 시작 버튼을 누르면 게임이 시작돼요</CustomText>
+        <CustomText size="xs" variant="grey">
+          방장이 시작 버튼을 누르면 게임이 시작돼요
+        </CustomText>
       </Box>
       <RankingBox>
         <RankingList />
@@ -55,7 +57,7 @@ export default function WaitPlaying({ target }) {
         <RankingList />
         <RankingList />
       </RankingBox>
-      <Box sx={CenterStyle}>{isPlayer(target) ? <PlayerButton /> : <UserButton />}</Box>
+      <Box sx={CenterStyle}>{isPlayer(target) ? <PlayerButton /> : <HostButton />}</Box>
     </Box>
   );
 }
