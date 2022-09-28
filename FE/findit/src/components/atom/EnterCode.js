@@ -21,7 +21,7 @@ export default function EnterCode() {
           //   setError(null);
           // }
         }}
-        style={{ fontFamily: "GmarketSansBold" }}
+        // style={{ fontFamily: "GmarketSansBold" }}
       />
 
       {/* 버튼 */}
