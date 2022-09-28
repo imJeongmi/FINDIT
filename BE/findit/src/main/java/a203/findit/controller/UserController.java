@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
-
+//@CrossOrigin("*") // 모든 요청에 접근 허용
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
@@ -38,7 +38,7 @@ public class UserController {
     private final String ACCESS_TOKEN_KEY = "accessToken";
     private final String REFRESH_TOKEN_KEY = "refreshToken";
 
-//    @CrossOrigin(origins = "http://localhost:3000")
+//    @CrossOrigin("*") // 모든 요청에 접근 허용
     @PostMapping("")
     public ResponseEntity createUser(@Valid @RequestBody CreateUserDTO createUserDTO) {
 
