@@ -61,4 +61,18 @@ public class RoomServiceImpl implements RoomService{
         game.get().setEndTime(now);
         gameRepository.save(game.get());
     }
+
+    @Transactional
+    public RoomDTO start(String entercode){
+        LocalDateTime now= LocalDateTime.now();
+
+        //DB
+        Optional<Game> game = gameRepository.findByEnterCode(entercode);
+        game.get().setStartTime(now);
+        gameRepository.save(game.get());
+
+        //inmemory
+        roomRepository.findByEnterCode(entercode).setStartTime(now);
+        return roomRepository.findByEnterCode(entercode);
+    }
 }

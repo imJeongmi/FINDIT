@@ -74,8 +74,9 @@ public class RoomController {
     @MessageMapping("/gamestart")
     public void gameStart(@Valid EntercodeDTO entercodeDTO){
         JSONObject jsonObject = new JSONObject();
-        RoomDTO roomDTO = roomService.find(entercodeDTO.getEntercode());
-        roomDTO.setStartTime(LocalDateTime.now());
+        RoomDTO roomDTO = roomService.start(entercodeDTO.getEntercode());
+//        RoomDTO roomDTO = roomService.find(entercodeDTO.getEntercode());
+//        roomDTO.setStartTime(LocalDateTime.now());
         jsonObject.put("code", "success");
         jsonObject.put("mode",roomDTO.getMode());
         jsonObject.put("limitminute",roomDTO.getLimitminute());
