@@ -4,17 +4,17 @@ import ss from "../helper/SessionStorage";
 
 // configuration
 const PlayerApi = axios.create({
-	baseURL: "",
+	baseURL: "https://findit.life/api/v1/",
 	headers: {
 		"Content-Type": "application/json",
 	},
 });
 
-api.interceptors.request.use(
+PlayerApi.interceptors.request.use(
 	config => {
-		const token = ss.get("token");
-		if (token) {
-			config.headers["Authorization"] = "Bearer " + token;
+		const playeraccessToken = ss.get("playeraccessToken");
+		if (playeraccessToken) {
+			config.headers["Authorization"] = "Bearer " + playeraccessToken;
 		}
 		return config;
 	},

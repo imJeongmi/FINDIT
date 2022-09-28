@@ -4,6 +4,7 @@ import { Box, styled } from "@mui/system";
 
 import CustomText from "components/atom/CustomText";
 import GameSettingBox from "components/atom/GameSettingBox";
+import CircleButton from "components/atom/CircleButton";
 
 import TimerIcon from "static/timer_clock.svg";
 import TreasureIcon from "static/wrapped_gift.svg";
@@ -103,6 +104,13 @@ margin-top: 8px;
 `,
 );
 
+const NextButtonBox = styled(Box)(
+  () => `
+margin: 3vh 10vw;
+text-align: end
+`,
+);
+
 export default function GameSettingSection() {
   const [timer, setTimer] = useState(10);
 
@@ -176,6 +184,12 @@ export default function GameSettingSection() {
     );
   }
 
+  function postGameConfiguration(event) {
+    event.preventDefault();
+    // console.log(timer, isRandomMode);
+    // api 연결
+  }
+
   return (
     <Box>
       <GameSettingBox>
@@ -201,6 +215,7 @@ export default function GameSettingSection() {
           </TimerSettingBox>
         </StyledTextBox>
       </GameSettingBox>
+      <Box sx={{ height: "10px" }}></Box>
       <GameSettingBox variant="primaryWeek">
         <StyledTextBox>
           <StyledIcon src={TreasureIcon} alt="timer icon" />
@@ -214,6 +229,9 @@ export default function GameSettingSection() {
           <SelectNormalMode></SelectNormalMode>
         )}
       </GameSettingBox>
+      <NextButtonBox onClick={postGameConfiguration}>
+        <CircleButton icon="next" size="smallest" />
+      </NextButtonBox>
     </Box>
   );
 }

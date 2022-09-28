@@ -10,11 +10,10 @@ const CenterStyle = {
 };
 
 const ButtonStyle = {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-
-}
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+};
 
 const RankingBox = styled(Box)(
   () => `
@@ -28,15 +27,23 @@ const RankingBox = styled(Box)(
 );
 
 function DeactivateButton() {
-  return <CustomButton size="large" color="secondary">게임 종료</CustomButton>;
+  return (
+    <CustomButton size="large" color="secondary">
+      게임 종료
+    </CustomButton>
+  );
 }
 
 function ActivateButton() {
   return (
     // solid style
     <Box sx={ButtonStyle}>
-      <CustomButton size="large" color="secondary">게임 종료</CustomButton>
-      <CustomText variant="grey" size="xs">보물을 모두 찾은 사람이 있어요</CustomText>
+      <CustomButton size="large" color="secondary">
+        게임 종료
+      </CustomButton>
+      <CustomText variant="grey" size="xs">
+        보물을 모두 찾은 사람이 있어요
+      </CustomText>
     </Box>
   );
 }

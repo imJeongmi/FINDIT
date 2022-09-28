@@ -61,7 +61,7 @@ export default function PlayingTreasureList({ setModalOpen }) {
           <CustomText size="xs">찾은 개수 : 2 / 6</CustomText>
         </TextBox>
         <ButtonBox>
-          <CircleButton icon="treasure" size="smaller" opacity="0.5" />
+          <CircleButton icon="treasure" size="smaller" opacity="0.6" />
         </ButtonBox>
       </PlayingModal>
     </Box>
