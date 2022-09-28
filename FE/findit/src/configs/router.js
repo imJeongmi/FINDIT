@@ -58,7 +58,7 @@ export default function RouterConfiguration() {
         />
 
         <Route
-          path="/treasure"
+          path="/treasure/:gameid"
           component={SelectTreasure}
           element={
             <CheckAuth>

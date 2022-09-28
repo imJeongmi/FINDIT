@@ -193,9 +193,9 @@ export default function GameSettingSection() {
   }
 
   function gameConfigurationSuccess(res) {
-    // navigate(`/waiting/:gameid`);
     console.log(res.data);
     // res.data 뜯어보고 gameid에 enterCode 추가하기
+    // navigate(`/treasure/:gameid`);
   }
 
   function gameConfigurationFail(res) {
