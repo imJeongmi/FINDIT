@@ -9,6 +9,8 @@ import CircleButton from "components/atom/CircleButton";
 import TimerIcon from "static/timer_clock.svg";
 import TreasureIcon from "static/wrapped_gift.svg";
 
+import { requestGameConfiguration } from "api/game";
+
 const StyledTextBox = styled(Box)(
   () => `
 display: flex;
@@ -187,10 +189,14 @@ export default function GameSettingSection() {
     );
   }
 
+  function gameConfigurationSuccess(res) {
+    navigate(``);
+  }
+
   function postGameConfiguration(event) {
     event.preventDefault();
     // console.log(timer, modeName);
-    // api 연결
+    requestGameConfiguration(timer, modeName, gameConfigurationSuccess, gameConfigurationFail);
   }
 
   return (
