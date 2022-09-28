@@ -9,9 +9,7 @@ import CustomText from "components/atom/CustomText";
 import compass from "static/compass_100.png";
 import { requestLogin } from "api/user";
 
-import ls from 'helper/LocalStorage'
-
-import { useNavigate } from "react-router-dom";
+import ls from "helper/LocalStorage";
 
 const LoginStyle = {
   mt: "5vh",
@@ -26,13 +24,14 @@ export default function Login() {
 
   function goToSignup() {
     navigate("/Signup");
+  }
 
   // const navigate = useNavigate();
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
 
   function loginSuccess(res) {
-    console.log(res.data)
+    console.log(res.data);
     const accessToken = res.data.accessToken;
     const refreshToken = res.data.refreshToken;
     ls.set("accessToken", accessToken);
