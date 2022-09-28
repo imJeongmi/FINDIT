@@ -213,7 +213,7 @@ public class UserServiceImpl implements UserService {
                 ()->new CustomException(Code.C401)
         );
 
-        Game game = gameRepos.findByEntercode(entercode).orElseThrow(
+        Game game = gameRepos.findByEnterCode(entercode).orElseThrow(
                 ()-> new CustomException(Code.C401)
         );
 

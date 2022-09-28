@@ -14,7 +14,6 @@ public interface GameRepository extends JpaRepository<Game, Long> {
 
     Optional<Game> findById(Long id);
 
-    Optional<Game> findByEntercode(String entercode);
 
     @Query(nativeQuery = true, value = "select * from game where entercode = :entercode")
     Optional<Game> findByEnterCode(String entercode);
