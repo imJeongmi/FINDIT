@@ -68,6 +68,16 @@ export default function RouterConfiguration() {
         />
 
         <Route
+          path="/mytreasure"
+          component={SelectTreasure}
+          element={
+            <CheckAuth>
+              <SelectTreasure />
+            </CheckAuth>
+          }
+        />
+
+        <Route
           path="/hostprofile"
           component={SetProfile}
           element={

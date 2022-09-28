@@ -32,6 +32,7 @@ const AddTreasureButton = styled(Box)(
 
 export default function SelectTreasure() {
   // treasure_list 받아오면
+  // mytreasure이면 분기 처리할 것
   return (
     <Box sx={BoxStyle}>
       <Box sx={{ marginTop: "5vh" }}>
