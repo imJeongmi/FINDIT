@@ -9,8 +9,6 @@ import CircleButton from "components/atom/CircleButton";
 import TimerIcon from "static/timer_clock.svg";
 import TreasureIcon from "static/wrapped_gift.svg";
 
-// import { useSelector, useDispatch } from "react-redux";
-
 const StyledTextBox = styled(Box)(
   () => `
 display: flex;
@@ -47,11 +45,12 @@ width: 30px;
 height: 30px;
 background: #DA989A;
 border: 0;
-color: white;
-font-weight: bold;
 border-radius: 5px;
-margin: 0 20px;
+color: white;
 font-size: 20px;
+font-weight: bold;
+margin: 0 20px;
+padding: 0;
 `,
 );
 
@@ -130,10 +129,14 @@ export default function GameSettingSection() {
     }
   }
 
-  const [isRandomMode, setIsRandomMode] = useState(false);
+  const [modeName, setModeName] = useState("GENERAL");
 
   function invertModeHandler() {
-    setIsRandomMode(!isRandomMode);
+    if (modeName === "GENERAL") {
+      setModeName("RANDOM");
+    } else if (modeName === "RANDOM") {
+      setModeName("GENERAL");
+    }
   }
 
   function SelectNormalMode() {
@@ -186,7 +189,7 @@ export default function GameSettingSection() {
 
   function postGameConfiguration(event) {
     event.preventDefault();
-    // console.log(timer, isRandomMode);
+    // console.log(timer, modeName);
     // api 연결
   }
 
@@ -223,7 +226,7 @@ export default function GameSettingSection() {
             모드 선택
           </CustomText>
         </StyledTextBox>
-        {isRandomMode ? (
+        {modeName === "RANDOM" ? (
           <SelectRandomMode></SelectRandomMode>
         ) : (
           <SelectNormalMode></SelectNormalMode>
