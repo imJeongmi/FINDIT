@@ -123,7 +123,7 @@ public class UserController {
     }
 
     @PostMapping("/treasures")
-    public ResponseEntity createTreasure(@RequestPart ReqCreateTreasureDTO reqCreateTreasureDTO, @RequestPart MultipartFile img) {
+    public ResponseEntity createTreasure(@RequestPart(value = "data") ReqCreateTreasureDTO reqCreateTreasureDTO, @RequestPart(value = "img") MultipartFile img) {
         UserDetails currUser = (UserDetails) (SecurityContextHolder.getContext().getAuthentication()).getPrincipal();
         if (userService.createTreasure(currUser.getUsername(), reqCreateTreasureDTO.getTreasureName(), reqCreateTreasureDTO.getRoomId(), img)) {
             return ResponseEntity.ok().build();
