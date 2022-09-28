@@ -2,12 +2,8 @@ package a203.findit.service;
 
 import a203.findit.model.dto.req.User.UpdateFormDTO;
 import a203.findit.model.dto.res.Code;
-import a203.findit.model.entity.Icon;
-import a203.findit.model.entity.Treasure;
-import a203.findit.model.entity.User;
-import a203.findit.model.repository.IconRepository;
-import a203.findit.model.repository.RefreshTokenRepository;
-import a203.findit.model.repository.TreasureRepository;
+import a203.findit.model.entity.*;
+import a203.findit.model.repository.*;
 import a203.findit.security.JwtProvider;
 import a203.findit.util.AwsService;
 import lombok.AllArgsConstructor;
@@ -22,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 import a203.findit.exception.CustomException;
 import a203.findit.model.dto.req.User.CreateUserDTO;
 import a203.findit.model.dto.req.User.LoginUserDTO;
-import a203.findit.model.repository.UserRepository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,6 +51,8 @@ public class UserServiceImpl implements UserService {
     private final RefreshTokenRepository refreshTokenRepos;
     private final IconRepository iconRepos;
     private final TreasureRepository treasureRepos;
+    private final GameRepository gameRepos;
+    private final IGTRepository igtRepos;
 
 
     public Optional<User> findByUsername(String username){
@@ -185,14 +182,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(rollbackOn = {Exception.class})
-    public boolean createTreasure(String username, String treasureName, Integer roomId, MultipartFile img) {
+    public boolean createTreasure(String username, String treasureName, Long gameId, MultipartFile img) {
         User currUser = userRepos.findByUsername(username).orElseThrow(
                 ()->new CustomException(Code.C403)
         );
 
-        //TODO : 생성된 Room에 보물추가
+        Game game = gameRepos.findById(gameId).orElseThrow(
+                ()->new CustomException(Code.C402)
+        );
 
-        treasureRepos.save(Treasure.builder().treasureName(treasureName).user(currUser).imageUrl(awsService.imageUpload(img)).build());
+        Treasure newTreasure = Treasure.builder().treasureName(treasureName).user(currUser).imageUrl(awsService.imageUpload(img)).isDefault(false).build();
+        IGT igt = IGT.builder().game(game).treasure(newTreasure).build();
+
+        treasureRepos.save(newTreasure);
+        igtRepos.save(igt);
+
         return true;
     }
 
@@ -201,6 +205,21 @@ public class UserServiceImpl implements UserService {
         List<Treasure> treasureList = treasureRepos.findAll();
         List<String> treasures = treasureList.stream().map(x->x.getImageUrl()).collect(Collectors.toList());
         return treasures;
+    }
+
+    @Override
+    public boolean selectTreasure(Long tid, Long gameId) {
+        Treasure treasure = treasureRepos.findById(tid).orElseThrow(
+                ()->new CustomException(Code.C401)
+        );
+
+        Game game = gameRepos.findById(gameId).orElseThrow(
+                ()-> new CustomException(Code.C401)
+        );
+
+        igtRepos.save(IGT.builder().game(game).treasure(treasure).build());
+
+        return true;
     }
 
     private Map<String, String> createToken(String name) {
@@ -214,6 +233,8 @@ public class UserServiceImpl implements UserService {
 
         return result;
     }
+
+
 
 }
 
