@@ -5,6 +5,7 @@ import a203.findit.model.entity.Game;
 import a203.findit.model.entity.Mode;
 import a203.findit.model.entity.User;
 import a203.findit.model.repository.GameRepository;
+import a203.findit.model.repository.MemoryPlayerRepository;
 import a203.findit.model.repository.UserRepository;
 import a203.findit.model.repository.MemoryRoomRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ public class RoomServiceImpl implements RoomService{
     private final UserRepository userRepository;
     private final GameRepository gameRepository;
     private final MemoryRoomRepository roomRepository;
+    private final MemoryPlayerRepository playerRepository;
 
 
     @Transactional
@@ -45,6 +47,8 @@ public class RoomServiceImpl implements RoomService{
 
         game.setEntercode(entercode);
         gameRepository.save(game);
+
+        playerRepository.init(entercode);
 
         return roomRepository.save(entercode,game, mode);
     }

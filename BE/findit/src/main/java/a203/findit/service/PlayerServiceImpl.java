@@ -30,11 +30,12 @@ public class PlayerServiceImpl implements PlayerService {
         AfterFindDTO afterFindDTO = new AfterFindDTO();
 
         String entercode = beforeFindDTO.getEntercode();
-        int treasureId = beforeFindDTO.getTreasureId();
+        Long treasureId = beforeFindDTO.getTreasureId();
         int cnt = playerRepository.igtidCnt(entercode, treasureId);
         int plusscore = 50;
         if(playerRepository.isExistSame(entercode, treasureId,sessionId)) return new AfterFindDTO();
         else{
+            playerRepository.addIgtPlayer(entercode, treasureId,sessionId);
             if(cnt==0){
                 //100점
                 plusscore =100;

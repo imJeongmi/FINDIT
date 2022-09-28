@@ -40,7 +40,7 @@ public class RoomDTO {
 
     public HashMap<String, PlayerInfoDTO> playerInfoDTOBySessionId;
     
-    public HashMap<Integer, Set<String>> sessionIdByIGTID;
+    public HashMap<Long, Set<String>> sessionIdByIGTID;
 
     public RoomDTO (Game game){
         this.roomId = game.getId();
