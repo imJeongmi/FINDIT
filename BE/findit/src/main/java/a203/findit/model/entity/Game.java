@@ -9,6 +9,7 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,4 +49,6 @@ public class Game {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(name="play_time")
+    private long playTime;
 }
