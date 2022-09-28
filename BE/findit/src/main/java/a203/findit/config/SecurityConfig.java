@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -16,12 +17,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
     private final JwtProvider jwtProvider;
@@ -33,7 +36,7 @@ public class SecurityConfig {
     private static final String[] GET_PUBLIC_URI = {};
     private static final String[] POST_PUBLIC_URI = {
             "/users",
-            "/users/login",
+            "/users/login"
     };
     private static final String[] DELETE_PUBLIC_URI = {};
 
@@ -64,23 +67,27 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .httpBasic().disable()  // Http basic Auth 기반으로 로그인 인증창이 뜸. disable 시에 인증창 뜨지 않음.
-                .cors().configurationSource(corsConfigurationSource()).disable()
+//                .cors().configurationSource(corsConfigurationSource()).disable()
                 .cors().disable()
                 .csrf().disable()
                 .headers()
-                .frameOptions().sameOrigin();
-//                .and()
-//                .authorizeRequests();  // rest api이므로 csrf 보안이 필요없으므로 disable처리.
+                .frameOptions().sameOrigin()
+                .and()
+                .authorizeRequests();  // rest api이므로 csrf 보안이 필요없으므로 disable처리.
 
 
         http
                 .authorizeRequests()
+                .antMatchers("/public/**").permitAll()
+                .antMatchers("/games/**").hasAnyRole("GUEST","USER","ADMIN")
+                .antMatchers("/users/**").permitAll()
                 .antMatchers("/api/v1/public/**").permitAll()
                 .antMatchers("/api/v1/games/**").hasAnyRole("GUEST","USER","ADMIN")
                 .antMatchers("/api/v1/users/**").permitAll()
                 .antMatchers("/**").permitAll()
                 .antMatchers("/api/v1/**").permitAll()
-                .anyRequest().hasRole("GUEST");
+//                .anyRequest().hasRole("GUEST")
+                .anyRequest().authenticated();
 
         http
                 .sessionManagement()
@@ -99,15 +106,17 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowCredentials(true); // 내 서버가 응답을 할 때 Json 을 자바스크립트에서 처리할 수 있게 할지를 설정하는 것
-        configuration.addAllowedOriginPattern("*"); // 모든 url에 응답을 허용
+
         configuration.addAllowedOrigin("*");
+//        configuration.addAllowedOriginPattern("*"); // 모든 url에 응답을 허용
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
 
+        configuration.setAllowCredentials(true); // 내 서버가 응답을 할 때 Json 을 자바스크립트에서 처리할 수 있게 할지를 설정하는 것
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
-        source.registerCorsConfiguration("/api/v1", configuration);
+//        source.registerCorsConfiguration("/api/v1/**", configuration);
 
         return source;
     }

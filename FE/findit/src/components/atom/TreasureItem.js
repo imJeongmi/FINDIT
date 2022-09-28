@@ -12,6 +12,7 @@ const TreasureBox = styled(Box)(
   justify-content: center;
   align-items: center;
   float: left;
+  background-color: white;
   `,
 );
 
@@ -20,7 +21,6 @@ const TreasureImage = styled("img")(
   width: 22vw;
   height: 22vw;
   border-radius: 25%;
-  
   `,
 );
 

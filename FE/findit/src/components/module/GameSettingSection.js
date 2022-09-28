@@ -9,7 +9,9 @@ import CircleButton from "components/atom/CircleButton";
 import TimerIcon from "static/timer_clock.svg";
 import TreasureIcon from "static/wrapped_gift.svg";
 
-// import { useSelector, useDispatch } from "react-redux";
+import { requestGameConfiguration } from "api/game";
+
+import { useNavigate } from "react-router-dom";
 
 const StyledTextBox = styled(Box)(
   () => `
@@ -47,11 +49,12 @@ width: 30px;
 height: 30px;
 background: #DA989A;
 border: 0;
-color: white;
-font-weight: bold;
 border-radius: 5px;
-margin: 0 20px;
+color: white;
 font-size: 20px;
+font-weight: bold;
+margin: 0 20px;
+padding: 0;
 `,
 );
 
@@ -112,6 +115,7 @@ text-align: end
 );
 
 export default function GameSettingSection() {
+  const navigate = useNavigate;
   const [timer, setTimer] = useState(10);
 
   function incrementHandler() {
@@ -130,10 +134,14 @@ export default function GameSettingSection() {
     }
   }
 
-  const [isRandomMode, setIsRandomMode] = useState(false);
+  const [modeName, setModeName] = useState("GENERAL");
 
   function invertModeHandler() {
-    setIsRandomMode(!isRandomMode);
+    if (modeName === "GENERAL") {
+      setModeName("RANDOM");
+    } else if (modeName === "RANDOM") {
+      setModeName("GENERAL");
+    }
   }
 
   function SelectNormalMode() {
@@ -184,10 +192,21 @@ export default function GameSettingSection() {
     );
   }
 
+  function gameConfigurationSuccess(res) {
+    console.log(res.data);
+    // res.data 뜯어보고 gameid에 enterCode 추가하기
+    // navigate(`/treasure/:gameid`);
+  }
+
+  function gameConfigurationFail(res) {
+    // alert 띄우기
+    console.log("게임 설정 실패", res.data);
+  }
+
   function postGameConfiguration(event) {
     event.preventDefault();
-    // console.log(timer, isRandomMode);
-    // api 연결
+    // console.log(timer, modeName);
+    requestGameConfiguration(timer, modeName, gameConfigurationSuccess, gameConfigurationFail);
   }
 
   return (
@@ -223,7 +242,7 @@ export default function GameSettingSection() {
             모드 선택
           </CustomText>
         </StyledTextBox>
-        {isRandomMode ? (
+        {modeName === "RANDOM" ? (
           <SelectRandomMode></SelectRandomMode>
         ) : (
           <SelectNormalMode></SelectNormalMode>

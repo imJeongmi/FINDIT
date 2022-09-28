@@ -15,18 +15,19 @@ export default function Tutorial({ target }) {
     "카메라 버튼을 누르면 보물을 인식할 수 있어요",
     "트로피 아이콘을 누르면 실시간 랭킹을 볼 수 있어요",
     "선물 아이콘을 누르면 보물 현황을 볼 수 있어요",
-    "가이드 라인에 맞춰 보물을 인식해주세요",
+    "가이드 라인 내부에서 보물을 인식해주세요",
     "나의 순위와 획득한 점수를 확인할 수 있어요",
     "남은 시간에 유의하여 게임을 진행하세요",
   ];
 
-  const orderedUserText = [
-    "카메라 버튼을 누르면 보물을 인식할 수 있어요",
-    "트로피 아이콘을 누르면 실시간 랭킹을 볼 수 있어요",
-    "선물 아이콘을 누르면 보물 현황을 볼 수 있어요",
-    "가이드 라인에 맞춰 보물을 인식해주세요",
-    "나의 순위와 획득한 점수를 확인할 수 있어요",
-    "남은 시간에 유의하여 게임을 진행하세요",
+  const orderedHostText = [
+    "게임 생성 버튼을 누르면 게임 설정 화면이 나타나요",
+    "게임 시간과 모드를 설정할 수 있어요",
+    "플레이어가 찾을 보물을 선택하고, 커스텀 보물을 추가할 수 있어요",
+    "PLAY 버튼을 눌러 게임을 시작하세요",
+    "게임 진행 중에는 남은 시간과 실시간 랭킹을 확인할 수 있어요",
+    "플레이어가 보물을 모두 찾은 경우에는 게임을 종료할 수 있어요",
+    "보물 조회 버튼을 누르면 등록해놓은 커스텀 보물을 확인할 수 있어요"
   ];
 
   return (
@@ -38,29 +39,29 @@ export default function Tutorial({ target }) {
         <Box>
           <Carousel showArrows={false} showStatus={false} showThumbs={false}>
             {target === "user"
-              ? orderedUserText.map((text, index) => (
-                  <Box sx={{ mt: "4vh", mb: "4vh", mx: "auto", width: "60vw" }}>
-                    <Box sx={{ mb: "1vh" }}>
+              ? orderedHostText.map((text, index) => (
+                  <Box sx={{ my: "4vh", mx: "auto", width: "80vw" }}>
+                    <Box sx={{ mx: "auto", width: "50vw" }}>
                       <img src="https://placeimg.com/200/300/any" alt="img" />
                     </Box>
-                    <CustomText size="xs" variant="black" key={index} sx={{ mt: "5vh" }}>
+                    <CustomText size="xxs" variant="black" key={index} sx={{ mt: "3vh" }}>
                       {text}
                     </CustomText>
                   </Box>
                 ))
               : orderedPlayerText.map((text, index) => (
-                  <Box sx={{ mt: "4vh", mb: "4vh", mx: "auto", width: "60vw" }}>
-                    <Box sx={{ mb: "1vh" }}>
+                  <Box sx={{ my: "5vh", mx: "auto", width: "70vw" }}>
+                    <Box sx={{ mx: "auto", width: "50vw" }}>
                       <img src="https://placeimg.com/200/300/any" alt="img" />
                     </Box>
-                    <CustomText size="xs" variant="black" key={index} sx={{ mt: "5vh" }}>
+                    <CustomText size="xxs" variant="black" key={index} sx={{ mt: "3vh" }}>
                       {text}
                     </CustomText>
                   </Box>
                 ))}
           </Carousel>
         </Box>
-        <CustomButton size="medium" color="primary">
+        <CustomButton size="large" color="primary" my="2vh">
           입장 코드 입력
         </CustomButton>
       </Modal>

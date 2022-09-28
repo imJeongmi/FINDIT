@@ -67,6 +67,8 @@ export default function Signup() {
     setPw("");
     setNickname("");
     setConfirm("");
+
+    navigate("/login");
   }
 
   function joinFail(res) {
@@ -109,7 +111,7 @@ export default function Signup() {
             onChange={onChangeConfirm}
           />
         </Box>
-        <CustomButton size="medium" color="secondary" my="0" onClick={onClickSignup}>
+        <CustomButton size="large" color="secondary" my="0" onClick={onClickSignup}>
           회원가입
         </CustomButton>
       </Modal>

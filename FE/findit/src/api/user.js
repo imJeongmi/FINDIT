@@ -5,7 +5,7 @@ function requestJoin(id, pw, nickname, success, fail) {
 }
 
 function requestLogin(id, pw, success, fail) {
-  UserApi.post("users/login", { id: id, pw: pw }).then(success).catch(fail)
+  UserApi.post("users/login", { id: id, pw: pw }).then(success).catch(fail);
 }
 
-export { requestJoin, requestLogin }
+export { requestJoin, requestLogin };

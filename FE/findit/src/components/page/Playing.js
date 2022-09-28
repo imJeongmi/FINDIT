@@ -12,6 +12,7 @@ import CustomText from "components/atom/CustomText";
 import CircleButton from "components/atom/CircleButton";
 import PlayingRanking from "components/module/PlayingRanking";
 import PlayingTreasureList from "components/module/PlayingTreasureList";
+import ExitButton from "components/atom/ExitButton";
 
 const StatusBar = styled(Box)(
   () => `
@@ -90,7 +91,7 @@ export default function Playing() {
           <CustomText size="m">03 : 54</CustomText>
         </Box>
         <Box sx={{ position: "absolute", right: "5%" }}>
-          <img src={ExitIcon} alt="exitIcon" width="20vw" />
+          <ExitButton />
         </Box>
       </StatusBar>
 
@@ -118,7 +119,7 @@ export default function Playing() {
         <br />
         <CustomText size="xxs">
           <br />
-          가이드라인 내부에서 보물을 인식시켜주세요
+          가이드 라인 내부에서 보물을 인식시켜주세요
         </CustomText>
       </GuidelineBox>
 
