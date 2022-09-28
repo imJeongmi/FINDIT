@@ -6,6 +6,7 @@ import a203.findit.model.dto.req.User.PlayerEnterDTO;
 import a203.findit.model.dto.req.User.PlayerInfoDTO;
 import a203.findit.model.entity.Mode;
 import a203.findit.model.repository.MemoryPlayerRepository;
+import a203.findit.model.repository.MemoryRoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +20,7 @@ import java.util.concurrent.ThreadLocalRandom;
 @Transactional(readOnly = true)
 public class PlayerServiceImpl implements PlayerService {
     final private MemoryPlayerRepository playerRepository;
+    final private MemoryRoomRepository roomRepository;
 
     public void join(PlayerEnterDTO playerEnterDTO, String sessionId){
         playerRepository.save(playerEnterDTO,sessionId);
@@ -28,11 +30,12 @@ public class PlayerServiceImpl implements PlayerService {
         AfterFindDTO afterFindDTO = new AfterFindDTO();
 
         String entercode = beforeFindDTO.getEntercode();
-        int treasureId = beforeFindDTO.getTreasureId();
+        Long treasureId = beforeFindDTO.getTreasureId();
         int cnt = playerRepository.igtidCnt(entercode, treasureId);
         int plusscore = 50;
         if(playerRepository.isExistSame(entercode, treasureId,sessionId)) return new AfterFindDTO();
         else{
+            playerRepository.addIgtPlayer(entercode, treasureId,sessionId);
             if(cnt==0){
                 //100점
                 plusscore =100;
@@ -63,5 +66,10 @@ public class PlayerServiceImpl implements PlayerService {
 
     public ArrayList<PlayerInfoDTO> rankChange(String entercode){
         return playerRepository.rankChange(entercode);
+    }
+
+    public boolean valid(String entercode){
+        if (roomRepository.findByEnterCode(entercode) == null) return false;
+        else return true;
     }
 }

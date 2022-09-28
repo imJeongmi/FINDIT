@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class BeforeFindDTO {
     private String entercode;
-    private int treasureId;
+    private Long treasureId;
 }

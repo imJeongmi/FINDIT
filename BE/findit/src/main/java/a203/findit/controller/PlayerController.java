@@ -5,13 +5,20 @@ import a203.findit.service.PlayerServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -69,5 +76,13 @@ public class PlayerController {
 
     }
 
+    @GetMapping("/room/{entercode}")
+    public ResponseEntity ValidRoomId(@PathVariable("entercode") String entercode) {
+        if(playerService.valid(entercode)){
+            return ResponseEntity.status(HttpStatus.OK).body(true);
+        }else{
+            return ResponseEntity.badRequest().body("존재하지 않는 입장코드입니다.");
+        }
+    }
 
 }
