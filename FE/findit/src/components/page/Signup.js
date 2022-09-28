@@ -68,7 +68,7 @@ export default function Signup() {
     setNickname("");
     setConfirm("");
 
-    navigate("/hostmain");
+    navigate("/login");
   }
 
   function joinFail(res) {
