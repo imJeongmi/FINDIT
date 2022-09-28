@@ -29,9 +29,9 @@ public interface UserService {
 
     boolean deleteUser(Long userId);
 
-    boolean createTreasure(String username, String treasureName, Integer roomId, MultipartFile img);
+    boolean createTreasure(String username, String treasureName, Long gameId, MultipartFile img);
 
     List<String> getTreasure();
 
-
+    boolean selectTreasure(Long tid, Long gameId);
 }

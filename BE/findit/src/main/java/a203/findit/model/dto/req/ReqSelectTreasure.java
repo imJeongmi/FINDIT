@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReqCreateTreasureDTO {
-    private String treasureName;
+public class ReqSelectTreasure {
+    private Long tid;
     private Long gameId;
 }
