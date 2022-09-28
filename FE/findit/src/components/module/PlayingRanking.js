@@ -4,6 +4,7 @@ import PlayingModal from "components/atom/PlayingModal";
 import CircleButton from "components/atom/CircleButton";
 import CustomText from "components/atom/CustomText";
 import RankingList from "./RankingList";
+import ExitButton from "components/atom/ExitButton";
 
 const RankingBox = styled(Box)(
   () => `
@@ -30,8 +31,11 @@ export default function PlayingRanking({ setModalOpen }) {
   };
 
   return (
-    <Box sx={{ mx: "auto", textAlign: "center", zIndex: "100" }} onClick={closeModal}>
+    <Box sx={{ mx: "auto", textAlign: "center", zIndex: "100" }}>
       <PlayingModal>
+        <Box sx={{ position: "absolute", top: "3%", right: "5%" }} onClick={closeModal}>
+          <ExitButton />
+        </Box>
         <Box sx={{ mt: "7vh", mb: "5vh" }}>
           <CustomText weight="bold" size="xxl">
             랭킹
