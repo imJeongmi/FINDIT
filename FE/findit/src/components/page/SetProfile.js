@@ -38,7 +38,7 @@ function PlayerProfile() {
   );
 }
 
-function UserProfile() {
+function HostProfile() {
   // 로그아웃 함수 작성
   return (
     <Box sx={ProfileBoxStyle}>
@@ -77,6 +77,6 @@ export default function SetProfile({ target }) {
   }
 
   return (
-    <Box>{isPlayer(target) ? <PlayerProfile></PlayerProfile> : <UserProfile></UserProfile>}</Box>
+    <Box>{isPlayer(target) ? <PlayerProfile></PlayerProfile> : <HostProfile></HostProfile>}</Box>
   );
 }
