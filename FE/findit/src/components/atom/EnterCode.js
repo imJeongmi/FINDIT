@@ -1,3 +1,4 @@
+import { fontFamily } from "@mui/system";
 import { useState } from "react";
 import ReactInputVerificationCode from "react-input-verification-code";
 
@@ -15,7 +16,8 @@ export default function EnterCode() {
         placeholder={null}
         length={6}
         onChange={(newValue) => {
-          setValue(newValue);
+          setValue(newValue)
+        style={{ fontFamily: "GmarketSansMedium"}};
 
           // if (newValue !== "") {
           //   setError(null);
