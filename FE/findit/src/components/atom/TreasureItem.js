@@ -26,8 +26,10 @@ const TreasureImage = styled("img")(
 );
 
 function getSelectedColor(selected) {
-  // if (selected) {
+  // if (!!selected) {
   //   return "brightness(50%)";
+  // } else {
+  //   return "brightness(100%)";
   // }
 }
 

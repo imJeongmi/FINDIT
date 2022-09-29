@@ -55,7 +55,7 @@ export default function SelectTreasure() {
   for (let i = 0; i < selectedList.length; i++) {
     selectedList[i] = false;
   }
-  const [isSelectedList, setIsSelectedList] = useState(selectedList);
+  // const [isSelectedList, setIsSelectedList] = useState(selectedList);
   const { gameId } = useParams();
   const [selectedTreasures, setSelectedTreasures] = useState([]);
 
@@ -76,15 +76,9 @@ export default function SelectTreasure() {
   function selectTreasure(key) {
     if (!(key in selectedTreasures)) {
       setSelectedTreasures([...selectedTreasures, key]);
-      // selectedList[key] = true;
     } else if (key in selectedTreasures) {
       setSelectedTreasures(selectedTreasures.filter(selectedTreasure => selectedTreasure !== key));
-      selectedList[key] = false;
     }
-    setIsSelectedList(
-      isSelectedList.map((isSelected, idx) => (idx === key ? !isSelected : isSelected)),
-    );
-    console.log(selectedList);
   }
 
   const navigate = useNavigate();
@@ -124,8 +118,12 @@ export default function SelectTreasure() {
         <TreasureItem src="https://placeimg.com/100/100/any"></TreasureItem>
         <TreasureItem src="https://placeimg.com/100/100/any"></TreasureItem> */}
         {treasureList.map((treasure, key) => (
-          <Box key={key} onClick={() => selectTreasure(key)}>
-            <TreasureItem src={treasure} alt="treasure" selected={selectedList[key]} />
+          <Box
+            key={key}
+            onClick={() => selectTreasure(key)}
+            className={key in selectedTreasures ? "selected" : ""}
+          >
+            <TreasureItem src={treasure} alt="treasure" />
           </Box>
         ))}
         {/* Onclick 달아야 함 */}
