@@ -2,12 +2,15 @@ package a203.findit.controller;
 
 import a203.findit.model.dto.req.User.CreateRoomDTO;
 import a203.findit.model.dto.req.User.EntercodeDTO;
+import a203.findit.model.dto.req.User.PlayerInfoDTO;
 import a203.findit.model.dto.res.ApiResponse;
 import a203.findit.model.dto.req.User.RoomDTO;
 import a203.findit.model.entity.User;
+import a203.findit.service.PlayerServiceImpl;
 import a203.findit.service.RoomServiceImpl;
 import a203.findit.service.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
+import net.bytebuddy.asm.Advice;
 import org.json.simple.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
 
@@ -31,6 +35,7 @@ public class RoomController {
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final RoomServiceImpl roomService;
     private final UserServiceImpl userService;
+    private final PlayerServiceImpl playerService;
 
     @PostMapping("/room/create2")
     @ResponseBody
@@ -96,6 +101,13 @@ public class RoomController {
         jsonObject.put("code", "success");
         jsonObject.put("status","end");
         simpMessagingTemplate.convertAndSend("/sub/room/"+entercodeDTO.getEntercode(),jsonObject);
+    }
+
+    @PostMapping("/room/result")
+    public ResponseEntity<ArrayList<PlayerInfoDTO>> showResult(@Valid EntercodeDTO entercodeDTO){
+        //return result && save result >> 등수
+        ArrayList<PlayerInfoDTO> playerInfoDTOS =  playerService.rankChange(entercodeDTO.getEntercode());
+        return ResponseEntity.ok(playerInfoDTOS);
     }
 
 }
