@@ -1,5 +1,5 @@
 import { Box, styled } from "@mui/system";
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 const TreasureBox = styled(Box)(
   () => `
@@ -17,17 +17,57 @@ const TreasureBox = styled(Box)(
 );
 
 const TreasureImage = styled("img")(
-  () => `
+  selected => `
   width: 22vw;
   height: 22vw;
   border-radius: 25%;
+  filter: ${getSelectedColor(selected)};
   `,
 );
 
-export default function TreasureItem({ src }) {
+function getSelectedColor(selected) {
+  // if (!!selected) {
+  //   return "brightness(50%)";
+  // } else {
+  //   return "brightness(100%)";
+  // }
+}
+
+export default function TreasureItem({ src, selectedItems, selectedItemHandler, alt }) {
+  const [isSelected, setIsSelected] = useState(null);
+
+  const onSelect = ({ target }) => {
+    console.log(target.value, target.checked);
+    selectedItemHandler(target.value, target.checked);
+    setIsSelected(target.checked);
+  };
+
+  useEffect(() => {
+    if (selectedItems.includes(src)) {
+      setIsSelected(true);
+    } else {
+      setIsSelected(false);
+    }
+  }, [selectedItems]);
+
   return (
     <TreasureBox>
-      <TreasureImage src={src} />
+      <label key={src} style={{ display: "flex", justifyContent: "center" }}>
+        <input
+          type="checkbox"
+          name="treasure"
+          checked={isSelected}
+          value={src || ""}
+          onChange={e => onSelect(e)}
+          style={{ display: "none" }}
+        />
+        <TreasureImage
+          src={src}
+          alt={alt}
+          style={{ filter: isSelected ? "brightness(40%)" : "brightness(100%)" }}
+        />
+        {/* {isSelected && <Box style={{ display: "fixed", backgroundColor: "black" }} />} */}
+      </label>
     </TreasureBox>
   );
 }
