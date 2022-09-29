@@ -144,6 +144,7 @@ export default function Playing() {
           onClick={() => {
             const photo = camera.current.takePhoto();
             setImage(photo);
+            // 이미지 채점 : https://findit.life/fast/check로 game_id랑 file(파일명) 보내기
           }}
         >
           <CircleButton icon="camera" size="large" opacity="0.8" />
