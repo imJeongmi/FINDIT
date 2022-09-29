@@ -34,7 +34,7 @@ function getSelectedColor(selected) {
 }
 
 export default function TreasureItem({ src, selectedItems, selectedItemHandler, alt }) {
-  const [isSelected, setIsSelected] = useState(null);
+  const [isSelected, setIsSelected] = useState(false);
 
   const onSelect = ({ target }) => {
     console.log(target.value, target.checked);
@@ -42,13 +42,16 @@ export default function TreasureItem({ src, selectedItems, selectedItemHandler, 
     setIsSelected(target.checked);
   };
 
-  useEffect(() => {
-    if (selectedItems.includes(src)) {
-      setIsSelected(true);
-    } else {
-      setIsSelected(false);
-    }
-  }, [selectedItems]);
+  useEffect(
+    src => {
+      if (selectedItems.includes(src)) {
+        setIsSelected(true);
+      } else {
+        setIsSelected(false);
+      }
+    },
+    [selectedItems],
+  );
 
   return (
     <TreasureBox>
