@@ -22,7 +22,7 @@ export default function EnterVerificationCode() {
           </CustomText>
           <br />
           <br />
-          <CustomText size="xs">게임에 입장하기 위해 전달받은 코드를 입력하세요.</CustomText>
+          <CustomText size="xs">게임에 입장하기 위해 전달받은 코드를 입력하세요</CustomText>
           <EnterCode></EnterCode>
         </Box>
         <CustomButton size="large" color="primary">
