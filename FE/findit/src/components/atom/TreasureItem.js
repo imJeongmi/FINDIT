@@ -17,17 +17,24 @@ const TreasureBox = styled(Box)(
 );
 
 const TreasureImage = styled("img")(
-  () => `
+  selected => `
   width: 22vw;
   height: 22vw;
   border-radius: 25%;
+  filter: ${getSelectedColor(selected)};
   `,
 );
 
-export default function TreasureItem({ src }) {
+function getSelectedColor(selected) {
+  // if (selected) {
+  //   return "brightness(50%)";
+  // }
+}
+
+export default function TreasureItem({ src, alt, selected }) {
   return (
     <TreasureBox>
-      <TreasureImage src={src} />
+      <TreasureImage src={src} alt={alt} selected={selected} />
     </TreasureBox>
   );
 }

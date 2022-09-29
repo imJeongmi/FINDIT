@@ -7,6 +7,8 @@ import { useParams } from "react-router-dom";
 import CustomText from "../atom/CustomText";
 import TreasureItem from "../atom/TreasureItem";
 
+import { useNavigate } from "react-router-dom";
+
 const BoxStyle = {
   width: "80vw",
   margin: "auto",
@@ -48,11 +50,19 @@ export default function SelectTreasure() {
     "https://placeimg.com/100/100/any",
     "https://placeimg.com/100/100/any",
   ]);
+
+  let selectedList = new Array(10);
+  for (let i = 0; i < selectedList.length; i++) {
+    selectedList[i] = false;
+  }
+  const [isSelectedList, setIsSelectedList] = useState(selectedList);
   const { gameId } = useParams();
   const [selectedTreasures, setSelectedTreasures] = useState([]);
 
   useEffect(() => {
-    getTreasureList(getTreasureListSuccess, getTreasureListFail);
+    if (!!gameId) {
+      getTreasureList(getTreasureListSuccess, getTreasureListFail);
+    }
   }, [gameId]);
 
   function getTreasureListSuccess(res) {
@@ -63,8 +73,28 @@ export default function SelectTreasure() {
     console.log("보물 목록 요청 실패", err);
   }
 
-  function selectTreasure(treasure) {
-    setSelectedTreasures([...selectedTreasures, treasure]);
+  function selectTreasure(key) {
+    if (!(key in selectedTreasures)) {
+      setSelectedTreasures([...selectedTreasures, key]);
+      // selectedList[key] = true;
+    } else if (key in selectedTreasures) {
+      setSelectedTreasures(selectedTreasures.filter(selectedTreasure => selectedTreasure !== key));
+      selectedList[key] = false;
+    }
+    setIsSelectedList(
+      isSelectedList.map((isSelected, idx) => (idx === key ? !isSelected : isSelected)),
+    );
+    console.log(selectedList);
+  }
+
+  const navigate = useNavigate();
+  function confirm() {
+    console.log(selectedTreasures);
+    if (selectedTreasures.length > 0) {
+      navigate(`/waiting/${gameId}`);
+    } else {
+      console.log("보물 선택 ㄱㄱ");
+    }
   }
 
   return (
@@ -94,7 +124,9 @@ export default function SelectTreasure() {
         <TreasureItem src="https://placeimg.com/100/100/any"></TreasureItem>
         <TreasureItem src="https://placeimg.com/100/100/any"></TreasureItem> */}
         {treasureList.map((treasure, key) => (
-          <TreasureItem src={treasure} />
+          <Box key={key} onClick={() => selectTreasure(key)}>
+            <TreasureItem src={treasure} alt="treasure" selected={selectedList[key]} />
+          </Box>
         ))}
         {/* Onclick 달아야 함 */}
         <AddTreasureButton>
@@ -106,7 +138,7 @@ export default function SelectTreasure() {
           </CustomText>
         </AddTreasureButton>
       </Box>
-      <CustomButton size="large" color="secondary">
+      <CustomButton size="large" color="secondary" onClick={confirm}>
         보물 설정 완료
       </CustomButton>
     </Box>
