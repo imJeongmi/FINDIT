@@ -12,14 +12,14 @@ const CenterStyle = {
 const ButtonStyle = {
   display: "flex",
   flexDirection: "column",
-  alignItems: "center",
+  alignItems: "center", 
 };
 
 const RankingBox = styled(Box)(
   () => `
     width: 90vw;
     height: 45vh;
-    margin: 3vh auto;
+    margin: 1.5vh auto;
     align-items: center;
     overflow: scroll;
     overflow-x: hidden;
@@ -65,13 +65,13 @@ export default function GameStatus({ target }) {
         </CustomText>
       </Box>
       <RankingBox>
-        <RankingList />
-        <RankingList />
-        <RankingList />
-        <RankingList />
-        <RankingList />
-        <RankingList />
-        <RankingList />
+        <RankingList rankNum={1} userName="김싸피" gameScore={350}/>
+        <RankingList rankNum={2} userName="이멀캠" gameScore={220}/>
+        <RankingList rankNum={3} userName="박역삼" gameScore={160}/>
+        <RankingList rankNum={4} userName="최문어" gameScore={140}/>
+        <RankingList rankNum={5} userName="김싸피" gameScore={110}/>
+        <RankingList rankNum={6} userName="김싸피" gameScore={90}/>
+        <RankingList rankNum={7} userName="김싸피" gameScore={80}/>
       </RankingBox>
       <Box>{isFinished(target) ? <ActivateButton /> : <DeactivateButton />}</Box>
     </Box>

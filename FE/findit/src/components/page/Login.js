@@ -35,7 +35,7 @@ export default function Login() {
     const refreshToken = res.data.refreshToken;
     ls.set("accessToken", accessToken);
     ls.set("refreshToken", refreshToken);
-    // navigate("/hostmain");
+    navigate("/hostmain");
   }
 
   function loginFail(res) {
@@ -57,13 +57,17 @@ export default function Login() {
     setPw(pw);
   }
 
+  function goToMain(e) {
+    navigate("/main");
+  }
+
   return (
     <Box sx={{ textAlign: "center" }}>
       <Box sx={{ mt: "3vh" }}>
         <img src={compass} alt="compass" width="100" />
       </Box>
       <Modal>
-        <Box sx={{ mt: "5vh", mb: "1vh" }}>
+        <Box sx={{ mt: "5vh", mb: "0" }}>
           <CustomText size="xl" weight="bold">
             {"Login | "}
           </CustomText>
@@ -74,16 +78,19 @@ export default function Login() {
           </span>
         </Box>
         <Box>
-          <CustomText size="xs" variant="grey">
+          <CustomText size="xxs" variant="grey">
             게임을 생성하려면 로그인이 필요해요
           </CustomText>
         </Box>
         <Box sx={LoginStyle}>
           <Input placeholder="아이디" value={id} onChange={onChangeId} />
           <Input placeholder="비밀번호" value={pw} type="password" onChange={onChangePw} />
-          <Box sx={{ padding: "0 5vh" }}>
-            <CustomText size="xs" variant="grey">
+          <Box sx={{ padding: "0 5vh" }} onClick={goToMain}>
+            {/* <CustomText size="xs" variant="grey">
               비밀번호를 잊어버리셨나요?
+            </CustomText> */}
+            <CustomText size="xs" variant="grey">
+              메인 페이지로 돌아가기
             </CustomText>
           </Box>
         </Box>

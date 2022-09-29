@@ -6,14 +6,14 @@ import RankingList from "components/module/RankingList";
 
 const CenterStyle = {
   margin: "7vh auto",
-  textAlign: "center",
+  textAlign: "center", 
 };
 
 const RankingBox = styled(Box)(
   () => `
     width: 90vw;  
-    height: 45vh; 
-    margin: 0 auto;
+    height: 52vh; 
+    margin: 3vh auto;
     align-items: center;
     overflow: scroll;
     overflow-x: hidden; 
@@ -21,13 +21,13 @@ const RankingBox = styled(Box)(
 );
 
 function PlayerButton() {
-  return <CustomButton size="large">튜토리얼 보기</CustomButton>;
+  return <CustomButton size="large" my="0">튜토리얼 보기</CustomButton>;
 }
 
 function HostButton() {
   return (
     // solid style
-    <CustomButton size="large">PLAY</CustomButton>
+    <CustomButton size="large" my="0">PLAY</CustomButton>
   );
 }
 
@@ -49,15 +49,15 @@ export default function WaitPlaying({ target }) {
         </CustomText>
       </Box>
       <RankingBox>
-        <RankingList />
-        <RankingList />
-        <RankingList />
-        <RankingList />
-        <RankingList />
-        <RankingList />
-        <RankingList />
+        <RankingList userName="김싸피" />
+        <RankingList userName="이멀캠"/>
+        <RankingList userName="박역삼"/>
+        <RankingList userName="최문어"/>
+        <RankingList userName="김싸피"/>
+        <RankingList userName="김싸피"/>
+        <RankingList userName="김싸피"/>
       </RankingBox>
-      <Box sx={CenterStyle}>{isPlayer(target) ? <PlayerButton /> : <HostButton />}</Box>
+      <Box sx={{textAlign: "center"}}>{isPlayer(target) ? <PlayerButton /> : <HostButton />}</Box>
     </Box>
   );
 }

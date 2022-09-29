@@ -15,6 +15,7 @@ import Result from "components/page/Result";
 import WaitPlaying from "components/page/WaitPlaying";
 import GameStatus from "components/page/GameStatus";
 import Playing from "components/page/Playing";
+import AddTreasure from "components/page/AddTreasure";
 
 function checkAuth() {
   return true;
@@ -70,6 +71,16 @@ export default function RouterConfiguration() {
         />
 
         <Route
+          path="/mytreasure"
+          component={SelectTreasure}
+          element={
+            <CheckAuth>
+              <SelectTreasure />
+            </CheckAuth>
+          }
+        />
+
+        <Route
           path="/hostprofile"
           component={SetProfile}
           element={
@@ -103,6 +114,15 @@ export default function RouterConfiguration() {
           element={
             <CheckAuth>
               <GameStatus />
+            </CheckAuth>
+          }
+        />
+        <Route
+          path="/addtreasure"
+          component={AddTreasure}
+          element={
+            <CheckAuth>
+              <AddTreasure />
             </CheckAuth>
           }
         />

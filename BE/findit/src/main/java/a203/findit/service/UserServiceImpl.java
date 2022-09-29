@@ -53,6 +53,7 @@ public class UserServiceImpl implements UserService {
     private final TreasureRepository treasureRepos;
     private final GameRepository gameRepos;
     private final IGTRepository igtRepos;
+    private final MemoryPlayerRepository playerRepository;
 
 
     public Optional<User> findByUsername(String username){
@@ -85,9 +86,14 @@ public class UserServiceImpl implements UserService {
     public Map<String, String> login(LoginUserDTO loginUserDTO) throws CustomException{
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginUserDTO.getId(),loginUserDTO.getPw());
 
-        Authentication authentication = authenticationManager.authenticate(token);
-        System.out.println(authentication.getName());
-        Map<String, String> result = createToken(authentication.getName());
+        Map<String, String> result;
+
+        try {
+            Authentication authentication = authenticationManager.authenticate(token);
+            result = createToken(authentication.getName());
+        }catch (Exception e) {
+            throw new CustomException(Code.C401);
+        }
 
         return result;
     }
@@ -217,10 +223,13 @@ public class UserServiceImpl implements UserService {
                 ()-> new CustomException(Code.C401)
         );
 
+        if(!igtRepos.existsByTreasureIdAndGameId(treasure.getId(),game.getId())){
+            igtRepos.save(IGT.builder().game(game).treasure(treasure).build());
 
-        igtRepos.save(IGT.builder().game(game).treasure(treasure).build());
-
-        return true;
+            playerRepository.init(entercode);
+            return true;
+        }
+        return false;
     }
 
     private Map<String, String> createToken(String name) {
