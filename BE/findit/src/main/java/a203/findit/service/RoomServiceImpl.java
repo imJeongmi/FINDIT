@@ -26,7 +26,6 @@ public class RoomServiceImpl implements RoomService{
     private final UserRepository userRepository;
     private final GameRepository gameRepository;
     private final MemoryRoomRepository roomRepository;
-    private final MemoryPlayerRepository playerRepository;
 
 
     @Transactional
@@ -47,8 +46,6 @@ public class RoomServiceImpl implements RoomService{
 
         game.setEntercode(entercode);
         gameRepository.save(game);
-
-        playerRepository.init(entercode);
 
         return roomRepository.save(entercode,game, mode);
     }
