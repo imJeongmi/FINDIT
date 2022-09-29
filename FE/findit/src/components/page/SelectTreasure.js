@@ -12,8 +12,8 @@ const BoxStyle = {
 };
 
 const TreasureBoxStyle = {
-  my: 5,
-  height: "50vh",
+  mt: "4vh",
+  height: "51vh",
   overflow: "scroll",
 };
 
