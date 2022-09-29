@@ -38,7 +38,7 @@ public class SecurityConfig {
             "/users",
             "/users/login",
             "/api/v1/users",
-            "/api/v1/login"
+            "/api/v1/users/login"
     };
     private static final String[] DELETE_PUBLIC_URI = {};
 
@@ -110,6 +110,7 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
 
 //        configuration.addAllowedOrigin(frontUrl);
+        configuration.addAllowedOriginPattern("*");
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
         configuration.setAllowCredentials(true);
