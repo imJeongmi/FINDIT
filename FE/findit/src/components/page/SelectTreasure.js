@@ -1,7 +1,8 @@
-import { Box, styled } from "@mui/system";
-import CustomButton from "components/atom/CustomButton";
 import React from "react";
+import { Box, styled } from "@mui/system";
+import { Link } from 'react-router-dom';
 
+import CustomButton from "components/atom/CustomButton";
 import CustomText from "../atom/CustomText";
 import TreasureItem from "../atom/TreasureItem";
 
@@ -55,13 +56,16 @@ export default function SelectTreasure() {
         <TreasureItem src="https://placeimg.com/100/100/any"></TreasureItem>
         <TreasureItem src="https://placeimg.com/100/100/any"></TreasureItem>
         <TreasureItem src="https://placeimg.com/100/100/any"></TreasureItem>
-        {/* Onclick 달아야 함 */}
-        <AddTreasureButton>
-          <CustomText size="large" variant="primary">
-            +
-          </CustomText>
-        </AddTreasureButton>
+
+        <Link to="/addtreasure">
+          <AddTreasureButton>
+            <CustomText size="large" variant="primary">
+              +
+            </CustomText>
+          </AddTreasureButton>
+        </Link>
       </Box>
+      
       <CustomButton size="large" color="secondary">
         보물 설정 완료
       </CustomButton>
