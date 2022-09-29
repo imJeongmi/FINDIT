@@ -217,10 +217,12 @@ public class UserServiceImpl implements UserService {
                 ()-> new CustomException(Code.C401)
         );
 
+        if(!igtRepos.existsByTreasureIdAndGameId(treasure.getId(),game.getId())){
+            igtRepos.save(IGT.builder().game(game).treasure(treasure).build());
+            return true;
+        }
 
-        igtRepos.save(IGT.builder().game(game).treasure(treasure).build());
-
-        return true;
+        return false;
     }
 
     private Map<String, String> createToken(String name) {

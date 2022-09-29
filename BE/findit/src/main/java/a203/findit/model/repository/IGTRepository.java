@@ -9,6 +9,8 @@ import java.util.List;
 
 @Repository
 public interface IGTRepository extends JpaRepository<IGT, Long> {
+
+    boolean existsByTreasureIdAndGameId(Long treasureId, Long gameId);
     @Query(nativeQuery = true, value = "select * from where igt where game_id = :gameId")
     public List<IGT> findAllByGameId(Long gameId);
 }
