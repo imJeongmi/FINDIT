@@ -80,7 +80,7 @@ export default function Tutorial({ target }) {
                 ))}
           </Carousel>
         </Box>
-        <CustomButton size="large" color="primary" my="0.5vh">
+        <CustomButton size="large" color="primary" my="1.5vh">
           입장 코드 입력
         </CustomButton>
       </Modal>

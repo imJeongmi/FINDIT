@@ -23,8 +23,8 @@ const AwardsBox = styled(Box)(
 
 const RankingBox = styled(Box)(
   () => `
-  width: 80vw;
-  height: 41vh;
+  width: 90vw;
+  height: 37vh;
   margin: 0 auto;
   align-items: center;
   overflow: scroll;
@@ -55,11 +55,11 @@ function getRank(rankNum) {
   }
 }
 
-function AwardsList(rankNum) {
+function AwardsList(rankNum, playerName) {
   return (
     <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
       {rankNum === 1 ? <ProfileImage type="winner" mb="2vh" /> : <ProfileImage mb="2vh" />}
-      <CustomText>{"Player 1"}</CustomText>
+      <CustomText>{playerName}</CustomText>
       {getRank(rankNum)}
     </Box>
   );
@@ -74,18 +74,18 @@ export default function Result() {
         </CustomText>
       </Box>
       <AwardsBox>
-        {AwardsList(2)}
-        {AwardsList(1)}
-        {AwardsList(3)}
+        {AwardsList(2, "이멀캠")}
+        {AwardsList(1, "김싸피")}
+        {AwardsList(3, "박역삼")}
       </AwardsBox>
       <RankingBox>
-        <RankingList />
-        <RankingList />
-        <RankingList />
-        <RankingList />
-        <RankingList />
-        <RankingList />
-        <RankingList />
+        <RankingList rankNum={1} userName="김싸피" gameScore={350}/>
+        <RankingList rankNum={2} userName="이멀캠" gameScore={220}/>
+        <RankingList rankNum={3} userName="박역삼" gameScore={160}/>
+        <RankingList rankNum={4} userName="최문어" gameScore={140}/>
+        <RankingList rankNum={5} userName="김싸피" gameScore={110}/>
+        <RankingList rankNum={6} userName="김싸피" gameScore={90}/>
+        <RankingList rankNum={7} userName="김싸피" gameScore={80}/>
       </RankingBox>
       <ButtonBox>
         <CustomButton size="large" color="secondary">
