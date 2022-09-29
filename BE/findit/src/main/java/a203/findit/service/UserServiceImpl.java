@@ -85,9 +85,14 @@ public class UserServiceImpl implements UserService {
     public Map<String, String> login(LoginUserDTO loginUserDTO) throws CustomException{
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginUserDTO.getId(),loginUserDTO.getPw());
 
-        Authentication authentication = authenticationManager.authenticate(token);
-        System.out.println(authentication.getName());
-        Map<String, String> result = createToken(authentication.getName());
+        Map<String, String> result;
+
+        try {
+            Authentication authentication = authenticationManager.authenticate(token);
+            result = createToken(authentication.getName());
+        }catch (Exception e) {
+            throw new CustomException(Code.C401);
+        }
 
         return result;
     }

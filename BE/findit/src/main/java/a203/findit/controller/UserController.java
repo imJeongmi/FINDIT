@@ -49,17 +49,24 @@ public class UserController {
             if (customException.getCode() == Code.C402) {
                 return ResponseEntity.badRequest().body("중복입니다.");
             }
-
         }
-
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> login(HttpServletRequest request, HttpServletResponse response, @Valid @RequestBody LoginUserDTO loginUserDTO) {
-        Map<String, String> result = userService.login(loginUserDTO);
-        SetCookie.setRefreshTokenCookie(response, result.get(REFRESH_TOKEN_KEY));
-        return ResponseEntity.ok().body(result);
+    public ResponseEntity login(HttpServletRequest request, HttpServletResponse response, @Valid @RequestBody LoginUserDTO loginUserDTO) {
+        try {
+            Map<String, String> result = userService.login(loginUserDTO);
+            SetCookie.setRefreshTokenCookie(response, result.get(REFRESH_TOKEN_KEY));
+            return ResponseEntity.ok().body(result);
+        }catch (CustomException customException) {
+            if (customException.getCode() == Code.C401) {
+                return ResponseEntity.badRequest().body("인증에 실패했습니다.");
+            }
+        }finally{
+            return ResponseEntity.internalServerError().build();
+        }
+
     }
 
     @PostMapping("/logout")
@@ -83,7 +90,7 @@ public class UserController {
 
         SetCookie.deleteRefreshTokenCookie(response);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body("로그아웃되었습니다.");
     }
 
     @GetMapping("/{userId}")
