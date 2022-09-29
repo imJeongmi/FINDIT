@@ -21,7 +21,7 @@ const TreasureBox = styled(Box)(
 const TextBox = styled(Box)(
     () => `
     position: absolute;
-    top: 75%;
+    top: 80%;
     right: 10%;
     `
 )

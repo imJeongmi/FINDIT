@@ -13,8 +13,8 @@ const CenterStyle = {
 
 const RankingBox = styled(Box)(
   () => `
-    width: 80vw;  
-    height: 41vh; 
+    width: 90vw;  
+    height: 52vh; 
     margin: 3vh auto;
     align-items: center;
     overflow: scroll;
@@ -57,13 +57,13 @@ export default function WaitPlaying({ target }) {
         </CustomText>
       </Box>
       <RankingBox>
-        <RankingList />
-        <RankingList />
-        <RankingList />
-        <RankingList />
-        <RankingList />
-        <RankingList />
-        <RankingList />
+        <RankingList userName="김싸피" />
+        <RankingList userName="이멀캠"/>
+        <RankingList userName="박역삼"/>
+        <RankingList userName="최문어"/>
+        <RankingList userName="김싸피"/>
+        <RankingList userName="김싸피"/>
+        <RankingList userName="김싸피"/>
       </RankingBox>
       <Box sx={{ textAlign: "center" }}>
         {isPlayer(target) ? (
