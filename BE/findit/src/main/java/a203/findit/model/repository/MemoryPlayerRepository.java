@@ -45,7 +45,9 @@ public class MemoryPlayerRepository implements PlayerRepository {
      igtid에서 같은 entercode 내에 igtid 의 emtpy 여부 / 개수 => 개수 리턴
      */
     public int igtidCnt(String entercode, Long igtid){
-        return roomRepository.findByEnterCode(entercode).getSessionIdByIGTID().get(igtid).size();
+        Set<String> sessions = roomRepository.findByEnterCode(entercode).getSessionIdByIGTID().get(igtid);
+        if(sessions == null) return 0;
+        else return sessions.size();
     }
 
     /*
