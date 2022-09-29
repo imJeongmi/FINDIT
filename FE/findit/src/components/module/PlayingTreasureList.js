@@ -9,7 +9,7 @@ import ExitButton from "components/atom/ExitButton";
 const TreasureBox = styled(Box)(
   () => `
     position: absolute;
-    top: 60%;
+    top: 55%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 80vw;
@@ -21,7 +21,7 @@ const TreasureBox = styled(Box)(
 const TextBox = styled(Box)(
     () => `
     position: absolute;
-    top: 78%;
+    top: 75%;
     right: 10%;
     `
 )
