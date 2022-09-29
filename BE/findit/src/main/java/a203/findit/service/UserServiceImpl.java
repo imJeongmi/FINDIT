@@ -53,6 +53,7 @@ public class UserServiceImpl implements UserService {
     private final TreasureRepository treasureRepos;
     private final GameRepository gameRepos;
     private final IGTRepository igtRepos;
+    private final MemoryPlayerRepository playerRepository;
 
 
     public Optional<User> findByUsername(String username){
@@ -219,6 +220,7 @@ public class UserServiceImpl implements UserService {
 
         igtRepos.save(IGT.builder().game(game).treasure(treasure).build());
 
+        playerRepository.init(entercode);
         return true;
     }
 
