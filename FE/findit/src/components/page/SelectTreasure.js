@@ -4,6 +4,9 @@ import CustomButton from "components/atom/CustomButton";
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
+import { Link } from 'react-router-dom';
+
+import CustomButton from "components/atom/CustomButton";
 import CustomText from "../atom/CustomText";
 import TreasureItem from "../atom/TreasureItem";
 
@@ -135,15 +138,18 @@ export default function SelectTreasure() {
           </Box>
         ))}
         {/* Onclick 달아야 함 */}
-        <AddTreasureButton>
-          <CustomText size="xxxl" variant="secondary">
-            +
-          </CustomText>
-          <CustomText size="xxs" variant="secondary">
-            나만의 보물 추가
-          </CustomText>
-        </AddTreasureButton>
+        <Link to="/addtreasure">
+          <AddTreasureButton>
+            <CustomText size="xxxl" variant="secondary">
+              +
+            </CustomText>
+            <CustomText size="xxs" variant="secondary">
+              나만의 보물 추가
+            </CustomText>
+          </AddTreasureButton>
+        </Link>
       </Box>
+      
       <CustomButton size="large" color="secondary" onClick={confirm}>
         보물 설정 완료
       </CustomButton>

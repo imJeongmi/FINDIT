@@ -9,6 +9,7 @@ import a203.findit.service.RoomServiceImpl;
 import a203.findit.service.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -95,4 +97,5 @@ public class RoomController {
         jsonObject.put("status","end");
         simpMessagingTemplate.convertAndSend("/sub/room/"+entercodeDTO.getEntercode(),jsonObject);
     }
+
 }

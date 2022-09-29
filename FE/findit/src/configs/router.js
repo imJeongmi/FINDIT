@@ -14,6 +14,8 @@ import GameSetting from "components/page/GameSettings";
 import Result from "components/page/Result";
 import WaitPlaying from "components/page/WaitPlaying";
 import GameStatus from "components/page/GameStatus";
+import Playing from "components/page/Playing";
+import AddTreasure from "components/page/AddTreasure";
 
 function checkAuth() {
   return true;
@@ -45,6 +47,7 @@ export default function RouterConfiguration() {
         <Route path="/waiting/:gameid" component={WaitPlaying} element={<WaitPlaying />} />
 
         {/* player 게임 플레이 */}
+        <Route path="/playing" component={Playing} element={<Playing />} />
 
         {/* User */}
         <Route
@@ -111,6 +114,15 @@ export default function RouterConfiguration() {
           element={
             <CheckAuth>
               <GameStatus />
+            </CheckAuth>
+          }
+        />
+        <Route
+          path="/addtreasure"
+          component={AddTreasure}
+          element={
+            <CheckAuth>
+              <AddTreasure />
             </CheckAuth>
           }
         />

@@ -6,14 +6,16 @@ import ProfileImage from "components/atom/ProfileImage";
 import RankingList from "components/module/RankingList";
 
 const CenterStyle = {
-  margin: "7vh auto",
+  mt: "5vh",
+  mb: "3vh",
+  mx: "auto",
   textAlign: "center",
 };
 
 const AwardsBox = styled(Box)(
   () => `
   width: 80vw;
-  margin: 40px auto;
+  margin: 2vh auto;
   display: flex;
   justify-content: space-between;
   `,
@@ -21,8 +23,8 @@ const AwardsBox = styled(Box)(
 
 const RankingBox = styled(Box)(
   () => `
-  width: 90vw;
-  height: 45vh;
+  width: 80vw;
+  height: 41vh;
   margin: 0 auto;
   align-items: center;
   overflow: scroll;
@@ -32,8 +34,8 @@ const RankingBox = styled(Box)(
 
 const ButtonBox = styled(Box)(
   () => `
-  width: 85%;
-  margin: 2vh auto;
+  width: 85vw;
+  margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -56,7 +58,7 @@ function getRank(rankNum) {
 function AwardsList(rankNum) {
   return (
     <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-      {rankNum === 1 ? <ProfileImage type="winner" /> : <ProfileImage />}
+      {rankNum === 1 ? <ProfileImage type="winner" mb="2vh" /> : <ProfileImage mb="2vh" />}
       <CustomText>{"Player 1"}</CustomText>
       {getRank(rankNum)}
     </Box>

@@ -1,6 +1,7 @@
 package a203.findit.model.repository;
 
 import a203.findit.model.dto.req.User.*;
+import a203.findit.model.entity.IGT;
 import a203.findit.model.entity.Mode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.parameters.P;
@@ -12,6 +13,7 @@ import java.util.*;
 @Repository
 public class MemoryPlayerRepository implements PlayerRepository {
     final private MemoryRoomRepository roomRepository;
+    final private IGTRepository igtRepository;
 
     private PlayerInfoDTO findPlayerInfoDTO(String entercode, String sessionId){
         return roomRepository.findByEnterCode(entercode).getPlayerInfoDTOBySessionId().get(sessionId);
@@ -25,26 +27,31 @@ public class MemoryPlayerRepository implements PlayerRepository {
     }
 
     /*
+    igt db -> igtplayer inmemory
     게임 시작시 sessionIdByIGTID에 igtID key값 모두 생성하고 value 값 null로 설정하기
      */
-    public void init(ArrayList<IGTDTO> igtdtos, String entercode){
-        int len = igtdtos.size();
-        for(int i=0;i<len;i++){
-            roomRepository.findByEnterCode(entercode).getSessionIdByIGTID().put(igtdtos.get(i).getIndex(), null);
+    public void init(String entercode){
+        Long roomId = roomRepository.findByEnterCode(entercode).getRoomId();
+        for (IGT igt : igtRepository.findAllByGameId(roomId)) {
+            roomRepository.findByEnterCode(entercode).getSessionIdByIGTID().put(igt.getTreasure().getId(), null);
         }
+    }
+
+    public void addIgtPlayer(String entercode, Long igtid, String sessionId){
+        roomRepository.findByEnterCode(entercode).getSessionIdByIGTID().get(igtid).add(sessionId);
     }
 
     /*
      igtid에서 같은 entercode 내에 igtid 의 emtpy 여부 / 개수 => 개수 리턴
      */
-    public int igtidCnt(String entercode, int igtid){
+    public int igtidCnt(String entercode, Long igtid){
         return roomRepository.findByEnterCode(entercode).getSessionIdByIGTID().get(igtid).size();
     }
 
     /*
      igtid에서 같은 entercode 내에 igtid와 sessionid가 같은게 있는지 확인 => bool
      */
-    public boolean isExistSame(String entercode, int igtid, String sessionId){
+    public boolean isExistSame(String entercode, Long igtid, String sessionId){
         return roomRepository.findByEnterCode(entercode).getSessionIdByIGTID().get(igtid).contains(sessionId);
     }
 

@@ -85,9 +85,14 @@ public class UserServiceImpl implements UserService {
     public Map<String, String> login(LoginUserDTO loginUserDTO) throws CustomException{
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginUserDTO.getId(),loginUserDTO.getPw());
 
-        Authentication authentication = authenticationManager.authenticate(token);
-        System.out.println(authentication.getName());
-        Map<String, String> result = createToken(authentication.getName());
+        Map<String, String> result;
+
+        try {
+            Authentication authentication = authenticationManager.authenticate(token);
+            result = createToken(authentication.getName());
+        }catch (Exception e) {
+            throw new CustomException(Code.C401);
+        }
 
         return result;
     }
@@ -208,18 +213,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean selectTreasure(Long tid, Long gameId) {
+    public boolean selectTreasure(Long tid, String entercode) {
         Treasure treasure = treasureRepos.findById(tid).orElseThrow(
                 ()->new CustomException(Code.C401)
         );
 
-        Game game = gameRepos.findById(gameId).orElseThrow(
+        Game game = gameRepos.findByEnterCode(entercode).orElseThrow(
                 ()-> new CustomException(Code.C401)
         );
 
-        igtRepos.save(IGT.builder().game(game).treasure(treasure).build());
+        if(!igtRepos.existsByTreasureIdAndGameId(treasure.getId(),game.getId())){
+            igtRepos.save(IGT.builder().game(game).treasure(treasure).build());
+            return true;
+        }
 
-        return true;
+        return false;
     }
 
     private Map<String, String> createToken(String name) {

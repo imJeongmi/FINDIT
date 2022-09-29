@@ -68,7 +68,7 @@ export default function Login() {
         <img src={compass} alt="compass" width="100" />
       </Box>
       <Modal>
-        <Box sx={{ mt: "5vh", mb: "1vh" }}>
+        <Box sx={{ mt: "5vh", mb: "0" }}>
           <CustomText size="xl" weight="bold">
             {"Login | "}
           </CustomText>
@@ -79,7 +79,7 @@ export default function Login() {
           </span>
         </Box>
         <Box>
-          <CustomText size="xs" variant="grey">
+          <CustomText size="xxs" variant="grey">
             게임을 생성하려면 로그인이 필요해요
           </CustomText>
         </Box>

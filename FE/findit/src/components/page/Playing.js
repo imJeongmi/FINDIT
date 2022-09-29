@@ -1,9 +1,9 @@
 import React from "react";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Box, styled } from "@mui/system";
+import { Camera } from "react-camera-pro";
 
-import ExitIcon from "static/exit.png";
 import TimerIcon from "static/timer.svg";
 import ScoreIcon from "static/medal.svg";
 import GuideLine from "static/guideline.png";
@@ -12,11 +12,17 @@ import CustomText from "components/atom/CustomText";
 import CircleButton from "components/atom/CircleButton";
 import PlayingRanking from "components/module/PlayingRanking";
 import PlayingTreasureList from "components/module/PlayingTreasureList";
+import ExitButton from "components/atom/ExitButton";
 
 const StatusBar = styled(Box)(
   () => `
+    width: 100vw;
     height: 5vh;
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(255, 255, 255, 0.2);
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%);
     display: flex;
     align-items: center;
     `,
@@ -26,10 +32,10 @@ const ScoreBox = styled(Box)(
   () => `
     width: 25vw;
     height: 10vh;
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(255, 255, 255, 0.2);
     border-radius: 10px;
     position: absolute;
-    top: 10vh;
+    top: 9vh;
     left: 3vw;
     display: flex;
     flex-direction: column;
@@ -42,7 +48,7 @@ const GuidelineBox = styled(Box)(
   () => `
     text-align: center;
     position: absolute;
-    top: 50%;
+    top: 45%;
     left: 50%;
     transform: translate(-50%, -50%);
     `,
@@ -53,7 +59,7 @@ const ButtonBox = styled(Box)(
     width: 89vw;
     position: absolute;
     left: 50%;
-    bottom: 7vh;
+    bottom: 15vh;
     transform: translate(-50%);
     display: flex;
     align-items: end;
@@ -63,17 +69,26 @@ const ButtonBox = styled(Box)(
 
 export default function Playing() {
   const [modalOpen, setModalOpen] = useState(false);
-
   const showRankingModal = () => {
     setModalOpen(1);
   };
-
   const showTreasureModal = () => {
     setModalOpen(2);
   };
 
+  const camera = useRef(null);
+  const [numberOfCameras, setNumberOfCameras] = useState(0);
+  const [image, setImage] = useState(null);
+
   return (
     <Box>
+      <Camera
+        ref={camera}
+        aspectRatio={9 / 20}
+        numberOfCamerasCallback={setNumberOfCameras}
+        facingMode="environment"
+      />
+
       <StatusBar>
         <Box
           sx={{
@@ -90,7 +105,7 @@ export default function Playing() {
           <CustomText size="m">03 : 54</CustomText>
         </Box>
         <Box sx={{ position: "absolute", right: "5%" }}>
-          <img src={ExitIcon} alt="exitIcon" width="20vw" />
+          <ExitButton />
         </Box>
       </StatusBar>
 
@@ -117,7 +132,6 @@ export default function Playing() {
         <img src={GuideLine} alt="guideLine" />
         <br />
         <CustomText size="xxs">
-          <br />
           가이드 라인 내부에서 보물을 인식시켜주세요
         </CustomText>
       </GuidelineBox>
@@ -126,7 +140,13 @@ export default function Playing() {
         <Box onClick={showRankingModal}>
           <CircleButton icon="rank" size="smaller" opacity="0.6"></CircleButton>
         </Box>
-        <Box>
+        <Box
+          onClick={() => {
+            const photo = camera.current.takePhoto();
+            setImage(photo);
+            // 이미지 채점 : https://findit.life/fast/check로 game_id랑 file(파일명) 보내기
+          }}
+        >
           <CircleButton icon="camera" size="large" opacity="0.8" />
         </Box>
         <Box onClick={showTreasureModal}>

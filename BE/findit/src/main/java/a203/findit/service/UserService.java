@@ -33,5 +33,5 @@ public interface UserService {
 
     List<String> getTreasure();
 
-    boolean selectTreasure(Long tid, Long gameId);
+    boolean selectTreasure(Long tid, String entercode);
 }
