@@ -40,21 +40,17 @@ export default function SelectTreasure() {
   // 더미데이터 api연결 후 삭제할 것
   const [treasureList, setTreasureList] = useState([
     "https://placeimg.com/100/100/any",
-    "https://placeimg.com/100/100/any",
-    "https://placeimg.com/100/100/any",
-    "https://placeimg.com/100/100/any",
-    "https://placeimg.com/100/100/any",
-    "https://placeimg.com/100/100/any",
-    "https://placeimg.com/100/100/any",
-    "https://placeimg.com/100/100/any",
-    "https://placeimg.com/100/100/any",
-    "https://placeimg.com/100/100/any",
+    "https://placeimg.com/100/100/tech",
+    "https://placeimg.com/100/100/people",
+    "https://placeimg.com/100/100/nature",
+    "https://placeimg.com/100/100/architecture",
+    "https://placeimg.com/100/100/animals",
   ]);
 
-  let selectedList = new Array(10);
-  for (let i = 0; i < selectedList.length; i++) {
-    selectedList[i] = false;
-  }
+  // let selectedList = new Array(10);
+  // for (let i = 0; i < selectedList.length; i++) {
+  //   selectedList[i] = false;
+
   // const [isSelectedList, setIsSelectedList] = useState(selectedList);
   const { gameId } = useParams();
   const [selectedTreasures, setSelectedTreasures] = useState([]);
@@ -73,18 +69,29 @@ export default function SelectTreasure() {
     console.log("보물 목록 요청 실패", err);
   }
 
-  function selectTreasure(key) {
-    if (!(key in selectedTreasures)) {
-      setSelectedTreasures([...selectedTreasures, key]);
-    } else if (key in selectedTreasures) {
-      setSelectedTreasures(selectedTreasures.filter(selectedTreasure => selectedTreasure !== key));
+  // function selectTreasure(key) {
+  //   if (!(key in selectedTreasures)) {
+  //     setSelectedTreasures([...selectedTreasures, key]);
+  //   } else if (key in selectedTreasures) {
+  //     setSelectedTreasures(selectedTreasures.filter(selectedTreasure => selectedTreasure !== key));
+  //   }
+  // }
+
+  const [selectedItems, setSelectedItems] = useState([]);
+
+  function selectedItemHandler(code, isSelected) {
+    if (isSelected) {
+      setSelectedItems([...selectedItems, code]);
+    } else if (!isSelected && selectedItems.find(one => one === code)) {
+      const filter = selectedItems.filter(one => one !== code);
+      setSelectedItems([...filter]);
     }
   }
 
   const navigate = useNavigate();
   function confirm() {
-    console.log(selectedTreasures);
-    if (selectedTreasures.length > 0) {
+    console.log(selectedItems);
+    if (selectedItems.length > 0) {
       navigate(`/waiting/${gameId}`);
     } else {
       console.log("보물 선택 ㄱㄱ");
@@ -118,12 +125,13 @@ export default function SelectTreasure() {
         <TreasureItem src="https://placeimg.com/100/100/any"></TreasureItem>
         <TreasureItem src="https://placeimg.com/100/100/any"></TreasureItem> */}
         {treasureList.map((treasure, key) => (
-          <Box
-            key={key}
-            onClick={() => selectTreasure(key)}
-            className={key in selectedTreasures ? "selected" : ""}
-          >
-            <TreasureItem src={treasure} alt="treasure" />
+          <Box key={key}>
+            <TreasureItem
+              src={treasure}
+              selectedItems={selectedItems}
+              selectedItemHandler={selectedItemHandler}
+              alt="treasure"
+            />
           </Box>
         ))}
         {/* Onclick 달아야 함 */}
