@@ -3,11 +3,12 @@ import { styled } from "@mui/system";
 import { Avatar } from "@mui/material";
 
 const Image = styled(Avatar)(
-  ({ type }) => `
+  ({ type, mb }) => `
   margin: auto;
   width: ${getSizeByType(type)};
   height: ${getSizeByType(type)};
   border-radius: ${getBorderRadiusByType(type)};
+  margin-bottom: ${getMarginY(mb)};
 `,
 );
 
@@ -31,6 +32,14 @@ function getSizeByType(type) {
   }
 }
 
-export default function ProfileImage({ type }) {
-  return <Image type={type} src=""></Image>;
+function getMarginY(mb) {
+  if (!mb) {
+    return "0";
+  } else {
+    return mb;
+  }
+}
+
+export default function ProfileImage({ type, mb }) {
+  return <Image type={type} src="" mb={mb}></Image>;
 }
