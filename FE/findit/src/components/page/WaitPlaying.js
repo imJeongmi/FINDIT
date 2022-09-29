@@ -1,12 +1,14 @@
 import React from "react";
 import { Box, styled } from "@mui/system";
-import CustomText from "components/atom/CustomText"; 
+import CustomText from "components/atom/CustomText";
 import CustomButton from "components/atom/CustomButton";
 import RankingList from "components/module/RankingList";
 
+import { Link } from "react-router-dom";
+
 const CenterStyle = {
   margin: "7vh auto",
-  textAlign: "center", 
+  textAlign: "center",
 };
 
 const RankingBox = styled(Box)(
@@ -21,13 +23,19 @@ const RankingBox = styled(Box)(
 );
 
 function PlayerButton() {
-  return <CustomButton size="large" my="0">튜토리얼 보기</CustomButton>;
+  return (
+    <CustomButton size="large" my="0">
+      튜토리얼 보기
+    </CustomButton>
+  );
 }
 
 function HostButton() {
   return (
     // solid style
-    <CustomButton size="large" my="0">PLAY</CustomButton>
+    <CustomButton size="large" my="0">
+      PLAY
+    </CustomButton>
   );
 }
 
@@ -57,7 +65,17 @@ export default function WaitPlaying({ target }) {
         <RankingList />
         <RankingList />
       </RankingBox>
-      <Box sx={{textAlign: "center"}}>{isPlayer(target) ? <PlayerButton /> : <HostButton />}</Box>
+      <Box sx={{ textAlign: "center" }}>
+        {isPlayer(target) ? (
+          <Link to="/tutorial">
+            <PlayerButton />
+          </Link>
+        ) : (
+          <Link to="/help">
+            <HostButton />
+          </Link>
+        )}
+      </Box>
     </Box>
   );
 }
