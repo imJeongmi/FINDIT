@@ -36,7 +36,9 @@ public class SecurityConfig {
     private static final String[] GET_PUBLIC_URI = {};
     private static final String[] POST_PUBLIC_URI = {
             "/users",
-            "/users/login"
+            "/users/login",
+            "/api/v1/users",
+            "/api/v1/login"
     };
     private static final String[] DELETE_PUBLIC_URI = {};
 
