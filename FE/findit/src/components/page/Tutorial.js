@@ -60,22 +60,22 @@ export default function Tutorial({ target }) {
           <Carousel showArrows={false} showStatus={false} showThumbs={false}>
             {target === "user"
               ? orderedHostImage.map((image, index) => (
-                  <Box sx={{ my: "4vh", mx: "auto", width: "80vw" }}>
+                  <Box sx={{ my: "4vh", mx: "auto", width: "80vw" }} key={index}>
                     <Box sx={{ mx: "auto", width: "60vw" }}>
                       <img src={image} alt="" />
                     </Box>
-                    <CustomText size="xxs" variant="black" key={index} sx={{ mt: "3vh" }}>
+                    <CustomText size="xxs" variant="black" sx={{ mt: "3vh" }}>
                       {orderedHostText[index]}
                     </CustomText>
                   </Box>
                 ))
               : orderedPlayerImage.map((image, index) => (
-                  <Box sx={{ my: "4vh", mx: "auto", width: "80vw" }}>
+                  <Box sx={{ my: "4vh", mx: "auto", width: "80vw" }} key={index}>
                     <Box sx={{ mx: "auto", width: "60vw" }}>
                       {/* {console.log(image)} */}
                       <img src={image} alt="" />
                     </Box>
-                    <CustomText size="xxs" variant="black" key={index} sx={{ mt: "3vh" }}>
+                    <CustomText size="xxs" variant="black" sx={{ mt: "3vh" }}>
                       {orderedPlayerText[index]}
                     </CustomText>
                   </Box>
