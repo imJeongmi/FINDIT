@@ -111,7 +111,7 @@ export default function MainPageButton({ page }) {
     if (item.key === 1) {
       navigate("/setting");
     } else if (item.key === 2) {
-      navigate("/treasure");
+      navigate("/mytreasure/");
     } else if (item.key === 3) {
       navigate("/help");
     }
@@ -154,7 +154,7 @@ export default function MainPageButton({ page }) {
                 />
               </Box>
             </BoxButton>
-            <Box sx={{ height: "5px" }} />
+            <Box sx={{ height: "3px" }} />
           </Box>
         ))}
       </Box>

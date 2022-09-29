@@ -17,8 +17,8 @@ const ButtonStyle = {
 
 const RankingBox = styled(Box)(
   () => `
-    width: 90vw;
-    height: 45vh;
+    width: 80vw;
+    height: 41vh;
     margin: 3vh auto;
     align-items: center;
     overflow: scroll;
