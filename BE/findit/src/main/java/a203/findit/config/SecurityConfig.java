@@ -68,7 +68,7 @@ public class SecurityConfig {
         http
                 .httpBasic().disable()  // Http basic Auth 기반으로 로그인 인증창이 뜸. disable 시에 인증창 뜨지 않음.
 //                .cors().configurationSource(corsConfigurationSource()).disable()
-                .cors().disable()
+                .cors(cors-> cors.disable())
                 .csrf().disable()
                 .headers()
                 .frameOptions().sameOrigin()
