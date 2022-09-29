@@ -85,7 +85,7 @@ export default function Signup() {
         <img src={compass} alt="compass" width="100" />
       </Box>
       <Modal>
-        <Box sx={{ mt: "5vh", mb: "1vh" }}>
+        <Box sx={{ mt: "5vh", mb: "0" }}>
           <span onClick={goToLogin}>
             <CustomText size="xl" weight="bold" variant="grey">
               Login
@@ -96,7 +96,7 @@ export default function Signup() {
           </CustomText>
         </Box>
         <Box>
-          <CustomText size="xs" variant="grey">
+          <CustomText size="xxs" variant="grey">
             회원가입을 통해 게임을 생성하거나 이력을 저장할 수 있어요
           </CustomText>
         </Box>

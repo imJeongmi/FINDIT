@@ -64,7 +64,7 @@ export default function Login() {
         <img src={compass} alt="compass" width="100" />
       </Box>
       <Modal>
-        <Box sx={{ mt: "5vh", mb: "1vh" }}>
+        <Box sx={{ mt: "5vh", mb: "0" }}>
           <CustomText size="xl" weight="bold">
             {"Login | "}
           </CustomText>
@@ -75,7 +75,7 @@ export default function Login() {
           </span>
         </Box>
         <Box>
-          <CustomText size="xs" variant="grey">
+          <CustomText size="xxs" variant="grey">
             게임을 생성하려면 로그인이 필요해요
           </CustomText>
         </Box>
@@ -84,7 +84,7 @@ export default function Login() {
           <Input placeholder="비밀번호" value={pw} type="password" onChange={onChangePw} />
           <Box sx={{ padding: "0 5vh" }}>
             <CustomText size="xs" variant="grey">
-              비밀번호를 잊어버리셨나요?
+              비밀번호를 잊어버리셨나요? 
             </CustomText>
           </Box>
         </Box>

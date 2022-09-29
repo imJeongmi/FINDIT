@@ -23,8 +23,8 @@ const AwardsBox = styled(Box)(
 
 const RankingBox = styled(Box)(
   () => `
-  width: 90vw;
-  height: 44vh;
+  width: 80vw;
+  height: 41vh;
   margin: 0 auto;
   align-items: center;
   overflow: scroll;

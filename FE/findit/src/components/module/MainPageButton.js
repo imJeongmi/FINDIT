@@ -154,7 +154,7 @@ export default function MainPageButton({ page }) {
                 />
               </Box>
             </BoxButton>
-            <Box sx={{ height: "5px" }} />
+            <Box sx={{ height: "3px" }} />
           </Box>
         ))}
       </Box>
