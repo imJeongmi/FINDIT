@@ -10,6 +10,8 @@ import CustomText from "components/atom/CustomText";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "./dot.css";
 
+import { Link } from "react-router-dom";
+
 export default function Tutorial({ target }) {
   const orderedHostText = [
     "게임 생성 버튼을 누르면 게임 설정 화면이 나타나요",
@@ -80,9 +82,11 @@ export default function Tutorial({ target }) {
                 ))}
           </Carousel>
         </Box>
-        <CustomButton size="large" color="primary" my="0.5vh">
-          입장 코드 입력
-        </CustomButton>
+        <Link to="/code">
+          <CustomButton size="large" color="primary" my="0.5vh">
+            입장 코드 입력
+          </CustomButton>
+        </Link>
       </Modal>
     </Box>
   );
