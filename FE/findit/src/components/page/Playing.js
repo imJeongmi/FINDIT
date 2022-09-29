@@ -86,7 +86,7 @@ export default function Playing() {
         ref={camera}
         aspectRatio={9 / 20}
         numberOfCamerasCallback={setNumberOfCameras}
-        facingMode="environment"
+        // facingMode="environment"
       />
 
       <StatusBar>
@@ -144,6 +144,7 @@ export default function Playing() {
           onClick={() => {
             const photo = camera.current.takePhoto();
             setImage(photo);
+            {console.log(image)}
             // 이미지 채점 : https://findit.life/fast/check로 game_id랑 file(파일명) 보내기
           }}
         >
