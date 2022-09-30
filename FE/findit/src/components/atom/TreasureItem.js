@@ -52,7 +52,13 @@ export default function TreasureItem({ src, selectedItems, selectedItemHandler, 
     }
   }, [selectedItems]);
 
-  if (isReadPage) {
+  if (isReadPage === "true") {
+    return (
+      <TreasureBox>
+        <TreasureImage src={src} alt={alt} />
+      </TreasureBox>
+    );
+  } else {
     return (
       <TreasureBox>
         <label key={src} style={{ display: "flex", justifyContent: "center" }}>
@@ -71,12 +77,6 @@ export default function TreasureItem({ src, selectedItems, selectedItemHandler, 
           />
           {/* {isSelected && <Box style={{ display: "fixed", backgroundColor: "black" }} />} */}
         </label>
-      </TreasureBox>
-    );
-  } else {
-    return (
-      <TreasureBox>
-        <TreasureImage src={src} alt={alt} />
       </TreasureBox>
     );
   }
