@@ -1,9 +1,7 @@
 import { Box, styled } from "@mui/system";
 import { getTreasureList } from "api/treasure";
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-
-import { Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 import CustomButton from "components/atom/CustomButton";
 import CustomText from "../atom/CustomText";
@@ -54,14 +52,14 @@ export default function SelectTreasure() {
   //   selectedList[i] = false;
 
   // const [isSelectedList, setIsSelectedList] = useState(selectedList);
-  const { gameId } = useParams();
+  let { gameid } = useParams();
   // const [selectedTreasures, setSelectedTreasures] = useState([]);
 
   useEffect(() => {
-    if (!!gameId) {
+    if (!!gameid) {
       getTreasureList(getTreasureListSuccess, getTreasureListFail);
     }
-  }, [gameId]);
+  }, [gameid]);
 
   function getTreasureListSuccess(res) {
     setTreasureList(res.data);
@@ -95,12 +93,12 @@ export default function SelectTreasure() {
   function confirm() {
     console.log(selectedItems);
     if (selectedItems.length > 0) {
-      navigate(`/waiting/${gameId}`);
+      navigate(`/waiting/${gameid}`);
     } else {
       console.log("보물 선택 ㄱㄱ");
     }
   }
-  if (!!gameId) {
+  if (!!gameid) {
     return (
       <Box sx={BoxStyle}>
         <Box sx={{ marginTop: "5vh" }}>
@@ -120,6 +118,7 @@ export default function SelectTreasure() {
                 selectedItems={selectedItems}
                 selectedItemHandler={selectedItemHandler}
                 alt="treasure"
+                isReadPage="false"
               />
             </Box>
           ))}
