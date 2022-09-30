@@ -18,10 +18,9 @@ public class WebConfig implements WebMvcConfigurer {
 //		Allow all headers.
 //		Set max age to 1800 seconds (30 minutes).
         registry.addMapping("/**")
-//			.allowedOrigins("*")
 //                .allowedOriginPatterns("*")
-                .allowedOrigins("https://findit.life")
-                .allowedOrigins(frontUrl)
+//                .allowedOrigins(frontUrl)
+                .allowedOrigins("https://j7a203.p.ssafy.io", "https://findit.life","http://localhost:8080", "http://localhost:8081", "http://localhost:3000")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true) // 쿠키 허용
