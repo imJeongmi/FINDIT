@@ -3,7 +3,6 @@ import React from "react";
 import { useState, useRef } from "react";
 import { Box, styled } from "@mui/system";
 import { Camera } from "react-camera-pro";
-import { useForm } from "react-hook-form";
 
 import TimerIcon from "static/timer.svg";
 import ScoreIcon from "static/medal.svg";
@@ -81,30 +80,40 @@ export default function Playing() {
   const [numberOfCameras, setNumberOfCameras] = useState(0);
   const [image, setImage] = useState(null);
 
-  function uploadAction(image) {
-    const treasureData = {
-      "game_id": "000000",
-      "image" : image
+  function dataURLtoFile(dataurl, filename) {
+    let arr = dataurl.split(","),
+      mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]),
+      n = bstr.length,
+      u8arr = new Uint8Array(n);
+
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
     }
-    // console.log(treasureData);
-    
+    return new File([u8arr], filename, { type: mime });
+  }
+
+  function uploadAction(image) {
+    const file = dataURLtoFile(image, "treasure.jpeg");
+    // console.log(file);
+
     const data = new FormData();
-    data.append("data", treasureData);
-    // console.log(data);
-    
+    data.append("game_id", 123456);
+    data.append("file", file);
+
     fetch("https://findit.life/fast/check", {
       mode: "no-cors",
       method: "POST",
-      body: data
-    }).then(function (res) {
-      res.json()
-      // alert(JSON.stringify(`${res.message}, status: ${res.status}`))
-      if (res.ok) {
-        alert("OK");
-      }
-    }, function (e) {
-      alert("Error");
-    });
+      body: data,
+    }).then(
+      function (res) {
+        res.json();
+        console.log(JSON.stringify(`${res.message}, status: ${res.status}`));
+      },
+      function (e) {
+        alert("Error");
+      },
+    );
   }
 
   return (
@@ -115,7 +124,6 @@ export default function Playing() {
         numberOfCamerasCallback={setNumberOfCameras}
         facingMode="environment"
       />
-
       <StatusBar>
         <Box
           sx={{
@@ -135,7 +143,6 @@ export default function Playing() {
           <ExitButton />
         </Box>
       </StatusBar>
-
       <ScoreBox>
         <CustomText size="xl" weight="bold" variant="warning">
           5th
@@ -154,15 +161,11 @@ export default function Playing() {
           </CustomText>
         </Box>
       </ScoreBox>
-
       <GuidelineBox>
         <img src={GuideLine} alt="guideLine" />
         <br />
-        <CustomText size="xxs">
-          가이드 라인 내부에서 보물을 인식시켜주세요
-        </CustomText>
+        <CustomText size="xxs">가이드 라인 내부에서 보물을 인식시켜주세요</CustomText>
       </GuidelineBox>
-
       <ButtonBox>
         <Box onClick={showRankingModal}>
           <CircleButton icon="rank" size="smaller" opacity="0.6"></CircleButton>
@@ -171,7 +174,6 @@ export default function Playing() {
           onClick={() => {
             const photo = camera.current.takePhoto();
             setImage(photo);
-            console.log(image);
             uploadAction(image);
           }}
         >
@@ -181,7 +183,6 @@ export default function Playing() {
           <CircleButton icon="treasure" size="smaller" opacity="0.6" />
         </Box>
       </ButtonBox>
-
       {modalOpen == 1 && <PlayingRanking setModalOpen={setModalOpen} />}
       {modalOpen == 2 && <PlayingTreasureList setModalOpen={setModalOpen} />}
     </Box>
