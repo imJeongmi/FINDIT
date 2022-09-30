@@ -5,11 +5,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReqSelectTreasure {
-    private Long tid;
+    private List<Long> tid;
     private String entercode;
 }

@@ -1,38 +1,29 @@
 package a203.findit.service;
 
+import a203.findit.exception.CustomException;
+import a203.findit.model.dto.req.User.CreateUserDTO;
+import a203.findit.model.dto.req.User.LoginUserDTO;
 import a203.findit.model.dto.req.User.UpdateFormDTO;
 import a203.findit.model.dto.res.Code;
 import a203.findit.model.entity.*;
 import a203.findit.model.repository.*;
 import a203.findit.security.JwtProvider;
 import a203.findit.util.AwsService;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
-import lombok.RequiredArgsConstructor;
-
-import a203.findit.exception.CustomException;
-import a203.findit.model.dto.req.User.CreateUserDTO;
-import a203.findit.model.dto.req.User.LoginUserDTO;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -46,7 +37,6 @@ public class UserServiceImpl implements UserService {
     private final AuthenticationManager authenticationManager;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final AwsService awsService;
-
     private final UserRepository userRepos;
     private final RefreshTokenRepository refreshTokenRepos;
     private final IconRepository iconRepos;
@@ -56,11 +46,11 @@ public class UserServiceImpl implements UserService {
     private final MemoryPlayerRepository playerRepository;
 
 
-    public Optional<User> findByUsername(String username){
+    public Optional<User> findByUsername(String username) {
         return userRepos.findByUsername(username);
     }
 
-    public Optional<User> findByUserId(Long userId){
+    public Optional<User> findByUserId(Long userId) {
         return userRepos.findById(userId);
     }
 
@@ -83,15 +73,15 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public Map<String, String> login(LoginUserDTO loginUserDTO) throws CustomException{
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginUserDTO.getId(),loginUserDTO.getPw());
+    public Map<String, String> login(LoginUserDTO loginUserDTO) throws CustomException {
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginUserDTO.getId(), loginUserDTO.getPw());
 
         Map<String, String> result;
 
         try {
             Authentication authentication = authenticationManager.authenticate(token);
             result = createToken(authentication.getName());
-        }catch (Exception e) {
+        } catch (Exception e) {
             throw new CustomException(Code.C401);
         }
 
@@ -110,10 +100,10 @@ public class UserServiceImpl implements UserService {
     public Map<String, String> userDetails(String userId) {
         Map<String, String> result = new HashMap<>();
 
-        UserDetails principal =  (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         User currUser = userRepos.findByUsername(principal.getUsername()).orElseThrow(
-                ()->new CustomException(Code.C403)
+                () -> new CustomException(Code.C403)
         );
 
         result.put("nickname", currUser.getNickname());
@@ -139,14 +129,14 @@ public class UserServiceImpl implements UserService {
                 () -> new CustomException(Code.C403)
         );
 
-        UserDetails principal =  (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if(!user.getUsername().equals(principal.getUsername())){
+        if (!user.getUsername().equals(principal.getUsername())) {
             throw new CustomException(Code.C404);
         }
 
         Icon icon = iconRepos.findByImageUrl(img).orElseThrow(
-                ()->new CustomException(Code.C401)
+                () -> new CustomException(Code.C401)
         );
 
         user.setIcon(icon);
@@ -158,10 +148,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean updatePw(Long userId, String pw, String username) {
         User user = userRepos.findByUsername(username).orElseThrow(
-                ()->new CustomException(Code.C403)
+                () -> new CustomException(Code.C403)
         );
 
-        if(user.getId()!=userId){
+        if (user.getId() != userId) {
             throw new CustomException(Code.C404);
         }
 
@@ -176,9 +166,9 @@ public class UserServiceImpl implements UserService {
                 () -> new CustomException(Code.C403)
         );
 
-        UserDetails principal =  (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if(!user.getUsername().equals(principal.getUsername())){
+        if (!user.getUsername().equals(principal.getUsername())) {
             throw new CustomException(Code.C404);
         }
 
@@ -190,12 +180,13 @@ public class UserServiceImpl implements UserService {
     @Transactional(rollbackOn = {Exception.class})
     public boolean createTreasure(String username, String treasureName, Long gameId, MultipartFile img) {
         User currUser = userRepos.findByUsername(username).orElseThrow(
-                ()->new CustomException(Code.C403)
+                () -> new CustomException(Code.C403)
         );
 
         Game game = gameRepos.findById(gameId).orElseThrow(
-                ()->new CustomException(Code.C402)
+                () -> new CustomException(Code.C402)
         );
+
 
         Treasure newTreasure = Treasure.builder().treasureName(treasureName).user(currUser).imageUrl(awsService.imageUpload(img)).isDefault(false).build();
         IGT igt = IGT.builder().game(game).treasure(newTreasure).build();
@@ -209,27 +200,29 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<String> getTreasure() {
         List<Treasure> treasureList = treasureRepos.findAll();
-        List<String> treasures = treasureList.stream().map(x->x.getImageUrl()).collect(Collectors.toList());
+        List<String> treasures = treasureList.stream().map(x -> x.getImageUrl()).collect(Collectors.toList());
         return treasures;
     }
 
     @Override
-    public boolean selectTreasure(Long tid, String entercode) {
-        Treasure treasure = treasureRepos.findById(tid).orElseThrow(
-                ()->new CustomException(Code.C401)
-        );
+    public boolean selectTreasure(List<Long> tid, String entercode) {
+        List<Treasure> treasure = treasureRepos.findByIdIn(tid);
 
         Game game = gameRepos.findByEnterCode(entercode).orElseThrow(
-                ()-> new CustomException(Code.C401)
+                () -> new CustomException(Code.C401)
         );
 
-        if(!igtRepos.existsByTreasureIdAndGameId(treasure.getId(),game.getId())){
-            igtRepos.save(IGT.builder().game(game).treasure(treasure).build());
+        List<IGT> igtList = new ArrayList<>();
 
-            playerRepository.init(entercode);
-            return true;
+        for (Treasure t : treasure) {
+            igtList.add(IGT.builder().game(game).treasure(t).build());
         }
-        return false;
+
+        igtRepos.saveAll(igtList);
+
+        playerRepository.init(entercode);
+
+        return true;
     }
 
     private Map<String, String> createToken(String name) {
@@ -243,7 +236,6 @@ public class UserServiceImpl implements UserService {
 
         return result;
     }
-
 
 
 }

@@ -24,22 +24,19 @@ import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+//@EnableWebSecurity
 public class SecurityConfig {
 
     private final JwtProvider jwtProvider;
     private final AuthenticationEntryPoint authenticationEntryPointHandler;
     private final AccessDeniedHandler webAccessDeniedHandler;
 
-
     private final String frontUrl;
+
     private static final String[] GET_PUBLIC_URI = {};
     private static final String[] POST_PUBLIC_URI = {
             "/users",
             "/users/login",
-            "/api/v1/users",
-            "/api/v1/users/login"
     };
     private static final String[] DELETE_PUBLIC_URI = {};
 
@@ -69,8 +66,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .httpBasic().disable()  // Http basic Auth 기반으로 로그인 인증창이 뜸. disable 시에 인증창 뜨지 않음.
-                .cors().configurationSource(corsConfigurationSource())
-                .and()
+//                .cors().configurationSource(corsConfigurationSource())
+                .cors(cors->cors.disable())
                 .csrf().disable();  // rest api이므로 csrf 보안이 필요없으므로 disable처리.
 
         http
@@ -78,14 +75,8 @@ public class SecurityConfig {
                 .antMatchers("/public/**").permitAll()
                 .antMatchers("/games/**").hasAnyRole("GUEST","USER","ADMIN")
                 .antMatchers("/users/**").permitAll()
-                .antMatchers("/api/v1/public/**").permitAll()
-                .antMatchers("/api/v1/games/**").hasAnyRole("GUEST","USER","ADMIN")
-                .antMatchers("/api/v1/users/**").permitAll()
                 .antMatchers("/**").permitAll()
-                .antMatchers("/api/v1/**").permitAll()
-                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-//                .anyRequest().hasRole("GUEST")
-                .anyRequest().authenticated();
+                .anyRequest().permitAll();
 
         http
                 .sessionManagement()
@@ -101,22 +92,22 @@ public class SecurityConfig {
         return http.build();
     }
 
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-
-//        configuration.addAllowedOrigin("https://findit.life");
-//        configuration.addAllowedOrigin(frontUrl);
-        configuration.addAllowedOrigin("*");
-        configuration.addAllowedHeader("*");
-        configuration.addAllowedMethod("*");
-//        configuration.setAllowCredentials(true); // 내 서버가 응답을 할 때 Json 을 자바스크립트에서 처리할 수 있게 할지를 설정하는 것
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-
-        return source;
-    }
+//    @Bean
+//    public CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration configuration = new CorsConfiguration();
+//
+////        configuration.addAllowedOrigin("https://findit.life");
+////        configuration.addAllowedOrigin(frontUrl);
+//        configuration.addAllowedOrigin("*");
+//        configuration.addAllowedHeader("*");
+//        configuration.addAllowedMethod("*");
+////        configuration.setAllowCredentials(true); // 내 서버가 응답을 할 때 Json 을 자바스크립트에서 처리할 수 있게 할지를 설정하는 것
+//
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", configuration);
+//
+//        return source;
+//    }
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
