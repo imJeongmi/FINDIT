@@ -1,14 +1,21 @@
 package a203.findit.service;
 
+import a203.findit.model.entity.Game;
+import a203.findit.model.repository.GameRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Map;
 
 @Service
 public class GameServiceImpl implements GameService{
+    private final GameRepository gameRepository;
+
+    public GameServiceImpl(GameRepository gameRepository) {
+        this.gameRepository = gameRepository;
+    }
+
     @Override
     public Map<String, String> startGame(String roomId, String username) {
         // 방 id가 'roomId'인 방 시작
@@ -37,5 +44,9 @@ public class GameServiceImpl implements GameService{
     @Override
     public ResponseEntity getScores(String roomId, String username) {
         return null;
+    }
+
+    public Game find(String entercode){
+        return gameRepository.findByEnterCode(entercode).orElseGet(null);
     }
 }

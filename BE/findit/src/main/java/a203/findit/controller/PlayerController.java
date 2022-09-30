@@ -37,15 +37,15 @@ public class PlayerController {
         jsonObject.put("nickname",playerEnterDTO.getNickname());
         simpMessagingTemplate.convertAndSend("/sub/room/"+playerEnterDTO.getEntercode(),jsonObject);
     }
-    @MessageMapping("/private")
-    // 다 푼사람 private 구독한 사람(방장) 한테만 보내주기
-    public void privateInfo(@Valid EntercodeDTO entercodeDTO, @Header("simpSessionId") String sessionId){
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("code", "success");
-        jsonObject.put("status","progress");
-        jsonObject.put("playerid",sessionId);
-        simpMessagingTemplate.convertAndSend("/sub/private/"+entercodeDTO.getEntercode(),jsonObject);
-    }
+//    @MessageMapping("/private")
+//    // 다 푼사람 private 구독한 사람(방장) 한테만 보내주기
+//    public void privateInfo(@Valid EntercodeDTO entercodeDTO, @Header("simpSessionId") String sessionId){
+//        JSONObject jsonObject = new JSONObject();
+//        jsonObject.put("code", "success");
+//        jsonObject.put("status","progress");
+//        jsonObject.put("playerid",sessionId);
+//        simpMessagingTemplate.convertAndSend("/sub/private/"+entercodeDTO.getEntercode(),jsonObject);
+//    }
 
     //igt 구현시 inmemory 재설정 및 테스트 해보기
     @MessageMapping("/find")
@@ -73,6 +73,14 @@ public class PlayerController {
             rankJson.add(temp);
         }
         simpMessagingTemplate.convertAndSend("/sub/room/"+beforeFindDTO.getEntercode(),rankJson);
+
+        //크기 비교해서 다 찾은 사람 있는지 확인하고 있으면 IF
+
+        JSONObject jsonObject1 = new JSONObject();
+        jsonObject1.put("code", "success");
+        jsonObject1.put("status","progress");
+        jsonObject1.put("playerid",sessionId);
+        simpMessagingTemplate.convertAndSend("/sub/private/"+beforeFindDTO.getEntercode(),jsonObject1);
 
     }
 
