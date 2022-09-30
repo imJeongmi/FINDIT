@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -49,13 +50,15 @@ public class RoomController {
     }
 
     @PostMapping("/room/create")
-    public ResponseEntity<String> create(@Valid @RequestBody CreateRoomDTO createRoomDTO){
+    public ResponseEntity create(@Valid @RequestBody CreateRoomDTO createRoomDTO){
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = principal.getUsername();
 
+        Map<String, String> result = new HashMap<>();
+
         RoomDTO roomDTO = roomService.join(username, createRoomDTO.getMode(), createRoomDTO.getLimitminute());
-        String entercode= roomDTO.getEnterCode();
-        return ResponseEntity.ok(entercode);
+        result.put("entercode",roomDTO.getEnterCode());
+        return ResponseEntity.ok().body(result);
     }
 
     @MessageMapping("/open")
