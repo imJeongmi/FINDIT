@@ -1,18 +1,20 @@
 import React from "react";
 import { Box, styled } from "@mui/system";
-import CustomText from "components/atom/CustomText"; 
+import CustomText from "components/atom/CustomText";
 import CustomButton from "components/atom/CustomButton";
 import RankingList from "components/module/RankingList";
 
+import { Link } from "react-router-dom";
+
 const CenterStyle = {
   margin: "7vh auto",
-  textAlign: "center", 
+  textAlign: "center",
 };
 
 const RankingBox = styled(Box)(
   () => `
-    width: 80vw;  
-    height: 41vh; 
+    width: 90vw;  
+    height: 52vh; 
     margin: 3vh auto;
     align-items: center;
     overflow: scroll;
@@ -21,13 +23,19 @@ const RankingBox = styled(Box)(
 );
 
 function PlayerButton() {
-  return <CustomButton size="large" my="0">튜토리얼 보기</CustomButton>;
+  return (
+    <CustomButton size="large" my="0">
+      튜토리얼 보기
+    </CustomButton>
+  );
 }
 
 function HostButton() {
   return (
     // solid style
-    <CustomButton size="large" my="0">PLAY</CustomButton>
+    <CustomButton size="large" my="0">
+      PLAY
+    </CustomButton>
   );
 }
 
@@ -49,15 +57,25 @@ export default function WaitPlaying({ target }) {
         </CustomText>
       </Box>
       <RankingBox>
-        <RankingList />
-        <RankingList />
-        <RankingList />
-        <RankingList />
-        <RankingList />
-        <RankingList />
-        <RankingList />
+        <RankingList userName="김싸피" />
+        <RankingList userName="이멀캠"/>
+        <RankingList userName="박역삼"/>
+        <RankingList userName="최문어"/>
+        <RankingList userName="김싸피"/>
+        <RankingList userName="김싸피"/>
+        <RankingList userName="김싸피"/>
       </RankingBox>
-      <Box sx={{textAlign: "center"}}>{isPlayer(target) ? <PlayerButton /> : <HostButton />}</Box>
+      <Box sx={{ textAlign: "center" }}>
+        {isPlayer(target) ? (
+          <Link to="/tutorial">
+            <PlayerButton />
+          </Link>
+        ) : (
+          <Link to="/help">
+            <HostButton />
+          </Link>
+        )}
+      </Box>
     </Box>
   );
 }

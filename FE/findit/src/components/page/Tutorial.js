@@ -10,6 +10,8 @@ import CustomText from "components/atom/CustomText";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "./dot.css";
 
+import { Link } from "react-router-dom";
+
 export default function Tutorial({ target }) {
   const orderedHostText = [
     "게임 생성 버튼을 누르면 게임 설정 화면이 나타나요",
@@ -58,31 +60,33 @@ export default function Tutorial({ target }) {
           <Carousel showArrows={false} showStatus={false} showThumbs={false}>
             {target === "user"
               ? orderedHostImage.map((image, index) => (
-                  <Box sx={{ my: "4vh", mx: "auto", width: "80vw" }}>
+                  <Box sx={{ my: "4vh", mx: "auto", width: "80vw" }} key={index}>
                     <Box sx={{ mx: "auto", width: "60vw" }}>
                       <img src={image} alt="" />
                     </Box>
-                    <CustomText size="xxs" variant="black" key={index} sx={{ mt: "3vh" }}>
+                    <CustomText size="xxs" variant="black" sx={{ mt: "3vh" }}>
                       {orderedHostText[index]}
                     </CustomText>
                   </Box>
                 ))
               : orderedPlayerImage.map((image, index) => (
-                  <Box sx={{ my: "4vh", mx: "auto", width: "80vw" }}>
+                  <Box sx={{ my: "4vh", mx: "auto", width: "80vw" }} key={index}>
                     <Box sx={{ mx: "auto", width: "60vw" }}>
                       {/* {console.log(image)} */}
                       <img src={image} alt="" />
                     </Box>
-                    <CustomText size="xxs" variant="black" key={index} sx={{ mt: "3vh" }}>
+                    <CustomText size="xxs" variant="black" sx={{ mt: "3vh" }}>
                       {orderedPlayerText[index]}
                     </CustomText>
                   </Box>
                 ))}
           </Carousel>
         </Box>
-        <CustomButton size="large" color="primary" my="0.5vh">
-          입장 코드 입력
-        </CustomButton>
+        <Link to="/code">
+          <CustomButton size="large" color="primary" my="0.5vh">
+            입장 코드 입력
+          </CustomButton>
+        </Link>
       </Modal>
     </Box>
   );

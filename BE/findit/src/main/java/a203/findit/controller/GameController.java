@@ -16,6 +16,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/games")
+@CrossOrigin
 public class GameController {
 
     private final GameService gameService;

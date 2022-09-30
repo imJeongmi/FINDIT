@@ -103,6 +103,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
+//        configuration.addAllowedOrigin(frontUrl);
         configuration.addAllowedOrigin("*");
 //        configuration.addAllowedOriginPattern("*"); // 모든 url에 응답을 허용
         configuration.addAllowedHeader("*");
