@@ -92,22 +92,21 @@ public class SecurityConfig {
         return http.build();
     }
 
-//    @Bean
-//    public CorsConfigurationSource corsConfigurationSource() {
-//        CorsConfiguration configuration = new CorsConfiguration();
-//
-////        configuration.addAllowedOrigin("https://findit.life");
-////        configuration.addAllowedOrigin(frontUrl);
-//        configuration.addAllowedOrigin("*");
-//        configuration.addAllowedHeader("*");
-//        configuration.addAllowedMethod("*");
-////        configuration.setAllowCredentials(true); // 내 서버가 응답을 할 때 Json 을 자바스크립트에서 처리할 수 있게 할지를 설정하는 것
-//
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", configuration);
-//
-//        return source;
-//    }
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+
+//        configuration.addAllowedOrigin(frontUrl);
+        configuration.addAllowedOrigin("*");
+        configuration.addAllowedHeader("*");
+        configuration.addAllowedMethod("*");
+//        configuration.setAllowCredentials(true); // 내 서버가 응답을 할 때 Json 을 자바스크립트에서 처리할 수 있게 할지를 설정하는 것
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+
+        return source;
+    }
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
