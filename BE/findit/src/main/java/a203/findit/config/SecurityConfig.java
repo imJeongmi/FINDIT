@@ -105,6 +105,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
+        configuration.addAllowedOrigin("https://findit.life");
         configuration.addAllowedOrigin(frontUrl);
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");

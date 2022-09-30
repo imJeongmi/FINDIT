@@ -20,6 +20,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
 //			.allowedOrigins("*")
 //                .allowedOriginPatterns("*")
+                .allowedOrigins("https://findit.life")
                 .allowedOrigins(frontUrl)
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
