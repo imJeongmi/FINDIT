@@ -5,10 +5,10 @@ import a203.findit.model.dto.req.User.EntercodeDTO;
 import a203.findit.model.dto.req.User.PlayerInfoDTO;
 import a203.findit.model.dto.res.ApiResponse;
 import a203.findit.model.dto.req.User.RoomDTO;
+import a203.findit.model.entity.Game;
+import a203.findit.model.entity.Ranking;
 import a203.findit.model.entity.User;
-import a203.findit.service.PlayerServiceImpl;
-import a203.findit.service.RoomServiceImpl;
-import a203.findit.service.UserServiceImpl;
+import a203.findit.service.*;
 import lombok.RequiredArgsConstructor;
 import net.bytebuddy.asm.Advice;
 import org.json.simple.JSONObject;
@@ -38,6 +38,8 @@ public class RoomController {
     private final RoomServiceImpl roomService;
     private final UserServiceImpl userService;
     private final PlayerServiceImpl playerService;
+    private final RankingServiceImpl rankingService;
+    private final GameServiceImpl gameService;
 
     @PostMapping("/room/create2")
     @ResponseBody
@@ -108,10 +110,25 @@ public class RoomController {
     }
 
     @PostMapping("/room/result")
-    public ResponseEntity<ArrayList<PlayerInfoDTO>> showResult(@Valid EntercodeDTO entercodeDTO){
+    public ResponseEntity sendResult(@Valid EntercodeDTO entercodeDTO){
         //return result && save result >> 등수
         ArrayList<PlayerInfoDTO> playerInfoDTOS =  playerService.rankChange(entercodeDTO.getEntercode());
+        rankingService.join(playerInfoDTOS,entercodeDTO.getEntercode());
         return ResponseEntity.ok(playerInfoDTOS);
     }
 
+    @GetMapping("/room/result/info")
+    public ResponseEntity<Game> showGameInfo(@Valid EntercodeDTO entercodeDTO){
+        Game game = gameService.find(entercodeDTO.getEntercode());
+        if(game == null){
+            return ResponseEntity.badRequest().body(null);
+        }
+        return ResponseEntity.ok(game);
+    }
+
+    @GetMapping("/room/result/rank")
+    public ResponseEntity<ArrayList<Ranking>> showResult(@Valid EntercodeDTO entercodeDTO){
+        ArrayList<Ranking> rankings = rankingService.show(entercodeDTO.getEntercode());
+        return ResponseEntity.ok(rankings);
+    }
 }
