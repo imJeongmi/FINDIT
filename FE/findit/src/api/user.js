@@ -8,4 +8,8 @@ function requestLogin(id, pw, success, fail) {
   UserApi.post("users/login", { id: id, pw: pw }).then(success).catch(fail);
 }
 
-export { requestJoin, requestLogin };
+function requestLogout(success, fail) {
+  UserApi.post("users/logout").then(success).catch(fail);
+}
+
+export { requestJoin, requestLogin, requestLogout };
