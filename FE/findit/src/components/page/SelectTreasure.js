@@ -39,12 +39,12 @@ const AddTreasureButton = styled(Box)(
 export default function SelectTreasure() {
   // 더미데이터 api연결 후 삭제할 것
   const [treasureList, setTreasureList] = useState([
-    "https://placeimg.com/100/100/any",
-    "https://placeimg.com/100/100/tech",
-    "https://placeimg.com/100/100/people",
-    "https://placeimg.com/100/100/nature",
-    "https://placeimg.com/100/100/architecture",
-    "https://placeimg.com/100/100/animals",
+    { img: "https://placeimg.com/100/100/any", tid: "" },
+    { img: "https://placeimg.com/100/100/tech", tid: "" },
+    { img: "https://placeimg.com/100/100/people", tid: "" },
+    { img: "https://placeimg.com/100/100/nature", tid: "" },
+    { img: "https://placeimg.com/100/100/architecture", tid: "" },
+    { img: "https://placeimg.com/100/100/animals", tid: "" },
   ]);
 
   // let selectedList = new Array(10);
@@ -62,6 +62,8 @@ export default function SelectTreasure() {
   }, [gameid]);
 
   function getTreasureListSuccess(res) {
+    console.log(res.data);
+    console.log(res.data.imgList);
     setTreasureList(res.data);
   }
 
@@ -114,7 +116,7 @@ export default function SelectTreasure() {
           {treasureList.map((treasure, key) => (
             <Box key={key}>
               <TreasureItem
-                src={treasure}
+                src={treasure.img}
                 selectedItems={selectedItems}
                 selectedItemHandler={selectedItemHandler}
                 alt="treasure"
@@ -157,7 +159,7 @@ export default function SelectTreasure() {
           {treasureList.map((treasure, key) => (
             <Box key={key}>
               <TreasureItem
-                src={treasure}
+                src={treasure.img}
                 // selectedItems={selectedItems}
                 // selectedItemHandler={selectedItemHandler}
                 alt="treasure"
