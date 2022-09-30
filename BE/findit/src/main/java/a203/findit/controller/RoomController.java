@@ -5,8 +5,10 @@ import a203.findit.model.dto.req.User.EntercodeDTO;
 import a203.findit.model.dto.req.User.PlayerInfoDTO;
 import a203.findit.model.dto.res.ApiResponse;
 import a203.findit.model.dto.req.User.RoomDTO;
+import a203.findit.model.entity.Ranking;
 import a203.findit.model.entity.User;
 import a203.findit.service.PlayerServiceImpl;
+import a203.findit.service.RankingServiceImpl;
 import a203.findit.service.RoomServiceImpl;
 import a203.findit.service.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +38,7 @@ public class RoomController {
     private final RoomServiceImpl roomService;
     private final UserServiceImpl userService;
     private final PlayerServiceImpl playerService;
+    private final RankingServiceImpl rankingService;
 
     @PostMapping("/room/create2")
     @ResponseBody
@@ -104,10 +107,17 @@ public class RoomController {
     }
 
     @PostMapping("/room/result")
-    public ResponseEntity<ArrayList<PlayerInfoDTO>> showResult(@Valid EntercodeDTO entercodeDTO){
+    public ResponseEntity sendResult(@Valid EntercodeDTO entercodeDTO){
         //return result && save result >> 등수
         ArrayList<PlayerInfoDTO> playerInfoDTOS =  playerService.rankChange(entercodeDTO.getEntercode());
+        rankingService.join(playerInfoDTOS,entercodeDTO.getEntercode());
         return ResponseEntity.ok(playerInfoDTOS);
     }
 
+    @GetMapping("/room/result")
+    public ResponseEntity<ArrayList<Ranking>> showResult(@Valid EntercodeDTO entercodeDTO){
+        //return result && save result >> 등수
+        ArrayList<Ranking> rankings = rankingService.show(entercodeDTO.getEntercode());
+        return ResponseEntity.ok(rankings);
+    }
 }
