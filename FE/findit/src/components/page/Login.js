@@ -26,7 +26,6 @@ export default function Login() {
     navigate("/Signup");
   }
 
-  // const navigate = useNavigate();
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
 
