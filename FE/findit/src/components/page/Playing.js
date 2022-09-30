@@ -15,6 +15,7 @@ import PlayingTreasureList from "components/module/PlayingTreasureList";
 import ExitButton from "components/atom/ExitButton";
 
 import { requestUpload } from "api/player";
+import axios from "axios";
 
 const StatusBar = styled(Box)(
   () => `
@@ -110,9 +111,10 @@ export default function Playing() {
     const file = dataURLtoFile(image, "treasure.jpeg");
     // console.log(file);
 
-    const data = new FormData();
-    data.append("game_id", 39);
-    data.append("file", file);
+    const data = {
+      game_id: 39,
+      file: file,
+    };
 
     requestUpload(data, uploadSuccess, uploadFail);
   }
