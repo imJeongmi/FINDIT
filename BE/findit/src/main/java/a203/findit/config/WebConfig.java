@@ -24,7 +24,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedOrigins(frontUrl)
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
-//                .allowCredentials(true) // 쿠키 허용
+                .allowCredentials(true) // 쿠키 허용
                 .maxAge(6000);
     }
 }
