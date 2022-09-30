@@ -9,7 +9,7 @@ import CircleButton from "components/atom/CircleButton";
 import TimerIcon from "static/timer_clock.svg";
 import TreasureIcon from "static/wrapped_gift.svg";
 
-import { requestGameConfiguration } from "api/game";
+import { requestGameConfiguration } from "api/host";
 
 import { useNavigate } from "react-router-dom";
 

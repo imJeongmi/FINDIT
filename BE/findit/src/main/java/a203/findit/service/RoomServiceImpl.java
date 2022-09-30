@@ -12,7 +12,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.time.ZoneId;
 import java.util.Optional;
 
@@ -38,6 +40,7 @@ public class RoomServiceImpl implements RoomService{
         game.setLimitMin(limitMinute);
         LocalDateTime now = LocalDateTime.now();
         game.setCreateTime(now);
+        game.setMode(mode);
         gameRepository.save(game);
 
         Long gameId = game.getId();
@@ -61,6 +64,9 @@ public class RoomServiceImpl implements RoomService{
         //DB
         Optional<Game> game = gameRepository.findByEnterCode(entercode);
         game.get().setEndTime(now);
+
+        Duration duration = Duration.between(game.get().getStartTime(),now);
+        game.get().setPlayTime(duration.getSeconds());
         gameRepository.save(game.get());
     }
 
