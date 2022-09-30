@@ -33,17 +33,18 @@ function getSelectedColor(selected) {
   // }
 }
 
-export default function TreasureItem({ src, selectedItems, selectedItemHandler, alt, isReadPage }) {
+export default function TreasureItem({ src, selectedItems, selectedItemHandler, alt, isReadPage, idx }) {
   const [isSelected, setIsSelected] = useState(false);
 
   const onSelect = ({ target }) => {
-    console.log(target.value, target.checked);
+    console.log(target)
+    console.log(target.idx, target.checked);
     selectedItemHandler(target.value, target.checked);
     setIsSelected(target.checked);
   };
 
   useEffect(() => {
-    if (isReadPage && selectedItems.includes(src)) {
+    if (isReadPage && selectedItems?.includes(idx)) {
       setIsSelected(true);
     } else {
       setIsSelected(false);
@@ -53,12 +54,12 @@ export default function TreasureItem({ src, selectedItems, selectedItemHandler, 
   if (isReadPage) {
     return (
       <TreasureBox>
-        <label key={src} style={{ display: "flex", justifyContent: "center" }}>
+        <label key={idx} style={{ display: "flex", justifyContent: "center" }}>
           <input
             type="checkbox"
             name="treasure"
             checked={isSelected}
-            value={src || ""}
+            value={idx}
             onChange={e => onSelect(e)}
             style={{ display: "none" }}
           />
