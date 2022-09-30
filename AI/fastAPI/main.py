@@ -2,17 +2,33 @@ import pymysql as pymysql
 import torch
 import requests
 from fastapi import FastAPI, UploadFile, File, Form
+from fastapi.middleware.cors import CORSMiddleware
+
 from starlette.responses import JSONResponse
+
 import cv2
 import numpy as np
 
-from config.dbConfig import host, port, username, password, dbname
+from dbConfig import host, port, username, password, dbname
 from models.experimental import attempt_load
 from utils.datasets import letterbox
 from utils.general import non_max_suppression, check_img_size
 from utils.torch_utils import select_device
 
 app = FastAPI()
+
+origins = [
+    "http://localhost",
+    "http://localhost:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 opt = {
     "weights": "best.pt",
@@ -46,6 +62,7 @@ db = pymysql.connect(host=host,
                      db=dbname,
                      charset='utf8')
 
+
 @app.post("/check")
 async def upload_file(file: UploadFile = File(...), game_id: str = Form()):
     print(game_id)
@@ -58,25 +75,24 @@ async def upload_file(file: UploadFile = File(...), game_id: str = Form()):
         sql = """SELECT igt.treasure_id, treasure.image_url, treasure.is_default, treasure.treasure_name
                    FROM igt, treasure 
                   WHERE igt.treasure_id = treasure.treasure_id 
-                    AND igt.game_id = '%s'""" %(game_id)
+                    AND igt.game_id = '%s'""" % (game_id)
         cursor.execute(sql)
 
         row = cursor.fetchall()
 
-        if(row == None):
+        if (row == None):
             # DB에 보물이 등록되어 있지 않다.
             # WRONG GAME_ID or WRONG DB
             return JSONResponse(status_code=500)
 
-        for tid, tulr, isD, tname in row :
-            if isD == b'\x01' :
+        for tid, tulr, isD, tname in row:
+            if isD == b'\x01':
                 digt.append(tid)
-            else :
+            else:
                 cigt[tid] = [tname, tulr]
         Default_IGT[game_id] = digt
         Custom_IGT[game_id] = cigt
         IGT[game_id] = row
-
 
     img = cv2.imdecode(np.fromstring(file.file.read(), np.uint8), cv2.IMREAD_COLOR)
     ori_img = img;
@@ -105,25 +121,31 @@ async def upload_file(file: UploadFile = File(...), game_id: str = Form()):
             # print("findit")
             for c in det[:, -1].unique():
                 # IGT에 등록된 보물인지 확인한다.
-                if int(c) in Default_IGT[game_id] :
+                if int(c) in Default_IGT[game_id]:
                     n = (det[:, -1] == c).sum()  # detections per class
                     s.append(names[int(c)])
 
-    if len(s) == 0 :
+    if len(s) == 0:
         ## CUSTOM 보물인지 확인한다.
-        for custom in Custom_IGT[game_id] :
+        for custom in Custom_IGT[game_id]:
             customImg = np.asarray(bytearray(requests.get(Custom_IGT[game_id][custom][1]).content), dtype=np.uint8)
             answerImg = cv2.imdecode(np.fromstring(customImg, np.uint8), cv2.IMREAD_GRAYSCALE)
 
-            if matchCheck(ori_img, answerImg) :
+            if matchCheck(ori_img, answerImg):
                 s.append(Custom_IGT[game_id][custom][0])
 
     elif len(s) > 1:
         print("Many Item")
         return JSONResponse(status_code=400)
 
-    return JSONResponse(content={"result": s},
+    # 보물이 사진에 없다.
+    if len(s) == 0:
+        return JSONResponse(content={"message": "NOT TREASURE"},
+                            status_code=200)
+
+    return JSONResponse(content={"result": s[0]},
                         status_code=200)
+
 
 # 답지 이미지, 사용자 이미지
 def matchCheck(src1, src2):
@@ -168,10 +190,10 @@ def matchCheck(src1, src2):
 
     # 입력 영상에 호모그래피 H 행렬로 투시 변환
     corners2 = corners2 + np.float32([w, 0])
-    
+
     # 넓이
     area = cv2.contourArea(np.int32(corners2), oriented=None)
-    
+
     # 넓이가 화면에 1/4이면 못찾은걸로 취급
     if area < (src2.shape[0] * src2.shape[1]) / 4:
         return False
