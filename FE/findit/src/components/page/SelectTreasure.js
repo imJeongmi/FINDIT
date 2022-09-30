@@ -49,7 +49,6 @@ export default function SelectTreasure() {
   // const [selectedTreasures, setSelectedTreasures] = useState([]);
 
   useEffect(() => {
-    console.log(gameid)
     if (!!gameid) {
       getTreasureList(getTreasureListSuccess, getTreasureListFail);
     }
