@@ -27,10 +27,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
-//@CrossOrigin("*") // 모든 요청에 접근 허용
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
+@CrossOrigin
 public class UserController {
 
     private final UserService userService;
