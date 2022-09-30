@@ -1,9 +1,7 @@
 import { Box, styled } from "@mui/system";
-import { getTreasureList, setGameTreasureList } from "api/treasure";
+import { getTreasureList } from "api/treasure";
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-
-import { Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 import CustomButton from "components/atom/CustomButton";
 import CustomText from "../atom/CustomText";
@@ -40,27 +38,31 @@ const AddTreasureButton = styled(Box)(
 
 export default function SelectTreasure() {
   // 더미데이터 api연결 후 삭제할 것
-  const [treasureList, setTreasureList] = useState([]);
+  const [treasureList, setTreasureList] = useState([
+    "https://placeimg.com/100/100/any",
+    "https://placeimg.com/100/100/tech",
+    "https://placeimg.com/100/100/people",
+    "https://placeimg.com/100/100/nature",
+    "https://placeimg.com/100/100/architecture",
+    "https://placeimg.com/100/100/animals",
+  ]);
 
   // let selectedList = new Array(10);
   // for (let i = 0; i < selectedList.length; i++) {
   //   selectedList[i] = false;
 
   // const [isSelectedList, setIsSelectedList] = useState(selectedList);
-  const { gameId } = useParams();
+  let { gameid } = useParams();
   // const [selectedTreasures, setSelectedTreasures] = useState([]);
 
-  const entercode = useParams();
-  const [selectedTreasures, setSelectedTreasures] = useState([]);
-
-
   useEffect(() => {
-    getTreasureList(getTreasureListSuccess, getTreasureListFail);
-  }, []);
+    if (!!gameid) {
+      getTreasureList(getTreasureListSuccess, getTreasureListFail);
+    }
+  }, [gameid]);
 
   function getTreasureListSuccess(res) {
     setTreasureList(res.data);
-    // console.log(res.data)
   }
 
   function getTreasureListFail(err) {
@@ -86,26 +88,17 @@ export default function SelectTreasure() {
     }
   }
 
-
-  function setGameTreasureListSuccess() {
-    navigate(`/waiting/${entercode}`)
-  }
-
-  function setGameTreasureListFail(err) {
-    console.log(err)
-  }
-
   const navigate = useNavigate();
 
   function confirm() {
     console.log(selectedItems);
     if (selectedItems.length > 0) {
-      setGameTreasureList(selectedItems, entercode, setGameTreasureListSuccess, setGameTreasureListFail)
+      navigate(`/waiting/${gameid}`);
     } else {
       console.log("보물 선택 ㄱㄱ");
     }
   }
-  if (!!gameId) {
+  if (!!gameid) {
     return (
       <Box sx={BoxStyle}>
         <Box sx={{ marginTop: "5vh" }}>
@@ -118,15 +111,14 @@ export default function SelectTreasure() {
           </CustomText>
         </Box>
         <Box sx={TreasureBoxStyle}>
-          {treasureList.map((treasure, idx) => (
-            <Box key={idx}>
+          {treasureList.map((treasure, key) => (
+            <Box key={key}>
               <TreasureItem
-                key={idx}
-                idx={idx}
                 src={treasure}
                 selectedItems={selectedItems}
                 selectedItemHandler={selectedItemHandler}
                 alt="treasure"
+                isReadPage="false"
               />
             </Box>
           ))}
@@ -162,12 +154,10 @@ export default function SelectTreasure() {
           </CustomText>
         </Box>
         <Box sx={TreasureBoxStyle}>
-          {treasureList.map((treasure, idx) => (
-            <Box key={idx}>
+          {treasureList.map((treasure, key) => (
+            <Box key={key}>
               <TreasureItem
-                key={idx}
                 src={treasure}
-                idx={idx}
                 // selectedItems={selectedItems}
                 // selectedItemHandler={selectedItemHandler}
                 alt="treasure"

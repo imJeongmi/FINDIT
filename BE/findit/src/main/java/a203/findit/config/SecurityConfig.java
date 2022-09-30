@@ -76,6 +76,7 @@ public class SecurityConfig {
                 .antMatchers("/games/**").hasAnyRole("GUEST","USER","ADMIN")
                 .antMatchers("/users/**").permitAll()
                 .antMatchers("/**").permitAll()
+                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .anyRequest().permitAll();
 
         http
@@ -96,11 +97,13 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-//        configuration.addAllowedOrigin(frontUrl);
-        configuration.addAllowedOrigin("*");
-        configuration.addAllowedHeader("*");
-        configuration.addAllowedMethod("*");
-//        configuration.setAllowCredentials(true); // 내 서버가 응답을 할 때 Json 을 자바스크립트에서 처리할 수 있게 할지를 설정하는 것
+        configuration.addAllowedOrigin(frontUrl);
+        configuration.addAllowedOrigin("https://findit.life");
+//        configuration.addAllowedOrigin("*");
+//        configuration.addAllowedHeader("*");
+        configuration.addAllowedMethod("GET");
+        configuration.addAllowedMethod("POST");
+        configuration.setAllowCredentials(true); // 내 서버가 응답을 할 때 Json 을 자바스크립트에서 처리할 수 있게 할지를 설정하는 것
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

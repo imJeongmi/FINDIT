@@ -44,10 +44,12 @@ export default function TreasureItem({ src, selectedItems, selectedItemHandler, 
   };
 
   useEffect(() => {
-    if (isReadPage && selectedItems?.includes(idx)) {
-      setIsSelected(true);
-    } else {
-      setIsSelected(false);
+    if (!isReadPage) {
+      if (selectedItems.includes(src)) {
+        setIsSelected(true);
+      } else {
+        setIsSelected(false);
+      }
     }
   }, [selectedItems]);
 
