@@ -37,8 +37,8 @@ export default function TreasureItem({ src, selectedItems, selectedItemHandler, 
   const [isSelected, setIsSelected] = useState(false);
 
   const onSelect = ({ target }) => {
-    console.log(target.idx, target.checked);
-    selectedItemHandler(target.idx, target.checked);
+    console.log(target.value, target.checked);
+    selectedItemHandler(target.value, target.checked);
     setIsSelected(target.checked);
   };
 

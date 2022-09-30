@@ -194,7 +194,7 @@ export default function GameSettingSection() {
   }
 
   function gameConfigurationSuccess(res) {
-    setEnterCode(res.data)
+    setEnterCode(res.data.entercode)
   }
 
   useEffect(() => {

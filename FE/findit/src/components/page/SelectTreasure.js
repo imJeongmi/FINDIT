@@ -49,6 +49,7 @@ export default function SelectTreasure() {
   // const [selectedTreasures, setSelectedTreasures] = useState([]);
 
   useEffect(() => {
+    console.log(gameid)
     if (!!gameid) {
       getTreasureList(getTreasureListSuccess, getTreasureListFail);
     }
@@ -106,10 +107,11 @@ export default function SelectTreasure() {
           </CustomText>
         </Box>
         <Box sx={TreasureBoxStyle}>
-          {treasureList.map((treasure, key) => (
-            <Box key={key}>
+          {treasureList.map((treasure, idx) => (
+            <Box key={idx}>
               <TreasureItem
-                src={treasure.img}
+              idx={idx}
+                src={treasure}
                 selectedItems={selectedItems}
                 selectedItemHandler={selectedItemHandler}
                 alt="treasure"
