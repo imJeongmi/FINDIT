@@ -23,7 +23,7 @@ export default function EnterVerificationCode() {
   }
 
   function enterFail(err) {
-    // alert 띄우기
+    alert("다시 한 번 입력해주세요😥");
     console.log("게임 입장 실패", err);
   }
 
