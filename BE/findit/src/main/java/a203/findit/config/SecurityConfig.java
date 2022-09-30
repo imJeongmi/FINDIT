@@ -24,22 +24,19 @@ import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+//@EnableWebSecurity
 public class SecurityConfig {
 
     private final JwtProvider jwtProvider;
     private final AuthenticationEntryPoint authenticationEntryPointHandler;
     private final AccessDeniedHandler webAccessDeniedHandler;
 
-
     private final String frontUrl;
+
     private static final String[] GET_PUBLIC_URI = {};
     private static final String[] POST_PUBLIC_URI = {
             "/users",
             "/users/login",
-            "/api/v1/users",
-            "/api/v1/users/login"
     };
     private static final String[] DELETE_PUBLIC_URI = {};
 
@@ -78,14 +75,8 @@ public class SecurityConfig {
                 .antMatchers("/public/**").permitAll()
                 .antMatchers("/games/**").hasAnyRole("GUEST","USER","ADMIN")
                 .antMatchers("/users/**").permitAll()
-                .antMatchers("/api/v1/public/**").permitAll()
-                .antMatchers("/api/v1/games/**").hasAnyRole("GUEST","USER","ADMIN")
-                .antMatchers("/api/v1/users/**").permitAll()
                 .antMatchers("/**").permitAll()
-                .antMatchers("/api/v1/**").permitAll()
-                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-//                .anyRequest().hasRole("GUEST")
-                .anyRequest().authenticated();
+                .anyRequest().permitAll();
 
         http
                 .sessionManagement()
