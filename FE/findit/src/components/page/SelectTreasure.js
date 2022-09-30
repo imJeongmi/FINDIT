@@ -55,7 +55,7 @@ export default function SelectTreasure() {
 
   // const [isSelectedList, setIsSelectedList] = useState(selectedList);
   const { gameId } = useParams();
-  const [selectedTreasures, setSelectedTreasures] = useState([]);
+  // const [selectedTreasures, setSelectedTreasures] = useState([]);
 
   useEffect(() => {
     if (!!gameId) {
@@ -91,6 +91,7 @@ export default function SelectTreasure() {
   }
 
   const navigate = useNavigate();
+
   function confirm() {
     console.log(selectedItems);
     if (selectedItems.length > 0) {
@@ -99,59 +100,90 @@ export default function SelectTreasure() {
       console.log("보물 선택 ㄱㄱ");
     }
   }
-
-  return (
-    <Box sx={BoxStyle}>
-      <Box sx={{ marginTop: "5vh" }}>
-        <CustomText size="xxl" weight="bold">
-          보물 선택
-        </CustomText>
-        <br />
-        <CustomText size="xs" variant="grey">
-          원하는 보물을 추가해볼까요?
-        </CustomText>
+  if (!!gameId) {
+    return (
+      <Box sx={BoxStyle}>
+        <Box sx={{ marginTop: "5vh" }}>
+          <CustomText size="xxl" weight="bold">
+            보물 선택
+          </CustomText>
+          <br />
+          <CustomText size="xs" variant="grey">
+            원하는 보물을 추가해볼까요?
+          </CustomText>
+        </Box>
+        <Box sx={TreasureBoxStyle}>
+          {treasureList.map((treasure, key) => (
+            <Box key={key}>
+              <TreasureItem
+                src={treasure}
+                selectedItems={selectedItems}
+                selectedItemHandler={selectedItemHandler}
+                alt="treasure"
+              />
+            </Box>
+          ))}
+          {/* Onclick 달아야 함 */}
+          <Link to="/addtreasure">
+            <AddTreasureButton>
+              <CustomText size="xxxl" variant="secondary">
+                +
+              </CustomText>
+              <CustomText size="xxs" variant="secondary">
+                나만의 보물 추가
+              </CustomText>
+            </AddTreasureButton>
+          </Link>
+        </Box>
+        <Box>
+          <CustomButton size="large" color="secondary" onClick={confirm}>
+            보물 설정 완료
+          </CustomButton>
+        </Box>
       </Box>
-      <Box sx={TreasureBoxStyle}>
-        {/* 보물 리스트 받아온 후, map으로 변경 */}
-        {/* <TreasureItem
-          src="https://placeimg.com/100/100/any"
-          onClick={() => selectTreasure(treasure)}
-        ></TreasureItem>
-        <TreasureItem src="https://placeimg.com/100/100/any"></TreasureItem>
-        <TreasureItem src="https://placeimg.com/100/100/any"></TreasureItem>
-        <TreasureItem src="https://placeimg.com/100/100/any"></TreasureItem>
-        <TreasureItem src="https://placeimg.com/100/100/any"></TreasureItem>
-        <TreasureItem src="https://placeimg.com/100/100/any"></TreasureItem>
-        <TreasureItem src="https://placeimg.com/100/100/any"></TreasureItem>
-        <TreasureItem src="https://placeimg.com/100/100/any"></TreasureItem>
-        <TreasureItem src="https://placeimg.com/100/100/any"></TreasureItem>
-        <TreasureItem src="https://placeimg.com/100/100/any"></TreasureItem> */}
-        {treasureList.map((treasure, key) => (
-          <Box key={key}>
-            <TreasureItem
-              src={treasure}
-              selectedItems={selectedItems}
-              selectedItemHandler={selectedItemHandler}
-              alt="treasure"
-            />
-          </Box>
-        ))}
-        {/* Onclick 달아야 함 */}
-        <Link to="/addtreasure">
-          <AddTreasureButton>
-            <CustomText size="xxxl" variant="secondary">
-              +
-            </CustomText>
-            <CustomText size="xxs" variant="secondary">
-              나만의 보물 추가
-            </CustomText>
-          </AddTreasureButton>
+    );
+  } else {
+    return (
+      <Box sx={BoxStyle}>
+        <Box sx={{ marginTop: "5vh" }}>
+          <CustomText size="xxl" weight="bold">
+            커스텀 보물 조회
+          </CustomText>
+          <br />
+          <CustomText size="xs" variant="grey">
+            원하는 보물을 추가할 수 있어요
+          </CustomText>
+        </Box>
+        <Box sx={TreasureBoxStyle}>
+          {treasureList.map((treasure, key) => (
+            <Box key={key}>
+              <TreasureItem
+                src={treasure}
+                // selectedItems={selectedItems}
+                // selectedItemHandler={selectedItemHandler}
+                alt="treasure"
+              />
+            </Box>
+          ))}
+          {/* Onclick 달아야 함 */}
+          <Link to="/addtreasure">
+            <AddTreasureButton>
+              <CustomText size="xxxl" variant="secondary">
+                +
+              </CustomText>
+              <CustomText size="xxs" variant="secondary">
+                나만의 보물 추가
+              </CustomText>
+            </AddTreasureButton>
+          </Link>
+        </Box>
+
+        <Link to="/hostmain" style={{ textDecoration: "none" }}>
+          <CustomButton size="large" color="secondary">
+            뒤로 가기
+          </CustomButton>
         </Link>
       </Box>
-
-      <CustomButton size="large" color="secondary" onClick={confirm}>
-        보물 설정 완료
-      </CustomButton>
-    </Box>
-  );
+    );
+  }
 }

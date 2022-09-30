@@ -33,7 +33,7 @@ function getSelectedColor(selected) {
   // }
 }
 
-export default function TreasureItem({ src, selectedItems, selectedItemHandler, alt }) {
+export default function TreasureItem({ src, selectedItems, selectedItemHandler, alt, isReadPage }) {
   const [isSelected, setIsSelected] = useState(false);
 
   const onSelect = ({ target }) => {
@@ -43,31 +43,39 @@ export default function TreasureItem({ src, selectedItems, selectedItemHandler, 
   };
 
   useEffect(() => {
-    if (selectedItems.includes(src)) {
+    if (isReadPage && selectedItems.includes(src)) {
       setIsSelected(true);
     } else {
       setIsSelected(false);
     }
   }, [selectedItems]);
 
-  return (
-    <TreasureBox>
-      <label key={src} style={{ display: "flex", justifyContent: "center" }}>
-        <input
-          type="checkbox"
-          name="treasure"
-          checked={isSelected}
-          value={src || ""}
-          onChange={e => onSelect(e)}
-          style={{ display: "none" }}
-        />
-        <TreasureImage
-          src={src}
-          alt={alt}
-          style={{ filter: isSelected ? "brightness(40%)" : "brightness(100%)" }}
-        />
-        {/* {isSelected && <Box style={{ display: "fixed", backgroundColor: "black" }} />} */}
-      </label>
-    </TreasureBox>
-  );
+  if (isReadPage) {
+    return (
+      <TreasureBox>
+        <label key={src} style={{ display: "flex", justifyContent: "center" }}>
+          <input
+            type="checkbox"
+            name="treasure"
+            checked={isSelected}
+            value={src || ""}
+            onChange={e => onSelect(e)}
+            style={{ display: "none" }}
+          />
+          <TreasureImage
+            src={src}
+            alt={alt}
+            style={{ filter: isSelected ? "brightness(40%)" : "brightness(100%)" }}
+          />
+          {/* {isSelected && <Box style={{ display: "fixed", backgroundColor: "black" }} />} */}
+        </label>
+      </TreasureBox>
+    );
+  } else {
+    return (
+      <TreasureBox>
+        <TreasureImage src={src} alt={alt} />
+      </TreasureBox>
+    );
+  }
 }

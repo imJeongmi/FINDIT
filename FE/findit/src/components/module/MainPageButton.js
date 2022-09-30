@@ -111,7 +111,7 @@ export default function MainPageButton({ page }) {
     if (item.key === 1) {
       navigate("/setting");
     } else if (item.key === 2) {
-      navigate("/mytreasure/");
+      navigate("/mytreasure");
     } else if (item.key === 3) {
       navigate("/help");
     }
