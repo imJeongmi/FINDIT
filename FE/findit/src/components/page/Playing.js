@@ -3,6 +3,7 @@ import React from "react";
 import { useState, useRef } from "react";
 import { Box, styled } from "@mui/system";
 import { Camera } from "react-camera-pro";
+import { useForm } from "react-hook-form";
 
 import TimerIcon from "static/timer.svg";
 import ScoreIcon from "static/medal.svg";
@@ -80,13 +81,39 @@ export default function Playing() {
   const [numberOfCameras, setNumberOfCameras] = useState(0);
   const [image, setImage] = useState(null);
 
+  function uploadAction(image) {
+    const treasureData = {
+      "game_id": "000000",
+      "image" : image
+    }
+    // console.log(treasureData);
+    
+    const data = new FormData();
+    data.append("data", treasureData);
+    // console.log(data);
+    
+    fetch("https://findit.life/fast/check", {
+      mode: "no-cors",
+      method: "POST",
+      body: data
+    }).then(function (res) {
+      res.json()
+      // alert(JSON.stringify(`${res.message}, status: ${res.status}`))
+      if (res.ok) {
+        alert("OK");
+      }
+    }, function (e) {
+      alert("Error");
+    });
+  }
+
   return (
     <Box>
       <Camera
         ref={camera}
         aspectRatio={9 / 20}
         numberOfCamerasCallback={setNumberOfCameras}
-        // facingMode="environment"
+        facingMode="environment"
       />
 
       <StatusBar>
@@ -144,8 +171,8 @@ export default function Playing() {
           onClick={() => {
             const photo = camera.current.takePhoto();
             setImage(photo);
-            {console.log(image)}
-            // 이미지 채점 : https://findit.life/fast/check로 game_id랑 file(파일명) 보내기
+            console.log(image);
+            uploadAction(image);
           }}
         >
           <CircleButton icon="camera" size="large" opacity="0.8" />
