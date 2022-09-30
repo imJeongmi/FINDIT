@@ -28,6 +28,7 @@ import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin
 public class RoomController {
     /*
     user 가 방 create, entercode, 방 시작
