@@ -1,9 +1,7 @@
 import { Box, styled } from "@mui/system";
 import { getTreasureList } from "api/treasure";
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-
-import { Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 import CustomButton from "components/atom/CustomButton";
 import CustomText from "../atom/CustomText";
@@ -41,12 +39,12 @@ const AddTreasureButton = styled(Box)(
 export default function SelectTreasure() {
   // 더미데이터 api연결 후 삭제할 것
   const [treasureList, setTreasureList] = useState([
-    "https://placeimg.com/100/100/any",
-    "https://placeimg.com/100/100/tech",
-    "https://placeimg.com/100/100/people",
-    "https://placeimg.com/100/100/nature",
-    "https://placeimg.com/100/100/architecture",
-    "https://placeimg.com/100/100/animals",
+    { img: "https://placeimg.com/100/100/any", tid: "" },
+    { img: "https://placeimg.com/100/100/tech", tid: "" },
+    { img: "https://placeimg.com/100/100/people", tid: "" },
+    { img: "https://placeimg.com/100/100/nature", tid: "" },
+    { img: "https://placeimg.com/100/100/architecture", tid: "" },
+    { img: "https://placeimg.com/100/100/animals", tid: "" },
   ]);
 
   // let selectedList = new Array(10);
@@ -54,16 +52,18 @@ export default function SelectTreasure() {
   //   selectedList[i] = false;
 
   // const [isSelectedList, setIsSelectedList] = useState(selectedList);
-  const { gameId } = useParams();
+  let { gameid } = useParams();
   // const [selectedTreasures, setSelectedTreasures] = useState([]);
 
   useEffect(() => {
-    if (!!gameId) {
+    if (!!gameid) {
       getTreasureList(getTreasureListSuccess, getTreasureListFail);
     }
-  }, [gameId]);
+  }, [gameid]);
 
   function getTreasureListSuccess(res) {
+    console.log(res.data);
+    console.log(res.data.imgList);
     setTreasureList(res.data);
   }
 
@@ -95,12 +95,12 @@ export default function SelectTreasure() {
   function confirm() {
     console.log(selectedItems);
     if (selectedItems.length > 0) {
-      navigate(`/waiting/${gameId}`);
+      navigate(`/waiting/${gameid}`);
     } else {
       console.log("보물 선택 ㄱㄱ");
     }
   }
-  if (!!gameId) {
+  if (!!gameid) {
     return (
       <Box sx={BoxStyle}>
         <Box sx={{ marginTop: "5vh" }}>
@@ -116,10 +116,11 @@ export default function SelectTreasure() {
           {treasureList.map((treasure, key) => (
             <Box key={key}>
               <TreasureItem
-                src={treasure}
+                src={treasure.img}
                 selectedItems={selectedItems}
                 selectedItemHandler={selectedItemHandler}
                 alt="treasure"
+                isReadPage="false"
               />
             </Box>
           ))}
@@ -158,7 +159,7 @@ export default function SelectTreasure() {
           {treasureList.map((treasure, key) => (
             <Box key={key}>
               <TreasureItem
-                src={treasure}
+                src={treasure.img}
                 // selectedItems={selectedItems}
                 // selectedItemHandler={selectedItemHandler}
                 alt="treasure"
