@@ -162,6 +162,7 @@ export default function SelectTreasure() {
                 // selectedItems={selectedItems}
                 // selectedItemHandler={selectedItemHandler}
                 alt="treasure"
+                isReadPage="true"
               />
             </Box>
           ))}
