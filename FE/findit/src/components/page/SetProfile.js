@@ -6,6 +6,9 @@ import React from "react";
 import CustomText from "../atom/CustomText";
 import ProfileImage from "../atom/ProfileImage";
 
+import { requestLogout } from "api/user";
+import { useNavigate } from "react-router-dom";
+
 const ProfileBoxStyle = {
   margin: "auto",
   textAlign: "center",
@@ -39,10 +42,25 @@ function PlayerProfile() {
 }
 
 function HostProfile() {
+  const navigate = useNavigate();
+
+  function logoutSuccess() {
+    navigate("/main");
+  }
+
+  function logoutFail(err) {
+    console.log(err);
+  }
+
+  function onClickLogout(event) {
+    event.preventDefault();
+    console.log("로그아웃 버튼 클릭");
+    requestLogout(logoutSuccess, logoutFail);
+  }
   // 로그아웃 함수 작성
   return (
     <Box sx={ProfileBoxStyle}>
-      <Box sx={{ textAlign: "end", marginTop: "4vh", marginRight: "10vw" }}>
+      <Box sx={{ textAlign: "end", marginTop: "4vh", marginRight: "10vw" }} onClick={onClickLogout}>
         <CircleButton icon="logout" size="smaller"></CircleButton>
       </Box>
       <Box sx={BoxStyle}>

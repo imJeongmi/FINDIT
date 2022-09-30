@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Box, styled } from "@mui/system";
 
@@ -115,8 +115,9 @@ text-align: end
 );
 
 export default function GameSettingSection() {
-  const navigate = useNavigate;
+  const navigate = useNavigate();
   const [timer, setTimer] = useState(10);
+  const [entercode, setEnterCode] = useState(0);
 
   function incrementHandler() {
     if (timer >= 60) {
@@ -193,11 +194,14 @@ export default function GameSettingSection() {
   }
 
   function gameConfigurationSuccess(res) {
-    console.log(res.data);
-    // res.data 뜯어보고 gameid에 enterCode 추가하기
-    // navigate(`/treasure/:gameid`);
+    setEnterCode(res.data.entercode)
   }
 
+  useEffect(() => {
+    if (entercode !== 0) {
+      navigate(`treasure/${entercode}`)
+    }
+  }, [entercode, navigate])
   function gameConfigurationFail(res) {
     // alert 띄우기
     console.log("게임 설정 실패", res.data);
