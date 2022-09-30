@@ -42,16 +42,13 @@ export default function TreasureItem({ src, selectedItems, selectedItemHandler, 
     setIsSelected(target.checked);
   };
 
-  useEffect(
-    src => {
-      if (selectedItems.includes(src)) {
-        setIsSelected(true);
-      } else {
-        setIsSelected(false);
-      }
-    },
-    [selectedItems],
-  );
+  useEffect(() => {
+    if (selectedItems.includes(src)) {
+      setIsSelected(true);
+    } else {
+      setIsSelected(false);
+    }
+  }, [selectedItems]);
 
   return (
     <TreasureBox>
