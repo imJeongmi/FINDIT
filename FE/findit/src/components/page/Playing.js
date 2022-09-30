@@ -14,6 +14,8 @@ import PlayingRanking from "components/module/PlayingRanking";
 import PlayingTreasureList from "components/module/PlayingTreasureList";
 import ExitButton from "components/atom/ExitButton";
 
+import { requestUpload } from "api/player";
+
 const StatusBar = styled(Box)(
   () => `
     width: 100vw;
@@ -93,27 +95,26 @@ export default function Playing() {
     return new File([u8arr], filename, { type: mime });
   }
 
+  function uploadSuccess(res) {
+    console.log(res);
+    if (res.ok) {
+      console.log("OK");
+    }
+  }
+
+  function uploadFail(error) {
+    console.log(error);
+  }
+
   function uploadAction(image) {
     const file = dataURLtoFile(image, "treasure.jpeg");
     // console.log(file);
 
     const data = new FormData();
-    data.append("game_id", 123456);
+    data.append("game_id", 39);
     data.append("file", file);
 
-    fetch("https://findit.life/fast/check", {
-      mode: "no-cors",
-      method: "POST",
-      body: data,
-    }).then(
-      function (res) {
-        res.json();
-        console.log(JSON.stringify(`${res.message}, status: ${res.status}`));
-      },
-      function (e) {
-        alert("Error");
-      },
-    );
+    requestUpload(data, uploadSuccess, uploadFail);
   }
 
   return (
