@@ -4,7 +4,6 @@ const ls = {
     localStorage[key] = typeof object === "string" ? object : JSON.stringify(object);
   },
   get: key => {
-    console.log(localStorage);
     if (!localStorage) return null;
 
     if (!localStorage[key]) {
