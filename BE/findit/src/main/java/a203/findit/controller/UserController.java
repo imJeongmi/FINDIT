@@ -27,6 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
@@ -38,7 +39,7 @@ public class UserController {
     private final String ACCESS_TOKEN_KEY = "accessToken";
     private final String REFRESH_TOKEN_KEY = "refreshToken";
 
-//    @CrossOrigin("*") // 모든 요청에 접근 허용
+    //    @CrossOrigin("*") // 모든 요청에 접근 허용
     @PostMapping("")
     public ResponseEntity createUser(@Valid @RequestBody CreateUserDTO createUserDTO) {
 
@@ -59,13 +60,13 @@ public class UserController {
             Map<String, String> result = userService.login(loginUserDTO);
             SetCookie.setRefreshTokenCookie(response, result.get(REFRESH_TOKEN_KEY));
             return ResponseEntity.ok().body(result);
-        }catch (CustomException customException) {
+        } catch (CustomException customException) {
             if (customException.getCode() == Code.C401) {
                 return ResponseEntity.badRequest().body("인증에 실패했습니다.");
             }
-        }finally{
-            return ResponseEntity.internalServerError().build();
         }
+        return ResponseEntity.internalServerError().build();
+
 
     }
 
@@ -135,7 +136,7 @@ public class UserController {
     public ResponseEntity createTreasure(@RequestPart(value = "data") ReqCreateTreasureDTO reqCreateTreasureDTO, @RequestPart(value = "img") MultipartFile img) {
         UserDetails currUser = (UserDetails) (SecurityContextHolder.getContext().getAuthentication()).getPrincipal();
 
-        if(reqCreateTreasureDTO.getGameId()==null){
+        if (reqCreateTreasureDTO.getGameId() == null) {
             throw new CustomException(Code.C401);
         }
 
@@ -151,8 +152,8 @@ public class UserController {
     }
 
     @PostMapping("/treasures")
-    public ResponseEntity selectTreasure(@RequestBody ReqSelectTreasure reqSelectTreasure){
-        if(userService.selectTreasure(reqSelectTreasure.getTid(),reqSelectTreasure.getEntercode())){
+    public ResponseEntity selectTreasure(@RequestBody ReqSelectTreasure reqSelectTreasure) {
+        if (userService.selectTreasure(reqSelectTreasure.getTid(), reqSelectTreasure.getEntercode())) {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.badRequest().build();
