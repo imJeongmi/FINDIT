@@ -30,7 +30,6 @@ export default function Login() {
   const [pw, setPw] = useState("");
 
   function loginSuccess(res) {
-    console.log(res.data);
     const accessToken = res.data.accessToken;
     const refreshToken = res.data.refreshToken;
     ls.set("accessToken", accessToken);
