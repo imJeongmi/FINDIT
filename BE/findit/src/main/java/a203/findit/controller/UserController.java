@@ -64,6 +64,9 @@ public class UserController {
             if (customException.getCode() == Code.C401) {
                 return ResponseEntity.badRequest().body("인증에 실패했습니다.");
             }
+        } catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body("서버 에러");
         }
         return ResponseEntity.internalServerError().build();
 
