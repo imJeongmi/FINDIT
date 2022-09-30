@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React from "react";
 import ReactInputVerificationCode from "react-input-verification-code";
 
 import "./EnterCode.css";
