@@ -3,19 +3,19 @@ import ReactInputVerificationCode from "react-input-verification-code";
 
 import "./EnterCode.css";
 
-export default function EnterCode() {
-  const [value, setValue] = useState("");
+export default function EnterCode({ enterCode, setEnterCode }) {
+  // const [value, setValue] = useState("");
   // const [isInvalid, setIsInvalid] = useState(false);
   // const [error, setError] = useState(null);
 
   return (
     <div className="custom-styles">
       <ReactInputVerificationCode
-        value={value}
+        value={enterCode}
         placeholder={null}
         length={6}
         onChange={newValue => {
-          setValue(newValue);
+          setEnterCode(newValue);
 
           // if (newValue !== "") {
           //   setError(null);
