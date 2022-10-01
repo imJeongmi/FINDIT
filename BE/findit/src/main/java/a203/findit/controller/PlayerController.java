@@ -17,8 +17,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -87,9 +90,12 @@ public class PlayerController {
     }
 
     @GetMapping("/room/{entercode}")
-    public ResponseEntity ValidRoomId(@PathVariable("entercode") String entercode) {
+    public ResponseEntity ValidRoomId(@PathVariable("entercode") String entercode, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Map<String, String> result = new HashMap<>();
+        result.put("newplayeraccessToken", session.getId());
         if(playerService.valid(entercode)){
-            return ResponseEntity.status(HttpStatus.OK).body(true);
+            return ResponseEntity.status(HttpStatus.OK).body(result);
         }else{
             return ResponseEntity.badRequest().body("존재하지 않는 입장코드입니다.");
         }

@@ -21,23 +21,21 @@ const TreasureImage = styled("img")(
   width: 22vw;
   height: 22vw;
   border-radius: 25%;
-  filter: ${getSelectedColor(selected)};
   `,
 );
 
-function getSelectedColor(selected) {
-  // if (!!selected) {
-  //   return "brightness(50%)";
-  // } else {
-  //   return "brightness(100%)";
-  // }
-}
-
-export default function TreasureItem({ src, selectedItems, selectedItemHandler, alt, isReadPage, idx }) {
+export default function TreasureItem({
+  src,
+  selectedItems,
+  selectedItemHandler,
+  alt,
+  isReadPage,
+  idx,
+}) {
   const [isSelected, setIsSelected] = useState(false);
 
   const onSelect = ({ target }) => {
-    console.log(target.value, target.checked);
+    // console.log(target.value, target.checked);
     selectedItemHandler(target.value, target.checked);
     setIsSelected(target.checked);
   };

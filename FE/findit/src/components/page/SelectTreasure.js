@@ -54,7 +54,10 @@ export default function SelectTreasure() {
   }, [gameid]);
 
   function getTreasureListSuccess(res) {
+<<<<<<< HEAD
     console.log(res.data);
+=======
+>>>>>>> 3819a5b177dbb018f4dc1916a6bce0488daf0975
     setTreasureList(res.data);
   }
 
@@ -123,7 +126,6 @@ export default function SelectTreasure() {
   }, [gameid])
 
   function confirm() {
-    console.log(selectedItems);
     if (selectedItems.length > 0) {
       navigate(`/waiting/${gameid}`);
     } else {
@@ -145,6 +147,7 @@ export default function SelectTreasure() {
         <Box sx={TreasureBoxStyle}>
           {treasureList.map((treasure, idx) => (
             <Box key={idx}>
+<<<<<<< HEAD
               <TreasureItem
                 idx={idx}
                 src={treasure}
@@ -153,6 +156,18 @@ export default function SelectTreasure() {
                 alt="treasure"
                 isReadPage="false"
               />
+=======
+              {treasure !== null && (
+                <TreasureItem
+                  idx={idx}
+                  src={treasure}
+                  selectedItems={selectedItems}
+                  selectedItemHandler={selectedItemHandler}
+                  alt="treasure"
+                  isReadPage="false"
+                />
+              )}
+>>>>>>> 3819a5b177dbb018f4dc1916a6bce0488daf0975
             </Box>
           ))}
           {/* Onclick 달아야 함 */}
@@ -189,13 +204,15 @@ export default function SelectTreasure() {
         <Box sx={TreasureBoxStyle}>
           {treasureList.map((treasure, key) => (
             <Box key={key}>
-              <TreasureItem
-                src={treasure.img}
-                // selectedItems={selectedItems}
-                // selectedItemHandler={selectedItemHandler}
-                alt="treasure"
-                isReadPage="true"
-              />
+              {treasure !== null && (
+                <TreasureItem
+                  src={treasure}
+                  // selectedItems={selectedItems}
+                  // selectedItemHandler={selectedItemHandler}
+                  alt="treasure"
+                  isReadPage="true"
+                />
+              )}
             </Box>
           ))}
           {/* Onclick 달아야 함 */}
