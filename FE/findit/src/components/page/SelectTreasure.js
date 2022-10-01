@@ -89,7 +89,6 @@ export default function SelectTreasure() {
     }
   }
   if (!!gameid) {
-    console.log(selectedItems);
     return (
       <Box sx={BoxStyle}>
         <Box sx={{ marginTop: "5vh" }}>
@@ -104,14 +103,16 @@ export default function SelectTreasure() {
         <Box sx={TreasureBoxStyle}>
           {treasureList.map((treasure, idx) => (
             <Box key={idx}>
-              <TreasureItem
-                idx={idx}
-                src={treasure}
-                selectedItems={selectedItems}
-                selectedItemHandler={selectedItemHandler}
-                alt="treasure"
-                isReadPage="false"
-              />
+              {treasure !== null && (
+                <TreasureItem
+                  idx={idx}
+                  src={treasure}
+                  selectedItems={selectedItems}
+                  selectedItemHandler={selectedItemHandler}
+                  alt="treasure"
+                  isReadPage="false"
+                />
+              )}
             </Box>
           ))}
           {/* Onclick 달아야 함 */}
@@ -134,7 +135,6 @@ export default function SelectTreasure() {
       </Box>
     );
   } else {
-    console.log(selectedItems);
     return (
       <Box sx={BoxStyle}>
         <Box sx={{ marginTop: "5vh" }}>
@@ -149,13 +149,15 @@ export default function SelectTreasure() {
         <Box sx={TreasureBoxStyle}>
           {treasureList.map((treasure, key) => (
             <Box key={key}>
-              <TreasureItem
-                src={treasure}
-                // selectedItems={selectedItems}
-                // selectedItemHandler={selectedItemHandler}
-                alt="treasure"
-                isReadPage="true"
-              />
+              {treasure !== null && (
+                <TreasureItem
+                  src={treasure}
+                  // selectedItems={selectedItems}
+                  // selectedItemHandler={selectedItemHandler}
+                  alt="treasure"
+                  isReadPage="true"
+                />
+              )}
             </Box>
           ))}
           {/* Onclick 달아야 함 */}
