@@ -23,6 +23,8 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.Arrays;
+
 @Configuration
 //@EnableWebSecurity
 public class SecurityConfig {
@@ -35,8 +37,8 @@ public class SecurityConfig {
 
     private static final String[] GET_PUBLIC_URI = {};
     private static final String[] POST_PUBLIC_URI = {
-            "/users",
-            "/users/login",
+//            "/users",
+//            "/users/login",
     };
     private static final String[] DELETE_PUBLIC_URI = {};
 
@@ -66,14 +68,14 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .httpBasic().disable()  // Http basic Auth 기반으로 로그인 인증창이 뜸. disable 시에 인증창 뜨지 않음.
-//                .cors().configurationSource(corsConfigurationSource())
-                .cors(cors->cors.disable())
+                .cors().configurationSource(corsConfigurationSource())
+                .and()
                 .csrf().disable();  // rest api이므로 csrf 보안이 필요없으므로 disable처리.
 
         http
                 .authorizeRequests()
                 .antMatchers("/public/**").permitAll()
-                .antMatchers("/games/**").hasAnyRole("GUEST","USER","ADMIN")
+                .antMatchers("/games/**").permitAll()
                 .antMatchers("/users/**").permitAll()
                 .antMatchers("/**").permitAll()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
@@ -97,12 +99,8 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.addAllowedOrigin("http://localhost:3000");
-        configuration.addAllowedOrigin("https://findit.life");
-        configuration.addAllowedHeader("*");
-        configuration.addAllowedMethod("GET");
-        configuration.addAllowedMethod("POST");
-        configuration.addAllowedMethod("OPTIONS");
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000","https://findit.life"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "OPTIONS"));
         configuration.setAllowCredentials(true); // 내 서버가 응답을 할 때 Json 을 자바스크립트에서 처리할 수 있게 할지를 설정하는 것
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
