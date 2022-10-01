@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, styled } from "@mui/system";
 import CustomText from "components/atom/CustomText";
 import CustomButton from "components/atom/CustomButton";
 import RankingList from "components/module/RankingList";
 
-import { Link } from "react-router-dom";
+import { Link,useNavigate,useParams } from "react-router-dom";
 
 import ss from "helper/SessionStorage";
+import { getWebsocket } from "helper/websocket";
 
 const CenterStyle = {
   margin: "7vh auto",
@@ -24,29 +25,15 @@ const RankingBox = styled(Box)(
     `,
 );
 
-function PlayerButton() {
-  return (
-    <CustomButton size="large" color="grey" my="0">
-      대기중
-    </CustomButton>
-  );
-}
-
-function HostButton() {
-  return (
-    // solid style
-    <CustomButton size="large" my="0">
-      PLAY
-    </CustomButton>
-  );
-}
 
 export default function WaitPlaying() {
+
   // function isPlayer(target) {
   //   if (target === "user") return false;
   //   else return true;
   // }
-
+  let { gameid } = useParams();
+  const navigate = useNavigate();
   function isPlayer() {
     const playeraccessToken = ss.get("playeraccessToken");
     console.log(playeraccessToken);
@@ -57,6 +44,46 @@ export default function WaitPlaying() {
     }
   }
 
+  const ws = getWebsocket();
+
+  function startGame(e) {
+    e.preventDefault();
+    ws.publish({ destination: "/pub/gamestart", headers: {entercode: gameid }})
+    navigate(`/status/${gameid}`)
+  }
+
+  // 소켓에서 보내는 메세지
+  function getDataFromSocket(message) {
+    console.log(message.body)
+  }
+
+  ws.onConnect = function (frame) {
+    console.log("연결됨")
+    ws.subscribe(`/sub/room/${gameid}`, getDataFromSocket)
+  }
+
+  useEffect(() => {
+    if (!!gameid) {
+      ws.activate();
+    }
+  }, [gameid])
+
+  function PlayerButton() {
+    return (
+      <CustomButton size="large" color="grey" my="0">
+        대기중
+      </CustomButton>
+    );
+  }
+
+  function HostButton() {
+    return (
+      // solid style
+      <CustomButton size="large" my="0" onClick={startGame}>
+        PLAY
+      </CustomButton>
+    );
+  }
   return (
     <Box>
       <Box sx={CenterStyle}>

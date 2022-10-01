@@ -8,6 +8,8 @@ import CustomText from "../atom/CustomText";
 import TreasureItem from "../atom/TreasureItem";
 
 import { useNavigate } from "react-router-dom";
+
+// import { Client } from "@stomp/stompjs";
 import { getWebsocket } from "helper/websocket";
 
 const BoxStyle = {
@@ -54,10 +56,6 @@ export default function SelectTreasure() {
   }, [gameid]);
 
   function getTreasureListSuccess(res) {
-<<<<<<< HEAD
-    console.log(res.data);
-=======
->>>>>>> 3819a5b177dbb018f4dc1916a6bce0488daf0975
     setTreasureList(res.data);
   }
 
@@ -86,6 +84,11 @@ export default function SelectTreasure() {
 
   const ws = getWebsocket();
 
+  ws.onConnect = function (frame) {
+    console.log("연결됨")
+    ws.subscribe(`/sub/room/${gameid}`)
+  }
+
   // function connectSocket(gameid) {
   //   ws.connect({}, function (frame) {
   //     ws.subscribe(`/sub/room/${gameid}`)
@@ -96,32 +99,25 @@ export default function SelectTreasure() {
   //   })
   // }
 
-  function onGetData(res) {
-    console.log(res)
-    if (res.body) {
-
-    }
-  }
-
-  function connect() {
-    if (!ws.active) {
-      ws.connect({}, connectSuccess, connectFail);
-    }
-  }
+  // function connect() {
+  //   if (!ws.active) {
+  //     ws.connect({}, connectSuccess, connectFail);
+  //   }
+  // }
   
-  function connectFail(error) { }
+  // function connectFail(error) { }
 
-  function connectSuccess(frame) {
-    ws.send(`/pub/open`, {}, JSON.stringify({ entercode: gameid }))
-    ws.subscribe(`/sub/room/${gameid}`, onGetData)
-    // sendMessage(CHAT_TYPE.ENTER, "");
-    // fetchChatRoom(chatId, fetchChatRoomSuccess, fetchChatRoomFail);
-    // fetchChatLog(chatId, 0, CHAT_LOAD_SIZE, fetchChatLogSuccess, fetchChatLogFail);
-  }
+  // function connectSuccess(frame) {
+  //   ws.send(`/pub/open`, {}, JSON.stringify({ entercode: gameid }))
+  //   ws.subscribe(`/sub/room/${gameid}`, onGetData)
+  //   // sendMessage(CHAT_TYPE.ENTER, "");
+  //   // fetchChatRoom(chatId, fetchChatRoomSuccess, fetchChatRoomFail);
+  //   // fetchChatLog(chatId, 0, CHAT_LOAD_SIZE, fetchChatLogSuccess, fetchChatLogFail);
+  // }
 
   useEffect(() => {
     if (!!gameid) {
-      connect();
+      ws.activate();
     }
   }, [gameid])
 
@@ -147,16 +143,7 @@ export default function SelectTreasure() {
         <Box sx={TreasureBoxStyle}>
           {treasureList.map((treasure, idx) => (
             <Box key={idx}>
-<<<<<<< HEAD
-              <TreasureItem
-                idx={idx}
-                src={treasure}
-                selectedItems={selectedItems}
-                selectedItemHandler={selectedItemHandler}
-                alt="treasure"
-                isReadPage="false"
-              />
-=======
+
               {treasure !== null && (
                 <TreasureItem
                   idx={idx}
@@ -167,7 +154,6 @@ export default function SelectTreasure() {
                   isReadPage="false"
                 />
               )}
->>>>>>> 3819a5b177dbb018f4dc1916a6bce0488daf0975
             </Box>
           ))}
           {/* Onclick 달아야 함 */}
