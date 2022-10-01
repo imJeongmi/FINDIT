@@ -1,7 +1,11 @@
 import UserApi from "./UserApi";
 
 function getTreasureList(success, fail) {
-  UserApi.get("user/treasures").then(success).catch(fail);
+  UserApi.get("users/treasures").then(success).catch(fail);
 }
 
-export { getTreasureList };
+function setGameTreasureList(tid, entercode, success, fail) {
+  UserApi.post("users/treasures", { tid: tid, entercode: entercode}).then(success).catch(fail);
+}
+
+export { getTreasureList, setGameTreasureList };
