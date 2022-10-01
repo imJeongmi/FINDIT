@@ -4,7 +4,7 @@ import CustomText from "components/atom/CustomText";
 import CustomButton from "components/atom/CustomButton";
 import RankingList from "components/module/RankingList";
 
-import { Link,useNavigate,useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import ss from "helper/SessionStorage";
 import { getWebsocket } from "helper/websocket";
@@ -25,6 +25,14 @@ const RankingBox = styled(Box)(
     `,
 );
 
+function PlayerButton() {
+  return (
+    <CustomButton size="large" my="0">
+      대기중
+    </CustomButton>
+  );
+}
+
 
 export default function WaitPlaying() {
 
@@ -34,6 +42,7 @@ export default function WaitPlaying() {
   // }
   let { gameid } = useParams();
   const navigate = useNavigate();
+
   function isPlayer() {
     const playeraccessToken = ss.get("playeraccessToken");
     console.log(playeraccessToken);
@@ -48,7 +57,7 @@ export default function WaitPlaying() {
 
   function startGame(e) {
     e.preventDefault();
-    ws.publish({ destination: "/pub/gamestart", headers: {entercode: gameid }})
+    ws.publish({ destination: "/pub/gamestart", headers: { entercode: gameid } })
     navigate(`/status/${gameid}`)
   }
 
@@ -68,13 +77,6 @@ export default function WaitPlaying() {
     }
   }, [gameid])
 
-  function PlayerButton() {
-    return (
-      <CustomButton size="large" color="grey" my="0">
-        대기중
-      </CustomButton>
-    );
-  }
 
   function HostButton() {
     return (
@@ -84,6 +86,7 @@ export default function WaitPlaying() {
       </CustomButton>
     );
   }
+
   return (
     <Box>
       <Box sx={CenterStyle}>
@@ -110,9 +113,7 @@ export default function WaitPlaying() {
           // </Link>
           <PlayerButton />
         ) : (
-          <Link to="/playing" style={{ textDecoration: "none" }}>
-            <HostButton />
-          </Link>
+          <HostButton />
         )}
       </Box>
     </Box>
