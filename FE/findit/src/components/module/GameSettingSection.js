@@ -194,15 +194,15 @@ export default function GameSettingSection() {
   }
 
   function gameConfigurationSuccess(res) {
-    console.log(res.data);
     setEnterCode(res.data.entercode);
   }
 
   useEffect(() => {
     if (entercode !== 0) {
-      navigate(`/treasure/${entercode}`);
+
+      navigate(`/treasure/${entercode}`)
     }
-  }, [entercode, navigate]);
+  }, [entercode, navigate])
 
   function gameConfigurationFail(res) {
     // alert 띄우기

@@ -8,6 +8,8 @@ import CustomText from "../atom/CustomText";
 import TreasureItem from "../atom/TreasureItem";
 
 import { useNavigate } from "react-router-dom";
+
+// import { Client } from "@stomp/stompjs";
 import { getWebsocket } from "helper/websocket";
 
 const BoxStyle = {
@@ -82,15 +84,10 @@ export default function SelectTreasure() {
 
   const ws = getWebsocket();
 
-  // function connectSocket(gameid) {
-  //   ws.connect({}, function (frame) {
-  //     ws.subscribe(`/sub/room/${gameid}`)
-  //     const gameData = {
-  //       entercode: gameid
-  //     }
-  //     ws.publish(`/pub/open`, JSON.stringify(gameData))
-  //   })
-  // }
+  ws.onConnect = function (frame) {
+    console.log("연결됨")
+    ws.subscribe(`/sub/room/${gameid}`, onGetData)
+  }
 
   function onGetData(res) {
     console.log(res);
@@ -98,25 +95,9 @@ export default function SelectTreasure() {
     }
   }
 
-  function connect() {
-    if (!ws.active) {
-      ws.connect({}, connectSuccess, connectFail);
-    }
-  }
-
-  function connectFail(error) {}
-
-  function connectSuccess(frame) {
-    ws.send(`/pub/open`, {}, JSON.stringify({ entercode: gameid }));
-    ws.subscribe(`/sub/room/${gameid}`, onGetData);
-    // sendMessage(CHAT_TYPE.ENTER, "");
-    // fetchChatRoom(chatId, fetchChatRoomSuccess, fetchChatRoomFail);
-    // fetchChatLog(chatId, 0, CHAT_LOAD_SIZE, fetchChatLogSuccess, fetchChatLogFail);
-  }
-
   useEffect(() => {
     if (!!gameid) {
-      connect();
+      ws.activate();
     }
   }, [gameid]);
 
