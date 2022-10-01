@@ -18,8 +18,8 @@ export default function EnterVerificationCode() {
   const navigate = useNavigate();
 
   function enterSuccess(res) {
-    console.log(res.data);
-    navigate(`waiting/:enterCode`);
+    // console.log(res);
+    navigate(`/waiting/${enterCode}`);
   }
 
   function enterFail(err) {
