@@ -193,19 +193,20 @@ export default function GameSettingSection() {
   }
 
   function gameConfigurationSuccess(res) {
-    console.log(res.data);
-    // res.data 뜯어보고 gameid에 enterCode 추가하기
-    // navigate(`/treasure/:gameid`);
+    // console.log("게임 설정 성공", res.data);
+    console.log("게임 설정 성공", res);
+    const gameid = res.data.entercode;
+    navigate(`/treasure/${gameid}`);
   }
 
   function gameConfigurationFail(res) {
     // alert 띄우기
-    console.log("게임 설정 실패", res.data);
+    console.log("게임 설정 실패", res);
   }
 
   function postGameConfiguration(event) {
     event.preventDefault();
-    // console.log(timer, modeName);
+    console.log(timer, modeName);
     requestGameConfiguration(timer, modeName, gameConfigurationSuccess, gameConfigurationFail);
   }
 
