@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -22,11 +23,11 @@ public class PlayerServiceImpl implements PlayerService {
     final private MemoryPlayerRepository playerRepository;
     final private MemoryRoomRepository roomRepository;
 
-    public void join(PlayerEnterDTO playerEnterDTO, String sessionId){
+    public void join(PlayerEnterDTO playerEnterDTO, HttpSession sessionId){
         playerRepository.save(playerEnterDTO,sessionId);
     }
 
-    public AfterFindDTO findTreasure(BeforeFindDTO beforeFindDTO, String sessionId){
+    public AfterFindDTO findTreasure(BeforeFindDTO beforeFindDTO, HttpSession sessionId){
         AfterFindDTO afterFindDTO = new AfterFindDTO();
 
         String entercode = beforeFindDTO.getEntercode();
