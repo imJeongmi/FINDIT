@@ -194,26 +194,16 @@ export default function GameSettingSection() {
   }
 
   function gameConfigurationSuccess(res) {
-<<<<<<< HEAD
-    console.log(res.data)
-    setEnterCode(res.data.entercode)
-=======
+    console.log(res.data);
     setEnterCode(res.data.entercode);
->>>>>>> 3819a5b177dbb018f4dc1916a6bce0488daf0975
   }
 
   useEffect(() => {
     if (entercode !== 0) {
-<<<<<<< HEAD
-      navigate(`/treasure/${entercode}`)
-    }
-  }, [entercode, navigate])
-
-=======
       navigate(`/treasure/${entercode}`);
     }
   }, [entercode, navigate]);
->>>>>>> 3819a5b177dbb018f4dc1916a6bce0488daf0975
+
   function gameConfigurationFail(res) {
     // alert 띄우기
     console.log("게임 설정 실패", res);
