@@ -37,8 +37,8 @@ public class SecurityConfig {
 
     private static final String[] GET_PUBLIC_URI = {};
     private static final String[] POST_PUBLIC_URI = {
-//            "/users",
-//            "/users/login",
+            "/users",
+            "/users/login",
     };
     private static final String[] DELETE_PUBLIC_URI = {};
 
@@ -101,6 +101,7 @@ public class SecurityConfig {
 
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000","https://findit.life"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "OPTIONS"));
+        configuration.addAllowedHeader("*");
         configuration.setAllowCredentials(true); // 내 서버가 응답을 할 때 Json 을 자바스크립트에서 처리할 수 있게 할지를 설정하는 것
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
