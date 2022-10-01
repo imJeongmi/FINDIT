@@ -8,6 +8,7 @@ import CustomText from "../atom/CustomText";
 import TreasureItem from "../atom/TreasureItem";
 
 import { useNavigate } from "react-router-dom";
+import { getWebsocket } from "helper/websocket";
 
 const BoxStyle = {
   width: "80vw",
@@ -37,7 +38,7 @@ const AddTreasureButton = styled(Box)(
 );
 
 export default function SelectTreasure() {
-  // 더미데이터 api연결 후 삭제할 것
+  const navigate = useNavigate();
   const [treasureList, setTreasureList] = useState([]);
 
   // let selectedList = new Array(10);
@@ -56,7 +57,6 @@ export default function SelectTreasure() {
 
   function getTreasureListSuccess(res) {
     console.log(res.data);
-    console.log(res.data.imgList);
     setTreasureList(res.data);
   }
 
@@ -83,7 +83,46 @@ export default function SelectTreasure() {
     }
   }
 
-  const navigate = useNavigate();
+  const ws = getWebsocket();
+
+  // function connectSocket(gameid) {
+  //   ws.connect({}, function (frame) {
+  //     ws.subscribe(`/sub/room/${gameid}`)
+  //     const gameData = {
+  //       entercode: gameid
+  //     }
+  //     ws.publish(`/pub/open`, JSON.stringify(gameData))
+  //   })
+  // }
+
+  function onGetData(res) {
+    console.log(res)
+    if (res.body) {
+
+    }
+  }
+
+  function connect() {
+    if (!ws.active) {
+      ws.connect({}, connectSuccess, connectFail);
+    }
+  }
+  
+  function connectFail(error) { }
+
+  function connectSuccess(frame) {
+    ws.send(`/pub/open`, {}, JSON.stringify({ entercode: gameid }))
+    ws.subscribe(`/sub/room/${gameid}`, onGetData)
+    // sendMessage(CHAT_TYPE.ENTER, "");
+    // fetchChatRoom(chatId, fetchChatRoomSuccess, fetchChatRoomFail);
+    // fetchChatLog(chatId, 0, CHAT_LOAD_SIZE, fetchChatLogSuccess, fetchChatLogFail);
+  }
+
+  useEffect(() => {
+    if (!!gameid) {
+      connect();
+    }
+  }, [gameid])
 
   function confirm() {
     console.log(selectedItems);
@@ -109,7 +148,7 @@ export default function SelectTreasure() {
           {treasureList.map((treasure, idx) => (
             <Box key={idx}>
               <TreasureItem
-              idx={idx}
+                idx={idx}
                 src={treasure}
                 selectedItems={selectedItems}
                 selectedItemHandler={selectedItemHandler}
