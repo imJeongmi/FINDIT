@@ -61,7 +61,7 @@ export default function Signup() {
   }
 
   function joinSuccess(res) {
-    console.log("성공", res.data);
+    // console.log("성공", res.data);
 
     setId("");
     setPw("");
@@ -72,7 +72,7 @@ export default function Signup() {
   }
 
   function joinFail(res) {
-    console.log("실패", res);
+    // console.log("실패", res);
   }
   function onClickSignup(e) {
     e.preventDefault();
