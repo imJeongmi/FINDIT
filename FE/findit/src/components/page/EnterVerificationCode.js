@@ -23,7 +23,7 @@ export default function EnterVerificationCode() {
     // console.log(res);
     const playeraccessToken = res.data.playeraccessToken;
     ss.set("playeraccessToken", playeraccessToken);
-    navigate(`/waiting/${enterCode}`);
+    navigate(`/playerprofile/${enterCode}`);
   }
 
   function enterFail(err) {

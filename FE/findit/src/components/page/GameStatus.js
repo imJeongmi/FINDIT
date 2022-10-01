@@ -3,6 +3,9 @@ import { Box, styled } from "@mui/system";
 import CustomButton from "components/atom/CustomButton";
 import CustomText from "components/atom/CustomText";
 import RankingList from "components/module/RankingList";
+import { useNavigate, useParams } from "react-router-dom";
+import { getWebsocket } from "helper/websocket";
+import { useEffect } from "react";
 
 const CenterStyle = {
   margin: "7vh 0 5vh 0",
@@ -12,7 +15,7 @@ const CenterStyle = {
 const ButtonStyle = {
   display: "flex",
   flexDirection: "column",
-  alignItems: "center", 
+  alignItems: "center",
 };
 
 const RankingBox = styled(Box)(
@@ -26,33 +29,60 @@ const RankingBox = styled(Box)(
     `,
 );
 
-function DeactivateButton() {
-  return (
-    <CustomButton size="large" color="secondary">
-      게임 종료
-    </CustomButton>
-  );
-}
 
-function ActivateButton() {
-  return (
-    // solid style
-    <Box sx={ButtonStyle}>
+export default function GameStatus({ target }) {
+  const { gameid } = useParams();
+  const navigate = useNavigate();
+  function DeactivateButton() {
+    return (
       <CustomButton size="large" color="secondary">
         게임 종료
       </CustomButton>
-      <CustomText variant="grey" size="xs">
-        보물을 모두 찾은 사람이 있어요
-      </CustomText>
-    </Box>
-  );
-}
+    );
+  }
 
-export default function GameStatus({ target }) {
+  function finishGame() {
+    ws.publish({ destination: "/pub/finish", headers: { entercode: gameid } })
+    navigate(`/result/${gameid}`)
+  }
+
+  function getDataFromSocket(message) {
+    console.log(message.body)
+  }
+
+  const ws = getWebsocket();
+
+  ws.onConnect = function (frame) {
+    console.log("연결됨")
+    ws.subscribe(`/sub/room/${gameid}`, getDataFromSocket)
+  }
+
+  useEffect(() => {
+    if (!!gameid) {
+      ws.activate();
+    }
+  }, [gameid])
+
+  function ActivateButton() {
+    return (
+      // solid style
+      <Box sx={ButtonStyle}>
+        <CustomButton size="large" color="secondary" onClick={finishGame}>
+          게임 종료
+        </CustomButton>
+        <CustomText variant="grey" size="xs">
+          보물을 모두 찾은 사람이 있어요
+        </CustomText>
+      </Box>
+    );
+  }
+
   function isFinished(target) {
     target = 1;
     if (target !== 0) return true;
   }
+
+
   return (
     <Box>
       <Box sx={CenterStyle}>
