@@ -21,14 +21,20 @@ const RankingBox = styled("div")(
 function getRank(rankNum) {
   switch (rankNum) {
     case 1:
-      return <img src={require("static/1st_place_medal.svg").default} width="30vw" />;
+      return (
+        <img src={require("static/1st_place_medal.svg").default} width="30vw" alt="gold medal" />
+      );
     case 2:
-      return <img src={require("static/2nd_place_medal.svg").default} width="30vw" />;
+      return (
+        <img src={require("static/2nd_place_medal.svg").default} width="30vw" alt="silver medal" />
+      );
     case 3:
-      return <img src={require("static/3rd_place_medal.svg").default} width="30vw" />;
+      return (
+        <img src={require("static/3rd_place_medal.svg").default} width="30vw" alt="bronze medal" />
+      );
     default:
       return (
-        <Box sx={{ mx:"2.5vw" }}>
+        <Box sx={{ mx: "2.5vw" }}>
           <CustomText weight="bold">{rankNum}</CustomText>
         </Box>
       );
