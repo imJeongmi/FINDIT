@@ -72,6 +72,8 @@ function getColor(color) {
       return "#F1A6A7";
     case "warning":
       return "#FFCC33";
+    case "grey":
+      return "#A7A7A7";
     default:
       return "#9FAFD8";
   }
