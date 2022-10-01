@@ -53,8 +53,6 @@ export default function SelectTreasure() {
   }, [gameid]);
 
   function getTreasureListSuccess(res) {
-    console.log(res.data);
-    console.log(res.data.imgList);
     setTreasureList(res.data);
   }
 
@@ -84,7 +82,6 @@ export default function SelectTreasure() {
   const navigate = useNavigate();
 
   function confirm() {
-    console.log(selectedItems);
     if (selectedItems.length > 0) {
       navigate(`/waiting/${gameid}`);
     } else {
@@ -106,14 +103,16 @@ export default function SelectTreasure() {
         <Box sx={TreasureBoxStyle}>
           {treasureList.map((treasure, idx) => (
             <Box key={idx}>
-              <TreasureItem
-              idx={idx}
-                src={treasure}
-                selectedItems={selectedItems}
-                selectedItemHandler={selectedItemHandler}
-                alt="treasure"
-                isReadPage="false"
-              />
+              {treasure !== null && (
+                <TreasureItem
+                  idx={idx}
+                  src={treasure}
+                  selectedItems={selectedItems}
+                  selectedItemHandler={selectedItemHandler}
+                  alt="treasure"
+                  isReadPage="false"
+                />
+              )}
             </Box>
           ))}
           {/* Onclick 달아야 함 */}
@@ -150,13 +149,15 @@ export default function SelectTreasure() {
         <Box sx={TreasureBoxStyle}>
           {treasureList.map((treasure, key) => (
             <Box key={key}>
-              <TreasureItem
-                src={treasure.img}
-                // selectedItems={selectedItems}
-                // selectedItemHandler={selectedItemHandler}
-                alt="treasure"
-                isReadPage="true"
-              />
+              {treasure !== null && (
+                <TreasureItem
+                  src={treasure}
+                  // selectedItems={selectedItems}
+                  // selectedItemHandler={selectedItemHandler}
+                  alt="treasure"
+                  isReadPage="true"
+                />
+              )}
             </Box>
           ))}
           {/* Onclick 달아야 함 */}

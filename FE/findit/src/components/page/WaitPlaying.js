@@ -6,6 +6,8 @@ import RankingList from "components/module/RankingList";
 
 import { Link } from "react-router-dom";
 
+import ss from "helper/SessionStorage";
+
 const CenterStyle = {
   margin: "7vh auto",
   textAlign: "center",
@@ -24,8 +26,8 @@ const RankingBox = styled(Box)(
 
 function PlayerButton() {
   return (
-    <CustomButton size="large" my="0">
-      튜토리얼 보기
+    <CustomButton size="large" color="grey" my="0">
+      대기중
     </CustomButton>
   );
 }
@@ -39,10 +41,20 @@ function HostButton() {
   );
 }
 
-export default function WaitPlaying({ target }) {
-  function isPlayer(target) {
-    if (target === "user") return false;
-    else return true;
+export default function WaitPlaying() {
+  // function isPlayer(target) {
+  //   if (target === "user") return false;
+  //   else return true;
+  // }
+
+  function isPlayer() {
+    const playeraccessToken = ss.get("playeraccessToken");
+    console.log(playeraccessToken);
+    if (playeraccessToken) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   return (
@@ -58,20 +70,20 @@ export default function WaitPlaying({ target }) {
       </Box>
       <RankingBox>
         <RankingList userName="김싸피" />
-        <RankingList userName="이멀캠"/>
-        <RankingList userName="박역삼"/>
-        <RankingList userName="최문어"/>
-        <RankingList userName="김싸피"/>
-        <RankingList userName="김싸피"/>
-        <RankingList userName="김싸피"/>
+        <RankingList userName="이멀캠" />
+        <RankingList userName="박역삼" />
+        <RankingList userName="최문어" />
+        <RankingList userName="김싸피" />
+        <RankingList userName="김싸피" />
+        <RankingList userName="김싸피" />
       </RankingBox>
       <Box sx={{ textAlign: "center" }}>
-        {isPlayer(target) ? (
-          <Link to="/tutorial">
-            <PlayerButton />
-          </Link>
+        {isPlayer() ? (
+          // <Link to="/tutorial">
+          // </Link>
+          <PlayerButton />
         ) : (
-          <Link to="/help">
+          <Link to="/playing" style={{ textDecoration: "none" }}>
             <HostButton />
           </Link>
         )}
