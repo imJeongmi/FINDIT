@@ -2,6 +2,12 @@ import React from "react";
 import { styled } from "@mui/system";
 import { Avatar } from "@mui/material";
 
+function importAllImgs(r) {
+  return r.keys().map(r);
+}
+
+const ProfileImgs = importAllImgs(require.context("static/avatars", false, /\.(jpg)$/));
+
 const Image = styled(Avatar)(
   ({ type, mb }) => `
   margin: auto;
@@ -40,6 +46,6 @@ function getMarginY(mb) {
   }
 }
 
-export default function ProfileImage({ type, mb }) {
-  return <Image type={type} src="" mb={mb}></Image>;
+export default function ProfileImage({ type, mb, num }) {
+  return <Image type={type} src={ProfileImgs[num]} mb={mb}></Image>;
 }

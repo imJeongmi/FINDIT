@@ -1,13 +1,16 @@
+import { React, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { Box } from "@mui/system";
+
 import CircleButton from "components/atom/CircleButton";
 import CustomButton from "components/atom/CustomButton";
 import Input from "components/atom/Input";
-import React from "react";
 import CustomText from "../atom/CustomText";
 import ProfileImage from "../atom/ProfileImage";
+import RefreshIcon from "static/refresh.png";
 
 import { requestLogout } from "api/user";
-import { useNavigate } from "react-router-dom";
 
 const ProfileBoxStyle = {
   margin: "auto",
@@ -19,7 +22,18 @@ const BoxStyle = {
   margin: "6vh auto",
 };
 
+const IconStyle = {
+  position: "absolute",
+  left: "65%",
+};
+
 function PlayerProfile() {
+  const [imgNum, setImgNum] = useState("0");
+
+  function onClickRefresh() {
+    setImgNum(Math.floor(Math.random() * 10));
+  }
+
   return (
     <Box sx={ProfileBoxStyle}>
       <Box sx={BoxStyle}>
@@ -28,7 +42,10 @@ function PlayerProfile() {
         </CustomText>
       </Box>
       <Box sx={BoxStyle}>
-        <ProfileImage type="rounded"></ProfileImage>
+        <ProfileImage type="rounded" num={imgNum}></ProfileImage>
+        <Box sx={IconStyle} onClick={onClickRefresh}>
+          <img src={RefreshIcon} alt="refresh" width="25px" />
+        </Box>
       </Box>
       <Box>
         <CustomText>닉네임을 등록해주세요</CustomText>
@@ -57,6 +74,13 @@ function HostProfile() {
     console.log("로그아웃 버튼 클릭");
     requestLogout(logoutSuccess, logoutFail);
   }
+
+  const [imgNum, setImgNum] = useState("0");
+
+  function onClickRefresh() {
+    setImgNum(Math.floor(Math.random() * 10));
+  }
+
   // 로그아웃 함수 작성
   return (
     <Box sx={ProfileBoxStyle}>
@@ -69,8 +93,12 @@ function HostProfile() {
         </CustomText>
       </Box>
       <Box sx={BoxStyle}>
-        <ProfileImage type="rounded"></ProfileImage>
+        <ProfileImage type="rounded" num={imgNum}></ProfileImage>
+        <Box sx={IconStyle} onClick={onClickRefresh}>
+          <img src={RefreshIcon} alt="refresh" width="25px" />
+        </Box>
       </Box>
+
       <Box>
         <CustomText>닉네임을 등록해주세요</CustomText>
         <Input type="text" placeholder="닉네임"></Input>

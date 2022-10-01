@@ -20,11 +20,11 @@ const RankingBox = styled("div")(
 
 function getRank(rankNum) {
   switch (rankNum) {
-    case 1:
+    case "1st":
       return <img src={require("static/1st_place_medal.svg").default} width="30vw" />;
-    case 2:
+    case "2nd":
       return <img src={require("static/2nd_place_medal.svg").default} width="30vw" />;
-    case 3:
+    case "3rd":
       return <img src={require("static/3rd_place_medal.svg").default} width="30vw" />;
     default:
       return (
@@ -35,12 +35,12 @@ function getRank(rankNum) {
   }
 }
 
-export default function RankingList({ rankNum, userName, gameScore }) {
+export default function RankingList({ rankNum, userName, gameScore, imgNum }) {
   return (
     <RankingBox>
       <Box sx={{ mx: "3vw" }}>{getRank(rankNum)}</Box>
       <Box sx={{ position: "absolute", left: "18%" }}>
-        <ProfileImage />
+        <ProfileImage num={imgNum}/>
       </Box>
       <Box sx={{ position: "absolute", left: "50%", transform: "translate(-50%, 0)" }}>
         <CustomText size="m">{userName}</CustomText>
