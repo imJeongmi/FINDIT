@@ -54,10 +54,6 @@ export default function SelectTreasure() {
   }, [gameid]);
 
   function getTreasureListSuccess(res) {
-<<<<<<< HEAD
-    console.log(res.data);
-=======
->>>>>>> 3819a5b177dbb018f4dc1916a6bce0488daf0975
     setTreasureList(res.data);
   }
 
@@ -97,9 +93,8 @@ export default function SelectTreasure() {
   // }
 
   function onGetData(res) {
-    console.log(res)
+    console.log(res);
     if (res.body) {
-
     }
   }
 
@@ -108,12 +103,12 @@ export default function SelectTreasure() {
       ws.connect({}, connectSuccess, connectFail);
     }
   }
-  
-  function connectFail(error) { }
+
+  function connectFail(error) {}
 
   function connectSuccess(frame) {
-    ws.send(`/pub/open`, {}, JSON.stringify({ entercode: gameid }))
-    ws.subscribe(`/sub/room/${gameid}`, onGetData)
+    ws.send(`/pub/open`, {}, JSON.stringify({ entercode: gameid }));
+    ws.subscribe(`/sub/room/${gameid}`, onGetData);
     // sendMessage(CHAT_TYPE.ENTER, "");
     // fetchChatRoom(chatId, fetchChatRoomSuccess, fetchChatRoomFail);
     // fetchChatLog(chatId, 0, CHAT_LOAD_SIZE, fetchChatLogSuccess, fetchChatLogFail);
@@ -123,7 +118,7 @@ export default function SelectTreasure() {
     if (!!gameid) {
       connect();
     }
-  }, [gameid])
+  }, [gameid]);
 
   function confirm() {
     if (selectedItems.length > 0) {
@@ -147,16 +142,6 @@ export default function SelectTreasure() {
         <Box sx={TreasureBoxStyle}>
           {treasureList.map((treasure, idx) => (
             <Box key={idx}>
-<<<<<<< HEAD
-              <TreasureItem
-                idx={idx}
-                src={treasure}
-                selectedItems={selectedItems}
-                selectedItemHandler={selectedItemHandler}
-                alt="treasure"
-                isReadPage="false"
-              />
-=======
               {treasure !== null && (
                 <TreasureItem
                   idx={idx}
@@ -167,7 +152,6 @@ export default function SelectTreasure() {
                   isReadPage="false"
                 />
               )}
->>>>>>> 3819a5b177dbb018f4dc1916a6bce0488daf0975
             </Box>
           ))}
           {/* Onclick 달아야 함 */}
