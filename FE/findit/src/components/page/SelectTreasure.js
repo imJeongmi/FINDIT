@@ -53,8 +53,6 @@ export default function SelectTreasure() {
   }, [gameid]);
 
   function getTreasureListSuccess(res) {
-    console.log(res.data);
-    console.log(res.data.imgList);
     setTreasureList(res.data);
   }
 
@@ -84,7 +82,6 @@ export default function SelectTreasure() {
   const navigate = useNavigate();
 
   function confirm() {
-    console.log(selectedItems);
     if (selectedItems.length > 0) {
       navigate(`/waiting/${gameid}`);
     } else {
@@ -92,6 +89,7 @@ export default function SelectTreasure() {
     }
   }
   if (!!gameid) {
+    console.log(selectedItems);
     return (
       <Box sx={BoxStyle}>
         <Box sx={{ marginTop: "5vh" }}>
@@ -107,7 +105,7 @@ export default function SelectTreasure() {
           {treasureList.map((treasure, idx) => (
             <Box key={idx}>
               <TreasureItem
-              idx={idx}
+                idx={idx}
                 src={treasure}
                 selectedItems={selectedItems}
                 selectedItemHandler={selectedItemHandler}
@@ -136,6 +134,7 @@ export default function SelectTreasure() {
       </Box>
     );
   } else {
+    console.log(selectedItems);
     return (
       <Box sx={BoxStyle}>
         <Box sx={{ marginTop: "5vh" }}>
@@ -151,7 +150,7 @@ export default function SelectTreasure() {
           {treasureList.map((treasure, key) => (
             <Box key={key}>
               <TreasureItem
-                src={treasure.img}
+                src={treasure}
                 // selectedItems={selectedItems}
                 // selectedItemHandler={selectedItemHandler}
                 alt="treasure"
