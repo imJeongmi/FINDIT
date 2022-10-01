@@ -1,6 +1,7 @@
 package a203.findit.controller;
 
 import a203.findit.model.dto.req.User.*;
+import a203.findit.model.entity.User;
 import a203.findit.service.PlayerServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
@@ -22,6 +23,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -40,10 +42,14 @@ public class PlayerController {
         session.setAttribute("profileImg",playerEnterDTO.getProfileImg());
         session.setAttribute("entercode",playerEnterDTO.getEntercode());
         playerService.join(playerEnterDTO,session);
-        jsonObject.put("code", "success");
-        jsonObject.put("status","waiting");
-        jsonObject.put("nickname",playerEnterDTO.getNickname());
-        simpMessagingTemplate.convertAndSend("/sub/room/"+playerEnterDTO.getEntercode(),jsonObject);
+
+        JSONArray jsonArray = new JSONArray();
+        List<PlayerInfoDTO> playerInfoDTOS = playerService.findAll(playerEnterDTO.getEntercode());
+        for(PlayerInfoDTO playerInfoDTO : playerInfoDTOS){
+            jsonObject.put("nickname",playerInfoDTO.getNickname());
+            jsonArray.add(jsonObject);
+        }
+        simpMessagingTemplate.convertAndSend("/sub/room/"+playerEnterDTO.getEntercode(),jsonArray);
     }
 //    @MessageMapping("/private")
 //    // 다 푼사람 private 구독한 사람(방장) 한테만 보내주기

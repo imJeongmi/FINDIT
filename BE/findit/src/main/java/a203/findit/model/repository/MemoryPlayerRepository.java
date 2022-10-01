@@ -3,6 +3,7 @@ package a203.findit.model.repository;
 import a203.findit.model.dto.req.User.*;
 import a203.findit.model.entity.IGT;
 import a203.findit.model.entity.Mode;
+import a203.findit.model.entity.Player;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Repository;
@@ -25,6 +26,16 @@ public class MemoryPlayerRepository implements PlayerRepository {
         //init
         roomRepository.findByEnterCode(playerEnterDTO.getEntercode()).getPlayerInfoDTOBySessionId().put(sessionId,playerInfoDTO);
         return playerInfoDTO;
+    }
+
+    public List<PlayerInfoDTO> getAllPlayers(String entercode){
+        List<PlayerInfoDTO> playerInfoDTOS = null;
+        int len = roomRepository.findByEnterCode(entercode).getPlayerInfoDTOBySessionId().size();
+        for(int i=0;i<len;i++){
+            PlayerInfoDTO playerInfoDTO = roomRepository.findByEnterCode(entercode).getPlayerInfoDTOBySessionId().get(i);
+            playerInfoDTOS.add(playerInfoDTO);
+        }
+        return playerInfoDTOS;
     }
 
     /*
