@@ -99,13 +99,13 @@ export default function WaitPlaying() {
         </CustomText>
       </Box>
       <RankingBox>
-        <RankingList userName="김싸피" />
-        <RankingList userName="이멀캠" />
-        <RankingList userName="박역삼" />
-        <RankingList userName="최문어" />
-        <RankingList userName="김싸피" />
-        <RankingList userName="김싸피" />
-        <RankingList userName="김싸피" />
+        <RankingList userName="김싸피" imgNum={0} />
+        <RankingList userName="이멀캠" imgNum={1} />
+        <RankingList userName="박역삼" imgNum={2} />
+        <RankingList userName="최문어" imgNum={3} />
+        <RankingList userName="김싸피" imgNum={4} />
+        <RankingList userName="김싸피" imgNum={5} />
+        <RankingList userName="김싸피" imgNum={6} />
       </RankingBox>
       <Box sx={{ textAlign: "center" }}>
         {isPlayer() ? (
