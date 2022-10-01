@@ -86,40 +86,20 @@ export default function SelectTreasure() {
 
   ws.onConnect = function (frame) {
     console.log("연결됨")
-    ws.subscribe(`/sub/room/${gameid}`)
+    ws.subscribe(`/sub/room/${gameid}`, onGetData)
   }
 
-  // function connectSocket(gameid) {
-  //   ws.connect({}, function (frame) {
-  //     ws.subscribe(`/sub/room/${gameid}`)
-  //     const gameData = {
-  //       entercode: gameid
-  //     }
-  //     ws.publish(`/pub/open`, JSON.stringify(gameData))
-  //   })
-  // }
-
-  // function connect() {
-  //   if (!ws.active) {
-  //     ws.connect({}, connectSuccess, connectFail);
-  //   }
-  // }
-  
-  // function connectFail(error) { }
-
-  // function connectSuccess(frame) {
-  //   ws.send(`/pub/open`, {}, JSON.stringify({ entercode: gameid }))
-  //   ws.subscribe(`/sub/room/${gameid}`, onGetData)
-  //   // sendMessage(CHAT_TYPE.ENTER, "");
-  //   // fetchChatRoom(chatId, fetchChatRoomSuccess, fetchChatRoomFail);
-  //   // fetchChatLog(chatId, 0, CHAT_LOAD_SIZE, fetchChatLogSuccess, fetchChatLogFail);
-  // }
+  function onGetData(res) {
+    console.log(res);
+    if (res.body) {
+    }
+  }
 
   useEffect(() => {
     if (!!gameid) {
       ws.activate();
     }
-  }, [gameid])
+  }, [gameid]);
 
   function confirm() {
     if (selectedItems.length > 0) {
@@ -143,7 +123,6 @@ export default function SelectTreasure() {
         <Box sx={TreasureBoxStyle}>
           {treasureList.map((treasure, idx) => (
             <Box key={idx}>
-
               {treasure !== null && (
                 <TreasureItem
                   idx={idx}

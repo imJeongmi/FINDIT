@@ -11,6 +11,7 @@ import net.bytebuddy.asm.Advice;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.HashMap;
@@ -38,9 +39,9 @@ public class RoomDTO {
 
     private String enterCode;
 
-    public HashMap<String, PlayerInfoDTO> playerInfoDTOBySessionId;
+    public HashMap<HttpSession, PlayerInfoDTO> playerInfoDTOBySessionId;
     
-    public HashMap<Long, Set<String>> sessionIdByIGTID;
+    public HashMap<Long, Set<HttpSession>> sessionIdByIGTID;
 
     public RoomDTO (Game game){
         this.roomId = game.getId();

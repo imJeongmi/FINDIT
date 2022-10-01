@@ -199,6 +199,7 @@ export default function GameSettingSection() {
 
   useEffect(() => {
     if (entercode !== 0) {
+
       navigate(`/treasure/${entercode}`)
     }
   }, [entercode, navigate])
