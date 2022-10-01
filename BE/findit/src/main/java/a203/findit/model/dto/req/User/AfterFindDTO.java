@@ -12,4 +12,5 @@ public class AfterFindDTO {
     private int effect;
     private int finalscore;
     private int rank;
+    private boolean findAll;
 }

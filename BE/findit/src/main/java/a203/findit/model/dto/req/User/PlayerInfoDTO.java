@@ -17,6 +17,7 @@ public class PlayerInfoDTO {
     private int score;
     private String sessionId;
 
+    private int count;
     // sessionId, set of igtid
 //    public Set<Integer> IGTIds;
 
@@ -24,5 +25,6 @@ public class PlayerInfoDTO {
         this.profileImg = playerEnterDTO.getProfileImg();
         this.nickname = playerEnterDTO.getNickname();
         this.sessionId = sessionId;
+        this.count = 0;
     }
 }

@@ -15,7 +15,7 @@ public class MemoryPlayerRepository implements PlayerRepository {
     final private MemoryRoomRepository roomRepository;
     final private IGTRepository igtRepository;
 
-    private PlayerInfoDTO findPlayerInfoDTO(String entercode, String sessionId){
+    public PlayerInfoDTO findPlayerInfoDTO(String entercode, String sessionId){
         return roomRepository.findByEnterCode(entercode).getPlayerInfoDTOBySessionId().get(sessionId);
     }
 
