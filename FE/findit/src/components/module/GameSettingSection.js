@@ -204,12 +204,12 @@ export default function GameSettingSection() {
   }, [entercode, navigate])
   function gameConfigurationFail(res) {
     // alert 띄우기
-    console.log("게임 설정 실패", res.data);
+    console.log("게임 설정 실패", res);
   }
 
   function postGameConfiguration(event) {
     event.preventDefault();
-    // console.log(timer, modeName);
+    console.log(timer, modeName);
     requestGameConfiguration(timer, modeName, gameConfigurationSuccess, gameConfigurationFail);
   }
 
