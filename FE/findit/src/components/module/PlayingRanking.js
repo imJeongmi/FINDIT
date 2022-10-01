@@ -24,7 +24,7 @@ const ButtonBox = styled(Box)(
     left: 3vw;
     `,
 );
- 
+
 export default function PlayingRanking({ setModalOpen }) {
   const closeModal = () => {
     setModalOpen(false);
@@ -42,12 +42,13 @@ export default function PlayingRanking({ setModalOpen }) {
           </CustomText>
         </Box>
         <RankingBox>
-          <RankingList />
-          <RankingList />
-          <RankingList />
-          <RankingList />
-          <RankingList />
-          <RankingList />
+          <RankingList rankNum="1st" userName="김싸피" gameScore={350} imgNum={0} />
+          <RankingList rankNum="2nd" userName="이멀캠" gameScore={220} imgNum={1} />
+          <RankingList rankNum="3rd" userName="박역삼" gameScore={160} imgNum={2} />
+          <RankingList rankNum={4} userName="최문어" gameScore={140} imgNum={3} />
+          <RankingList rankNum={5} userName="김싸피" gameScore={110} imgNum={4} />
+          <RankingList rankNum={6} userName="김싸피" gameScore={90} imgNum={5} />
+          <RankingList rankNum={7} userName="김싸피" gameScore={80} imgNum={6} />
         </RankingBox>
         <ButtonBox>
           <CircleButton icon="rank" size="smaller" opacity="0.6" />
