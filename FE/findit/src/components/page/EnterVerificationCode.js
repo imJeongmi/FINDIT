@@ -13,12 +13,16 @@ import { useNavigate } from "react-router-dom";
 
 import { requestEnter } from "api/player";
 
+import ss from "helper/SessionStorage";
+
 export default function EnterVerificationCode() {
   const [enterCode, setEnterCode] = useState("");
   const navigate = useNavigate();
 
   function enterSuccess(res) {
     // console.log(res);
+    const playeraccessToken = res.data.playeraccessToken;
+    ss.set("playeraccessToken", playeraccessToken);
     navigate(`/waiting/${enterCode}`);
   }
 
