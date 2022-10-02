@@ -14,4 +14,13 @@ function requestGameConfiguration(limitMinute, mode, success, fail) {
     .catch(fail);
 }
 
-export { requestGameConfiguration };
+function requestUpdateProfile(userId, img, nickname, success, fail) {
+  UserApi.post(`user/${userId}/update`, {
+    img: img,
+    nickname: nickname,
+  })
+    .then(success)
+    .catch(fail);
+}
+
+export { requestGameConfiguration, requestUpdateProfile };
