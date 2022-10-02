@@ -54,6 +54,7 @@ public class PlayerController {
         for(PlayerInfoDTO playerInfoDTO : playerInfoDTOS){
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("nickname",playerInfoDTO.getNickname());
+            jsonObject.put("sessionId",playerInfoDTO.getSessionId());
             jsonArray.add(jsonObject);
         }
         simpMessagingTemplate.convertAndSend("/sub/room/"+strlist[0],jsonArray);
@@ -101,7 +102,7 @@ public class PlayerController {
         JSONObject jsonObject1 = new JSONObject();
         jsonObject1.put("code", "success");
         jsonObject1.put("status","progress");
-        jsonObject1.put("playerid",sessionId);
+        jsonObject1.put("sessionId",sessionId);
         simpMessagingTemplate.convertAndSend("/sub/private/"+beforeFindDTO.getEntercode(),jsonObject1);
 
     }
