@@ -21,6 +21,7 @@
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.4.0",
     "react-scripts": "5.0.1",
+    "react-timer-hook": "^3.0.5",
     "redux": "^4.2.0",
     "sockjs": "^0.3.24",
     "sockjs-client": "^1.6.1",

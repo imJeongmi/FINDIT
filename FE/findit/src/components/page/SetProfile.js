@@ -15,7 +15,7 @@ import { requestLogout } from "api/user";
 
 import { getWebsocket } from "helper/websocket";
 
-import ss from "helper/SessionStorage";
+import ls from "helper/LocalStorage";
 
 const ProfileBoxStyle = {
   margin: "auto",
@@ -39,12 +39,11 @@ function PlayerProfile() {
   const [imgNum, setImgNum] = useState("1");
 
   function isGamePlayer() {
-    const playeraccessToken = ss.get("playeraccessToken");
-    console.log(playeraccessToken);
-    if (playeraccessToken) {
-      return true;
-    } else {
+    const token = ls.get("accessToken");
+    if (token) {
       return false;
+    } else {
+      return true;
     }
   }
 
@@ -60,8 +59,8 @@ function PlayerProfile() {
   const ws = getWebsocket();
 
   function getDataFromSocket(message) {
-    console.log(message.body)
     const msg = JSON.parse(message.body)
+    console.log(msg)
     if (isGamePlayer() && msg.status === "start") {
       navigate(`/playing`)
     } else if (isGamePlayer() && msg.status === "end") {
