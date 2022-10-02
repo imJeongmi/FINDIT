@@ -34,9 +34,14 @@ public class PlayerController {
     private final PlayerServiceImpl playerService;
 
     @MessageMapping("/enter")
-    public void socketEnter(@Valid PlayerEnterDTO playerEnterDTO, HttpServletRequest request){
+    public void socketEnter(String playerEnter, HttpServletRequest request){
         JSONObject jsonObject = new JSONObject();
         //join playerinfo
+        String[] strlist = playerEnter.split(",");
+        PlayerEnterDTO playerEnterDTO = new PlayerEnterDTO();
+        playerEnterDTO.setEntercode(strlist[0]);
+        playerEnterDTO.setProfileImg(Integer.parseInt(strlist[1]));
+        playerEnterDTO.setNickname(strlist[2]);
         HttpSession session = request.getSession();
         session.setAttribute("nickname",playerEnterDTO.getNickname());
         session.setAttribute("profileImg",playerEnterDTO.getProfileImg());
@@ -63,8 +68,12 @@ public class PlayerController {
 
     //igt 구현시 inmemory 재설정 및 테스트 해보기
     @MessageMapping("/find")
-    public void find(HttpServletRequest request, @Valid BeforeFindDTO beforeFindDTO){
+    public void find(HttpServletRequest request, String BeforeFind){
         HttpSession session = request.getSession();
+        String[] strlist = BeforeFind.split(",");
+        BeforeFindDTO beforeFindDTO = new BeforeFindDTO();
+        beforeFindDTO.setEntercode(strlist[0]);
+        beforeFindDTO.setTreasureId(Long.parseLong(strlist[1]));
         AfterFindDTO afterFindDTO= playerService.findTreasure(beforeFindDTO,session);
         JSONObject jsonObject = new JSONObject();
         // 얻은 점수, 효과, 최종점수
