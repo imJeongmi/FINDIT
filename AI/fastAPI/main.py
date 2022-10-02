@@ -123,7 +123,7 @@ async def upload_file(file: UploadFile = File(...), game_id: str = Form()):
                 # IGT에 등록된 보물인지 확인한다.
                 if int(c) in Default_IGT[game_id]:
                     n = (det[:, -1] == c).sum()  # detections per class
-                    s.append(names[int(c)])
+                    s.append(int(c))
 
     if len(s) == 0:
         ## CUSTOM 보물인지 확인한다.
