@@ -1,5 +1,6 @@
-import { React, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
 
 import { Box } from "@mui/system";
 
@@ -11,6 +12,9 @@ import ProfileImage from "../atom/ProfileImage";
 import RefreshIcon from "static/refresh.png";
 
 import { requestLogout } from "api/user";
+
+import { getWebsocket } from "helper/websocket";
+
 
 const ProfileBoxStyle = {
   margin: "auto",
@@ -28,10 +32,42 @@ const IconStyle = {
 };
 
 function PlayerProfile() {
+  const [nickname, setNickname] = useState();
+  const navigate = useNavigate();
+  const { gameid } = useParams();
   const [imgNum, setImgNum] = useState("0");
 
   function onClickRefresh() {
     setImgNum(Math.floor(Math.random() * 10));
+  }
+
+  function onChangeNickname(e) {
+    const nickname = e.target.value;
+    setNickname(nickname);
+  }
+
+  const ws = getWebsocket();
+
+  function getDataFromSocket(message) {
+    console.log(message)
+  }
+
+  ws.onConnect = function (frame) {
+    console.log("연결됨")
+    ws.subscribe(`/sub/room/${gameid}`, getDataFromSocket)
+    // ws.publish({ destination: "/pub/enter", body: `entercode: ${gameid}, profileImg: ${profileImg}, nickname: ${nickname}` })
+  }
+
+  useEffect(() => {
+    if (!!gameid) {
+      ws.activate();
+    }
+  }, [gameid])
+
+  function sendPlayerToWaiting(e) {
+    e.preventDefault();
+    ws.publish({ destination: "/pub/enter", body: `entercode: ${gameid}, profileImg: ${imgNum}, nickname: ${nickname}` })
+    navigate(`/waiting/${gameid}`)
   }
 
   return (
@@ -49,9 +85,9 @@ function PlayerProfile() {
       </Box>
       <Box>
         <CustomText>닉네임을 등록해주세요</CustomText>
-        <Input type="text" placeholder="닉네임"></Input>
+        <Input type="text" placeholder="닉네임" onChange={onChangeNickname}></Input>
       </Box>
-      <CustomButton size="large" color="primary">
+      <CustomButton size="large" color="primary" onClick={sendPlayerToWaiting}>
         확인
       </CustomButton>
     </Box>

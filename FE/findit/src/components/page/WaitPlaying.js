@@ -57,7 +57,7 @@ export default function WaitPlaying() {
 
   function startGame(e) {
     e.preventDefault();
-    ws.publish({ destination: "/pub/gamestart", headers: { entercode: gameid } })
+    ws.publish({ destination: "/pub/gamestart", body: `entercode: ${gameid}`})
     navigate(`/status/${gameid}`)
   }
 
