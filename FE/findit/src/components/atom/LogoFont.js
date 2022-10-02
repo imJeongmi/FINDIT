@@ -7,8 +7,9 @@ const CustomLogo = styled("span")(
   ({ size, margin }) => `
 color: #333333;
 font-size: ${getSize(size)};
-
+// margin: ${getMargin(margin)};
 padding: 0;
+letter-spacing: .2rem;
 font-family: 'WendyOne';
 font-style: normal;
 font-weight: 400;
@@ -27,36 +28,36 @@ function getSize(size) {
   }
 }
 
-// function getMargin(margin) {
-//   if (!!margin) {
-//     return margin;
-//   } else {
-//     return ".5rem";
-//   }
-// }
+function getMargin(margin) {
+  if (!!margin) {
+    return margin;
+  } else {
+    return ".5rem";
+  }
+}
 
 export default function LogoFont({ size, margin }) {
   return (
-    <Box>
-      <CustomLogo size={size} margin={margin} className="logo">
+    <Box className="waviy">
+      <CustomLogo size={size} margin={margin} className="title-word title-word-1">
         F
       </CustomLogo>
-      <CustomLogo size={size} margin={margin} className="logo">
+      <CustomLogo size={size} margin={margin} className="title-word title-word-2">
         i
       </CustomLogo>
-      <CustomLogo size={size} margin={margin} className="logo">
+      <CustomLogo size={size} margin={margin} className="title-word title-word-3">
         n
       </CustomLogo>
-      <CustomLogo size={size} margin={margin} className="logo">
+      <CustomLogo size={size} margin={margin} className="title-word title-word-4">
         d
       </CustomLogo>
-      <CustomLogo size={size} margin={margin} className="logo">
-        i
+      <CustomLogo size={size} margin={margin} className="title-word title-word-1">
+        I
       </CustomLogo>
-      <CustomLogo size={size} margin={margin} className="logo">
+      <CustomLogo size={size} margin={margin} className="title-word title-word-2">
         t
       </CustomLogo>
-      <CustomLogo size={size} margin={margin} className="logo">
+      <CustomLogo size={size} margin={margin} className="title-word title-word-3">
         !
       </CustomLogo>
     </Box>
