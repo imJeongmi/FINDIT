@@ -152,21 +152,28 @@ public class MemoryPlayerRepository implements PlayerRepository {
      */
     public ArrayList<PlayerInfoDTO> rankChange(String entercode){
 
-        HashMap<String, PlayerInfoDTO> rankInfo = new HashMap<>(roomRepository.findByEnterCode(entercode).getPlayerInfoDTOBySessionId());
+        ArrayList<PlayerInfoDTO> players = new ArrayList<>();
 
-        ArrayList<PlayerInfoDTO> arr = new ArrayList<>();
-        for(String session : rankInfo.keySet()){
-            arr.add(rankInfo.get(session));
+        for (PlayerInfoDTO playerInfoDTO : playerInfoDTOSInMemory){
+            if(playerInfoDTO.getEntercode().equals(entercode)){
+                players.add(playerInfoDTO);
+            }
         }
 
-        Collections.sort(arr, new Comparator<PlayerInfoDTO>() {
+        Collections.sort(players, new Comparator<PlayerInfoDTO>() {
             @Override
             public int compare(PlayerInfoDTO o1, PlayerInfoDTO o2) {
-                return o1.getScore() - o2.getScore();
+                return o2.getScore() - o1.getScore();
             }
         });
 
-        return arr;
+        int len = players.size();
+        for(int i=0;i<len;i++){
+            PlayerInfoDTO now = players.get(i);
+            now.setRank(i+1);
+            findBySessionId(now.getSessionId()).setRank(i+1);
+        }
+        return players;
     }
 
 }

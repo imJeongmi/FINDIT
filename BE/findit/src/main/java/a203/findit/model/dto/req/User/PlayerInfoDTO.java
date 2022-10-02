@@ -18,6 +18,8 @@ public class PlayerInfoDTO {
     private String nickname;
     private int score;
     private String sessionId;
+    private int rank;
+    private String entercode;
 
     // sessionId, set of igtid
     public ArrayList<Long> IGTIds;
@@ -25,7 +27,10 @@ public class PlayerInfoDTO {
     public PlayerInfoDTO(PlayerEnterDTO playerEnterDTO,String sessionId){
         this.profileImg = playerEnterDTO.getProfileImg();
         this.nickname = playerEnterDTO.getNickname();
+        this.entercode = playerEnterDTO.getEntercode();
         this.sessionId = sessionId;
+        this.score = 0;
         this.IGTIds = new ArrayList<>();
+        this.rank = 0;
     }
 }
