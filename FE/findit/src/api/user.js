@@ -17,4 +17,24 @@ function requestUserInfo(userId, success, fail) {
   UserApi.get(`users/${userId}`).then(success).catch(fail);
 }
 
-export { requestJoin, requestLogin, requestLogout, requestUserInfo };
+
+function requestUpload(data, success, fail) {
+  axios
+    .post(
+      "https://findit.life/fast/check",
+      {
+        game_id: data.game_id,
+        file: data.file,
+      },
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Accept: "/",
+        },
+      },
+    )
+    .then(success)
+    .catch(fail);
+}
+
+export { requestJoin, requestLogin, requestLogout, requestUserInfo, requestUpload };
