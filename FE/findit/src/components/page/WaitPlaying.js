@@ -57,13 +57,17 @@ export default function WaitPlaying() {
 
   function startGame(e) {
     e.preventDefault();
-    ws.publish({ destination: "/pub/gamestart", body: `entercode: ${gameid}`})
+    ws.publish({ destination: "/pub/gamestart", body: `${gameid}`})
     navigate(`/status/${gameid}`)
   }
 
   // 소켓에서 보내는 메세지
   function getDataFromSocket(message) {
     console.log(message.body)
+    const msg = JSON.parse(message.body)
+    if (isPlayer() && msg.status === "start") {
+      navigate(`/playing`)
+    }
   }
 
   ws.onConnect = function (frame) {

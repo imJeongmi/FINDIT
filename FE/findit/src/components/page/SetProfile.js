@@ -15,6 +15,7 @@ import { requestLogout } from "api/user";
 
 import { getWebsocket } from "helper/websocket";
 
+import ss from "helper/SessionStorage";
 
 const ProfileBoxStyle = {
   margin: "auto",
@@ -35,7 +36,17 @@ function PlayerProfile() {
   const [nickname, setNickname] = useState();
   const navigate = useNavigate();
   const { gameid } = useParams();
-  const [imgNum, setImgNum] = useState("0");
+  const [imgNum, setImgNum] = useState("1");
+
+  function isPlayer() {
+    const playeraccessToken = ss.get("playeraccessToken");
+    console.log(playeraccessToken);
+    if (playeraccessToken) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   function onClickRefresh() {
     setImgNum(Math.floor(Math.random() * 10));
@@ -49,13 +60,16 @@ function PlayerProfile() {
   const ws = getWebsocket();
 
   function getDataFromSocket(message) {
-    console.log(message)
+    console.log(message.body)
+    const msg = JSON.parse(message.body)
+    if (isPlayer() && msg.status === "start") {
+      navigate(`/playing`)
+    }
   }
 
   ws.onConnect = function (frame) {
     console.log("연결됨")
     ws.subscribe(`/sub/room/${gameid}`, getDataFromSocket)
-    // ws.publish({ destination: "/pub/enter", body: `entercode: ${gameid}, profileImg: ${profileImg}, nickname: ${nickname}` })
   }
 
   useEffect(() => {
@@ -66,7 +80,11 @@ function PlayerProfile() {
 
   function sendPlayerToWaiting(e) {
     e.preventDefault();
-    ws.publish({ destination: "/pub/enter", body: `entercode: ${gameid}, profileImg: ${imgNum}, nickname: ${nickname}` })
+    // const data = {
+    //   gameid,imgNum,nickname
+    // }
+    // ws.publish({ destination: "/pub/enter", body: JSON.stringify(data) })
+    ws.publish({ destination: "/pub/enter", body: `${gameid},${imgNum},${nickname}` })
     navigate(`/waiting/${gameid}`)
   }
 
