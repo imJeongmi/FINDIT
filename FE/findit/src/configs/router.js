@@ -47,7 +47,7 @@ export default function RouterConfiguration() {
         <Route path="/waiting/:gameid" component={WaitPlaying} element={<WaitPlaying />} />
 
         {/* player 게임 플레이 */}
-        <Route path="/playing" component={Playing} element={<Playing />} />
+        <Route path="/playing/:gameid" component={Playing} element={<Playing />} />
 
         {/* User */}
         <Route
