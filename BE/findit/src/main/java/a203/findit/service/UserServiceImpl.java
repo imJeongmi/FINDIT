@@ -220,8 +220,6 @@ public class UserServiceImpl implements UserService {
 
         igtRepos.saveAll(igtList);
 
-        playerRepository.init(entercode);
-
         return true;
     }
 

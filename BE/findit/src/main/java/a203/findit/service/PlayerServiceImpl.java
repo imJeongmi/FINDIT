@@ -25,6 +25,7 @@ public class PlayerServiceImpl implements PlayerService {
 
     public void join(PlayerEnterDTO playerEnterDTO, String sessionId){
         playerRepository.save(playerEnterDTO,sessionId);
+//        playerRepository.init(sessionId);
     }
 
     public List<PlayerInfoDTO> findAll(String entercode){
@@ -36,11 +37,11 @@ public class PlayerServiceImpl implements PlayerService {
 
         String entercode = beforeFindDTO.getEntercode();
         Long treasureId = beforeFindDTO.getTreasureId();
-        int cnt = playerRepository.igtidCnt(entercode, treasureId);
+        int cnt = playerRepository.howManyPeopleFoundTid(treasureId);
         int plusscore = 50;
-        if(playerRepository.isExistSame(entercode, treasureId,sessionId)) return new AfterFindDTO();
+        if(playerRepository.isExistSame(sessionId, treasureId)) return new AfterFindDTO();
         else{
-            playerRepository.addIgtPlayer(entercode, treasureId,sessionId);
+            playerRepository.addIgtPlayer(sessionId, treasureId);
             if(cnt==0){
                 //100점
                 plusscore =100;
@@ -57,13 +58,10 @@ public class PlayerServiceImpl implements PlayerService {
         afterFindDTO.setPlusscore(plusscore);
         afterFindDTO.setRank(cnt+1);
         int effectIndex = -1;
-        if(playerRepository.whatMode(entercode) == Mode.RANDOM){
+        if(playerRepository.whatMode(entercode).equals(Mode.RANDOM)){
             effectIndex = ThreadLocalRandom.current().nextInt(0, 10); //0~9사이
-            afterFindDTO.setEffect(effectIndex);
         }
-        else{
-            afterFindDTO.setEffect(effectIndex);
-        }
+        afterFindDTO.setEffect(effectIndex);
         afterFindDTO.setFinalscore(playerRepository.getFinalScore(effectIndex, entercode,sessionId, plusscore));
         playerRepository.saveTreasure(beforeFindDTO,sessionId,afterFindDTO);
         return afterFindDTO;

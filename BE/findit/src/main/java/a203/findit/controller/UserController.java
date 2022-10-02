@@ -9,6 +9,9 @@ import a203.findit.model.dto.req.User.CreateUserDTO;
 import a203.findit.model.dto.req.User.LoginUserDTO;
 import a203.findit.model.dto.req.User.UpdateFormDTO;
 import a203.findit.model.dto.res.Code;
+import a203.findit.model.repository.MemoryRoomRepository;
+import a203.findit.service.RoomService;
+import a203.findit.service.RoomServiceImpl;
 import a203.findit.service.UserService;
 import a203.findit.util.AwsService;
 import a203.findit.util.SetCookie;
@@ -35,6 +38,7 @@ import java.util.Map;
 public class UserController {
 
     private final UserService userService;
+    private final RoomServiceImpl roomService;
 
     private final String ACCESS_TOKEN_KEY = "accessToken";
     private final String REFRESH_TOKEN_KEY = "refreshToken";
@@ -157,6 +161,7 @@ public class UserController {
     @PostMapping("/treasures")
     public ResponseEntity selectTreasure(@RequestBody ReqSelectTreasure reqSelectTreasure) {
         if (userService.selectTreasure(reqSelectTreasure.getTid(), reqSelectTreasure.getEntercode())) {
+            roomService.addIgtInmemory(reqSelectTreasure.getTid(),reqSelectTreasure.getEntercode());
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.badRequest().build();
