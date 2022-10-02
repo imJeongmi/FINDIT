@@ -75,9 +75,8 @@ export default function Result() {
 
   function requestRankingListSuccess(res) {
     console.log(res);
-    // setRankingList(res.data)
-    // 3등까지 잘라서 저장하기
-    // setTopThreeList(res.data[0:3])
+    setRankingList(res.data);
+    setTopThreeList(res.data.slice(0, 3));
   }
 
   function requestRankingListFail(err) {
@@ -102,24 +101,24 @@ export default function Result() {
         </CustomText>
       </Box>
       <AwardsBox>
-        {AwardsList(2, "이멀캠")}
+        {/* {AwardsList(2, "이멀캠")}
         {AwardsList(1, "김싸피")}
-        {AwardsList(3, "박역삼")}
-        {/* {topThreeList.map((rank, idx) => (
-          <AwardsList rankNum={idx + 1} playerName={rank.name} />
-        ))} */}
+        {AwardsList(3, "박역삼")} */}
+        {topThreeList.map((rank, idx) => (
+          <AwardsList rankNum={idx + 1} playerName={rank.nickname} />
+        ))}
       </AwardsBox>
       <RankingBox>
-        <RankingList rankNum={1} userName="김싸피" gameScore={350} />
+        {/* <RankingList rankNum={1} userName="김싸피" gameScore={350} />
         <RankingList rankNum={2} userName="이멀캠" gameScore={220} />
         <RankingList rankNum={3} userName="박역삼" gameScore={160} />
         <RankingList rankNum={4} userName="최문어" gameScore={140} />
         <RankingList rankNum={5} userName="김싸피" gameScore={110} />
         <RankingList rankNum={6} userName="김싸피" gameScore={90} />
-        <RankingList rankNum={7} userName="김싸피" gameScore={80} />
-        {/* {rankingList.map((rank, idx) => (
-          <RankingList rankNum={idx + 1} userName={rank.name} gameScore={rank.score} />
-        ))} */}
+        <RankingList rankNum={7} userName="김싸피" gameScore={80} /> */}
+        {rankingList.map((rank, idx) => (
+          <RankingList rankNum={idx + 1} userName={rank.nickname} gameScore={rank.score} />
+        ))}
       </RankingBox>
       <ButtonBox>
         <CustomButton size="large" color="secondary">
