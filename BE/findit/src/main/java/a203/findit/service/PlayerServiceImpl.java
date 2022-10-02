@@ -27,6 +27,10 @@ public class PlayerServiceImpl implements PlayerService {
         playerRepository.save(playerEnterDTO,sessionId);
     }
 
+    public List<PlayerInfoDTO> findAll(String entercode){
+        return playerRepository.getAllPlayers(entercode);
+    }
+
     public AfterFindDTO findTreasure(BeforeFindDTO beforeFindDTO, HttpSession sessionId){
         AfterFindDTO afterFindDTO = new AfterFindDTO();
 

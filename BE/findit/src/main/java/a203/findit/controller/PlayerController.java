@@ -1,6 +1,7 @@
 package a203.findit.controller;
 
 import a203.findit.model.dto.req.User.*;
+import a203.findit.model.entity.User;
 import a203.findit.service.PlayerServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
@@ -22,6 +23,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -32,18 +34,27 @@ public class PlayerController {
     private final PlayerServiceImpl playerService;
 
     @MessageMapping("/enter")
-    public void socketEnter(@Valid PlayerEnterDTO playerEnterDTO, HttpServletRequest request){
+    public void socketEnter(String playerEnter, HttpServletRequest request){
         JSONObject jsonObject = new JSONObject();
         //join playerinfo
+        String[] strlist = playerEnter.split(",");
+        PlayerEnterDTO playerEnterDTO = new PlayerEnterDTO();
+        playerEnterDTO.setEntercode(strlist[0]);
+        playerEnterDTO.setProfileImg(Integer.parseInt(strlist[1]));
+        playerEnterDTO.setNickname(strlist[2]);
         HttpSession session = request.getSession();
         session.setAttribute("nickname",playerEnterDTO.getNickname());
         session.setAttribute("profileImg",playerEnterDTO.getProfileImg());
         session.setAttribute("entercode",playerEnterDTO.getEntercode());
         playerService.join(playerEnterDTO,session);
-        jsonObject.put("code", "success");
-        jsonObject.put("status","waiting");
-        jsonObject.put("nickname",playerEnterDTO.getNickname());
-        simpMessagingTemplate.convertAndSend("/sub/room/"+playerEnterDTO.getEntercode(),jsonObject);
+
+        JSONArray jsonArray = new JSONArray();
+        List<PlayerInfoDTO> playerInfoDTOS = playerService.findAll(playerEnterDTO.getEntercode());
+        for(PlayerInfoDTO playerInfoDTO : playerInfoDTOS){
+            jsonObject.put("nickname",playerInfoDTO.getNickname());
+            jsonArray.add(jsonObject);
+        }
+        simpMessagingTemplate.convertAndSend("/sub/room/"+playerEnterDTO.getEntercode(),jsonArray);
     }
 //    @MessageMapping("/private")
 //    // 다 푼사람 private 구독한 사람(방장) 한테만 보내주기
@@ -57,8 +68,12 @@ public class PlayerController {
 
     //igt 구현시 inmemory 재설정 및 테스트 해보기
     @MessageMapping("/find")
-    public void find(HttpServletRequest request, @Valid BeforeFindDTO beforeFindDTO){
+    public void find(HttpServletRequest request, String BeforeFind){
         HttpSession session = request.getSession();
+        String[] strlist = BeforeFind.split(",");
+        BeforeFindDTO beforeFindDTO = new BeforeFindDTO();
+        beforeFindDTO.setEntercode(strlist[0]);
+        beforeFindDTO.setTreasureId(Long.parseLong(strlist[1]));
         AfterFindDTO afterFindDTO= playerService.findTreasure(beforeFindDTO,session);
         JSONObject jsonObject = new JSONObject();
         // 얻은 점수, 효과, 최종점수

@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Box, styled } from "@mui/system";
 
@@ -46,6 +47,12 @@ const StyledProfileBox = styled(Box)(
 );
 
 export default function HostMain() {
+  const navigate = useNavigate();
+
+  function goToSetProfile() {
+    navigate("/hostprofile");
+  }
+
   return (
     <Box>
       <StyledHeader>
@@ -61,8 +68,8 @@ export default function HostMain() {
             님
           </CustomText>
         </LogoNickname>
-        <StyledProfileBox>
-          <ProfileImage></ProfileImage>
+        <StyledProfileBox onClick={goToSetProfile}>
+          <ProfileImage num="0"></ProfileImage>
         </StyledProfileBox>
       </StyledHeader>
       <MainPageButton />

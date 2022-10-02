@@ -64,6 +64,20 @@ function getRank(rankNum) {
   }
 }
 
+function AwardsList(rankNum, playerName, imgNum) {
+  return (
+    <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+      {rankNum === 1 ? (
+        <ProfileImage type="winner" mb="2vh" num={imgNum} />
+      ) : (
+        <ProfileImage mb="2vh" num={imgNum} />
+      )}
+      <CustomText>{playerName}</CustomText>
+      {getRank(rankNum)}
+    </Box>
+  );
+}
+
 export default function Result() {
   const [rankingList, setRankingList] = useState([]);
   const [topThreeList, setTopThreeList] = useState([]);
@@ -101,24 +115,24 @@ export default function Result() {
         </CustomText>
       </Box>
       <AwardsBox>
-        {/* {AwardsList(2, "이멀캠")}
-        {AwardsList(1, "김싸피")}
-        {AwardsList(3, "박역삼")} */}
-        {topThreeList.map((rank, idx) => (
+        {AwardsList(2, "이멀캠", 1)}
+        {AwardsList(1, "김싸피", 0)}
+        {AwardsList(3, "박역삼", 2)}
+        {/* {topThreeList.map((rank, idx) => (
           <AwardsList rankNum={idx + 1} playerName={rank.nickname} />
-        ))}
+        ))} */}
       </AwardsBox>
       <RankingBox>
-        {/* <RankingList rankNum={1} userName="김싸피" gameScore={350} />
-        <RankingList rankNum={2} userName="이멀캠" gameScore={220} />
-        <RankingList rankNum={3} userName="박역삼" gameScore={160} />
-        <RankingList rankNum={4} userName="최문어" gameScore={140} />
-        <RankingList rankNum={5} userName="김싸피" gameScore={110} />
-        <RankingList rankNum={6} userName="김싸피" gameScore={90} />
-        <RankingList rankNum={7} userName="김싸피" gameScore={80} /> */}
-        {rankingList.map((rank, idx) => (
+        <RankingList rankNum={1} userName="김싸피" gameScore={350} imgNum={0} />
+        <RankingList rankNum={2} userName="이멀캠" gameScore={220} imgNum={1} />
+        <RankingList rankNum={3} userName="박역삼" gameScore={160} imgNum={2} />
+        <RankingList rankNum={4} userName="최문어" gameScore={140} imgNum={3} />
+        <RankingList rankNum={5} userName="김싸피" gameScore={110} imgNum={4} />
+        <RankingList rankNum={6} userName="김싸피" gameScore={90} imgNum={5} />
+        <RankingList rankNum={7} userName="김싸피" gameScore={80} imgNum={6} />
+        {/* {rankingList.map((rank, idx) => (
           <RankingList rankNum={idx + 1} userName={rank.nickname} gameScore={rank.score} />
-        ))}
+        ))} */}
       </RankingBox>
       <ButtonBox>
         <CustomButton size="large" color="secondary">

@@ -64,9 +64,9 @@ public class RoomController {
     }
 
     @MessageMapping("/open")
-    public void socketOpen(@Valid EntercodeDTO entercodeDTO) {
+    public void socketOpen(String entercode) {
         JSONObject jsonObject = new JSONObject();
-        RoomDTO roomDTO = roomService.find(entercodeDTO.getEntercode());
+        RoomDTO roomDTO = roomService.find(entercode);
         if(roomDTO == null) {
             jsonObject.put("code", "no such entercode");
         }
@@ -82,13 +82,13 @@ public class RoomController {
             //userid
             jsonObject.put("room",roomDTO.getRoomId());
         }
-        simpMessagingTemplate.convertAndSend("/sub/room/"+entercodeDTO.getEntercode(),jsonObject);
+        simpMessagingTemplate.convertAndSend("/sub/room/"+entercode,jsonObject);
     }
 
     @MessageMapping("/gamestart")
-    public void gameStart(@Valid EntercodeDTO entercodeDTO){
+    public void gameStart(String entercode){
         JSONObject jsonObject = new JSONObject();
-        RoomDTO roomDTO = roomService.start(entercodeDTO.getEntercode());
+        RoomDTO roomDTO = roomService.start(entercode);
 //        RoomDTO roomDTO = roomService.find(entercodeDTO.getEntercode());
 //        roomDTO.setStartTime(LocalDateTime.now());
         jsonObject.put("code", "success");
@@ -97,16 +97,16 @@ public class RoomController {
         jsonObject.put("limitminute",roomDTO.getLimitminute());
         jsonObject.put("starttime",roomDTO.getStartTime());
         jsonObject.put("room",roomDTO.getRoomId());
-        simpMessagingTemplate.convertAndSend("/sub/room/"+entercodeDTO.getEntercode(),jsonObject);
+        simpMessagingTemplate.convertAndSend("/sub/room/"+entercode,jsonObject);
     }
 
     @MessageMapping("finish")
-    public void gameFinish(@Valid EntercodeDTO entercodeDTO){
+    public void gameFinish(String entercode){
         JSONObject jsonObject = new JSONObject();
-        roomService.finish(entercodeDTO.getEntercode());
+        roomService.finish(entercode);
         jsonObject.put("code", "success");
         jsonObject.put("status","end");
-        simpMessagingTemplate.convertAndSend("/sub/room/"+entercodeDTO.getEntercode(),jsonObject);
+        simpMessagingTemplate.convertAndSend("/sub/room/"+entercode,jsonObject);
     }
 
     @PostMapping("/room/result")
