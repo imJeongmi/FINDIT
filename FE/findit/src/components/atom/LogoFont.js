@@ -7,7 +7,7 @@ const CustomLogo = styled("span")(
   ({ size, margin }) => `
 color: #333333;
 font-size: ${getSize(size)};
-// margin: ${getMargin(margin)};
+margin: ${getMargin(margin)};
 padding: 0;
 letter-spacing: .2rem;
 font-family: 'WendyOne';
@@ -39,26 +39,8 @@ function getMargin(margin) {
 export default function LogoFont({ size, margin }) {
   return (
     <Box className="waviy">
-      <CustomLogo size={size} margin={margin} className="title-word title-word-1">
-        F
-      </CustomLogo>
-      <CustomLogo size={size} margin={margin} className="title-word title-word-2">
-        i
-      </CustomLogo>
-      <CustomLogo size={size} margin={margin} className="title-word title-word-3">
-        n
-      </CustomLogo>
-      <CustomLogo size={size} margin={margin} className="title-word title-word-4">
-        d
-      </CustomLogo>
-      <CustomLogo size={size} margin={margin} className="title-word title-word-1">
-        I
-      </CustomLogo>
-      <CustomLogo size={size} margin={margin} className="title-word title-word-2">
-        t
-      </CustomLogo>
-      <CustomLogo size={size} margin={margin} className="title-word title-word-3">
-        !
+      <CustomLogo size={size} margin={margin} className="logo">
+        FindIt!
       </CustomLogo>
     </Box>
   );
