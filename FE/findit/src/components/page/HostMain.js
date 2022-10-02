@@ -10,8 +10,7 @@ import MainPageButton from "components/module/MainPageButton";
 
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
-
-const hostNickname = "player1234";
+import { useState } from "react";
 
 const StyledHeader = styled(Box)(
   () => `
@@ -52,9 +51,12 @@ const StyledProfileBox = styled(Box)(
 export default function HostMain() {
   const navigate = useNavigate();
   const user = useSelector(state => state.user.info);
+  const [hostNickname, setHostNickname] = useState();
 
   useEffect(() => {
-    console.log(user);
+    if (user) {
+      setHostNickname(user.nickname)
+    }
   }, [user]);
 
   function goToSetProfile() {
