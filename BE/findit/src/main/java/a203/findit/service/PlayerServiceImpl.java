@@ -47,7 +47,7 @@ public class PlayerServiceImpl implements PlayerService {
                 plusscore =100;
             }
             else if(cnt==1){
-                //80
+                //80 => 버그 수정하기 두번째로 찾으면 60뜸 ㅠ
                 plusscore =80;
             }
             else if(cnt==2){
