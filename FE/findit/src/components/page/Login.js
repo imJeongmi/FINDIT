@@ -32,24 +32,23 @@ export default function Login() {
 
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
-  const [userInfo, setUserInfo] = useState([]);
+  const [userInfo, setUserInfo] = useState("");
 
   async function loginSuccess(res) {
     const accessToken = res.data.accessToken;
     const refreshToken = res.data.refreshToken;
     ls.set("accessToken", accessToken);
     ls.set("refreshToken", refreshToken);
-    // await requestUserInfo(id, getUserInfoSuccess, getUserInfoFail);
+    await requestUserInfo(id, getUserInfoSuccess, getUserInfoFail);
     // dispatch(setUserInfoToStore(id));
-    navigate("/hostmain");
+    // navigate("/hostmain");
   }
 
-  function getUserInfoSuccess(res) {
-    console.log(res);
-    // 데이터 확인하고 setUserInfo작성
-    // setUserInfo(res.data);
-    // dispatch(setUserInfoToStore(userInfo));
-    // navigate("/hostmain");
+  async function getUserInfoSuccess(res) {
+    setUserInfo(res.data);
+    console.log(userInfo);
+    await dispatch(setUserInfoToStore(userInfo));
+    navigate("/hostmain");
   }
 
   function getUserInfoFail(err) {
