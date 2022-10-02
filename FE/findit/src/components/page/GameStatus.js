@@ -42,7 +42,7 @@ export default function GameStatus({ target }) {
   }
 
   function finishGame() {
-    ws.publish({ destination: "/pub/finish", headers: { entercode: gameid } })
+    ws.publish({ destination: "/pub/finish", body: `${gameid}`})
     navigate(`/result/${gameid}`)
   }
 
