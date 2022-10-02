@@ -110,7 +110,6 @@ export default function Playing() {
 
   function uploadAction(image) {
     const file = dataURLtoFile(image, "treasure.jpeg");
-    // console.log(file);
 
     const data = {
       game_id: 39,
