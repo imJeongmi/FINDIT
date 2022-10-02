@@ -23,7 +23,7 @@ public class PlayerServiceImpl implements PlayerService {
     final private MemoryPlayerRepository playerRepository;
     final private MemoryRoomRepository roomRepository;
 
-    public void join(PlayerEnterDTO playerEnterDTO, HttpSession sessionId){
+    public void join(PlayerEnterDTO playerEnterDTO, String sessionId){
         playerRepository.save(playerEnterDTO,sessionId);
     }
 
@@ -31,7 +31,7 @@ public class PlayerServiceImpl implements PlayerService {
         return playerRepository.getAllPlayers(entercode);
     }
 
-    public AfterFindDTO findTreasure(BeforeFindDTO beforeFindDTO, HttpSession sessionId){
+    public AfterFindDTO findTreasure(BeforeFindDTO beforeFindDTO, String sessionId){
         AfterFindDTO afterFindDTO = new AfterFindDTO();
 
         String entercode = beforeFindDTO.getEntercode();

@@ -16,12 +16,12 @@ public class PlayerInfoDTO {
     private int profileImg;
     private String nickname;
     private int score;
-    private HttpSession sessionId;
+    private String sessionId;
 
     // sessionId, set of igtid
 //    public Set<Integer> IGTIds;
 
-    public PlayerInfoDTO(PlayerEnterDTO playerEnterDTO,HttpSession sessionId){
+    public PlayerInfoDTO(PlayerEnterDTO playerEnterDTO,String sessionId){
         this.profileImg = playerEnterDTO.getProfileImg();
         this.nickname = playerEnterDTO.getNickname();
         this.sessionId = sessionId;

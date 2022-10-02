@@ -39,9 +39,9 @@ public class RoomDTO {
 
     private String enterCode;
 
-    public HashMap<HttpSession, PlayerInfoDTO> playerInfoDTOBySessionId;
+    public HashMap<String, PlayerInfoDTO> playerInfoDTOBySessionId;
     
-    public HashMap<Long, Set<HttpSession>> sessionIdByIGTID;
+    public HashMap<Long, Set<String>> sessionIdByIGTID;
 
     public RoomDTO (Game game){
         this.roomId = game.getId();
