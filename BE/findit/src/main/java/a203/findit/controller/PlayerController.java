@@ -54,14 +54,14 @@ public class PlayerController {
         List<PlayerInfoDTO> playerInfoDTOS = playerService.findAll(playerEnterDTO.getEntercode());
         System.out.println(playerInfoDTOS.size());
         for(PlayerInfoDTO playerInfoDTO : playerInfoDTOS){
-            System.out.println(playerInfoDTO.getNickname());
-            System.out.println(playerInfoDTO.getSessionId());
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("nickname",playerInfoDTO.getNickname());
             jsonObject.put("sessionId",playerInfoDTO.getSessionId());
             jsonArray.add(jsonObject);
         }
-        simpMessagingTemplate.convertAndSend("/sub/room/"+strlist[0],jsonArray);
+//        simpMessagingTemplate.convertAndSend("/sub/room/"+entercode,test);
+        simpMessagingTemplate.convertAndSend("/sub/room/"+entercode,jsonArray);
+
     }
 
     //igt 구현시 inmemory 재설정 및 테스트 해보기

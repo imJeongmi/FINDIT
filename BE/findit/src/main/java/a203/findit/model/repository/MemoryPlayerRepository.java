@@ -24,15 +24,20 @@ public class MemoryPlayerRepository implements PlayerRepository {
     public PlayerInfoDTO save(PlayerEnterDTO playerEnterDTO, String sessionId){
         PlayerInfoDTO playerInfoDTO = new PlayerInfoDTO(playerEnterDTO,sessionId);
         //init
+        roomRepository.findByEnterCode(playerEnterDTO.getEntercode()).getSessionIds().add(sessionId);
         roomRepository.findByEnterCode(playerEnterDTO.getEntercode()).getPlayerInfoDTOBySessionId().put(sessionId,playerInfoDTO);
+//        System.out.println("nickname"+playerInfoDTO.getNickname());
+//        System.out.println("profileImg"+playerInfoDTO.getProfileImg());
+//        System.out.println(roomRepository.findByEnterCode(playerEnterDTO.getEntercode()).getPlayerInfoDTOBySessionId().get(sessionId).getNickname() + " " + roomRepository.findByEnterCode(playerEnterDTO.getEntercode()).getPlayerInfoDTOBySessionId().get(sessionId).getProfileImg());
         return playerInfoDTO;
     }
 
     public List<PlayerInfoDTO> getAllPlayers(String entercode){
-        List<PlayerInfoDTO> playerInfoDTOS = null;
+        List<PlayerInfoDTO> playerInfoDTOS = new ArrayList<>();
         int len = roomRepository.findByEnterCode(entercode).getPlayerInfoDTOBySessionId().size();
         for(int i=0;i<len;i++){
-            PlayerInfoDTO playerInfoDTO = roomRepository.findByEnterCode(entercode).getPlayerInfoDTOBySessionId().get(i);
+            String si = roomRepository.findByEnterCode(entercode).getSessionIds().get(i);
+            PlayerInfoDTO playerInfoDTO = roomRepository.findByEnterCode(entercode).getPlayerInfoDTOBySessionId().get(si);
             playerInfoDTOS.add(playerInfoDTO);
         }
         return playerInfoDTOS;
