@@ -12,9 +12,13 @@ function MyTimer({ expiryTimestamp, target }) {
   });
 
   if (target === "user") {
-    return (<CustomText size="xxxl" weight="bold">{minutes}:{seconds}</CustomText>)
+    return (<CustomText size="xxxl" weight="bold">{String(minutes).padStart(2, "0")}:{String(seconds).padStart(2, "0")}</CustomText>)
   } else {
-    return (<CustomText>{minutes}:{seconds}</CustomText>)
+    return (
+      <CustomText>
+        {String(minutes).padStart(2, "0")}:{String(seconds).padStart(2, "0")}
+      </CustomText>
+    );
   }
 }
 
