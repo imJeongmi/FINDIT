@@ -82,7 +82,7 @@ export default function Tutorial({ target }) {
                 ))}
           </Carousel>
         </Box>
-        <Link to="/code">
+        <Link to="/code" style={{ textDecoration: "none" }}>
           <CustomButton size="large" color="primary" my="0.5vh">
             입장 코드 입력
           </CustomButton>
