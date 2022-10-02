@@ -32,7 +32,7 @@ export default function Login() {
 
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
-  const [userInfo, setUserInfo] = useState("");
+  // const [userInfo, setUserInfo] = useState("");
 
   async function loginSuccess(res) {
     const accessToken = res.data.accessToken;
@@ -44,10 +44,8 @@ export default function Login() {
     // navigate("/hostmain");
   }
 
-  async function getUserInfoSuccess(res) {
-    setUserInfo(res.data);
-    console.log(userInfo);
-    await dispatch(setUserInfoToStore(userInfo));
+  function getUserInfoSuccess(res) {
+    dispatch(setUserInfoToStore(res.data));
     navigate("/hostmain");
   }
 
