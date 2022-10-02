@@ -16,6 +16,7 @@ import ExitButton from "components/atom/ExitButton";
 
 import { requestUpload } from "api/player";
 import axios from "axios";
+import Timer from "components/module/Timer";
 
 const StatusBar = styled(Box)(
   () => `
@@ -130,17 +131,19 @@ export default function Playing() {
       <StatusBar>
         <Box
           sx={{
-            width: "28vw",
+            width: "20vw",
             position: "absolute",
             left: "50%",
             transform: "translate(-50%)",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-around",
+            verticalAlign: "middle",
           }}
         >
           <img src={TimerIcon} alt="timerIcon" width="25vw" />
-          <CustomText size="m">03 : 54</CustomText>
+          {/* limitMinute redux에서 받아와서 설정 */}
+          <Timer limitMinute={10}/>
         </Box>
         <Box sx={{ position: "absolute", right: "5%" }}>
           <ExitButton />

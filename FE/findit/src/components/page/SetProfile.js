@@ -12,10 +12,11 @@ import ProfileImage from "../atom/ProfileImage";
 import RefreshIcon from "static/refresh.png";
 
 import { requestLogout } from "api/user";
+import { requestUpdateProfile } from "api/host";
 
 import { getWebsocket } from "helper/websocket";
 
-import ss from "helper/SessionStorage";
+import ls from "helper/LocalStorage";
 
 const ProfileBoxStyle = {
   margin: "auto",
@@ -39,12 +40,11 @@ function PlayerProfile() {
   const [imgNum, setImgNum] = useState("1");
 
   function isGamePlayer() {
-    const playeraccessToken = ss.get("playeraccessToken");
-    console.log(playeraccessToken);
-    if (playeraccessToken) {
-      return true;
-    } else {
+    const token = ls.get("accessToken");
+    if (token) {
       return false;
+    } else {
+      return true;
     }
   }
 
@@ -60,8 +60,8 @@ function PlayerProfile() {
   const ws = getWebsocket();
 
   function getDataFromSocket(message) {
-    console.log(message.body)
     const msg = JSON.parse(message.body)
+    console.log(msg)
     if (isGamePlayer() && msg.status === "start") {
       navigate(`/playing`)
     } else if (isGamePlayer() && msg.status === "end") {
@@ -132,9 +132,28 @@ function HostProfile() {
   }
 
   const [imgNum, setImgNum] = useState("0");
+  const [nickname, setNickname] = useState("");
 
   function onClickRefresh() {
     setImgNum(Math.floor(Math.random() * 10));
+  }
+
+  function onChangeNickname(event) {
+    const nickname = event.target.value;
+    setNickname(nickname);
+  }
+
+  function updateProfileSuccess() {
+    navigate("/hostmain");
+  }
+
+  function updateProfileFail(err) {
+    console.log(err);
+  }
+
+  function onClickUpdateProfile(event) {
+    event.preventDefault();
+    requestUpdateProfile(imgNum, nickname, updateProfileSuccess, updateProfileFail);
   }
 
   // 로그아웃 함수 작성
@@ -157,12 +176,12 @@ function HostProfile() {
 
       <Box>
         <CustomText>닉네임을 등록해주세요</CustomText>
-        <Input type="text" placeholder="닉네임"></Input>
+        <Input type="text" placeholder="닉네임" onChange={onChangeNickname}></Input>
       </Box>
       <CustomButton size="small" color="secondary">
         비밀번호 변경
       </CustomButton>
-      <CustomButton size="small" color="primary">
+      <CustomButton size="small" color="primary" onClick={onClickUpdateProfile}>
         프로필 변경
       </CustomButton>
     </Box>

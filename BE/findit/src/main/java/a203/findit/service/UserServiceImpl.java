@@ -62,11 +62,19 @@ public class UserServiceImpl implements UserService {
             throw new CustomException(Code.C402);
         }
 
-        userRepos.save(User.builder()
+        long random = (long) ((Math.random() * 10000) % 10);
+        Icon randomIcon = iconRepos.findById(random).orElseThrow(
+                () -> new CustomException(Code.C401)
+        );
+
+        User newUser = User.builder()
                 .username(createUserDTO.getId())
                 .password(encPw)
                 .nickname(createUserDTO.getNickname())
-                .build());
+                .build();
+        newUser.setIcon(randomIcon);
+
+        userRepos.save(newUser);
 
         return true;
     }

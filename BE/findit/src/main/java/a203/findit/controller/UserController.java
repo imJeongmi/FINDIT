@@ -111,7 +111,7 @@ public class UserController {
         return ResponseEntity.ok().body(userService.updateForm(updateFormDTO));
     }
 
-    @PostMapping("/{userId}/updateImg")
+    @PostMapping("/{userId}/update")
     public ResponseEntity updateImg(@PathVariable("userId") Long userId, @RequestBody ReqUpdateImgDTO reqUpdateImgDTO) {
         System.out.println(reqUpdateImgDTO.getImg());
         if (userService.updateImg(userId, reqUpdateImgDTO.getImg())) {

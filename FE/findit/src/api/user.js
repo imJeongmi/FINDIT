@@ -12,4 +12,8 @@ function requestLogout(success, fail) {
   UserApi.post("users/logout").then(success).catch(fail);
 }
 
-export { requestJoin, requestLogin, requestLogout };
+function requestUserInfo(userId, success, fail) {
+  UserApi.get(`users/${userId}`).then(success).catch(fail);
+}
+
+export { requestJoin, requestLogin, requestLogout, requestUserInfo };
