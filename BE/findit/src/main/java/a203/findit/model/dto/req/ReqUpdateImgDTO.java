@@ -12,5 +12,6 @@ import lombok.NoArgsConstructor;
 public class ReqUpdateImgDTO {
 
     private String img;
+    private String nickname;
 
 }
