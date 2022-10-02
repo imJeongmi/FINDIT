@@ -8,6 +8,9 @@ import CustomText from "components/atom/CustomText";
 import ProfileImage from "components/atom/ProfileImage";
 import MainPageButton from "components/module/MainPageButton";
 
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
+
 const hostNickname = "player1234";
 
 const StyledHeader = styled(Box)(
@@ -48,6 +51,11 @@ const StyledProfileBox = styled(Box)(
 
 export default function HostMain() {
   const navigate = useNavigate();
+  const user = useSelector(state => state.user.info);
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
 
   function goToSetProfile() {
     navigate("/hostprofile");
