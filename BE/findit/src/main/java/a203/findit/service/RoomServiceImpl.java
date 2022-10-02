@@ -50,7 +50,7 @@ public class RoomServiceImpl implements RoomService{
         game.setEntercode(entercode);
         gameRepository.save(game);
 
-        return roomRepository.save(entercode,game, mode);
+        return roomRepository.save(entercode,game, mode,limitMinute);
     }
     public RoomDTO find(String entercode){
         return roomRepository.findByEnterCode(entercode);

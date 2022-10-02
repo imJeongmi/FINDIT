@@ -35,7 +35,6 @@ public class PlayerController {
 
     @MessageMapping("/enter")
     public void socketEnter(String playerEnter, HttpServletRequest request){
-        JSONObject jsonObject = new JSONObject();
         //join playerinfo
         String[] strlist = playerEnter.split(",");
         PlayerEnterDTO playerEnterDTO = new PlayerEnterDTO();
@@ -43,18 +42,19 @@ public class PlayerController {
         playerEnterDTO.setProfileImg(Integer.parseInt(strlist[1]));
         playerEnterDTO.setNickname(strlist[2]);
         HttpSession session = request.getSession();
-        session.setAttribute("nickname",playerEnterDTO.getNickname());
-        session.setAttribute("profileImg",playerEnterDTO.getProfileImg());
-        session.setAttribute("entercode",playerEnterDTO.getEntercode());
+        session.setAttribute("entercode",strlist[0]);
+        session.setAttribute("profileImg",Integer.parseInt(strlist[1]));
+        session.setAttribute("nickname",strlist[2]);
         playerService.join(playerEnterDTO,session);
 
         JSONArray jsonArray = new JSONArray();
         List<PlayerInfoDTO> playerInfoDTOS = playerService.findAll(playerEnterDTO.getEntercode());
         for(PlayerInfoDTO playerInfoDTO : playerInfoDTOS){
+            JSONObject jsonObject = new JSONObject();
             jsonObject.put("nickname",playerInfoDTO.getNickname());
             jsonArray.add(jsonObject);
         }
-        simpMessagingTemplate.convertAndSend("/sub/room/"+playerEnterDTO.getEntercode(),jsonArray);
+        simpMessagingTemplate.convertAndSend("/sub/room/"+strlist[0],jsonArray);
     }
 //    @MessageMapping("/private")
 //    // 다 푼사람 private 구독한 사람(방장) 한테만 보내주기
