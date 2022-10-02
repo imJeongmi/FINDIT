@@ -3,6 +3,7 @@ package a203.findit.controller;
 import a203.findit.model.dto.req.User.*;
 import a203.findit.model.entity.User;
 import a203.findit.service.PlayerServiceImpl;
+import ch.qos.logback.core.net.SyslogOutputStream;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -51,7 +52,10 @@ public class PlayerController {
 
         JSONArray jsonArray = new JSONArray();
         List<PlayerInfoDTO> playerInfoDTOS = playerService.findAll(playerEnterDTO.getEntercode());
+        System.out.println(playerInfoDTOS.size());
         for(PlayerInfoDTO playerInfoDTO : playerInfoDTOS){
+            System.out.println(playerInfoDTO.getNickname());
+            System.out.println(playerInfoDTO.getSessionId());
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("nickname",playerInfoDTO.getNickname());
             jsonObject.put("sessionId",playerInfoDTO.getSessionId());
