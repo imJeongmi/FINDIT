@@ -9,7 +9,7 @@ from starlette.responses import JSONResponse
 import cv2
 import numpy as np
 
-from dbConfig import host, port, username, password, dbname
+from config.dbConfig import host, port, username, password, dbname
 from models.experimental import attempt_load
 from utils.datasets import letterbox
 from utils.general import non_max_suppression, check_img_size
@@ -123,16 +123,17 @@ async def upload_file(file: UploadFile = File(...), game_id: str = Form()):
                 # IGT에 등록된 보물인지 확인한다.
                 if int(c) in Default_IGT[game_id]:
                     n = (det[:, -1] == c).sum()  # detections per class
-                    s.append(names[int(c)])
+                    s.append(int(c))
 
     if len(s) == 0:
         ## CUSTOM 보물인지 확인한다.
         for custom in Custom_IGT[game_id]:
+            print(custom)
             customImg = np.asarray(bytearray(requests.get(Custom_IGT[game_id][custom][1]).content), dtype=np.uint8)
             answerImg = cv2.imdecode(np.fromstring(customImg, np.uint8), cv2.IMREAD_GRAYSCALE)
 
             if matchCheck(ori_img, answerImg):
-                s.append(Custom_IGT[game_id][custom][0])
+                s.append(custom)
 
     elif len(s) > 1:
         print("Many Item")
