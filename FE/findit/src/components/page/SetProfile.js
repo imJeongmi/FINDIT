@@ -38,7 +38,7 @@ function PlayerProfile() {
   const { gameid } = useParams();
   const [imgNum, setImgNum] = useState("1");
 
-  function isPlayer() {
+  function isGamePlayer() {
     const playeraccessToken = ss.get("playeraccessToken");
     console.log(playeraccessToken);
     if (playeraccessToken) {
@@ -62,8 +62,10 @@ function PlayerProfile() {
   function getDataFromSocket(message) {
     console.log(message.body)
     const msg = JSON.parse(message.body)
-    if (isPlayer() && msg.status === "start") {
+    if (isGamePlayer() && msg.status === "start") {
       navigate(`/playing`)
+    } else if (isGamePlayer() && msg.status === "end") {
+      navigate(`/result/${gameid}`)
     }
   }
 
