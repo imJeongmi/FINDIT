@@ -1,13 +1,14 @@
 import React from "react";
-import { styled } from "@mui/system";
+import { Box, styled } from "@mui/system";
+
+import "./LogoFont.scss";
 
 const CustomLogo = styled("span")(
   ({ size, margin }) => `
 color: #333333;
 font-size: ${getSize(size)};
-margin: ${getMargin(margin)};
+
 padding: 0;
-letter-spacing: .2rem;
 font-family: 'WendyOne';
 font-style: normal;
 font-weight: 400;
@@ -26,18 +27,38 @@ function getSize(size) {
   }
 }
 
-function getMargin(margin) {
-  if (!!margin) {
-    return margin;
-  } else {
-    return ".5rem";
-  }
-}
+// function getMargin(margin) {
+//   if (!!margin) {
+//     return margin;
+//   } else {
+//     return ".5rem";
+//   }
+// }
 
 export default function LogoFont({ size, margin }) {
   return (
-    <CustomLogo size={size} margin={margin}>
-      FindIt!
-    </CustomLogo>
+    <Box>
+      <CustomLogo size={size} margin={margin} className="logo">
+        F
+      </CustomLogo>
+      <CustomLogo size={size} margin={margin} className="logo">
+        i
+      </CustomLogo>
+      <CustomLogo size={size} margin={margin} className="logo">
+        n
+      </CustomLogo>
+      <CustomLogo size={size} margin={margin} className="logo">
+        d
+      </CustomLogo>
+      <CustomLogo size={size} margin={margin} className="logo">
+        i
+      </CustomLogo>
+      <CustomLogo size={size} margin={margin} className="logo">
+        t
+      </CustomLogo>
+      <CustomLogo size={size} margin={margin} className="logo">
+        !
+      </CustomLogo>
+    </Box>
   );
 }
