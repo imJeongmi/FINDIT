@@ -40,7 +40,9 @@ public class RoomDTO {
 
     public HashMap<String, PlayerInfoDTO> playerInfoDTOBySessionId;
     
-    public HashMap<Long, Set<String>> sessionIdByIGTID;
+//    public HashMap<Long, Set<String>> sessionIdByIGTID;
+
+    public ArrayList<Long> igts;
 
     public RoomDTO (Game game){
         this.roomId = game.getId();
@@ -48,6 +50,7 @@ public class RoomDTO {
         this.limitminute = game.getLimitMin();
         this.sessionIds = new ArrayList<>();
         this.playerInfoDTOBySessionId = new HashMap<>();
-        this.sessionIdByIGTID = new HashMap<>();
+//        this.sessionIdByIGTID = new HashMap<>();
+        this.igts = new ArrayList<>();
     }
 }

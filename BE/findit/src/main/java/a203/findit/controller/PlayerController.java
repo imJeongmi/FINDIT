@@ -78,8 +78,6 @@ public class PlayerController {
         AfterFindDTO afterFindDTO= playerService.findTreasure(beforeFindDTO,sessionId);
         JSONObject jsonObject = new JSONObject();
         // 얻은 점수, 효과, 최종점수
-        jsonObject.put("code", "success");
-        jsonObject.put("status","progress");
         jsonObject.put("plusscore", afterFindDTO.getPlusscore());
         jsonObject.put("effectIndex", afterFindDTO.getEffect());
         jsonObject.put("finalscore", afterFindDTO.getFinalscore());
@@ -90,8 +88,6 @@ public class PlayerController {
         for (int i=0;i<playersRank.size(); i++) {
             PlayerInfoDTO playerInfoDTO = playersRank.get(i);
             JSONObject temp = new JSONObject();
-            jsonObject.put("code", "success");
-            jsonObject.put("status","progress");
             temp.put("rank", i+1);
             temp.put("profileImg", playerInfoDTO.getProfileImg());
             temp.put("nickname", playerInfoDTO.getNickname());
@@ -102,10 +98,7 @@ public class PlayerController {
         simpMessagingTemplate.convertAndSend("/sub/room/"+beforeFindDTO.getEntercode(),rankJson);
 
         //크기 비교해서 다 찾은 사람 있는지 확인하고 있으면 IF
-
         JSONObject jsonObject1 = new JSONObject();
-        jsonObject1.put("code", "success");
-        jsonObject1.put("status","progress");
         jsonObject1.put("sessionId",sessionId);
         simpMessagingTemplate.convertAndSend("/sub/private/"+beforeFindDTO.getEntercode(),jsonObject1);
 

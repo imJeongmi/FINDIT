@@ -7,6 +7,7 @@ import a203.findit.model.repository.RoomRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
+import java.util.List;
 
 @Repository
 public class MemoryRoomRepository implements RoomRepository {
@@ -50,5 +51,4 @@ public class MemoryRoomRepository implements RoomRepository {
     public RoomDTO findByEnterCode(String entercode){
         return roomDTOHashMap.getOrDefault(entercode,null);
     }
-
 }

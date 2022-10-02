@@ -14,8 +14,18 @@ import java.util.*;
 @RequiredArgsConstructor
 @Repository
 public class MemoryPlayerRepository implements PlayerRepository {
+    public static ArrayList<PlayerInfoDTO> playerInfoDTOSInMemory = new ArrayList<PlayerInfoDTO>();
+
     final private MemoryRoomRepository roomRepository;
     final private IGTRepository igtRepository;
+
+    public PlayerInfoDTO findBySessionId(String sessionId){
+        for(PlayerInfoDTO playerInfoDTO : playerInfoDTOSInMemory){
+            if(playerInfoDTO.getSessionId().equals(sessionId)) return playerInfoDTO;
+        }
+        return new PlayerInfoDTO();
+    }
+
 
     private PlayerInfoDTO findPlayerInfoDTO(String entercode, String sessionId){
         return roomRepository.findByEnterCode(entercode).getPlayerInfoDTOBySessionId().get(sessionId);
@@ -26,7 +36,8 @@ public class MemoryPlayerRepository implements PlayerRepository {
         //init
         roomRepository.findByEnterCode(playerEnterDTO.getEntercode()).getSessionIds().add(sessionId);
         roomRepository.findByEnterCode(playerEnterDTO.getEntercode()).getPlayerInfoDTOBySessionId().put(sessionId,playerInfoDTO);
-//        System.out.println("nickname"+playerInfoDTO.getNickname());
+        playerInfoDTOSInMemory.add(playerInfoDTO);
+        //        System.out.println("nickname"+playerInfoDTO.getNickname());
 //        System.out.println("profileImg"+playerInfoDTO.getProfileImg());
 //        System.out.println(roomRepository.findByEnterCode(playerEnterDTO.getEntercode()).getPlayerInfoDTOBySessionId().get(sessionId).getNickname() + " " + roomRepository.findByEnterCode(playerEnterDTO.getEntercode()).getPlayerInfoDTOBySessionId().get(sessionId).getProfileImg());
         return playerInfoDTO;
@@ -47,31 +58,40 @@ public class MemoryPlayerRepository implements PlayerRepository {
     igt db -> igtplayer inmemory
     게임 시작시 sessionIdByIGTID에 igtID key값 모두 생성하고 value 값 null로 설정하기
      */
-    public void init(String entercode){
-        Long roomId = roomRepository.findByEnterCode(entercode).getRoomId();
-        for (IGT igt : igtRepository.findAllByGameId(roomId)) {
-            roomRepository.findByEnterCode(entercode).getSessionIdByIGTID().put(igt.getTreasure().getId(), null);
+//    public void init(String entercode){
+//        for (Long tid : roomRepository.findByEnterCode(entercode).getIgts()) {
+//            roomRepository.findByEnterCode(entercode).getSessionIdByIGTID().put(tid,Collections.emptySet());
+//        }
+//    }
+
+    /*
+     igtid에서 같은 entercode 내에 igtid와 sessionid가 같은게 있는지 확인 => bool
+     */
+    public boolean isExistSame(String sessionId, Long igtid){
+        if(findBySessionId(sessionId)==null) System.out.println("1wrong");
+        if(findBySessionId(sessionId).getIGTIds()==null) System.out.println("2wrong");
+        if(findBySessionId(sessionId).getIGTIds().isEmpty()) return false;
+        for(Long id : findBySessionId(sessionId).getIGTIds()){
+            if(id == igtid) return true;
         }
+        return false;
     }
 
-    public void addIgtPlayer(String entercode, Long igtid, String sessionId){
-        roomRepository.findByEnterCode(entercode).getSessionIdByIGTID().get(igtid).add(sessionId);
+    public void addIgtPlayer( String sessionId, Long igtid){
+        findBySessionId(sessionId).getIGTIds().add(igtid);
     }
 
     /*
      igtid에서 같은 entercode 내에 igtid 의 emtpy 여부 / 개수 => 개수 리턴
      */
-    public int igtidCnt(String entercode, Long igtid){
-        Set<String> sessions = roomRepository.findByEnterCode(entercode).getSessionIdByIGTID().get(igtid);
-        if(sessions == null) return 0;
-        else return sessions.size();
-    }
-
-    /*
-     igtid에서 같은 entercode 내에 igtid와 sessionid가 같은게 있는지 확인 => bool
-     */
-    public boolean isExistSame(String entercode, Long igtid, String sessionId){
-        return roomRepository.findByEnterCode(entercode).getSessionIdByIGTID().get(igtid).contains(sessionId);
+    public int howManyPeopleFoundTid(Long igtid){
+        int cnt=0;
+        for(PlayerInfoDTO playerInfoDTO : playerInfoDTOSInMemory){
+            for(Long tid : playerInfoDTO.getIGTIds()){
+                if(tid == igtid) cnt++;
+            }
+        }
+        return cnt;
     }
 
     /*
@@ -124,7 +144,7 @@ public class MemoryPlayerRepository implements PlayerRepository {
     * */
     public void saveTreasure(BeforeFindDTO beforeFindDTO, String sessionId, AfterFindDTO afterFindDTO){
         roomRepository.findByEnterCode(beforeFindDTO.getEntercode()).getPlayerInfoDTOBySessionId().get(sessionId).setScore(afterFindDTO.getFinalscore());
-        roomRepository.findByEnterCode(beforeFindDTO.getEntercode()).getSessionIdByIGTID().get(beforeFindDTO.getTreasureId()).add(sessionId);
+        findBySessionId(sessionId).getIGTIds().add(beforeFindDTO.getTreasureId());
     }
 
     /*
