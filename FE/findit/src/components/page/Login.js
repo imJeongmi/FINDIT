@@ -7,9 +7,12 @@ import Input from "components/atom/Input";
 import CustomButton from "components/atom/CustomButton";
 import CustomText from "components/atom/CustomText";
 import compass from "static/compass_100.png";
-import { requestLogin } from "api/user";
+import { requestLogin, requestUserInfo } from "api/user";
 
 import ls from "helper/LocalStorage";
+
+import { useDispatch } from "react-redux";
+import { setUserInfoToStore } from "stores/user";
 
 const LoginStyle = {
   mt: "5vh",
@@ -21,6 +24,7 @@ const LoginStyle = {
 
 export default function Login() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   function goToSignup() {
     navigate("/Signup");
@@ -28,13 +32,28 @@ export default function Login() {
 
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
+  const [userInfo, setUserInfo] = useState([]);
 
-  function loginSuccess(res) {
+  async function loginSuccess(res) {
     const accessToken = res.data.accessToken;
     const refreshToken = res.data.refreshToken;
     ls.set("accessToken", accessToken);
     ls.set("refreshToken", refreshToken);
-    navigate("/hostmain");
+    await requestUserInfo(id, getUserInfoSuccess, getUserInfoFail);
+    // dispatch(setUserInfoToStore(id));
+    // navigate("/hostmain");
+  }
+
+  function getUserInfoSuccess(res) {
+    console.log(res);
+    // 데이터 확인하고 setUserInfo작성
+    // setUserInfo(res.data);
+    // dispatch(setUserInfoToStore(userInfo));
+    // navigate("/hostmain");
+  }
+
+  function getUserInfoFail(err) {
+    console.log(err);
   }
 
   function loginFail(res) {

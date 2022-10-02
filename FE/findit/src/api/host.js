@@ -15,7 +15,7 @@ function requestGameConfiguration(limitMinute, mode, success, fail) {
 }
 
 function requestUpdateProfile(userId, img, nickname, success, fail) {
-  UserApi.post(`user/${userId}/update`, {
+  UserApi.post(`users/${userId}/update`, {
     img: img,
     nickname: nickname,
   })
