@@ -19,11 +19,11 @@ public class MessageController {
     private final SimpMessagingTemplate simpMessagingTemplate;
 
     @MessageMapping("/hello")
-    public void message(@Valid MessageDTO MessageDTO) throws InterruptedException {
+    public void message(String str) throws InterruptedException {
         Thread.sleep(1000);
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("roomId",MessageDTO.getRoomId());
-        simpMessagingTemplate.convertAndSend("/sub/room/"+MessageDTO.getRoomId(),jsonObject);
+        jsonObject.put("roomId",str);
+        simpMessagingTemplate.convertAndSend("/sub/room/"+str,jsonObject);
     }
     @MessageMapping("/hello2")
     public void message2(@Valid EntercodeDTO entercodeDTO) throws InterruptedException {
