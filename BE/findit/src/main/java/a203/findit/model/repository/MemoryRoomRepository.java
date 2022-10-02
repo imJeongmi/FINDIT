@@ -38,10 +38,11 @@ public class MemoryRoomRepository implements RoomRepository {
     }
 
     @Override
-    public RoomDTO save(String entercode, Game game, Mode mode){
+    public RoomDTO save(String entercode, Game game, Mode mode, int limitMinute){
         RoomDTO roomDTO = new RoomDTO(game);
         roomDTO.setMode(mode);
         roomDTO.setEnterCode(entercode);
+        roomDTO.setLimitminute(limitMinute);
         roomDTOHashMap.put(entercode,roomDTO);
         return roomDTO;
     }

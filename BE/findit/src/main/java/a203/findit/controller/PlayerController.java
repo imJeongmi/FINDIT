@@ -3,6 +3,7 @@ package a203.findit.controller;
 import a203.findit.model.dto.req.User.*;
 import a203.findit.model.entity.User;
 import a203.findit.service.PlayerServiceImpl;
+import ch.qos.logback.core.net.SyslogOutputStream;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -34,47 +35,47 @@ public class PlayerController {
     private final PlayerServiceImpl playerService;
 
     @MessageMapping("/enter")
-    public void socketEnter(String playerEnter, HttpServletRequest request){
-        JSONObject jsonObject = new JSONObject();
+    public void socketEnter(String playerEnter, @Header("simpSessionId") String sessionId){
         //join playerinfo
         String[] strlist = playerEnter.split(",");
+
+        String entercode = strlist[0];
+        int profileImg = Integer.parseInt(strlist[1]);
+        String nickname = strlist[2];
+
         PlayerEnterDTO playerEnterDTO = new PlayerEnterDTO();
-        playerEnterDTO.setEntercode(strlist[0]);
-        playerEnterDTO.setProfileImg(Integer.parseInt(strlist[1]));
-        playerEnterDTO.setNickname(strlist[2]);
-        HttpSession session = request.getSession();
-        session.setAttribute("nickname",playerEnterDTO.getNickname());
-        session.setAttribute("profileImg",playerEnterDTO.getProfileImg());
-        session.setAttribute("entercode",playerEnterDTO.getEntercode());
-        playerService.join(playerEnterDTO,session);
+        playerEnterDTO.setEntercode(entercode);
+        playerEnterDTO.setProfileImg(profileImg);
+        playerEnterDTO.setNickname(nickname);
+
+        playerService.join(playerEnterDTO,sessionId);
 
         JSONArray jsonArray = new JSONArray();
         List<PlayerInfoDTO> playerInfoDTOS = playerService.findAll(playerEnterDTO.getEntercode());
+        System.out.println(playerInfoDTOS.size());
         for(PlayerInfoDTO playerInfoDTO : playerInfoDTOS){
+            JSONObject jsonObject = new JSONObject();
             jsonObject.put("nickname",playerInfoDTO.getNickname());
+            jsonObject.put("sessionId",playerInfoDTO.getSessionId());
             jsonArray.add(jsonObject);
         }
-        simpMessagingTemplate.convertAndSend("/sub/room/"+playerEnterDTO.getEntercode(),jsonArray);
+//        simpMessagingTemplate.convertAndSend("/sub/room/"+entercode,test);
+        simpMessagingTemplate.convertAndSend("/sub/room/"+entercode,jsonArray);
+
     }
-//    @MessageMapping("/private")
-//    // 다 푼사람 private 구독한 사람(방장) 한테만 보내주기
-//    public void privateInfo(@Valid EntercodeDTO entercodeDTO, @Header("simpSessionId") String sessionId){
-//        JSONObject jsonObject = new JSONObject();
-//        jsonObject.put("code", "success");
-//        jsonObject.put("status","progress");
-//        jsonObject.put("playerid",sessionId);
-//        simpMessagingTemplate.convertAndSend("/sub/private/"+entercodeDTO.getEntercode(),jsonObject);
-//    }
 
     //igt 구현시 inmemory 재설정 및 테스트 해보기
     @MessageMapping("/find")
-    public void find(HttpServletRequest request, String BeforeFind){
-        HttpSession session = request.getSession();
+    public void find(@Header("simpSessionId") String sessionId, String BeforeFind){
         String[] strlist = BeforeFind.split(",");
+        String entercode = strlist[0];
+        Long treasureId = Long.parseLong(strlist[1]);
+
         BeforeFindDTO beforeFindDTO = new BeforeFindDTO();
-        beforeFindDTO.setEntercode(strlist[0]);
-        beforeFindDTO.setTreasureId(Long.parseLong(strlist[1]));
-        AfterFindDTO afterFindDTO= playerService.findTreasure(beforeFindDTO,session);
+        beforeFindDTO.setEntercode(entercode);
+        beforeFindDTO.setTreasureId(treasureId);
+
+        AfterFindDTO afterFindDTO= playerService.findTreasure(beforeFindDTO,sessionId);
         JSONObject jsonObject = new JSONObject();
         // 얻은 점수, 효과, 최종점수
         jsonObject.put("code", "success");
@@ -82,14 +83,16 @@ public class PlayerController {
         jsonObject.put("plusscore", afterFindDTO.getPlusscore());
         jsonObject.put("effectIndex", afterFindDTO.getEffect());
         jsonObject.put("finalscore", afterFindDTO.getFinalscore());
-        simpMessagingTemplate.convertAndSend("/sub/player/" + session,jsonObject);
+        simpMessagingTemplate.convertAndSend("/sub/player/" + sessionId,jsonObject);
 
         ArrayList<PlayerInfoDTO> playersRank = playerService.rankChange(beforeFindDTO.getEntercode());
         JSONArray rankJson = new JSONArray();
-        for (PlayerInfoDTO playerInfoDTO : playersRank) {
+        for (int i=0;i<playersRank.size(); i++) {
+            PlayerInfoDTO playerInfoDTO = playersRank.get(i);
             JSONObject temp = new JSONObject();
             jsonObject.put("code", "success");
             jsonObject.put("status","progress");
+            temp.put("rank", i+1);
             temp.put("profileImg", playerInfoDTO.getProfileImg());
             temp.put("nickname", playerInfoDTO.getNickname());
             temp.put("score", playerInfoDTO.getScore());
@@ -103,21 +106,19 @@ public class PlayerController {
         JSONObject jsonObject1 = new JSONObject();
         jsonObject1.put("code", "success");
         jsonObject1.put("status","progress");
-        jsonObject1.put("playerid",session);
+        jsonObject1.put("sessionId",sessionId);
         simpMessagingTemplate.convertAndSend("/sub/private/"+beforeFindDTO.getEntercode(),jsonObject1);
 
     }
 
     @GetMapping("/room/{entercode}")
-    public ResponseEntity ValidRoomId(@PathVariable("entercode") String entercode, HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        Map<String, String> result = new HashMap<>();
-        result.put("newplayeraccessToken", session.getId());
+    public ResponseEntity ValidRoomId(@PathVariable("entercode") String entercode) {
         if(playerService.valid(entercode)){
-            return ResponseEntity.status(HttpStatus.OK).body(result);
+            return ResponseEntity.status(HttpStatus.OK).body(true);
         }else{
             return ResponseEntity.badRequest().body("존재하지 않는 입장코드입니다.");
         }
     }
+
 
 }

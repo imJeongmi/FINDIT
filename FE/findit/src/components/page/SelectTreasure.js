@@ -9,9 +9,6 @@ import TreasureItem from "../atom/TreasureItem";
 
 import { useNavigate } from "react-router-dom";
 
-// import { Client } from "@stomp/stompjs";
-import { getWebsocket } from "helper/websocket";
-
 const BoxStyle = {
   width: "80vw",
   margin: "auto",
@@ -81,25 +78,6 @@ export default function SelectTreasure() {
       setSelectedItems([...filter]);
     }
   }
-
-  const ws = getWebsocket();
-
-  ws.onConnect = function (frame) {
-    console.log("연결됨")
-    ws.subscribe(`/sub/room/${gameid}`, onGetData)
-  }
-
-  function onGetData(res) {
-    console.log(res);
-    if (res.body) {
-    }
-  }
-
-  useEffect(() => {
-    if (!!gameid) {
-      ws.activate();
-    }
-  }, [gameid]);
 
   function confirm() {
     if (selectedItems.length > 0) {

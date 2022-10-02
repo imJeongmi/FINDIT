@@ -21,18 +21,23 @@ public class MemoryPlayerRepository implements PlayerRepository {
         return roomRepository.findByEnterCode(entercode).getPlayerInfoDTOBySessionId().get(sessionId);
     }
 
-    public PlayerInfoDTO save(PlayerEnterDTO playerEnterDTO, HttpSession sessionId){
+    public PlayerInfoDTO save(PlayerEnterDTO playerEnterDTO, String sessionId){
         PlayerInfoDTO playerInfoDTO = new PlayerInfoDTO(playerEnterDTO,sessionId);
         //init
+        roomRepository.findByEnterCode(playerEnterDTO.getEntercode()).getSessionIds().add(sessionId);
         roomRepository.findByEnterCode(playerEnterDTO.getEntercode()).getPlayerInfoDTOBySessionId().put(sessionId,playerInfoDTO);
+//        System.out.println("nickname"+playerInfoDTO.getNickname());
+//        System.out.println("profileImg"+playerInfoDTO.getProfileImg());
+//        System.out.println(roomRepository.findByEnterCode(playerEnterDTO.getEntercode()).getPlayerInfoDTOBySessionId().get(sessionId).getNickname() + " " + roomRepository.findByEnterCode(playerEnterDTO.getEntercode()).getPlayerInfoDTOBySessionId().get(sessionId).getProfileImg());
         return playerInfoDTO;
     }
 
     public List<PlayerInfoDTO> getAllPlayers(String entercode){
-        List<PlayerInfoDTO> playerInfoDTOS = null;
+        List<PlayerInfoDTO> playerInfoDTOS = new ArrayList<>();
         int len = roomRepository.findByEnterCode(entercode).getPlayerInfoDTOBySessionId().size();
         for(int i=0;i<len;i++){
-            PlayerInfoDTO playerInfoDTO = roomRepository.findByEnterCode(entercode).getPlayerInfoDTOBySessionId().get(i);
+            String si = roomRepository.findByEnterCode(entercode).getSessionIds().get(i);
+            PlayerInfoDTO playerInfoDTO = roomRepository.findByEnterCode(entercode).getPlayerInfoDTOBySessionId().get(si);
             playerInfoDTOS.add(playerInfoDTO);
         }
         return playerInfoDTOS;
@@ -49,7 +54,7 @@ public class MemoryPlayerRepository implements PlayerRepository {
         }
     }
 
-    public void addIgtPlayer(String entercode, Long igtid, HttpSession sessionId){
+    public void addIgtPlayer(String entercode, Long igtid, String sessionId){
         roomRepository.findByEnterCode(entercode).getSessionIdByIGTID().get(igtid).add(sessionId);
     }
 
@@ -57,7 +62,7 @@ public class MemoryPlayerRepository implements PlayerRepository {
      igtid에서 같은 entercode 내에 igtid 의 emtpy 여부 / 개수 => 개수 리턴
      */
     public int igtidCnt(String entercode, Long igtid){
-        Set<HttpSession> sessions = roomRepository.findByEnterCode(entercode).getSessionIdByIGTID().get(igtid);
+        Set<String> sessions = roomRepository.findByEnterCode(entercode).getSessionIdByIGTID().get(igtid);
         if(sessions == null) return 0;
         else return sessions.size();
     }
@@ -65,14 +70,14 @@ public class MemoryPlayerRepository implements PlayerRepository {
     /*
      igtid에서 같은 entercode 내에 igtid와 sessionid가 같은게 있는지 확인 => bool
      */
-    public boolean isExistSame(String entercode, Long igtid, HttpSession sessionId){
+    public boolean isExistSame(String entercode, Long igtid, String sessionId){
         return roomRepository.findByEnterCode(entercode).getSessionIdByIGTID().get(igtid).contains(sessionId);
     }
 
     /*
     effect index 받아서 원래 스코어 + plusscore + effectscore
      */
-    public int getFinalScore(int effectIndex, String entercode, HttpSession sessionId, int plusscore){
+    public int getFinalScore(int effectIndex, String entercode, String sessionId, int plusscore){
         int nowScore = roomRepository.findByEnterCode(entercode).getPlayerInfoDTOBySessionId().get(sessionId).getScore();
         int effectScore = 0;
         if (effectIndex == 0) effectScore = 10;
@@ -96,7 +101,7 @@ public class MemoryPlayerRepository implements PlayerRepository {
                     }else{
                         PlayerInfoDTO befPlayerInfoDTO = playerRank.get(i-1);
                         int befScore = playerRank.get(i-1).getScore();
-                        HttpSession befSessionId = befPlayerInfoDTO.getSessionId();
+                        String befSessionId = befPlayerInfoDTO.getSessionId();
                         roomRepository.findByEnterCode(entercode).getPlayerInfoDTOBySessionId().get(befSessionId).setScore(nowScore+plusscore);
                         roomRepository.findByEnterCode(entercode).getPlayerInfoDTOBySessionId().get(sessionId).setScore(befScore);
                         return befScore;
@@ -117,7 +122,7 @@ public class MemoryPlayerRepository implements PlayerRepository {
     /*
     인메모리에 저장하기
     * */
-    public void saveTreasure(BeforeFindDTO beforeFindDTO, HttpSession sessionId, AfterFindDTO afterFindDTO){
+    public void saveTreasure(BeforeFindDTO beforeFindDTO, String sessionId, AfterFindDTO afterFindDTO){
         roomRepository.findByEnterCode(beforeFindDTO.getEntercode()).getPlayerInfoDTOBySessionId().get(sessionId).setScore(afterFindDTO.getFinalscore());
         roomRepository.findByEnterCode(beforeFindDTO.getEntercode()).getSessionIdByIGTID().get(beforeFindDTO.getTreasureId()).add(sessionId);
     }
@@ -127,10 +132,10 @@ public class MemoryPlayerRepository implements PlayerRepository {
      */
     public ArrayList<PlayerInfoDTO> rankChange(String entercode){
 
-        HashMap<HttpSession, PlayerInfoDTO> rankInfo = new HashMap<>(roomRepository.findByEnterCode(entercode).getPlayerInfoDTOBySessionId());
+        HashMap<String, PlayerInfoDTO> rankInfo = new HashMap<>(roomRepository.findByEnterCode(entercode).getPlayerInfoDTOBySessionId());
 
         ArrayList<PlayerInfoDTO> arr = new ArrayList<>();
-        for(HttpSession session : rankInfo.keySet()){
+        for(String session : rankInfo.keySet()){
             arr.add(rankInfo.get(session));
         }
 

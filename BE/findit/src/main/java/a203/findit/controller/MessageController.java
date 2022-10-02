@@ -25,6 +25,7 @@ public class MessageController {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("roomId1",strlist[0]);
         jsonObject.put("roomId2",strlist[1]);
+        jsonObject.put("roomId3",strlist[2]);
         simpMessagingTemplate.convertAndSend("/sub/room/"+strlist[0],jsonObject);
     }
     @MessageMapping("/hello2")
