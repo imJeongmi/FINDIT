@@ -6,6 +6,7 @@ import RankingList from "components/module/RankingList";
 import { useNavigate, useParams } from "react-router-dom";
 import { getWebsocket } from "helper/websocket";
 import { useEffect } from "react";
+import Timer from "components/module/Timer";
 
 const CenterStyle = {
   margin: "7vh 0 5vh 0",
@@ -90,9 +91,7 @@ export default function GameStatus({ target }) {
           남은 시간
         </CustomText>
         <br />
-        <CustomText size="xxxl" weight="bold">
-          04:10
-        </CustomText>
+        <Timer limitMinute={10} target="user"/>
       </Box>
       <RankingBox>
         <RankingList rankNum={1} userName="김싸피" gameScore={350} imgNum={0} />
