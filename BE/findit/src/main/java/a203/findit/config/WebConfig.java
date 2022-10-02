@@ -20,7 +20,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedOriginPatterns("*")
 //                .allowedOrigins(frontUrl)
-                .allowedOrigins("https://findit.life", "https://j7a203.p.ssafy.io/api/v1/", "http://localhost:3000", "https://apic.app/online/#/tester")
+                .allowedOrigins("https://findit.life", "http://findit.life", "https://j7a203.p.ssafy.io/api/v1/", "http://localhost:3000", "https://apic.app/online/#/tester")
                 .allowedMethods("*")
                 .allowedHeaders("*")
                 .allowCredentials(true) // 쿠키 허용

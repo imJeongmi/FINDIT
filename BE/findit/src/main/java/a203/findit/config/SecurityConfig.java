@@ -99,7 +99,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "https://findit.life", "https://j7a203.p.ssafy.io/api/v1/", "https://apic.app/online"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://findit.life", "https://findit.life", "https://j7a203.p.ssafy.io/api/v1/", "https://apic.app/online"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "OPTIONS"));
         configuration.addAllowedOriginPattern("*");
         configuration.addAllowedHeader("*");
