@@ -39,9 +39,9 @@ export default function Login() {
     const refreshToken = res.data.refreshToken;
     ls.set("accessToken", accessToken);
     ls.set("refreshToken", refreshToken);
-    await requestUserInfo(id, getUserInfoSuccess, getUserInfoFail);
+    // await requestUserInfo(id, getUserInfoSuccess, getUserInfoFail);
     // dispatch(setUserInfoToStore(id));
-    // navigate("/hostmain");
+    navigate("/hostmain");
   }
 
   function getUserInfoSuccess(res) {
