@@ -33,4 +33,13 @@ function requestUpload(data, success, fail) {
     .catch(fail);
 }
 
-export { requestEnter, requestUpload };
+function requestRankingList(gameid, success, fail) {
+  axios
+    .post("https://findit.life/api/v1/room/result", {
+      entercode: gameid,
+    })
+    .then(success)
+    .catch(fail);
+}
+
+export { requestEnter, requestUpload, requestRankingList };
