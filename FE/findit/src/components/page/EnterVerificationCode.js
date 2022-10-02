@@ -20,8 +20,8 @@ export default function EnterVerificationCode() {
   const navigate = useNavigate();
 
   function enterSuccess(res) {
-    // console.log(res);
-    const playeraccessToken = res.data.playeraccessToken;
+    console.log(res);
+    const playeraccessToken = res.data.newplayeraccessToken;
     ss.set("playeraccessToken", playeraccessToken);
     navigate(`/playerprofile/${enterCode}`);
   }
