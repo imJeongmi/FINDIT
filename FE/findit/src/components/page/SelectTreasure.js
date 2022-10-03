@@ -1,5 +1,5 @@
 import { Box, styled } from "@mui/system";
-import { getTreasureList } from "api/treasure";
+import { getTreasureList, setGameTreasureList } from "api/treasure";
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 
@@ -79,8 +79,22 @@ export default function SelectTreasure() {
     }
   }
 
+  function setGameTreasureListSuccess(res) {
+    console.log(res.data);
+  }
+
+  function setGameTreasureListFail(err) {
+    console.log("선택된 보물 전송 실패", err);
+  }
+
   function confirm() {
     if (selectedItems.length > 0) {
+      setGameTreasureList(
+        selectedItems,
+        gameid,
+        setGameTreasureListSuccess,
+        setGameTreasureListFail,
+      );
       navigate(`/waiting/${gameid}`);
     } else {
       console.log("보물 선택 ㄱㄱ");

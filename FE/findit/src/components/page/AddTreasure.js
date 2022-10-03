@@ -52,19 +52,16 @@ const ButtonBox = styled(Box)(
 export default function AddTreasure() {
   const camera = useRef(null);
   const [numberOfCameras, setNumberOfCameras] = useState(0);
-  const [image, setImage] = useState(null);
 
-  function dataURLtoFile(dataurl, filename) {
-    let arr = dataurl.split(","),
-      mime = arr[0].match(/:(.*?);/)[1],
-      bstr = atob(arr[1]),
-      n = bstr.length,
-      u8arr = new Uint8Array(n);
+  function onClickCamera() {
+    const image = camera.current.takePhoto();
+    uploadAction(image);
+  }
 
-    while (n--) {
-      u8arr[n] = bstr.charCodeAt(n);
-    }
-    return new File([u8arr], filename, { type: mime });
+  function uploadAction(image) {
+    const file = dataURLtoFile(image, "treasure.jpeg");
+
+    requestUpload(file, uploadSuccess, uploadFail);
   }
 
   function uploadSuccess(res) {
@@ -78,15 +75,17 @@ export default function AddTreasure() {
     console.log(error);
   }
 
-  function uploadAction(image) {
-    const file = dataURLtoFile(image, "treasure.jpeg");
+  function dataURLtoFile(dataurl, filename) {
+    let arr = dataurl.split(","),
+      mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]),
+      n = bstr.length,
+      u8arr = new Uint8Array(n);
 
-    const data = {
-      game_id: 39,
-      file: file,
-    };
-
-    requestUpload(data, uploadSuccess, uploadFail);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], filename, { type: mime });
   }
 
   return (
@@ -113,13 +112,7 @@ export default function AddTreasure() {
       </GuidelineBox>
 
       <ButtonBox>
-        <Box
-          onClick={() => {
-            const photo = camera.current.takePhoto();
-            setImage(photo);
-            uploadAction(image);
-          }}
-        >
+        <Box onClick={onClickCamera}>
           <CircleButton icon="camera" size="large" opacity="0.8" />
         </Box>
       </ButtonBox>

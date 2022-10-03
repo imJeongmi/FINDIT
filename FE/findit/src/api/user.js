@@ -17,14 +17,12 @@ function requestUserInfo(userId, success, fail) {
   UserApi.get(`users/${userId}`).then(success).catch(fail);
 }
 
-
-function requestUpload(data, success, fail) {
+function requestUpload(img, success, fail) {
   axios
     .post(
-      "https://findit.life/fast/check",
+      "/users/treasures/add",
       {
-        game_id: data.game_id,
-        file: data.file,
+        img: img,
       },
       {
         headers: {
