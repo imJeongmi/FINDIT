@@ -116,6 +116,7 @@ public class UserServiceImpl implements UserService {
 
         result.put("nickname", currUser.getNickname());
         result.put("img", currUser.getIcon().getImageUrl());
+        result.put("userId", currUser.getUsername());
 
         return result;
     }

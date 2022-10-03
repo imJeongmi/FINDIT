@@ -12,7 +12,7 @@ import { requestLogin, requestUserInfo } from "api/user";
 import ls from "helper/LocalStorage";
 
 import { useDispatch } from "react-redux";
-import { setUserInfoToStore } from "stores/user";
+import { setUserInfoToStore } from "reducers/user";
 
 const LoginStyle = {
   mt: "5vh",
