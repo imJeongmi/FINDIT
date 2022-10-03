@@ -4,10 +4,11 @@ import CustomText from "components/atom/CustomText";
 import CustomButton from "components/atom/CustomButton";
 import RankingList from "components/module/RankingList";
 
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import { getWebsocket } from "helper/websocket";
 import ls from "helper/LocalStorage";
+import { useState } from "react";
 
 const CenterStyle = {
   margin: "7vh auto",
@@ -35,13 +36,17 @@ function PlayerButton() {
 
 
 export default function WaitPlaying() {
-
+  const location = useLocation();
+  const imgNum = location?.state?.imgNum
+  const nickname = location?.state?.nickname
+  const [sessionId, setSessionId] = useState("");
   // function isPlayer(target) {
   //   if (target === "user") return false;
   //   else return true;
   // }
   let { gameid } = useParams();
   const navigate = useNavigate();
+  const [players, setPlayers] = useState([]);
 
   function isGamePlayer() {
     const token = ls.get("accessToken");
@@ -63,25 +68,38 @@ export default function WaitPlaying() {
   // 소켓에서 보내는 메세지
   function getDataFromSocket(message) {
     const msg = JSON.parse(message.body)
-    console.log(message.body)
+    console.log(msg)
     if (isGamePlayer() && msg.status === "start") {
-      navigate(`/playing`)
-    } else if (isGamePlayer() && msg.status === "end") {
+      navigate(`/playing/${gameid}`, { state: { limiteMinute: msg.limitMinute, sessionId: sessionId } })
+    } else if (!isGamePlayer() && msg.status === "start") {
+      navigate(`/status/${gameid}`, { state: { limiteMinute: msg.limitMinute, } })
+    }
+    else if (isGamePlayer() && msg.status === "end") {
+      ws.deactivate();
       navigate(`/result/${gameid}`)
+    } else if (Array.isArray(msg)) {
+      setPlayers(msg)
+      const temp = msg.find(element => element.nickname === nickname)
+      console.log(temp)
+      if (temp) {
+        setSessionId(temp?.sessionId)
+      }
     }
   }
 
   ws.onConnect = function (frame) {
     console.log("연결됨")
     ws.subscribe(`/sub/room/${gameid}`, getDataFromSocket)
+    if (!!nickname) {
+      ws.publish({ destination: "/pub/enter", body: `${gameid},${imgNum},${nickname}` })
+    }
   }
 
   useEffect(() => {
-    if (!!gameid) {
+    if (!!ws && !!gameid) {
       ws.activate();
     }
   }, [gameid])
-
 
   function HostButton() {
     return (
@@ -104,13 +122,11 @@ export default function WaitPlaying() {
         </CustomText>
       </Box>
       <RankingBox>
-        <RankingList userName="김싸피" imgNum={0} />
-        <RankingList userName="이멀캠" imgNum={1} />
-        <RankingList userName="박역삼" imgNum={2} />
-        <RankingList userName="최문어" imgNum={3} />
-        <RankingList userName="김싸피" imgNum={4} />
-        <RankingList userName="김싸피" imgNum={5} />
-        <RankingList userName="김싸피" imgNum={6} />
+        {players.map((item, idx) => (
+          <Box key={idx}>
+            <RankingList userName={item.nickname} imgNum={0} />
+          </Box>
+        ))}
       </RankingBox>
       <Box sx={{ textAlign: "center" }}>
         {isGamePlayer() ? (
