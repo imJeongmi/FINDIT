@@ -1,4 +1,4 @@
-package a203.findit.controller;
+package a203.findit.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

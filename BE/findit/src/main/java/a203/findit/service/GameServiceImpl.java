@@ -16,36 +16,6 @@ public class GameServiceImpl implements GameService{
         this.gameRepository = gameRepository;
     }
 
-    @Override
-    public Map<String, String> startGame(String roomId, String username) {
-        // 방 id가 'roomId'인 방 시작
-
-        LocalDateTime now = LocalDateTime.now();
-
-
-        return null;
-    }
-
-    @Override
-    public ResponseEntity getGameDetail(String roomId, String username) {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity findTreasure(String roomId, String username) {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity getRank(String roomId, String username) {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity getScores(String roomId, String username) {
-        return null;
-    }
-
     public Game find(String entercode){
         return gameRepository.findByEnterCode(entercode).orElseGet(null);
     }
