@@ -3,10 +3,11 @@ import { Box, styled } from "@mui/system";
 import CustomButton from "components/atom/CustomButton";
 import CustomText from "components/atom/CustomText";
 import RankingList from "components/module/RankingList";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { getWebsocket } from "helper/websocket";
 import { useEffect } from "react";
 import Timer from "components/module/Timer";
+import { useState } from "react";
 
 const CenterStyle = {
   margin: "7vh 0 5vh 0",
@@ -30,10 +31,14 @@ const RankingBox = styled(Box)(
     `,
 );
 
-
-export default function GameStatus({ target }) {
+export default function GameStatus() {
   const { gameid } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
+  const limitMinute = location?.state?.limitMinute
+  const [target, setTarget] = useState(0);
+  const [ranking, setRanking] = useState([]);
+
   function DeactivateButton() {
     return (
       <CustomButton size="large" color="secondary">
@@ -43,26 +48,36 @@ export default function GameStatus({ target }) {
   }
 
   function finishGame() {
-    ws.publish({ destination: "/pub/finish", body: `${gameid}`})
+    ws.publish({ destination: "/pub/finish", body: `${gameid}` })
     navigate(`/result/${gameid}`)
+    ws.deactivate();
   }
 
-  function getDataFromSocket(message) {
-    console.log(message.body)
+  function getRankFromSocket(message) {
+    const msg = JSON.parse(message.body)
+    setRanking(msg)
   }
 
+  function checkEnd() {
+    setTarget(1)
+  }
   const ws = getWebsocket();
-
-  ws.onConnect = function (frame) {
-    console.log("연결됨")
-    ws.subscribe(`/sub/room/${gameid}`, getDataFromSocket)
-  }
 
   useEffect(() => {
     if (!!gameid) {
-      ws.activate();
+      ws.subscribe(`/sub/rank/${gameid}`, getRankFromSocket)
+      ws.subscribe(`/sub/private/${gameid}`, checkEnd)
     }
-  }, [gameid])
+  }, [ws, gameid])
+
+// target 값 변동 시, 실행
+  useEffect(() => {
+    isFinished(target)
+  }, [target])
+
+  function isFinished(target) {
+    if (target !== 0) return true;
+  }
 
   function ActivateButton() {
     return (
@@ -78,10 +93,7 @@ export default function GameStatus({ target }) {
     );
   }
 
-  function isFinished(target) {
-    target = 1;
-    if (target !== 0) return true;
-  }
+
 
 
   return (
@@ -91,18 +103,12 @@ export default function GameStatus({ target }) {
           남은 시간
         </CustomText>
         <br />
-        <Timer limitMinute={10} target="user"/>
+        <Timer limitMinute={limitMinute} target="user" />
       </Box>
       <RankingBox>
-        <RankingList rankNum={1} userName="김싸피" gameScore={350} imgNum={0} />
-        <RankingList rankNum={2} userName="이멀캠" gameScore={220} imgNum={1} />
-        <RankingList rankNum={3} userName="박역삼" gameScore={160} imgNum={2} />
-        <RankingList rankNum={4} userName="최문어" gameScore={140} imgNum={3} />
-        <RankingList rankNum={5} userName="김싸피" gameScore={110} imgNum={4} />
-        <RankingList rankNum={6} userName="김싸피" gameScore={90} imgNum={5} />
-        <RankingList rankNum={7} userName="김싸피" gameScore={80} imgNum={6} />
+        {ranking.map((item, idx) => (<RankingList key={idx} rankNum={item.rank} userName={item.nickname} gameScore={item.score} imgNum={item.profileImg} />))}
       </RankingBox>
-      <Box>{isFinished(target) ? <ActivateButton /> : <DeactivateButton />}</Box>
+      <Box>{isFinished ? (<ActivateButton />) : (<DeactivateButton />)}</Box>
     </Box>
   );
 }
