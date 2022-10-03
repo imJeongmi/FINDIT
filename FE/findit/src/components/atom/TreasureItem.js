@@ -31,6 +31,7 @@ export default function TreasureItem({
   alt,
   isReadPage,
   idx,
+  finded,
 }) {
   const [isSelected, setIsSelected] = useState(false);
 
@@ -71,8 +72,9 @@ export default function TreasureItem({
           <TreasureImage
             src={src}
             alt={alt}
-            style={{ filter: isSelected ? "brightness(40%)" : "brightness(100%)" }}
+            style={{ filter: isSelected || finded ? "brightness(40%)" : "brightness(100%)" }}
           />
+          {console.log(`key: ${idx}, finded: ${finded}`)}
           {/* {isSelected && <Box style={{ display: "fixed", backgroundColor: "black" }} />} */}
         </label>
       </TreasureBox>

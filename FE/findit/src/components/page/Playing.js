@@ -112,7 +112,9 @@ export default function Playing() {
 
   function uploadSuccess(res) {
     const tid = res.data.message;
-    setFindedTreasures(findedTreasures => [...findedTreasures, tid]);
+    if (tid != "NOT TREASURE") {
+      setFindedTreasures(findedTreasures => [...findedTreasures, tid]);
+    }
     console.log(`findedTreasures : ${findedTreasures}`);
 
     ws.publish({ destination: "/pub/find", body: `${gameid},${tid}` });
@@ -228,6 +230,7 @@ export default function Playing() {
       {modalOpen === 1 && <PlayingRanking setModalOpen={setModalOpen} ranking={ranking} />}
       {modalOpen === 2 && (
         <PlayingTreasureList setModalOpen={setModalOpen} findedTreasures={findedTreasures} />
+        // <PlayingTreasureList setModalOpen={setModalOpen} findedTreasures={[0, 3, "NOT TREASURE"]} />
       )}
     </Box>
   );
