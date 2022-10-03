@@ -57,6 +57,7 @@ public class PlayerController {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("nickname",playerInfoDTO.getNickname());
             jsonObject.put("sessionId",playerInfoDTO.getSessionId());
+            jsonObject.put("profileImg",playerInfoDTO.getProfileImg());
             jsonArray.add(jsonObject);
         }
 //        simpMessagingTemplate.convertAndSend("/sub/room/"+entercode,test);
