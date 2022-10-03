@@ -74,9 +74,12 @@ export default function PlayingTreasureList({ setModalOpen, findedTreasures }) {
             {treasureList.map((treasure, key) => (
               <Box key={key}>
                 {treasure !== null && (
-                  <Box style={{ filter: findedTreasures.includes(String(key)) ? "brightness(40%)" : "brightness(100%)" }}>
-                    <TreasureItem src={treasure} alt="treasure" isReadPage="true" />
-                  </Box>
+                  <TreasureItem
+                    src={treasure}
+                    alt="treasure"
+                    isReadPage="false"
+                    finded={findedTreasures.includes(key)}
+                  />
                 )}
               </Box>
             ))}
