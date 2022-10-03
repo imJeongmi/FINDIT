@@ -72,7 +72,7 @@ public class PlayerServiceImpl implements PlayerService {
         }
 
         afterFindDTO.setFinalscore(playerRepository.getFinalScore(effectIndex, entercode,sessionId, plusscore));
-        playerRepository.saveTreasure(beforeFindDTO,sessionId,afterFindDTO);
+        playerRepository.setScoreforPlayer(beforeFindDTO,sessionId,afterFindDTO);
         return afterFindDTO;
     }
 
