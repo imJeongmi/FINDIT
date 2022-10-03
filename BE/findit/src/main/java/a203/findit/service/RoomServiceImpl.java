@@ -16,6 +16,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.ZoneId;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,6 +29,7 @@ public class RoomServiceImpl implements RoomService{
     private final UserRepository userRepository;
     private final GameRepository gameRepository;
     private final MemoryRoomRepository roomRepository;
+    private final MemoryPlayerRepository playerRepository;
 
 
     @Transactional
@@ -50,7 +52,7 @@ public class RoomServiceImpl implements RoomService{
         game.setEntercode(entercode);
         gameRepository.save(game);
 
-        return roomRepository.save(entercode,game, mode);
+        return roomRepository.save(entercode,game, mode,limitMinute);
     }
     public RoomDTO find(String entercode){
         return roomRepository.findByEnterCode(entercode);
@@ -82,5 +84,11 @@ public class RoomServiceImpl implements RoomService{
         //inmemory
         roomRepository.findByEnterCode(entercode).setStartTime(now);
         return roomRepository.findByEnterCode(entercode);
+    }
+
+    public void addIgtInmemory(List<Long> tids ,String entercode){
+        for(Long tid : tids){
+            roomRepository.findByEnterCode(entercode).getIgts().add(tid);
+        }
     }
 }

@@ -1,5 +1,5 @@
-import { React, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import { Box } from "@mui/system";
@@ -13,6 +13,8 @@ import RefreshIcon from "static/refresh.png";
 
 import { requestLogout } from "api/user";
 import { requestUpdateProfile } from "api/host";
+
+import { getWebsocket } from "helper/websocket";
 
 import ls from "helper/LocalStorage";
 
@@ -32,10 +34,60 @@ const IconStyle = {
 };
 
 function PlayerProfile() {
-  const [imgNum, setImgNum] = useState("0");
+  const [nickname, setNickname] = useState();
+  const navigate = useNavigate();
+  const { gameid } = useParams();
+  const [imgNum, setImgNum] = useState("1");
+
+  function isGamePlayer() {
+    const token = ls.get("accessToken");
+    if (token) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 
   function onClickRefresh() {
     setImgNum(Math.floor(Math.random() * 10));
+  }
+
+  function onChangeNickname(e) {
+    const nickname = e.target.value;
+    setNickname(nickname);
+  }
+
+  const ws = getWebsocket();
+
+  function getDataFromSocket(message) {
+    const msg = JSON.parse(message.body)
+    console.log(msg)
+    if (isGamePlayer() && msg.status === "start") {
+      navigate(`/playing`)
+    } else if (isGamePlayer() && msg.status === "end") {
+      navigate(`/result/${gameid}`)
+    }
+  }
+
+  ws.onConnect = function (frame) {
+    console.log("연결됨")
+    ws.subscribe(`/sub/room/${gameid}`, getDataFromSocket)
+  }
+
+  useEffect(() => {
+    if (!!gameid) {
+      ws.activate();
+    }
+  }, [gameid])
+
+  function sendPlayerToWaiting(e) {
+    e.preventDefault();
+    // const data = {
+    //   gameid,imgNum,nickname
+    // }
+    // ws.publish({ destination: "/pub/enter", body: JSON.stringify(data) })
+    ws.publish({ destination: "/pub/enter", body: `${gameid},${imgNum},${nickname}` })
+    navigate(`/waiting/${gameid}`)
   }
 
   return (
@@ -53,9 +105,9 @@ function PlayerProfile() {
       </Box>
       <Box>
         <CustomText>닉네임을 등록해주세요</CustomText>
-        <Input type="text" placeholder="닉네임"></Input>
+        <Input type="text" placeholder="닉네임" onChange={onChangeNickname}></Input>
       </Box>
-      <CustomButton size="large" color="primary">
+      <CustomButton size="large" color="primary" onClick={sendPlayerToWaiting}>
         확인
       </CustomButton>
     </Box>

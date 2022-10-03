@@ -14,10 +14,7 @@ import javax.persistence.GenerationType;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 @Setter
@@ -39,15 +36,21 @@ public class RoomDTO {
 
     private String enterCode;
 
-    public HashMap<HttpSession, PlayerInfoDTO> playerInfoDTOBySessionId;
+    public ArrayList<String> sessionIds;
+
+    public HashMap<String, PlayerInfoDTO> playerInfoDTOBySessionId;
     
-    public HashMap<Long, Set<HttpSession>> sessionIdByIGTID;
+//    public HashMap<Long, Set<String>> sessionIdByIGTID;
+
+    public ArrayList<Long> igts;
 
     public RoomDTO (Game game){
         this.roomId = game.getId();
         this.userId = game.getUser().getId();
         this.limitminute = game.getLimitMin();
+        this.sessionIds = new ArrayList<>();
         this.playerInfoDTOBySessionId = new HashMap<>();
-        this.sessionIdByIGTID = new HashMap<>();
+//        this.sessionIdByIGTID = new HashMap<>();
+        this.igts = new ArrayList<>();
     }
 }

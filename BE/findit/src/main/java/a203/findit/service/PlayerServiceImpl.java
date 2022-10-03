@@ -23,30 +23,35 @@ public class PlayerServiceImpl implements PlayerService {
     final private MemoryPlayerRepository playerRepository;
     final private MemoryRoomRepository roomRepository;
 
-    public void join(PlayerEnterDTO playerEnterDTO, HttpSession sessionId){
+    public void join(PlayerEnterDTO playerEnterDTO, String sessionId){
         playerRepository.save(playerEnterDTO,sessionId);
+//        playerRepository.init(sessionId);
     }
 
     public List<PlayerInfoDTO> findAll(String entercode){
         return playerRepository.getAllPlayers(entercode);
     }
 
-    public AfterFindDTO findTreasure(BeforeFindDTO beforeFindDTO, HttpSession sessionId){
+    public AfterFindDTO findTreasure(BeforeFindDTO beforeFindDTO, String sessionId){
         AfterFindDTO afterFindDTO = new AfterFindDTO();
 
         String entercode = beforeFindDTO.getEntercode();
         Long treasureId = beforeFindDTO.getTreasureId();
-        int cnt = playerRepository.igtidCnt(entercode, treasureId);
+
+        PlayerInfoDTO playerInfoDTO = playerRepository.findPlayerInfoDTO(entercode, sessionId);
+
+        int cnt = playerRepository.howManyPeopleFoundTid(treasureId);
         int plusscore = 50;
-        if(playerRepository.isExistSame(entercode, treasureId,sessionId)) return new AfterFindDTO();
+        if(playerRepository.isExistSame(sessionId, treasureId)) return new AfterFindDTO();
         else{
-            playerRepository.addIgtPlayer(entercode, treasureId,sessionId);
+            playerRepository.addIgtPlayer(sessionId, treasureId);
+            playerInfoDTO.setCount(playerInfoDTO.getCount() + 1);
             if(cnt==0){
                 //100점
                 plusscore =100;
             }
             else if(cnt==1){
-                //80
+                //80 => 버그 수정하기 두번째로 찾으면 60뜸 ㅠ
                 plusscore =80;
             }
             else if(cnt==2){
@@ -57,15 +62,17 @@ public class PlayerServiceImpl implements PlayerService {
         afterFindDTO.setPlusscore(plusscore);
         afterFindDTO.setRank(cnt+1);
         int effectIndex = -1;
-        if(playerRepository.whatMode(entercode) == Mode.RANDOM){
+        if(playerRepository.whatMode(entercode).equals(Mode.RANDOM)){
             effectIndex = ThreadLocalRandom.current().nextInt(0, 10); //0~9사이
-            afterFindDTO.setEffect(effectIndex);
         }
-        else{
-            afterFindDTO.setEffect(effectIndex);
+        afterFindDTO.setEffect(effectIndex);
+        // 만약 보물을 다 찾았다면
+        if(playerInfoDTO.getCount() == roomRepository.findByEnterCode(entercode).getIgts().size()) {
+            afterFindDTO.setFindAll(true);
         }
+
         afterFindDTO.setFinalscore(playerRepository.getFinalScore(effectIndex, entercode,sessionId, plusscore));
-        playerRepository.saveTreasure(beforeFindDTO,sessionId,afterFindDTO);
+        playerRepository.setScoreforPlayer(beforeFindDTO,sessionId,afterFindDTO);
         return afterFindDTO;
     }
 

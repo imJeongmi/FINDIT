@@ -6,8 +6,8 @@ import RankingList from "components/module/RankingList";
 
 import { useNavigate, useParams } from "react-router-dom";
 
-import ss from "helper/SessionStorage";
 import { getWebsocket } from "helper/websocket";
+import ls from "helper/LocalStorage";
 
 const CenterStyle = {
   margin: "7vh auto",
@@ -43,10 +43,9 @@ export default function WaitPlaying() {
   let { gameid } = useParams();
   const navigate = useNavigate();
 
-  function isPlayer() {
-    const playeraccessToken = ss.get("playeraccessToken");
-    console.log(playeraccessToken);
-    if (playeraccessToken) {
+  function isGamePlayer() {
+    const token = ls.get("accessToken");
+    if (!token) {
       return true;
     } else {
       return false;
@@ -57,13 +56,19 @@ export default function WaitPlaying() {
 
   function startGame(e) {
     e.preventDefault();
-    ws.publish({ destination: "/pub/gamestart", headers: { entercode: gameid } })
+    ws.publish({ destination: "/pub/gamestart", body: `${gameid}` })
     navigate(`/status/${gameid}`)
   }
 
   // 소켓에서 보내는 메세지
   function getDataFromSocket(message) {
+    const msg = JSON.parse(message.body)
     console.log(message.body)
+    if (isGamePlayer() && msg.status === "start") {
+      navigate(`/playing`)
+    } else if (isGamePlayer() && msg.status === "end") {
+      navigate(`/result/${gameid}`)
+    }
   }
 
   ws.onConnect = function (frame) {
@@ -108,7 +113,7 @@ export default function WaitPlaying() {
         <RankingList userName="김싸피" imgNum={6} />
       </RankingBox>
       <Box sx={{ textAlign: "center" }}>
-        {isPlayer() ? (
+        {isGamePlayer() ? (
           // <Link to="/tutorial">
           // </Link>
           <PlayerButton />

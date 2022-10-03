@@ -116,6 +116,7 @@ public class UserServiceImpl implements UserService {
 
         result.put("nickname", currUser.getNickname());
         result.put("img", currUser.getIcon().getImageUrl());
+        result.put("userId", currUser.getUsername());
 
         return result;
     }
@@ -196,7 +197,12 @@ public class UserServiceImpl implements UserService {
         );
 
 
-        Treasure newTreasure = Treasure.builder().treasureName(treasureName).user(currUser).imageUrl(awsService.imageUpload(img)).isDefault(false).build();
+        Treasure newTreasure = Treasure.builder()
+//                .treasureName(treasureName)
+                .user(currUser)
+                .imageUrl(awsService.imageUpload(img))
+                .isDefault(false)
+                .build();
         IGT igt = IGT.builder().game(game).treasure(newTreasure).build();
 
         treasureRepos.save(newTreasure);
@@ -206,8 +212,33 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean createTreasure(String username, String treasureName, MultipartFile img) {
+        User currUser = userRepos.findByUsername(username).orElseThrow(
+                () -> new CustomException(Code.C403)
+        );
+
+        treasureRepos.save(Treasure.builder()
+//                .treasureName(treasureName)
+                .user(currUser)
+                .imageUrl(awsService.imageUpload(img))
+                .isDefault(false)
+                .build());
+
+        return true;
+    }
+
+    @Override
     public List<String> getTreasure() {
-        List<Treasure> treasureList = treasureRepos.findAll();
+        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userRepos.findByUsername(principal.getUsername()).orElseThrow(
+                ()->new CustomException(Code.C403)
+        );
+
+        List<Treasure> treasureList = treasureRepos.findByIsDefault(true);
+        List<Treasure> customTreasureList = treasureRepos.findByUser(user);
+
+        treasureList.addAll(customTreasureList);
+
         List<String> treasures = treasureList.stream().map(x -> x.getImageUrl()).collect(Collectors.toList());
         return treasures;
     }
@@ -227,8 +258,6 @@ public class UserServiceImpl implements UserService {
         }
 
         igtRepos.saveAll(igtList);
-
-        playerRepository.init(entercode);
 
         return true;
     }

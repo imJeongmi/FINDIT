@@ -21,7 +21,7 @@ public class RankingServiceImpl {
             Ranking ranking = new Ranking();
             ranking.setGame_entercode(entercode);
             ranking.setPlayer_nickname(playerInfo.getNickname());
-            ranking.setPlayer_rank(i+1);
+            ranking.setPlayer_rank(playerInfo.getRank());
             ranking.setPlayer_score(playerInfo.getScore());
             rankingRepository.save(ranking);
         }

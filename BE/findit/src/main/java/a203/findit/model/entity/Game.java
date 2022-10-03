@@ -1,17 +1,10 @@
 package a203.findit.model.entity;
 
-import a203.findit.util.JsonToMapConverter;
-import com.vladmihalcea.hibernate.type.json.JsonType;
 import lombok.*;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.time.Period;
-import java.util.HashMap;
-import java.util.Map;
 
 @Entity
 @Table(name = "game")

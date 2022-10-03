@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RoomRepository {
-    public RoomDTO save(String entercode, Game game, Mode mode);
+    public RoomDTO save(String entercode, Game game, Mode mode, int limitMinute);
 }
