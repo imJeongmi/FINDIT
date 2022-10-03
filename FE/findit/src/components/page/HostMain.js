@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Box, styled } from "@mui/system";
@@ -9,7 +9,6 @@ import ProfileImage from "components/atom/ProfileImage";
 import MainPageButton from "components/module/MainPageButton";
 
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
 
 const StyledHeader = styled(Box)(
   () => `
@@ -50,7 +49,6 @@ const StyledProfileBox = styled(Box)(
 export default function HostMain() {
   const navigate = useNavigate();
   const user = useSelector(state => state.user.info);
-  // const hostNickname = "player1234";
   const [hostNickname, setHostNickname] = useState("");
   const [hostProfileImg, setHostProfileImg] = useState("");
 
