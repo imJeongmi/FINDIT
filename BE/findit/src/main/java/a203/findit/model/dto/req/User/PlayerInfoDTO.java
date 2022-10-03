@@ -20,7 +20,7 @@ public class PlayerInfoDTO {
     private String sessionId;
     private int rank;
     private String entercode;
-
+    private int count;
     // sessionId, set of igtid
     public ArrayList<Long> IGTIds;
 
@@ -32,5 +32,6 @@ public class PlayerInfoDTO {
         this.score = 0;
         this.IGTIds = new ArrayList<>();
         this.rank = 0;
+        this.count = 0;
     }
 }

@@ -37,11 +37,15 @@ public class PlayerServiceImpl implements PlayerService {
 
         String entercode = beforeFindDTO.getEntercode();
         Long treasureId = beforeFindDTO.getTreasureId();
+
+        PlayerInfoDTO playerInfoDTO = playerRepository.findPlayerInfoDTO(entercode, sessionId);
+
         int cnt = playerRepository.howManyPeopleFoundTid(treasureId);
         int plusscore = 50;
         if(playerRepository.isExistSame(sessionId, treasureId)) return new AfterFindDTO();
         else{
             playerRepository.addIgtPlayer(sessionId, treasureId);
+            playerInfoDTO.setCount(playerInfoDTO.getCount() + 1);
             if(cnt==0){
                 //100점
                 plusscore =100;
@@ -62,6 +66,11 @@ public class PlayerServiceImpl implements PlayerService {
             effectIndex = ThreadLocalRandom.current().nextInt(0, 10); //0~9사이
         }
         afterFindDTO.setEffect(effectIndex);
+        // 만약 보물을 다 찾았다면
+        if(playerInfoDTO.getCount() == roomRepository.findByEnterCode(entercode).getIgts().size()) {
+            afterFindDTO.setFindAll(true);
+        }
+
         afterFindDTO.setFinalscore(playerRepository.getFinalScore(effectIndex, entercode,sessionId, plusscore));
         playerRepository.saveTreasure(beforeFindDTO,sessionId,afterFindDTO);
         return afterFindDTO;
