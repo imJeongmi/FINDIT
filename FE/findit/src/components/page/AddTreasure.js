@@ -93,9 +93,10 @@ export default function AddTreasure() {
   }
 
 function exitAddTreasure(e) {
-e.preventDefault();
-navigate(`/treasure/${entercode}`)
-}  
+  e.preventDefault();
+  window.history.back();
+}
+  
   return (
     <Box>
       <Camera
