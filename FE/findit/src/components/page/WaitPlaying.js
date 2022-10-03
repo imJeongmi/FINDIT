@@ -70,20 +70,20 @@ export default function WaitPlaying() {
     const msg = JSON.parse(message.body)
     console.log(msg)
     if (isGamePlayer() && msg.status === "start") {
-      navigate(`/playing/${gameid}`, { state: { limiteMinute: msg.limitMinute, sessionId: sessionId } })
+      navigate(`/playing/${gameid}`, { state: { limitMinute: msg?.limitminute, sessionId: sessionId } })
     } else if (!isGamePlayer() && msg.status === "start") {
-      navigate(`/status/${gameid}`, { state: { limiteMinute: msg.limitMinute, } })
+      navigate(`/status/${gameid}`, { state: { limitMinute: msg?.limitminute } })
     }
     else if (isGamePlayer() && msg.status === "end") {
       ws.deactivate();
       navigate(`/result/${gameid}`)
     } else if (Array.isArray(msg)) {
       setPlayers(msg)
-      const temp = msg.find(element => element.nickname === nickname)
-      console.log(temp)
-      if (temp) {
-        setSessionId(temp?.sessionId)
-      }
+      // const temp = msg.find(element => element.nickname === nickname)
+      // console.log(temp)
+      // if (temp) {
+      //   setSessionId(temp?.sessionId)
+      // }
     }
   }
 
