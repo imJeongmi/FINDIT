@@ -134,7 +134,7 @@ export default function WaitPlaying() {
       <RankingBox>
         {players.map((item, idx) => (
           <Box key={idx}>
-            <RankingList userName={item.nickname} imgNum={0} />
+            <RankingList userName={item.nickname} imgNum={item.profileImg} />
           </Box>
         ))}
       </RankingBox>
