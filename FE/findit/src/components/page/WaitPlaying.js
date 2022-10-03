@@ -70,11 +70,11 @@ export default function WaitPlaying() {
   function getDataFromSocket(message) {
     const msg = JSON.parse(message.body);
     console.log(msg);
-    if (isGamePlayer() && msg.status === "start") {
+    if (!isGamePlayer() && msg.status === "start") {
       navigate(`/playing/${gameid}`, {
         state: { limitMinute: msg?.limitminute },
       });
-    } else if (!isGamePlayer() && msg.status === "start") {
+    } else if (isGamePlayer() && msg.status === "start") {
       navigate(`/status/${gameid}`, { state: { limitMinute: msg?.limitminute } });
     } else if (isGamePlayer() && msg.status === "end") {
       ws.deactivate();
