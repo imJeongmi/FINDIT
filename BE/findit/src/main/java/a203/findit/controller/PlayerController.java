@@ -94,7 +94,7 @@ public class PlayerController {
             temp.put("sessionId", playerInfoDTO.getSessionId());
             rankJson.add(temp);
         }
-        simpMessagingTemplate.convertAndSend("/sub/room/"+entercode,rankJson);
+        simpMessagingTemplate.convertAndSend("/sub/rank/"+entercode,rankJson);
 
         //크기 비교해서 다 찾은 사람 있는지 확인하고 있으면 IF
         if(afterFindDTO.isFindAll()) {
