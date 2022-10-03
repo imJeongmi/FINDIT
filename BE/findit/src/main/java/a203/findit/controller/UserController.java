@@ -67,7 +67,7 @@ public class UserController {
             if (customException.getCode() == Code.C401) {
                 return ResponseEntity.badRequest().body("인증에 실패했습니다.");
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().body("로그인에 실패하였습니다.");
         }
@@ -142,14 +142,12 @@ public class UserController {
     public ResponseEntity createTreasure(@RequestPart(value = "data") ReqCreateTreasureDTO reqCreateTreasureDTO, @RequestPart(value = "img") MultipartFile img) {
         UserDetails currUser = (UserDetails) (SecurityContextHolder.getContext().getAuthentication()).getPrincipal();
 
-        if (reqCreateTreasureDTO.getGameId() == null) {
-            throw new CustomException(Code.C401);
+        if (userService.createTreasure(currUser.getUsername(), reqCreateTreasureDTO.getTreasureName(), img)) {
+            return ResponseEntity.ok().body("생성되었습니다.");
+        } else {
+            return ResponseEntity.badRequest().body("잘못된 요청입니다.");
         }
 
-        if (userService.createTreasure(currUser.getUsername(), reqCreateTreasureDTO.getTreasureName(), reqCreateTreasureDTO.getGameId(), img)) {
-            return ResponseEntity.ok().body("생성되었습니다.");
-        }
-        return ResponseEntity.badRequest().body("잘못된 요청입니다.");
     }
 
     @GetMapping("/treasures")
@@ -160,7 +158,7 @@ public class UserController {
     @PostMapping("/treasures")
     public ResponseEntity selectTreasure(@RequestBody ReqSelectTreasure reqSelectTreasure) {
         if (userService.selectTreasure(reqSelectTreasure.getTid(), reqSelectTreasure.getEntercode())) {
-            roomService.addIgtInmemory(reqSelectTreasure.getTid(),reqSelectTreasure.getEntercode());
+            roomService.addIgtInmemory(reqSelectTreasure.getTid(), reqSelectTreasure.getEntercode());
             return ResponseEntity.ok().body("선택완료");
         }
         return ResponseEntity.badRequest().body("선택실패");
