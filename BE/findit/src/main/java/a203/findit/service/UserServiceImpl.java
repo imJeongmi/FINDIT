@@ -133,8 +133,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean updateImg(Long userId, String img) {
-        User user = userRepos.findById(userId).orElseThrow(
+    public boolean update(String userId, String nickname, Long img) {
+        User user = userRepos.findByUsername(userId).orElseThrow(
                 () -> new CustomException(Code.C403)
         );
 
@@ -144,10 +144,11 @@ public class UserServiceImpl implements UserService {
             throw new CustomException(Code.C404);
         }
 
-        Icon icon = iconRepos.findByImageUrl(img).orElseThrow(
+        Icon icon = iconRepos.findById(img).orElseThrow(
                 () -> new CustomException(Code.C401)
         );
 
+        user.setNickname(nickname);
         user.setIcon(icon);
         userRepos.save(user);
 

@@ -1,7 +1,6 @@
 package a203.findit.controller;
 
 import a203.findit.exception.CustomException;
-import a203.findit.model.dto.req.ReqCreateTreasureDTO;
 import a203.findit.model.dto.req.ReqSelectTreasure;
 import a203.findit.model.dto.req.ReqUpdateImgDTO;
 import a203.findit.model.dto.req.ReqUpdatePwDTO;
@@ -9,14 +8,10 @@ import a203.findit.model.dto.req.User.CreateUserDTO;
 import a203.findit.model.dto.req.User.LoginUserDTO;
 import a203.findit.model.dto.req.User.UpdateFormDTO;
 import a203.findit.model.dto.res.Code;
-import a203.findit.model.repository.MemoryRoomRepository;
-import a203.findit.service.RoomService;
 import a203.findit.service.RoomServiceImpl;
 import a203.findit.service.UserService;
-import a203.findit.util.AwsService;
 import a203.findit.util.SetCookie;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,7 +23,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -110,9 +104,9 @@ public class UserController {
     }
 
     @PostMapping("/{userId}/update")
-    public ResponseEntity updateImg(@PathVariable("userId") Long userId, @RequestBody ReqUpdateImgDTO reqUpdateImgDTO) {
+    public ResponseEntity updateImg(@PathVariable("userId") String userId, @RequestBody ReqUpdateImgDTO reqUpdateImgDTO) {
         System.out.println(reqUpdateImgDTO.getImg());
-        if (userService.updateImg(userId, reqUpdateImgDTO.getImg())) {
+        if (userService.update(userId, reqUpdateImgDTO.getNickname(), reqUpdateImgDTO.getImg())) {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.badRequest().body("잘못된 요청입니다.");

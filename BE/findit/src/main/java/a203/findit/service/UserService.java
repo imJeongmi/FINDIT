@@ -23,7 +23,7 @@ public interface UserService {
 
     Map<String, Object> updateForm(UpdateFormDTO nickname);
 
-    boolean updateImg(Long userId, String img);
+    boolean update(String userId, String nickname, Long img);
 
     boolean updatePw(Long userId, String pw, String username);
 
