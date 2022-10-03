@@ -4,8 +4,8 @@ import ss from "../helper/SessionStorage";
 
 // configuration
 const PlayerApi = axios.create({
-  baseURL: "https://findit.life/api/v1/",
-  // baseURL: "http://localhost:8399/api/v1/",
+  // baseURL: "https://findit.life/api/v1/",
+  baseURL: "http://localhost:8399/api/v1/",
   headers: {
     "Content-Type": "application/json",
   },
