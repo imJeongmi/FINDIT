@@ -13,6 +13,8 @@ import { useNavigate } from "react-router-dom";
 
 import { requestEnter } from "api/player";
 
+import "./compass.scss";
+
 export default function EnterVerificationCode() {
   const [enterCode, setEnterCode] = useState("");
   const navigate = useNavigate();
@@ -36,7 +38,7 @@ export default function EnterVerificationCode() {
   return (
     <Box sx={{ textAlign: "center" }}>
       <Box sx={{ mt: "3vh" }}>
-        <img src={compass} alt="compass" width="100"></img>
+        <img src={compass} alt="compass" width="100" className="floating-small"></img>
       </Box>
       <Modal>
         <Box sx={{ textAlign: "center", my: 10 }}>
