@@ -68,8 +68,8 @@ public class MemoryPlayerRepository implements PlayerRepository {
      igtid에서 같은 entercode 내에 igtid와 sessionid가 같은게 있는지 확인 => bool
      */
     public boolean isExistSame(String sessionId, Long igtid){
-        if(findBySessionId(sessionId)==null) System.out.println("1wrong");
-        if(findBySessionId(sessionId).getIGTIds()==null) System.out.println("2wrong");
+//        if(findBySessionId(sessionId)==null) System.out.println("1wrong");
+//        if(findBySessionId(sessionId).getIGTIds()==null) System.out.println("2wrong");
         if(findBySessionId(sessionId).getIGTIds().isEmpty()) return false;
         for(Long id : findBySessionId(sessionId).getIGTIds()){
             if(id == igtid) return true;
@@ -88,7 +88,9 @@ public class MemoryPlayerRepository implements PlayerRepository {
         int cnt=0;
         for(PlayerInfoDTO playerInfoDTO : playerInfoDTOSInMemory){
             for(Long tid : playerInfoDTO.getIGTIds()){
-                if(tid == igtid) cnt++;
+                if(tid == igtid) {
+                    cnt++;
+                }
             }
         }
         return cnt;
@@ -142,9 +144,9 @@ public class MemoryPlayerRepository implements PlayerRepository {
     /*
     인메모리에 저장하기
     * */
-    public void saveTreasure(BeforeFindDTO beforeFindDTO, String sessionId, AfterFindDTO afterFindDTO){
+    public void setScoreforPlayer(BeforeFindDTO beforeFindDTO, String sessionId, AfterFindDTO afterFindDTO){
         roomRepository.findByEnterCode(beforeFindDTO.getEntercode()).getPlayerInfoDTOBySessionId().get(sessionId).setScore(afterFindDTO.getFinalscore());
-        findBySessionId(sessionId).getIGTIds().add(beforeFindDTO.getTreasureId());
+//        findBySessionId(sessionId).getIGTIds().add(beforeFindDTO.getTreasureId());
     }
 
     /*
