@@ -46,6 +46,6 @@ function getMarginY(mb) {
   }
 }
 
-export default function ProfileImage({ type, mb, num }) {
-  return <Image type={type} src={ProfileImgs[num]} mb={mb}></Image>;
+export default function ProfileImage({ type, mb, src }) {
+  return <Image type={type} src={src} mb={mb}></Image>;
 }
