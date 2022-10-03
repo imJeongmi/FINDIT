@@ -92,7 +92,7 @@ export default function Playing() {
   const [findedTreasures, setFindedTreasures] = useState([]);
   const location = useLocation();
   const limitMinute = location?.state?.limitMinute;
-  const sessionId = location?.state?.sessionId;
+  const sessionId = ss.get("sessionId");
 
   function onClickCamera() {
     const image = camera.current.takePhoto();
@@ -110,11 +110,11 @@ export default function Playing() {
     requestUpload(data, uploadSuccess, uploadFail);
   }
 
-  function uploadSuccess(res) {    
+  function uploadSuccess(res) {
     const tid = res.data.message;
     setFindedTreasures(findedTreasures => [...findedTreasures, tid]);
     console.log(`findedTreasures : ${findedTreasures}`);
-    
+
     ws.publish({ destination: "/pub/find", body: `${gameid},${tid}` });
   }
 
@@ -155,7 +155,6 @@ export default function Playing() {
     const msg = JSON.parse(message.body);
     setFinalScore(msg?.finalscore);
   }
-
   useEffect(() => {
     if (!!gameid && !!sessionId) {
       ws.subscribe(`/sub/player/${sessionId}`, getScoreFromSocket);

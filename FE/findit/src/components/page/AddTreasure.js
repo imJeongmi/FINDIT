@@ -53,7 +53,6 @@ const ButtonBox = styled(Box)(
 export default function AddTreasure() {
   const camera = useRef(null);
   const [numberOfCameras, setNumberOfCameras] = useState(0);
-  const [image, setImage] = useState(null);
   const navigate = useNavigate();
   const entercode = ls.get('entercode')
 
