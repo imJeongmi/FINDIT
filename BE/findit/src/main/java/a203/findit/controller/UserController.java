@@ -34,7 +34,6 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
-@CrossOrigin
 public class UserController {
 
     private final UserService userService;
@@ -55,7 +54,7 @@ public class UserController {
                 return ResponseEntity.badRequest().body("중복입니다.");
             }
         }
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body("생성완료");
     }
 
     @PostMapping("/login")
@@ -68,11 +67,11 @@ public class UserController {
             if (customException.getCode() == Code.C401) {
                 return ResponseEntity.badRequest().body("인증에 실패했습니다.");
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.internalServerError().body("서버 에러");
+            return ResponseEntity.internalServerError().body("로그인에 실패하였습니다.");
         }
-        return ResponseEntity.internalServerError().build();
+        return ResponseEntity.internalServerError().body("서버 에러");
 
 
     }
@@ -117,7 +116,7 @@ public class UserController {
         if (userService.updateImg(userId, reqUpdateImgDTO.getImg())) {
             return ResponseEntity.ok().build();
         }
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.badRequest().body("잘못된 요청입니다.");
     }
 
     @PostMapping("/{userId}/updatePw")
@@ -126,31 +125,29 @@ public class UserController {
         System.out.println(reqUpdatePwDTO.getPw());
         System.out.println(currUser.getUsername());
         if (userService.updatePw(userId, reqUpdatePwDTO.getPw(), currUser.getUsername())) {
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok().body("변경되었습니다.");
         }
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.badRequest().body("잘못된 요청입니다.");
     }
 
     @PostMapping("/{userId}/delete")
     public ResponseEntity deleteUser(@PathVariable("userId") Long userId) {
         if (userService.deleteUser(userId)) {
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok().body("삭제되었습니다.");
         }
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.badRequest().body("잘못된 요청입니다.");
     }
 
     @PostMapping("/treasures/add")
     public ResponseEntity createTreasure(@RequestPart(value = "data") ReqCreateTreasureDTO reqCreateTreasureDTO, @RequestPart(value = "img") MultipartFile img) {
         UserDetails currUser = (UserDetails) (SecurityContextHolder.getContext().getAuthentication()).getPrincipal();
 
-        if (reqCreateTreasureDTO.getGameId() == null) {
-            throw new CustomException(Code.C401);
+        if (userService.createTreasure(currUser.getUsername(), reqCreateTreasureDTO.getTreasureName(), img)) {
+            return ResponseEntity.ok().body("생성되었습니다.");
+        } else {
+            return ResponseEntity.badRequest().body("잘못된 요청입니다.");
         }
 
-        if (userService.createTreasure(currUser.getUsername(), reqCreateTreasureDTO.getTreasureName(), reqCreateTreasureDTO.getGameId(), img)) {
-            return ResponseEntity.ok().build();
-        }
-        return ResponseEntity.badRequest().build();
     }
 
     @GetMapping("/treasures")
@@ -161,10 +158,10 @@ public class UserController {
     @PostMapping("/treasures")
     public ResponseEntity selectTreasure(@RequestBody ReqSelectTreasure reqSelectTreasure) {
         if (userService.selectTreasure(reqSelectTreasure.getTid(), reqSelectTreasure.getEntercode())) {
-            roomService.addIgtInmemory(reqSelectTreasure.getTid(),reqSelectTreasure.getEntercode());
-            return ResponseEntity.ok().build();
+            roomService.addIgtInmemory(reqSelectTreasure.getTid(), reqSelectTreasure.getEntercode());
+            return ResponseEntity.ok().body("선택완료");
         }
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.badRequest().body("선택실패");
     }
 
 }

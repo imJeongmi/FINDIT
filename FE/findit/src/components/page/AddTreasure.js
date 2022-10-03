@@ -11,6 +11,8 @@ import CustomText from "components/atom/CustomText";
 import CircleButton from "components/atom/CircleButton";
 import ExitButton from "components/atom/ExitButton";
 
+import { requestUpload } from "api/user";
+
 const StatusBar = styled(Box)(
   () => `
   width: 100vw;
@@ -52,6 +54,41 @@ export default function AddTreasure() {
   const [numberOfCameras, setNumberOfCameras] = useState(0);
   const [image, setImage] = useState(null);
 
+  function dataURLtoFile(dataurl, filename) {
+    let arr = dataurl.split(","),
+      mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]),
+      n = bstr.length,
+      u8arr = new Uint8Array(n);
+
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], filename, { type: mime });
+  }
+
+  function uploadSuccess(res) {
+    console.log(res);
+    if (res.ok) {
+      console.log("OK");
+    }
+  }
+
+  function uploadFail(error) {
+    console.log(error);
+  }
+
+  function uploadAction(image) {
+    const file = dataURLtoFile(image, "treasure.jpeg");
+
+    const data = {
+      game_id: 39,
+      file: file,
+    };
+
+    requestUpload(data, uploadSuccess, uploadFail);
+  }
+
   return (
     <Box>
       <Camera
@@ -72,17 +109,15 @@ export default function AddTreasure() {
       <GuidelineBox>
         <img src={GuideLine} alt="guideLine" />
         <br />
-        <CustomText size="xxs">
-          가이드 라인 내부에서 보물을 인식시켜주세요
-        </CustomText>
+        <CustomText size="xxs">가이드 라인 내부에서 보물을 인식시켜주세요</CustomText>
       </GuidelineBox>
 
       <ButtonBox>
         <Box
           onClick={() => {
             const photo = camera.current.takePhoto();
-            console.log(photo);
             setImage(photo);
+            uploadAction(image);
           }}
         >
           <CircleButton icon="camera" size="large" opacity="0.8" />

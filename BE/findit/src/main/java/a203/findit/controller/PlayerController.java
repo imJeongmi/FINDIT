@@ -83,24 +83,25 @@ public class PlayerController {
         jsonObject.put("finalscore", afterFindDTO.getFinalscore());
         simpMessagingTemplate.convertAndSend("/sub/player/" + sessionId,jsonObject);
 
-        ArrayList<PlayerInfoDTO> playersRank = playerService.rankChange(beforeFindDTO.getEntercode());
+        ArrayList<PlayerInfoDTO> players = playerService.rankChange(entercode);
         JSONArray rankJson = new JSONArray();
-        for (int i=0;i<playersRank.size(); i++) {
-            PlayerInfoDTO playerInfoDTO = playersRank.get(i);
+        for( PlayerInfoDTO playerInfoDTO : players ){
             JSONObject temp = new JSONObject();
-            temp.put("rank", i+1);
+            temp.put("rank", playerInfoDTO.getRank());
             temp.put("profileImg", playerInfoDTO.getProfileImg());
             temp.put("nickname", playerInfoDTO.getNickname());
             temp.put("score", playerInfoDTO.getScore());
             temp.put("sessionId", playerInfoDTO.getSessionId());
             rankJson.add(temp);
         }
-        simpMessagingTemplate.convertAndSend("/sub/room/"+beforeFindDTO.getEntercode(),rankJson);
+        simpMessagingTemplate.convertAndSend("/sub/room/"+entercode,rankJson);
 
         //크기 비교해서 다 찾은 사람 있는지 확인하고 있으면 IF
-        JSONObject jsonObject1 = new JSONObject();
-        jsonObject1.put("sessionId",sessionId);
-        simpMessagingTemplate.convertAndSend("/sub/private/"+beforeFindDTO.getEntercode(),jsonObject1);
+        if(afterFindDTO.isFindAll()) {
+            JSONObject enableButton = new JSONObject();
+            enableButton.put("sessionId", sessionId);
+            simpMessagingTemplate.convertAndSend("/sub/private/" + entercode, enableButton);
+        }
 
     }
 

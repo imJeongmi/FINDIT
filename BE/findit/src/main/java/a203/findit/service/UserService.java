@@ -31,7 +31,11 @@ public interface UserService {
 
     boolean createTreasure(String username, String treasureName, Long gameId, MultipartFile img);
 
+    boolean createTreasure(String username, String treasureName, MultipartFile img);
+
     List<String> getTreasure();
 
     boolean selectTreasure(List<Long> tid, String entercode);
+
+
 }

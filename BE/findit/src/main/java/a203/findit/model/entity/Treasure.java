@@ -19,7 +19,7 @@ public class Treasure {
     @Column(name = "treasure_id", columnDefinition = "BIGINT(20) UNSIGNED")
     private Long id;
 
-    @Column(name = "treasure_name", unique = true,nullable = false)
+    @Column(name = "treasure_name", unique = true)
     private String treasureName;
 
     @Column(name = "is_default")

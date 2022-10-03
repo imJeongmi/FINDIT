@@ -1,6 +1,4 @@
-import React from "react";
-
-import { useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { Box, styled } from "@mui/system";
 import { Camera } from "react-camera-pro";
 
@@ -13,10 +11,9 @@ import CircleButton from "components/atom/CircleButton";
 import PlayingRanking from "components/module/PlayingRanking";
 import PlayingTreasureList from "components/module/PlayingTreasureList";
 import ExitButton from "components/atom/ExitButton";
+import Timer from "components/module/Timer";
 
 import { requestUpload } from "api/player";
-import axios from "axios";
-import Timer from "components/module/Timer";
 
 const StatusBar = styled(Box)(
   () => `
@@ -110,7 +107,6 @@ export default function Playing() {
 
   function uploadAction(image) {
     const file = dataURLtoFile(image, "treasure.jpeg");
-    // console.log(file);
 
     const data = {
       game_id: 39,

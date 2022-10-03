@@ -11,5 +11,4 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ReqCreateTreasureDTO {
     private String treasureName;
-    private Long gameId;
 }

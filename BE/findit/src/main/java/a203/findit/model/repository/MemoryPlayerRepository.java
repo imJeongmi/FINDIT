@@ -27,7 +27,7 @@ public class MemoryPlayerRepository implements PlayerRepository {
     }
 
 
-    private PlayerInfoDTO findPlayerInfoDTO(String entercode, String sessionId){
+    public PlayerInfoDTO findPlayerInfoDTO(String entercode, String sessionId){
         return roomRepository.findByEnterCode(entercode).getPlayerInfoDTOBySessionId().get(sessionId);
     }
 
@@ -68,8 +68,8 @@ public class MemoryPlayerRepository implements PlayerRepository {
      igtid에서 같은 entercode 내에 igtid와 sessionid가 같은게 있는지 확인 => bool
      */
     public boolean isExistSame(String sessionId, Long igtid){
-        if(findBySessionId(sessionId)==null) System.out.println("1wrong");
-        if(findBySessionId(sessionId).getIGTIds()==null) System.out.println("2wrong");
+//        if(findBySessionId(sessionId)==null) System.out.println("1wrong");
+//        if(findBySessionId(sessionId).getIGTIds()==null) System.out.println("2wrong");
         if(findBySessionId(sessionId).getIGTIds().isEmpty()) return false;
         for(Long id : findBySessionId(sessionId).getIGTIds()){
             if(id == igtid) return true;
@@ -88,7 +88,9 @@ public class MemoryPlayerRepository implements PlayerRepository {
         int cnt=0;
         for(PlayerInfoDTO playerInfoDTO : playerInfoDTOSInMemory){
             for(Long tid : playerInfoDTO.getIGTIds()){
-                if(tid == igtid) cnt++;
+                if(tid == igtid) {
+                    cnt++;
+                }
             }
         }
         return cnt;
@@ -142,9 +144,9 @@ public class MemoryPlayerRepository implements PlayerRepository {
     /*
     인메모리에 저장하기
     * */
-    public void saveTreasure(BeforeFindDTO beforeFindDTO, String sessionId, AfterFindDTO afterFindDTO){
+    public void setScoreforPlayer(BeforeFindDTO beforeFindDTO, String sessionId, AfterFindDTO afterFindDTO){
         roomRepository.findByEnterCode(beforeFindDTO.getEntercode()).getPlayerInfoDTOBySessionId().get(sessionId).setScore(afterFindDTO.getFinalscore());
-        findBySessionId(sessionId).getIGTIds().add(beforeFindDTO.getTreasureId());
+//        findBySessionId(sessionId).getIGTIds().add(beforeFindDTO.getTreasureId());
     }
 
     /*
@@ -152,21 +154,28 @@ public class MemoryPlayerRepository implements PlayerRepository {
      */
     public ArrayList<PlayerInfoDTO> rankChange(String entercode){
 
-        HashMap<String, PlayerInfoDTO> rankInfo = new HashMap<>(roomRepository.findByEnterCode(entercode).getPlayerInfoDTOBySessionId());
+        ArrayList<PlayerInfoDTO> players = new ArrayList<>();
 
-        ArrayList<PlayerInfoDTO> arr = new ArrayList<>();
-        for(String session : rankInfo.keySet()){
-            arr.add(rankInfo.get(session));
+        for (PlayerInfoDTO playerInfoDTO : playerInfoDTOSInMemory){
+            if(playerInfoDTO.getEntercode().equals(entercode)){
+                players.add(playerInfoDTO);
+            }
         }
 
-        Collections.sort(arr, new Comparator<PlayerInfoDTO>() {
+        Collections.sort(players, new Comparator<PlayerInfoDTO>() {
             @Override
             public int compare(PlayerInfoDTO o1, PlayerInfoDTO o2) {
-                return o1.getScore() - o2.getScore();
+                return o2.getScore() - o1.getScore();
             }
         });
 
-        return arr;
+        int len = players.size();
+        for(int i=0;i<len;i++){
+            PlayerInfoDTO now = players.get(i);
+            now.setRank(i+1);
+            findBySessionId(now.getSessionId()).setRank(i+1);
+        }
+        return players;
     }
 
 }
