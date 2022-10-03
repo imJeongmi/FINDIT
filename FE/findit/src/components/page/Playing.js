@@ -18,6 +18,7 @@ import { requestUpload } from "api/player";
 import axios from "axios";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { getWebsocket } from "helper/websocket";
+import ss from "helper/SessionStorage";
 
 const StatusBar = styled(Box)(
   () => `
@@ -89,7 +90,7 @@ export default function Playing() {
   const [myRank, setMyRank] = useState('1st');
   const location = useLocation();
   const limitMinute = location?.state?.limitMinute
-  const sessionId = location?.state?.sessionId
+  const sessionId = ss.get("sessionId")
 
   function dataURLtoFile(dataurl, filename) {
     let arr = dataurl.split(","),
