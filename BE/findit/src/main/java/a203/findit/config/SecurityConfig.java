@@ -77,6 +77,7 @@ public class SecurityConfig {
                 .antMatchers("/public/**").permitAll()
                 .antMatchers("/games/**").permitAll()
                 .antMatchers("/users/**").permitAll()
+                .antMatchers("/ws/**").permitAll()
                 .antMatchers("/**").permitAll()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .anyRequest().permitAll();
