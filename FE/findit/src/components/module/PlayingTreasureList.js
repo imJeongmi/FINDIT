@@ -38,7 +38,7 @@ const ButtonBox = styled(Box)(
     `,
 );
 
-export default function PlayingTreasureList({ setModalOpen }) {
+export default function PlayingTreasureList({ setModalOpen, findedTreasures }) {
   const closeModal = () => {
     setModalOpen(false);
   };
@@ -46,6 +46,7 @@ export default function PlayingTreasureList({ setModalOpen }) {
   const [treasureList, setTreasureList] = useState([]);
 
   useEffect(() => {
+    console.log("open");
     getTreasureList(getTreasureListSuccess, getTreasureListFail);
   }, [gameid]);
 
@@ -73,13 +74,17 @@ export default function PlayingTreasureList({ setModalOpen }) {
             {treasureList.map((treasure, key) => (
               <Box key={key}>
                 {treasure !== null && (
-                  <TreasureItem src={treasure} alt="treasure" isReadPage="true" />
+                  <Box style={{ filter: findedTreasures.includes(String(key)) ? "brightness(40%)" : "brightness(100%)" }}>
+                    <TreasureItem src={treasure} alt="treasure" isReadPage="true" />
+                  </Box>
                 )}
               </Box>
             ))}
           </TreasureBox>
           <TextBox>
-            <CustomText size="xs">찾은 개수 : 2 / {treasureList.length}</CustomText>
+            <CustomText size="xs">
+              찾은 개수 : {findedTreasures.length} / {treasureList.length}
+            </CustomText>
           </TextBox>
           <ButtonBox>
             <CircleButton icon="treasure" size="smaller" opacity="0.6" />
