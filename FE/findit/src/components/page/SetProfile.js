@@ -60,25 +60,25 @@ function PlayerProfile() {
   const ws = getWebsocket();
 
   function getDataFromSocket(message) {
-    const msg = JSON.parse(message.body)
-    console.log(msg)
+    const msg = JSON.parse(message.body);
+    console.log(msg);
     if (isGamePlayer() && msg.status === "start") {
-      navigate(`/playing`)
+      navigate(`/playing`);
     } else if (isGamePlayer() && msg.status === "end") {
-      navigate(`/result/${gameid}`)
+      navigate(`/result/${gameid}`);
     }
   }
 
   ws.onConnect = function (frame) {
-    console.log("연결됨")
-    ws.subscribe(`/sub/room/${gameid}`, getDataFromSocket)
-  }
+    console.log("연결됨");
+    ws.subscribe(`/sub/room/${gameid}`, getDataFromSocket);
+  };
 
   useEffect(() => {
     if (!!gameid) {
       ws.activate();
     }
-  }, [gameid])
+  }, [gameid]);
 
   function sendPlayerToWaiting(e) {
     e.preventDefault();
@@ -86,8 +86,8 @@ function PlayerProfile() {
     //   gameid,imgNum,nickname
     // }
     // ws.publish({ destination: "/pub/enter", body: JSON.stringify(data) })
-    ws.publish({ destination: "/pub/enter", body: `${gameid},${imgNum},${nickname}` })
-    navigate(`/waiting/${gameid}`)
+    ws.publish({ destination: "/pub/enter", body: `${gameid},${imgNum},${nickname}` });
+    navigate(`/waiting/${gameid}`);
   }
 
   return (
@@ -165,6 +165,7 @@ function HostProfile() {
 
   function onClickUpdateProfile(event) {
     event.preventDefault();
+    console.log(imgNum, hostNickname);
     requestUpdateProfile(userId, imgNum, hostNickname, updateProfileSuccess, updateProfileFail);
   }
 
