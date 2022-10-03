@@ -99,19 +99,9 @@ public class PlayerController {
         //크기 비교해서 다 찾은 사람 있는지 확인하고 있으면 IF
         if(afterFindDTO.isFindAll()) {
             JSONObject enableButton = new JSONObject();
-            JSONObject jsonObject1 = new JSONObject();
             enableButton.put("sessionId", sessionId);
-            jsonObject1.put("code", "success");
             simpMessagingTemplate.convertAndSend("/sub/private/" + entercode, enableButton);
-            jsonObject1.put("status", "progress");
-
-            jsonObject1.put("playerid", sessionId);
-            simpMessagingTemplate.convertAndSend("/sub/private/" + beforeFindDTO.getEntercode(), jsonObject1);
         }
-
-        JSONObject enableButton = new JSONObject();
-        enableButton.put("sessionId",sessionId);
-        simpMessagingTemplate.convertAndSend("/sub/private/"+entercode,enableButton);
 
     }
 
