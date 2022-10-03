@@ -54,7 +54,7 @@ export default function HostMain() {
   const user = useSelector(state => state.user.info);
 
   useEffect(() => {
-    console.log(user);
+    console.log(user?.img);
   }, [user]);
 
   function goToSetProfile() {

@@ -13,6 +13,8 @@ import RefreshIcon from "static/refresh.png";
 import { requestLogout } from "api/user";
 import { requestUpdateProfile } from "api/host";
 
+import ls from "helper/LocalStorage";
+
 const ProfileBoxStyle = {
   margin: "auto",
   textAlign: "center",
@@ -63,6 +65,9 @@ function HostProfile() {
   const navigate = useNavigate();
 
   function logoutSuccess() {
+    console.log("로그아웃 성공");
+    ls.remove("accessToken");
+    ls.remove("refreshToken");
     navigate("/main");
   }
 
@@ -72,7 +77,6 @@ function HostProfile() {
 
   function onClickLogout(event) {
     event.preventDefault();
-    console.log("로그아웃 버튼 클릭");
     requestLogout(logoutSuccess, logoutFail);
   }
 
