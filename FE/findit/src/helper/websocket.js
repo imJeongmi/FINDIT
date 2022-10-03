@@ -15,7 +15,7 @@ import { Client } from "@stomp/stompjs";
 //     heartbeatOutgoing: 4000,
 // });
 const ws = new Client({
-  brokerURL: "ws://localhost:8399/api/v1/ws",
+  brokerURL: "ws://findit.life/api/v1/ws",
   connectHeaders: {
   },
   debug: function (str) {
