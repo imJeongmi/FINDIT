@@ -57,6 +57,7 @@ export default function HostMain() {
     setHostProfileImg(user?.img);
   }, [user, hostNickname, hostProfileImg]);
 
+
   function goToSetProfile() {
     navigate("/hostprofile");
   }

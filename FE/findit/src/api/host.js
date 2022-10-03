@@ -8,7 +8,7 @@ function requestGameConfiguration(limitMinute, mode, success, fail) {
   // console.log(payload);
   UserApi.post("room/create", {
     mode: mode,
-    limitMinute: limitMinute,
+    limitminute: limitMinute,
   })
     .then(success)
     .catch(fail);

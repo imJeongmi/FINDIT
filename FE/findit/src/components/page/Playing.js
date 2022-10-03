@@ -1,4 +1,5 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
+
 import { Box, styled } from "@mui/system";
 import { Camera } from "react-camera-pro";
 
@@ -14,6 +15,9 @@ import ExitButton from "components/atom/ExitButton";
 import Timer from "components/module/Timer";
 
 import { requestUpload } from "api/player";
+import axios from "axios";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { getWebsocket } from "helper/websocket";
 
 const StatusBar = styled(Box)(
   () => `
@@ -76,10 +80,16 @@ export default function Playing() {
   const showTreasureModal = () => {
     setModalOpen(2);
   };
-
   const camera = useRef(null);
   const [numberOfCameras, setNumberOfCameras] = useState(0);
   const [image, setImage] = useState(null);
+  const { gameid } = useParams();
+  const [ranking, setRanking] = useState([]);
+  const [finalScore, setFinalScore] = useState(0);
+  const [myRank, setMyRank] = useState('1st');
+  const location = useLocation();
+  const limitMinute = location?.state?.limitMinute
+  const sessionId = location?.state?.sessionId
 
   function dataURLtoFile(dataurl, filename) {
     let arr = dataurl.split(","),
@@ -115,6 +125,34 @@ export default function Playing() {
 
     requestUpload(data, uploadSuccess, uploadFail);
   }
+  // useEffect(() => {
+  //   if (game) {
+  //     console.log(game.info)
+  //   }
+  // }, [game])
+  const ws = getWebsocket();
+
+  function getRankFromSocket(message) {
+    const msg = JSON.parse(message.body)
+    setRanking(msg)
+    const temp = msg.find(element => element.sessionId === sessionId)
+    if (temp) {
+      setMyRank(temp?.rank)
+    }
+
+  }
+
+  function getScoreFromSocket(message) {
+    const msg = JSON.parse(message.body)
+    setFinalScore(msg?.finalscore)
+  }
+
+  useEffect(() => {
+    if (!!gameid && !!sessionId) {
+      ws.subscribe(`/sub/player/${sessionId}`, getScoreFromSocket)
+      ws.subscribe(`/sub/rank/${gameid}`, getRankFromSocket)
+    }
+  }, [ws, gameid, sessionId])
 
   return (
     <Box>
@@ -138,8 +176,8 @@ export default function Playing() {
           }}
         >
           <img src={TimerIcon} alt="timerIcon" width="25vw" />
-          {/* limitMinute redux에서 받아와서 설정 */}
-          <Timer limitMinute={10}/>
+          
+          <Timer limitMinute={limitMinute} />
         </Box>
         <Box sx={{ position: "absolute", right: "5%" }}>
           <ExitButton />
@@ -147,7 +185,7 @@ export default function Playing() {
       </StatusBar>
       <ScoreBox>
         <CustomText size="xl" weight="bold" variant="warning">
-          5th
+          {myRank}
         </CustomText>
         <Box
           sx={{
@@ -159,7 +197,7 @@ export default function Playing() {
         >
           <img src={ScoreIcon} alt="medalIcon" width="25vw" />
           <CustomText size="m" weight="bold">
-            203
+            {finalScore}
           </CustomText>
         </Box>
       </ScoreBox>
@@ -185,8 +223,8 @@ export default function Playing() {
           <CircleButton icon="treasure" size="smaller" opacity="0.6" />
         </Box>
       </ButtonBox>
-      {modalOpen == 1 && <PlayingRanking setModalOpen={setModalOpen} />}
-      {modalOpen == 2 && <PlayingTreasureList setModalOpen={setModalOpen} />}
+      {modalOpen === 1 && <PlayingRanking setModalOpen={setModalOpen} ranking={ranking}/>}
+      {modalOpen === 2 && <PlayingTreasureList setModalOpen={setModalOpen} />}
     </Box>
   );
 }
