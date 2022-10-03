@@ -26,7 +26,7 @@ export default function PlayerMain() {
   return (
     <Box>
       <StyledCompassBox>
-        <StyledCompass src={compass} alt="compass" />
+        <StyledCompass src={compass} alt="compass" className="floating" />
       </StyledCompassBox>
       <Box sx={{ textAlign: "center", marginBottom: "30px" }}>
         <LogoFont size="medium" />

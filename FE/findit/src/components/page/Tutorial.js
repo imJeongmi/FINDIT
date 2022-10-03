@@ -9,6 +9,7 @@ import CustomButton from "components/atom/CustomButton";
 import CustomText from "components/atom/CustomText";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "./dot.css";
+import "./compass.scss";
 
 import { Link } from "react-router-dom";
 
@@ -53,7 +54,7 @@ export default function Tutorial({ target }) {
   return (
     <Box sx={{ textAlign: "center" }}>
       <Box sx={{ mt: "3vh" }}>
-        <img src={compass} alt="compass" width="100"></img>
+        <img src={compass} alt="compass" width="100" className="floating-small"></img>
       </Box>
       <Modal>
         <Box>

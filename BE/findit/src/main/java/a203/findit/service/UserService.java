@@ -23,15 +23,14 @@ public interface UserService {
 
     Map<String, Object> updateForm(UpdateFormDTO nickname);
 
-    boolean updateImg(Long userId, String img);
+    boolean update(String userId, String nickname, Long img);
 
     boolean updatePw(Long userId, String pw, String username);
 
     boolean deleteUser(Long userId);
 
-    boolean createTreasure(String username, String treasureName, Long gameId, MultipartFile img);
 
-    boolean createTreasure(String username, String treasureName, MultipartFile img);
+    boolean createTreasure(String username, MultipartFile img);
 
     List<String> getTreasure();
 
