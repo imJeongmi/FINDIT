@@ -20,9 +20,8 @@ const StyledButton = styled(Button)(
   font-size: 16px;
   font-weight: normal;
   background-color: white;
-  color: ${getColor(color)}
-  border-color : ${getColor(color)}
-  
+  color: ${getColor(color)};
+  border-color : ${getColor(color)};  
   `,
 );
 
@@ -72,8 +71,8 @@ function getColor(color) {
       return "#F1A6A7";
     case "warning":
       return "#FFCC33";
-    case "grey":
-      return "#A7A7A7";
+    case "info":
+      return "#C9C9C9";
     default:
       return "#9FAFD8";
   }

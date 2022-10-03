@@ -28,17 +28,16 @@ const RankingBox = styled(Box)(
 
 function PlayerButton() {
   return (
-    <CustomButton size="large" my="0">
+    <CustomButton size="large" color="info" my="0">
       대기중
     </CustomButton>
   );
 }
 
-
 export default function WaitPlaying() {
   const location = useLocation();
-  const imgNum = location?.state?.imgNum
-  const nickname = location?.state?.nickname
+  const imgNum = location?.state?.imgNum;
+  const nickname = location?.state?.nickname;
   const [sessionId, setSessionId] = useState("");
   // function isPlayer(target) {
   //   if (target === "user") return false;
@@ -61,24 +60,25 @@ export default function WaitPlaying() {
 
   function startGame(e) {
     e.preventDefault();
-    ws.publish({ destination: "/pub/gamestart", body: `${gameid}` })
-    navigate(`/status/${gameid}`)
+    ws.publish({ destination: "/pub/gamestart", body: `${gameid}` });
+    navigate(`/status/${gameid}`);
   }
 
   // 소켓에서 보내는 메세지
   function getDataFromSocket(message) {
-    const msg = JSON.parse(message.body)
-    console.log(msg)
+    const msg = JSON.parse(message.body);
+    console.log(msg);
     if (isGamePlayer() && msg.status === "start") {
-      navigate(`/playing/${gameid}`, { state: { limitMinute: msg?.limitminute, sessionId: sessionId } })
+      navigate(`/playing/${gameid}`, {
+        state: { limitMinute: msg?.limitminute, sessionId: sessionId },
+      });
     } else if (!isGamePlayer() && msg.status === "start") {
-      navigate(`/status/${gameid}`, { state: { limitMinute: msg?.limitminute } })
-    }
-    else if (isGamePlayer() && msg.status === "end") {
+      navigate(`/status/${gameid}`, { state: { limitMinute: msg?.limitminute } });
+    } else if (isGamePlayer() && msg.status === "end") {
       ws.deactivate();
-      navigate(`/result/${gameid}`)
+      navigate(`/result/${gameid}`);
     } else if (Array.isArray(msg)) {
-      setPlayers(msg)
+      setPlayers(msg);
       // const temp = msg.find(element => element.nickname === nickname)
       // console.log(temp)
       // if (temp) {
@@ -88,18 +88,18 @@ export default function WaitPlaying() {
   }
 
   ws.onConnect = function (frame) {
-    console.log("연결됨")
-    ws.subscribe(`/sub/room/${gameid}`, getDataFromSocket)
+    console.log("연결됨");
+    ws.subscribe(`/sub/room/${gameid}`, getDataFromSocket);
     if (!!nickname) {
-      ws.publish({ destination: "/pub/enter", body: `${gameid},${imgNum},${nickname}` })
+      ws.publish({ destination: "/pub/enter", body: `${gameid},${imgNum},${nickname}` });
     }
-  }
+  };
 
   useEffect(() => {
     if (!!ws && !!gameid) {
       ws.activate();
     }
-  }, [gameid])
+  }, [gameid]);
 
   function HostButton() {
     return (
