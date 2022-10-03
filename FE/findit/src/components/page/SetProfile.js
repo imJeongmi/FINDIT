@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-
+import { useSelector } from "react-redux";
 
 import { Box } from "@mui/system";
 
@@ -60,25 +60,25 @@ function PlayerProfile() {
   const ws = getWebsocket();
 
   function getDataFromSocket(message) {
-    const msg = JSON.parse(message.body)
-    console.log(msg)
+    const msg = JSON.parse(message.body);
+    console.log(msg);
     if (isGamePlayer() && msg.status === "start") {
-      navigate(`/playing`)
+      navigate(`/playing`);
     } else if (isGamePlayer() && msg.status === "end") {
-      navigate(`/result/${gameid}`)
+      navigate(`/result/${gameid}`);
     }
   }
 
   ws.onConnect = function (frame) {
-    console.log("연결됨")
-    ws.subscribe(`/sub/room/${gameid}`, getDataFromSocket)
-  }
+    console.log("연결됨");
+    ws.subscribe(`/sub/room/${gameid}`, getDataFromSocket);
+  };
 
   useEffect(() => {
     if (!!gameid) {
       ws.activate();
     }
-  }, [gameid])
+  }, [gameid]);
 
   function sendPlayerToWaiting(e) {
     e.preventDefault();
@@ -86,8 +86,8 @@ function PlayerProfile() {
     //   gameid,imgNum,nickname
     // }
     // ws.publish({ destination: "/pub/enter", body: JSON.stringify(data) })
-    ws.publish({ destination: "/pub/enter", body: `${gameid},${imgNum},${nickname}` })
-    navigate(`/waiting/${gameid}`)
+    ws.publish({ destination: "/pub/enter", body: `${gameid},${imgNum},${nickname}` });
+    navigate(`/waiting/${gameid}`);
   }
 
   return (
@@ -116,8 +116,22 @@ function PlayerProfile() {
 
 function HostProfile() {
   const navigate = useNavigate();
+  const user = useSelector(state => state.user.info);
+  const [userId, setUserId] = useState("");
+  const [imgNum, setImgNum] = useState("");
+  const [hostNickname, setHostNickname] = useState("");
+  const [hostProfileImg, setHostProfileImg] = useState("");
+
+  useEffect(() => {
+    setHostNickname(user?.nickname);
+    setHostProfileImg(user?.img);
+    setUserId(user?.userId);
+  }, [user, hostNickname, hostProfileImg]);
 
   function logoutSuccess() {
+    console.log("로그아웃 성공");
+    ls.remove("accessToken");
+    ls.remove("refreshToken");
     navigate("/main");
   }
 
@@ -127,12 +141,10 @@ function HostProfile() {
 
   function onClickLogout(event) {
     event.preventDefault();
-    console.log("로그아웃 버튼 클릭");
     requestLogout(logoutSuccess, logoutFail);
   }
 
-  const [imgNum, setImgNum] = useState("0");
-  const [nickname, setNickname] = useState("");
+  // const [nickname, setNickname] = useState("");
 
   function onClickRefresh() {
     setImgNum(Math.floor(Math.random() * 10));
@@ -140,7 +152,7 @@ function HostProfile() {
 
   function onChangeNickname(event) {
     const nickname = event.target.value;
-    setNickname(nickname);
+    setHostNickname(nickname);
   }
 
   function updateProfileSuccess() {
@@ -153,7 +165,8 @@ function HostProfile() {
 
   function onClickUpdateProfile(event) {
     event.preventDefault();
-    requestUpdateProfile(imgNum, nickname, updateProfileSuccess, updateProfileFail);
+    console.log(imgNum, hostNickname);
+    requestUpdateProfile(userId, imgNum, hostNickname, updateProfileSuccess, updateProfileFail);
   }
 
   // 로그아웃 함수 작성
@@ -168,7 +181,7 @@ function HostProfile() {
         </CustomText>
       </Box>
       <Box sx={BoxStyle}>
-        <ProfileImage type="rounded" num={imgNum}></ProfileImage>
+        <ProfileImage type="rounded" src={hostProfileImg} num={imgNum}></ProfileImage>
         <Box sx={IconStyle} onClick={onClickRefresh}>
           <img src={RefreshIcon} alt="refresh" width="25px" />
         </Box>
@@ -176,7 +189,7 @@ function HostProfile() {
 
       <Box>
         <CustomText>닉네임을 등록해주세요</CustomText>
-        <Input type="text" placeholder="닉네임" onChange={onChangeNickname}></Input>
+        <Input type="text" placeholder={hostNickname} onChange={onChangeNickname}></Input>
       </Box>
       <CustomButton size="small" color="secondary">
         비밀번호 변경
