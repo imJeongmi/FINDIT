@@ -18,7 +18,7 @@ public class WebConfig implements WebMvcConfigurer {
 //		Allow all headers.
 //		Set max age to 1800 seconds (30 minutes).
         registry.addMapping("/**")
-//                .allowedOriginPatterns("*")
+                .allowedOriginPatterns("*")
 //                .allowedOrigins(frontUrl)
                 .allowedOrigins("https://findit.life","http://findit.life", "http://localhost:3000","https://apic.app/online/#/tester")
                 .allowedMethods("GET", "POST", "OPTIONS")
