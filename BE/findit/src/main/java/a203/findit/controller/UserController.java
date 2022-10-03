@@ -73,7 +73,6 @@ public class UserController {
         }
         return ResponseEntity.internalServerError().body("서버 에러");
 
-
     }
 
     @PostMapping("/logout")
