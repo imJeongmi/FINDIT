@@ -7,6 +7,8 @@ import CustomText from "components/atom/CustomText";
 
 import { useNavigate } from "react-router-dom";
 
+import "./compass.scss";
+
 const IntroBoxStyle = {
   textAlign: "center",
   marginTop: "15vh",
@@ -26,7 +28,7 @@ export default function Intro() {
   return (
     <Box sx={IntroBoxStyle}>
       {/* 나침반 클릭 시 main page로 이동 */}
-      <img src={Compass} alt="Compass" width="300px" onClick={goToMain} />
+      <img src={Compass} alt="Compass" width="300px" onClick={goToMain} className="floating" />
       <Box sx={TextStyle}>
         <LogoFont size="xl" />
         <br />
