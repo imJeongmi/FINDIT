@@ -2,7 +2,7 @@ import React from "react";
 
 import { useState, useRef } from "react";
 import { Box, styled } from "@mui/system";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Camera } from "react-camera-pro";
 
 import GuideLine from "static/guideline.png";
@@ -12,6 +12,7 @@ import CircleButton from "components/atom/CircleButton";
 import ExitButton from "components/atom/ExitButton";
 
 import { requestUpload } from "api/user";
+import ls from "helper/LocalStorage";
 
 const StatusBar = styled(Box)(
   () => `
@@ -53,6 +54,8 @@ export default function AddTreasure() {
   const camera = useRef(null);
   const [numberOfCameras, setNumberOfCameras] = useState(0);
   const [image, setImage] = useState(null);
+  const navigate = useNavigate();
+  const entercode = ls.get('entercode')
 
   function dataURLtoFile(dataurl, filename) {
     let arr = dataurl.split(","),
@@ -89,6 +92,10 @@ export default function AddTreasure() {
     requestUpload(data, uploadSuccess, uploadFail);
   }
 
+function exitAddTreasure(e) {
+e.preventDefault();
+navigate(`/treasure/${entercode}`)
+}  
   return (
     <Box>
       <Camera
@@ -98,13 +105,11 @@ export default function AddTreasure() {
         facingMode="environment"
       />
 
-      <Link to="/treasure/:gameid">
         <StatusBar>
-          <Box sx={{ position: "absolute", right: "5%" }}>
+          <Box sx={{ position: "absolute", right: "5%" }} onClick={exitAddTreasure}>
             <ExitButton />
           </Box>
         </StatusBar>
-      </Link>
 
       <GuidelineBox>
         <img src={GuideLine} alt="guideLine" />
