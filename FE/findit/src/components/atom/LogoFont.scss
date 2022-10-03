@@ -1,45 +1,42 @@
-body {
-  background: linear-gradient(#f70000, #f89200, #f8f501, #038f00, #0168f8, #a200f7);
-}
 .logo {
-  text-transform: uppercase;
-  text-align: center;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-align-items: center;
-  align-items: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  margin: 0;
-  background: white;
   position: relative;
-  // background: #171717;
-  color: #000;
+  top: 20px;
+  display: inline-block;
+  animation: bounce 0.5s ease infinite alternate;
+  font-family: "WendyOne";
+  // font-size: 80px;
+  // color: #fff;
+  text-shadow: 0 1px 0 #ccc, 0 2px 0 #ccc, 0 3px 0 #ccc, 0 4px 0 #ccc, 0 5px 0 #ccc,
+    0 6px 0 transparent, 0 7px 0 transparent, 0 8px 0 transparent, 0 9px 0 transparent,
+    0 10px 10px rgba(0, 0, 0, 0.4);
 }
 
-.logo:before {
-  position: absolute;
-  background: linear-gradient(#f70000, #f89200, #f8f501, #038f00, #0168f8, #a200f7);
-  -webkit-background-clip: text;
-  color: transparent;
-  background-size: 100% 90%;
-  line-height: 0.9;
-  clip-path: ellipse(120px 120px at -2.54% -9.25%);
-  animation: swing 5s infinite;
-  animation-direction: alternate;
+.logo:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.logo:nth-child(3) {
+  animation-delay: 0.2s;
+}
+.logo:nth-child(4) {
+  animation-delay: 0.3s;
+}
+.logo:nth-child(5) {
+  animation-delay: 0.4s;
+}
+.logo:nth-child(6) {
+  animation-delay: 0.5s;
+}
+.logo:nth-child(7) {
+  animation-delay: 0.6s;
+}
+.logo:nth-child(8) {
+  animation-delay: 0.7s;
 }
 
-@keyframes swing {
-  0% {
-    -webkit-clip-path: ellipse(120px 120px at -2.54% -9.25%);
-    clip-path: ellipse(120px 120px at -2.54% -9.25%);
-  }
-  50% {
-    -webkit-clip-path: ellipse(120px 120px at 49.66% 64.36%);
-    clip-path: ellipse(120px 120px at 49.66% 64.36%);
-  }
+@keyframes bounce {
   100% {
-    -webkit-clip-path: ellipse(120px 120px at 102.62% -1.61%);
-    clip-path: ellipse(120px 120px at 102.62% -1.61%);
+    top: -10px;
+    text-shadow: 0 1px 0 #ccc, 0 2px 0 #ccc, 0 3px 0 #ccc, 0 4px 0 #ccc, 0 5px 0 #ccc, 0 6px 0 #ccc,
+      0 7px 0 #ccc, 0 8px 0 #ccc, 0 9px 0 #ccc, 0 50px 25px rgba(0, 0, 0, 0.2);
   }
 }
