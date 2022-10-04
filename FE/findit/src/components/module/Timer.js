@@ -7,8 +7,9 @@ import { useTimer } from "react-timer-hook";
 export default function Timer({ limitMinute, startTime, target }) {
   const now = new Date();
   const time = new Date(startTime);
+  const KR_TIME_DIFF = 9 * 60 * 60 * 1000;
   console.log(startTime)
-  time.setSeconds(time.getSeconds() + limitMinute * 60 - now.getSeconds());
+  time.setSeconds(time.getSeconds() + KR_TIME_DIFF + limitMinute * 60 - now.getSeconds());
   function MyTimer({ expiryTimestamp, target }) {
     const {
       seconds,
