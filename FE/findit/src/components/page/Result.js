@@ -88,6 +88,7 @@ export default function Result() {
 
   function requestRankingListSuccess(res) {
     setRankingList(res.data)
+    console.log(res.data.slice(0, res.data.length <= 3 ? res.data.length : 3))
     setTopThreeList(res.data.slice(0, res.data.length <= 3 ? res.data.length : 3))
   }
   function requestRankingListFail(err) {
