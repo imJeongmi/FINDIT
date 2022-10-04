@@ -70,6 +70,8 @@ function getRank(rankNum) {
 
 export default function Result() {
   const [topThreeList, setTopThreeList] = useState([]);
+  const [rankingList, setRankingList] = useState([]);
+  const { gameid } = useParams();
   const location = useLocation();
   const finalRank = location?.state?.finalRank
 
@@ -79,23 +81,21 @@ export default function Result() {
   //   }
   // }, [finalRank]);
 
-  const { gameid } = useParams();
   useEffect(() => {
-    if (gameid) {
+    if (!!gameid) {
       requestRankingList(gameid, requestRankingListSuccess, requestRankingListFail)
     }
   }, [gameid]);
 
   function requestRankingListSuccess(res) {
     setRankingList(res.data)
-    console.log(res.data.slice(0, res.data.length <= 3 ? res.data.length : 3))
     setTopThreeList(res.data.slice(0, res.data.length <= 3 ? res.data.length : 3))
   }
-  function requestRankingListFail(err) {
-    console.log(err)
+
+  function requestRankingListFail() {
+    console.log("에러 발생")
   }
 
-  const [rankingList, setRankingList] = useState();
 
   // function AwardsList(rankNum, playerName) {
   //   return (
@@ -120,7 +120,6 @@ export default function Result() {
       </Box>
     );
   }
-
 
   function isPlayer() {
     const token = ls.get("accessToken");
@@ -164,7 +163,6 @@ export default function Result() {
           </Link>) : (<Link to="/hostmain" style={{ textDecoration: "none", color: "#DA9B9A" }}>
             메인
           </Link>)}
-
         </CustomButton>
         <CustomButton size="large">저장하기</CustomButton>
       </ButtonBox>
