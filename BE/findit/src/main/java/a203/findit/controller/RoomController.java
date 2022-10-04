@@ -58,7 +58,6 @@ public class RoomController {
         return result;
     }
 
-    @Transactional
     @GetMapping("/room/{entercode}/treasures")
     public ResponseEntity getIgt(@PathVariable("entercode") String entercode){
         Map<String, Object> result = new HashMap<>();
