@@ -51,7 +51,7 @@ export default function GameStatus() {
     );
   }
 
-  function requestRankingListSuccess(res) {}
+  function requestRankingListSuccess(res) { }
 
   function requestRankingListFail(err) {
     console.log("랭킹 요청 실패", err);

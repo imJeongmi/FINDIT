@@ -26,7 +26,7 @@ function requestUpload(data, success, fail) {
 
 function requestRankingList(gameid, success, fail) {
   axios
-    .post("https://findit.life/api/v1/room/result", {
+    .get("https://findit.life/api/v1/room/result/rank", {
       entercode: gameid,
     })
     .then(success)
