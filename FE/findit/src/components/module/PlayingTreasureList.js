@@ -8,7 +8,7 @@ import CircleButton from "components/atom/CircleButton";
 import ExitButton from "components/atom/ExitButton";
 import TreasureItem from "components/atom/TreasureItem";
 
-import { getGameTreasureList } from "api/treasure";
+import { getGameTreasureList } from "api/player";
 
 const TreasureBox = styled(Box)(
   () => `
@@ -46,13 +46,11 @@ export default function PlayingTreasureList({ setModalOpen, findedTreasures }) {
   const [treasureList, setTreasureList] = useState([]);
 
   useEffect(() => {
-    console.log("open");
     getGameTreasureList(gameid, getGameTreasureListSuccess, getGameTreasureListFail);
   }, [gameid]);
 
   function getGameTreasureListSuccess(res) {
     setTreasureList(res.data);
-    console.log(`${gameid} 보물 : ${treasureList}`);
   }
 
   function getGameTreasureListFail(err) {
@@ -72,14 +70,14 @@ export default function PlayingTreasureList({ setModalOpen, findedTreasures }) {
             </CustomText>
           </Box>
           <TreasureBox>
-            {treasureList.map((treasure, key) => (
+            {treasureList.map(({ img, tid }, key) => (
               <Box key={key}>
-                {treasure !== null && (
+                {img !== null && (
                   <TreasureItem
-                    src={treasure}
+                    src={img}
                     alt="treasure"
                     isReadPage="false"
-                    finded={findedTreasures.includes(key)}
+                    finded={findedTreasures.includes(tid)}
                   />
                 )}
               </Box>

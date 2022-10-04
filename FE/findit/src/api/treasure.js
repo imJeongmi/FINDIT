@@ -8,8 +8,4 @@ function setGameTreasureList(tid, entercode, success, fail) {
   UserApi.post("users/treasures", { tid: tid, entercode: entercode}).then(success).catch(fail);
 }
 
-function getGameTreasureList(entercode, success, fail) {
-  UserApi.get(`/room/${entercode}/treasures`).then(success).catch(fail);
-}
-
-export { getTreasureList, setGameTreasureList, getGameTreasureList };
+export { getTreasureList, setGameTreasureList };

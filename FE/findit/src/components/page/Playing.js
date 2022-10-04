@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, startTransition } from "react";
 
 import { Box, styled } from "@mui/system";
 import { Camera } from "react-camera-pro";
@@ -104,13 +104,16 @@ export default function Playing() {
   const limitMinute = location?.state?.limitMinute;
   const sessionId = ss.get("sessionId");
   const navigate = useNavigate();
+  const startTime = ss.get("starttime")
 
   function onClickCamera() {
+    console.log("카메라 클릭", notTreasureMsg);
     const image = camera.current.takePhoto();
     uploadAction(image);
   }
 
   function uploadAction(image) {
+    console.log("사진 업로드", notTreasureMsg);
     const file = dataURLtoFile(image, "treasure.jpeg");
 
     const data = {
@@ -122,8 +125,9 @@ export default function Playing() {
   }
 
   function uploadSuccess(res) {
-    const tid = res.data.message;
-    if (tid !== "NOT TREASURE" && findedTreasures.find(tid) === undefined) {
+    // const tid = res.data.message;
+    const tid = 1;
+    if (tid !== "NOT TREASURE" && findedTreasures.indexOf(tid) === -1) {
       setFindedTreasures(findedTreasures => [...findedTreasures, tid]);
       ws.publish({ destination: "/pub/find", body: `${gameid},${tid}` });
     } else {
@@ -158,10 +162,12 @@ export default function Playing() {
   const ws = getWebsocket();
 
   function getRankFromSocket(message) {
+    console.log(message.body);
     const msg = JSON.parse(message.body);
+    console.log(msg);
     if (msg[0]?.status === "end") {
       const finalRank = msg.slice(1);
-      console.log(finalRank)
+      console.log(finalRank);
       navigate(`/result/${gameid}`, { state: { finalRank: finalRank } });
     } else {
       setRanking(msg);
@@ -176,10 +182,16 @@ export default function Playing() {
     const msg = JSON.parse(message.body);
     setFinalScore(msg?.finalscore);
   }
+
+  function temp() {}
   useEffect(() => {
     if (!!gameid && !!sessionId) {
       ws.subscribe(`/sub/player/${sessionId}`, getScoreFromSocket);
-      setInterval(function () { ws.subscribe(`/sub/rank/${gameid}`, getRankFromSocket); }, 58000)
+      ws.subscribe(`/sub/rank/${gameid}`, getRankFromSocket);
+      setInterval(function () {
+        // ws.subscribe(`/sub/rank/${gameid}`, getRankFromSocket);
+        ws.subscribe(`/sub`, temp);
+      }, 58000);
     }
   }, [ws, gameid, sessionId]);
 
@@ -206,7 +218,7 @@ export default function Playing() {
         >
           <img src={TimerIcon} alt="timerIcon" width="25vw" />
 
-          <Timer limitMinute={limitMinute} />
+          <Timer startTime={startTime} limitMinute={limitMinute} />
         </Box>
         <Box sx={{ position: "absolute", right: "5%" }}>
           <ExitButton />

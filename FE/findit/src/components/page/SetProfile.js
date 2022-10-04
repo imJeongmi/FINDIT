@@ -83,7 +83,7 @@ function HostProfile() {
   const [userId, setUserId] = useState("");
   const [imgNum, setImgNum] = useState("");
   const [hostNickname, setHostNickname] = useState("");
-  const [hostProfileImg, setHostProfileImg] = useState("");
+  const [hostProfileImg, setHostProfileImg] = useState(0);
 
   useEffect(() => {
     setHostNickname(user?.nickname);
@@ -113,7 +113,7 @@ function HostProfile() {
     const ranNum = Math.floor(Math.random() * (10 - 1) + 1);
     // setImgNum(Math.floor(Math.random() * 10));
     console.log(ranNum);
-    setImgNum(ranNum);
+    setHostProfileImg(ranNum);
   }
 
   function onChangeNickname(event) {
@@ -142,7 +142,13 @@ function HostProfile() {
   function onClickUpdateProfile(event) {
     event.preventDefault();
     console.log(imgNum, hostNickname);
-    requestUpdateProfile(userId, imgNum, hostNickname, updateProfileSuccess, updateProfileFail);
+    requestUpdateProfile(
+      userId,
+      hostProfileImg,
+      hostNickname,
+      updateProfileSuccess,
+      updateProfileFail,
+    );
   }
 
   // 로그아웃 함수 작성
@@ -157,7 +163,7 @@ function HostProfile() {
         </CustomText>
       </Box>
       <Box sx={BoxStyle}>
-        <ProfileImage type="rounded" src={hostProfileImg} num={imgNum - 1}></ProfileImage>
+        <ProfileImage type="rounded" num={hostProfileImg - 1}></ProfileImage>
         <Box sx={IconStyle} onClick={onClickRefresh}>
           <img src={RefreshIcon} alt="refresh" width="25px" />
         </Box>

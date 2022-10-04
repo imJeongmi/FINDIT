@@ -7,10 +7,8 @@ import a203.findit.model.dto.req.User.PlayerInfoDTO;
 import a203.findit.model.dto.res.ApiResponse;
 import a203.findit.model.dto.req.User.RoomDTO;
 import a203.findit.model.dto.res.Code;
-import a203.findit.model.entity.Game;
-import a203.findit.model.entity.IGT;
-import a203.findit.model.entity.Ranking;
-import a203.findit.model.entity.User;
+import a203.findit.model.dto.res.ResIGT;
+import a203.findit.model.entity.*;
 import a203.findit.model.repository.GameRepository;
 import a203.findit.model.repository.IGTRepository;
 import a203.findit.service.*;
@@ -60,15 +58,22 @@ public class RoomController {
 
     @GetMapping("/room/{entercode}/treasures")
     public ResponseEntity getIgt(@PathVariable("entercode") String entercode){
-        Map<String, Object> result = new HashMap<>();
+        List<ResIGT> result = new ArrayList<>();
 
         StringBuilder sb = new StringBuilder();
         String gameId = sb.append(entercode.charAt(1)).append(entercode.charAt(3)).append(entercode.charAt(5)).toString();
 
-        List<Long> tidList = igtRepos.findAllByGameId(Long.parseLong(gameId))
-                .stream().map(x->x.getTreasure().getId()).collect(Collectors.toList());
+        List<Treasure> tidList = igtRepos.findAllByGameId(Long.parseLong(gameId))
+                .stream().map(x->x.getTreasure()).collect(Collectors.toList());
 
-        result.put("tid", tidList);
+
+        for (Treasure t : tidList) {
+            ResIGT resIGT = new ResIGT();
+            resIGT.setTid(t.getId());
+            resIGT.setImg(t.getImageUrl());
+            result.add(resIGT);
+        }
+
         return ResponseEntity.ok().body(result);
     }
 
