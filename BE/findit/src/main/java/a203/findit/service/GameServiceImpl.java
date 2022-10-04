@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Map;
 
 @Service
@@ -18,5 +19,9 @@ public class GameServiceImpl implements GameService{
 
     public Game find(String entercode){
         return gameRepository.findByEnterCode(entercode).orElseGet(null);
+    }
+
+    public ArrayList<Game> findByUsername(String username){
+        return gameRepository.findAllByUsername(username);
     }
 }
