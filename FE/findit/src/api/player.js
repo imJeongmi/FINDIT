@@ -33,4 +33,8 @@ function requestRankingList(gameid, success, fail) {
     .catch(fail);
 }
 
-export { requestEnter, requestUpload, requestRankingList };
+function getGameTreasureList(entercode, success, fail) {
+  PlayerApi.get(`https://findit.life/api/v1/room/${entercode}/treasures`).then(success).catch(fail);
+}
+
+export { requestEnter, requestUpload, requestRankingList, getGameTreasureList };
