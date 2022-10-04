@@ -105,8 +105,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Map<String, String> userDetails(String userId) {
-        Map<String, String> result = new HashMap<>();
+    public Map<String, Object> userDetails(String userId) {
+        Map<String, Object> result = new HashMap<>();
 
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -115,7 +115,7 @@ public class UserServiceImpl implements UserService {
         );
 
         result.put("nickname", currUser.getNickname());
-        result.put("img", currUser.getIcon().getImageUrl());
+        result.put("img", currUser.getIcon().getId());
         result.put("userId", currUser.getUsername());
 
         return result;
@@ -133,7 +133,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean update(String userId, String nickname, Long img) {
+    public Map<String, Object> update(String userId, String nickname, Long img) {
+
+        Map<String, Object> result = new HashMap<>();
+
         User user = userRepos.findByUsername(userId).orElseThrow(
                 () -> new CustomException(Code.C403)
         );
@@ -152,7 +155,9 @@ public class UserServiceImpl implements UserService {
         user.setIcon(icon);
         userRepos.save(user);
 
-        return true;
+        result.put("img", user.getIcon().getId());
+        result.put("nickname", user.getNickname());
+        return result;
     }
 
     @Override
