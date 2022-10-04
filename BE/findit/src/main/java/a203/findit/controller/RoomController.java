@@ -11,6 +11,7 @@ import a203.findit.model.entity.User;
 import a203.findit.service.*;
 import lombok.RequiredArgsConstructor;
 import net.bytebuddy.asm.Advice;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -102,11 +103,24 @@ public class RoomController {
 
     @MessageMapping("finish")
     public void gameFinish(String entercode){
-        JSONObject jsonObject = new JSONObject();
+//        JSONObject jsonObject = new JSONObject();
         roomService.finish(entercode);
-        jsonObject.put("code", "success");
-        jsonObject.put("status","end");
-        simpMessagingTemplate.convertAndSend("/sub/room/"+entercode,jsonObject);
+//        jsonObject.put("code", "success");
+//        jsonObject.put("status","end");
+//        simpMessagingTemplate.convertAndSend("/sub/room/"+entercode,jsonObject);
+
+        ArrayList<PlayerInfoDTO> players = playerService.rankChange(entercode);
+        JSONArray rankJson = new JSONArray();
+        for( PlayerInfoDTO playerInfoDTO : players ){
+            JSONObject temp = new JSONObject();
+            temp.put("rank", playerInfoDTO.getRank());
+            temp.put("profileImg", playerInfoDTO.getProfileImg());
+            temp.put("nickname", playerInfoDTO.getNickname());
+            temp.put("score", playerInfoDTO.getScore());
+            temp.put("sessionId", playerInfoDTO.getSessionId());
+            rankJson.add(temp);
+        }
+        simpMessagingTemplate.convertAndSend("/sub/rank/"+entercode,rankJson);
     }
 
     @PostMapping("/room/result")
