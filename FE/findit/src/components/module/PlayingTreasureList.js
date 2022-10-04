@@ -8,7 +8,7 @@ import CircleButton from "components/atom/CircleButton";
 import ExitButton from "components/atom/ExitButton";
 import TreasureItem from "components/atom/TreasureItem";
 
-import { getTreasureList } from "api/treasure";
+import { getGameTreasureList } from "api/treasure";
 
 const TreasureBox = styled(Box)(
   () => `
@@ -47,14 +47,15 @@ export default function PlayingTreasureList({ setModalOpen, findedTreasures }) {
 
   useEffect(() => {
     console.log("open");
-    getTreasureList(getTreasureListSuccess, getTreasureListFail);
+    getGameTreasureList(gameid, getGameTreasureListSuccess, getGameTreasureListFail);
   }, [gameid]);
 
-  function getTreasureListSuccess(res) {
+  function getGameTreasureListSuccess(res) {
     setTreasureList(res.data);
+    console.log(`${gameid} 보물 : ${treasureList}`);
   }
 
-  function getTreasureListFail(err) {
+  function getGameTreasureListFail(err) {
     console.log("보물 목록 요청 실패", err);
   }
 
