@@ -4,9 +4,11 @@ import { useTimer } from "react-timer-hook";
 
 
 
-export default function Timer({ limitMinute, target }) {
-  const time = new Date();
-  time.setSeconds(time.getSeconds() + limitMinute * 60);
+export default function Timer({ limitMinute, startTime, target }) {
+  const now = new Date();
+  const time = new Date(startTime);
+  console.log(startTime)
+  time.setSeconds(time.getSeconds() + limitMinute * 60 - now.getSeconds());
   function MyTimer({ expiryTimestamp, target }) {
     const {
       seconds,
