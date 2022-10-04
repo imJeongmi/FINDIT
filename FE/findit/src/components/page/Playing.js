@@ -103,7 +103,7 @@ export default function Playing() {
     const file = dataURLtoFile(image, "treasure.jpeg");
 
     const data = {
-      game_id: Number(gameid),
+      game_id: gameid,
       file: file,
     };
 
