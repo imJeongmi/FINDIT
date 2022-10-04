@@ -7,6 +7,7 @@ import a203.findit.model.dto.req.User.PlayerInfoDTO;
 import a203.findit.model.dto.res.ApiResponse;
 import a203.findit.model.dto.req.User.RoomDTO;
 import a203.findit.model.dto.res.Code;
+import a203.findit.model.dto.res.ResGameDTO;
 import a203.findit.model.dto.res.ResIGT;
 import a203.findit.model.entity.*;
 import a203.findit.model.repository.GameRepository;
@@ -162,11 +163,22 @@ public class RoomController {
 
     //FE 구현 안함
     @GetMapping("/room/result/info")
-    public ResponseEntity<Game> showGameInfo(@Valid @RequestBody EntercodeDTO entercodeDTO){
+    public ResponseEntity<ResGameDTO> showGameInfo(@Valid @RequestBody EntercodeDTO entercodeDTO){
         Game game = gameService.find(entercodeDTO.getEntercode());
         if(game == null){
             return ResponseEntity.badRequest().body(null);
         }
-        return ResponseEntity.ok().body(game);
+
+        ResGameDTO result = ResGameDTO.builder()
+                .createTime(game.getCreateTime())
+                .startTime(game.getStartTime())
+                .limitMin(game.getLimitMin())
+                .endTime(game.getEndTime())
+                .mode(game.getMode())
+                .entercode(game.getEntercode())
+                .playTime(game.getPlayTime())
+                .build();
+
+        return ResponseEntity.ok().body(result);
     }
 }
