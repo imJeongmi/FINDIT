@@ -74,7 +74,7 @@ export default function TreasureItem({
             alt={alt}
             style={{ filter: isSelected || finded ? "brightness(40%)" : "brightness(100%)" }}
           />
-          {console.log(`key: ${idx}, finded: ${finded}`)}
+          {/* {console.log(`key: ${idx}, finded: ${finded}`)} */}
           {/* {isSelected && <Box style={{ display: "fixed", backgroundColor: "black" }} />} */}
         </label>
       </TreasureBox>
