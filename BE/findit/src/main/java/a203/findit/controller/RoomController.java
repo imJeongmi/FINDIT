@@ -160,11 +160,9 @@ public class RoomController {
         return ResponseEntity.ok().body(rankings);
     }
 
-
     //FE 구현 안함
     @GetMapping("/room/result/info")
     public ResponseEntity<ArrayList<ResGameDTO>> showGameInfo(){
-
         UserDetails currUser = (UserDetails) (SecurityContextHolder.getContext().getAuthentication()).getPrincipal();
         ArrayList<Game> games = gameService.findByUsername(currUser.getUsername());
 

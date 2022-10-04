@@ -43,5 +43,5 @@ public class Game {
     private User user;
 
     @Column(name="play_time")
-    private long playTime;
+    private Long playTime;
 }

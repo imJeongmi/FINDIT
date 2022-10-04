@@ -19,7 +19,9 @@ public interface GameRepository extends JpaRepository<Game, Long> {
     @Query(nativeQuery = true, value = "select * from game where entercode = :entercode")
     Optional<Game> findByEnterCode(String entercode);
 
-    @Query(nativeQuery = true, value = "select * from game where username = :username")
+    @Query(nativeQuery = true, value = "select * from game a " +
+            "join user b on a.user_id = b.user_id " +
+            "where b.username = :username")
     ArrayList<Game> findAllByUsername(String username);
 
 }
