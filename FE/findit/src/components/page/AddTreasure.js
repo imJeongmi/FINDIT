@@ -63,13 +63,16 @@ export default function AddTreasure() {
 
   function uploadAction(image) {
     const file = dataURLtoFile(image, "treasure.jpeg");
+    
+    const formData = new FormData();
+    formData.append("img", file);
 
-    requestUpload(file, uploadSuccess, uploadFail);
+    requestUpload(formData, uploadSuccess, uploadFail);
   }
 
   function uploadSuccess(res) {
     console.log(res);
-    if (res.ok) {
+    if (res.ok) { 
       console.log("OK");
     }
   }
