@@ -10,6 +10,7 @@ import Timer from "components/module/Timer";
 import { useState } from "react";
 
 import { requestRankingList } from "api/player";
+import ls from "helper/LocalStorage";
 
 const CenterStyle = {
   margin: "7vh 0 5vh 0",
