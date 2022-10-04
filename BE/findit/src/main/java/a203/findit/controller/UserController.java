@@ -94,7 +94,7 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<Map<String, String>> getDetails(@PathVariable("userId") String userId) {
+    public ResponseEntity getDetails(@PathVariable("userId") String userId) {
         return ResponseEntity.ok().body(userService.userDetails(userId));
     }
 
@@ -106,10 +106,8 @@ public class UserController {
     @PostMapping("/{userId}/update")
     public ResponseEntity updateImg(@PathVariable("userId") String userId, @RequestBody ReqUpdateImgDTO reqUpdateImgDTO) {
         System.out.println(reqUpdateImgDTO.getImg());
-        if (userService.update(userId, reqUpdateImgDTO.getNickname(), reqUpdateImgDTO.getImg())) {
-            return ResponseEntity.ok().build();
-        }
-        return ResponseEntity.badRequest().body("잘못된 요청입니다.");
+
+            return ResponseEntity.ok().body(userService.update(userId, reqUpdateImgDTO.getNickname(), reqUpdateImgDTO.getImg()));
     }
 
     @PostMapping("/{userId}/updatePw")

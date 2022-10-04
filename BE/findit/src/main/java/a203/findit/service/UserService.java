@@ -19,11 +19,11 @@ public interface UserService {
 
     boolean logout(HttpServletRequest req, String refreshToken);
 
-    Map<String, String> userDetails(String userId);
+    Map<String, Object> userDetails(String userId);
 
     Map<String, Object> updateForm(UpdateFormDTO nickname);
 
-    boolean update(String userId, String nickname, Long img);
+    Map<String, Object> update(String userId, String nickname, Long img);
 
     boolean updatePw(Long userId, String pw, String username);
 
