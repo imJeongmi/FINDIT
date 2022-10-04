@@ -134,16 +134,6 @@ export default function Playing() {
 
   function uploadFail(error) {
     console.log(error);
-
-    const tid = "NOT TREASURE";
-    if (tid !== "NOT TREASURE") {
-      setFindedTreasures(findedTreasures => [...findedTreasures, tid]);
-      ws.publish({ destination: "/pub/find", body: `${gameid},${tid}` });
-    } else {
-      setNotTreasureMsg("보물이 아니에요");
-      setTimeout(() => setNotTreasureMsg(""), 1500);
-    }
-    console.log(`findedTreasures : ${findedTreasures}`);
   }
 
   function dataURLtoFile(dataurl, filename) {
