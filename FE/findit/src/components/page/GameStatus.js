@@ -52,7 +52,7 @@ export default function GameStatus() {
 
   function finishGame() {
     ws.publish({ destination: "/pub/finish", body: `${gameid}` });
-    setInterval(function () { }, 1000)
+    setInterval(function () { }, 3000)
     ws.deactivate();
     navigate(`/result/${gameid}`);
   }
