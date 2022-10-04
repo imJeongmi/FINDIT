@@ -168,16 +168,21 @@ public class RoomController {
         UserDetails currUser = (UserDetails) (SecurityContextHolder.getContext().getAuthentication()).getPrincipal();
         ArrayList<Game> games = gameService.findByUsername(currUser.getUsername());
 
-        ResGameDTO result = ResGameDTO.builder()
-                .createTime(game.getCreateTime())
-                .startTime(game.getStartTime())
-                .limitMin(game.getLimitMin())
-                .endTime(game.getEndTime())
-                .mode(game.getMode())
-                .entercode(game.getEntercode())
-                .playTime(game.getPlayTime())
-                .build();
+        ArrayList<ResGameDTO> result = new ArrayList<>();
 
-        return ResponseEntity.ok().body(games);
+        for (Game game : games) {
+            ResGameDTO dto = ResGameDTO.builder()
+                    .createTime(game.getCreateTime())
+                    .startTime(game.getStartTime())
+                    .limitMin(game.getLimitMin())
+                    .endTime(game.getEndTime())
+                    .mode(game.getMode())
+                    .entercode(game.getEntercode())
+                    .playTime(game.getPlayTime())
+                    .build();
+            result.add(dto);
+        }
+
+        return ResponseEntity.ok().body(result);
     }
 }
