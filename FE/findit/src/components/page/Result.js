@@ -5,8 +5,7 @@ import CustomButton from "components/atom/CustomButton";
 import ProfileImage from "components/atom/ProfileImage";
 import RankingList from "components/module/RankingList";
 
-import { requestRankingList } from "api/player";
-import { useParams, Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import ls from "helper/LocalStorage";
 
 const CenterStyle = {
@@ -65,48 +64,42 @@ function getRank(rankNum) {
   }
 }
 
-function AwardsList(rankNum, playerName, imgNum) {
-  return (
-    <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-      {rankNum === 1 ? (
-        <ProfileImage type="winner" mb="2vh" num={imgNum} />
-      ) : (
-        <ProfileImage mb="2vh" num={imgNum} />
-      )}
-      <CustomText>{playerName}</CustomText>
-      {getRank(rankNum)}
-    </Box>
-  );
-}
-
 export default function Result() {
-  const [rankingList, setRankingList] = useState([]);
   const [topThreeList, setTopThreeList] = useState([]);
-  const { gameid } = useParams();
+  const location = useLocation();
+  const finalRank = location?.state?.finalRank
 
   useEffect(() => {
-    requestRankingList(gameid, requestRankingListSuccess, requestRankingListFail);
-  }, [gameid]);
+    if (finalRank) {
+      setTopThreeList(finalRank.slice(0, 3))
+    }
+  }, [finalRank]);
 
-  function requestRankingListSuccess(res) {
-    console.log(res);
-    setRankingList(res.data);
-    setTopThreeList(res.data.slice(0, 3));
-  }
 
-  function requestRankingListFail(err) {
-    console.log("랭킹 요청 실패", err);
-  }
+  // function AwardsList(rankNum, playerName) {
+  //   return (
+  //     <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+  //       {rankNum === 1 ? <ProfileImage type="winner" mb="2vh" /> : <ProfileImage mb="2vh" />}
+  //       <CustomText>{playerName}</CustomText>
+  //       {getRank(rankNum)}
+  //     </Box>
+  //   );
+  // }
 
-  function AwardsList(rankNum, playerName) {
+  function AwardsList(rankNum, playerName, imgNum) {
     return (
       <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-        {rankNum === 1 ? <ProfileImage type="winner" mb="2vh" /> : <ProfileImage mb="2vh" />}
+        {rankNum === 1 ? (
+          <ProfileImage type="winner" mb="2vh" num={imgNum} />
+        ) : (
+          <ProfileImage mb="2vh" num={imgNum} />
+        )}
         <CustomText>{playerName}</CustomText>
         {getRank(rankNum)}
       </Box>
     );
   }
+
 
   function isPlayer() {
     const token = ls.get("accessToken");
@@ -125,12 +118,11 @@ export default function Result() {
         </CustomText>
       </Box>
       <AwardsBox>
-        {AwardsList(2, "이멀캠", 1)}
-        {AwardsList(1, "김싸피", 0)}
-        {AwardsList(3, "박역삼", 2)}
-        {/* {topThreeList.map((rank, idx) => (
-          <AwardsList rankNum={idx + 1} playerName={rank.nickname} />
-        ))} */}
+
+        <AwardsList rankNum={2} playerName={topThreeList[1]?.nickname} imgNum={topThreeList[1]?.ProfileImg} />
+        <AwardsList rankNum={1} playerName={topThreeList[0]?.nickname} imgNum={topThreeList[0]?.ProfileImg} />
+        <AwardsList rankNum={3} playerName={topThreeList[2]?.nickname} imgNum={topThreeList[2]?.ProfileImg} />
+
       </AwardsBox>
       <RankingBox>
         <RankingList rankNum={1} userName="김싸피" gameScore={350} imgNum={0} />
@@ -141,7 +133,7 @@ export default function Result() {
         <RankingList rankNum={6} userName="김싸피" gameScore={90} imgNum={5} />
         <RankingList rankNum={7} userName="김싸피" gameScore={80} imgNum={6} />
         {/* {rankingList.map((rank, idx) => (
-          <RankingList rankNum={idx + 1} userName={rank.nickname} gameScore={rank.score} />
+          <RankingList rankNum={idx + 1} userName={rank.nickname} gameScore={rank.score} imgNum={rank.profileImg}/>
         ))} */}
       </RankingBox>
       <ButtonBox>
@@ -151,7 +143,7 @@ export default function Result() {
           </Link>) : (<Link to="/hostmain" style={{ textDecoration: "none", color: "#DA9B9A" }}>
             메인
           </Link>)}
-          
+
         </CustomButton>
         <CustomButton size="large">저장하기</CustomButton>
       </ButtonBox>

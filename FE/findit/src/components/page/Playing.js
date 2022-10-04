@@ -103,6 +103,7 @@ export default function Playing() {
   const location = useLocation();
   const limitMinute = location?.state?.limitMinute;
   const sessionId = ss.get("sessionId");
+  const navigate = useNavigate();
 
   function onClickCamera() {
     const image = camera.current.takePhoto();
@@ -158,10 +159,15 @@ export default function Playing() {
 
   function getRankFromSocket(message) {
     const msg = JSON.parse(message.body);
-    setRanking(msg);
-    const temp = msg.find(element => element.sessionId === sessionId);
-    if (temp) {
-      setMyRank(temp?.rank);
+    if (msg[0]?.status === "end") {
+      const finalRank = msg.slice(1);
+      navigate(`/result/${gameid}`, { state: { finalRank: finalRank } });
+    } else {
+      setRanking(msg);
+      const temp = msg.find(element => element.sessionId === sessionId);
+      if (temp) {
+        setMyRank(temp?.rank);
+      }
     }
   }
 
@@ -172,7 +178,7 @@ export default function Playing() {
   useEffect(() => {
     if (!!gameid && !!sessionId) {
       ws.subscribe(`/sub/player/${sessionId}`, getScoreFromSocket);
-      setInterval(function() {ws.subscribe(`/sub/rank/${gameid}`, getRankFromSocket);}, 58000)
+      setInterval(function () { ws.subscribe(`/sub/rank/${gameid}`, getRankFromSocket); }, 58000)
     }
   }, [ws, gameid, sessionId]);
 
