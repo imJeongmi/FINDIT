@@ -55,15 +55,16 @@ IGT = {}
 Default_IGT = {}
 Custom_IGT = {}
 
-db = pymysql.connect(host=host,
-                     port=port,
-                     user=username,
-                     password=password,
-                     db=dbname,
-                     charset='utf8')
+
 
 @app.post("/check")
 async def upload_file(file: UploadFile = File(...), game_id: str = Form()):
+    db = pymysql.connect(host=host,
+                         port=port,
+                         user=username,
+                         password=password,
+                         db=dbname,
+                         charset='utf8')
     print(game_id)
     cursor = db.cursor()
 
