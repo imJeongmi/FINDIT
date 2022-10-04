@@ -81,10 +81,10 @@ export default function Result() {
 
   const { gameid } = useParams();
   useEffect(() => {
-    // if (gameid) {
-    requestRankingList(gameid, requestRankingListSuccess, requestRankingListFail)
-    // }
-  });
+    if (gameid) {
+      requestRankingList(gameid, requestRankingListSuccess, requestRankingListFail)
+    }
+  }, [gameid]);
 
   function requestRankingListSuccess(res) {
     setRankingList(res.data)
