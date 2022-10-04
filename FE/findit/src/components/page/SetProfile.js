@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import { Box } from "@mui/system";
 
@@ -11,9 +11,11 @@ import CustomText from "../atom/CustomText";
 import ProfileImage from "../atom/ProfileImage";
 import RefreshIcon from "static/refresh.png";
 
-import { requestLogout } from "api/user";
+import { requestLogout, requestUserInfo } from "api/user";
 import { requestUpdateProfile } from "api/host";
 import ls from "helper/LocalStorage";
+
+import { setUserInfoToStore } from "reducers/user";
 
 const ProfileBoxStyle = {
   margin: "auto",
@@ -47,8 +49,7 @@ function PlayerProfile() {
 
   function sendPlayerToWaiting(e) {
     e.preventDefault();
-    navigate(`/waiting/${gameid}`, { state: { imgNum: imgNum, nickname: nickname } })
-
+    navigate(`/waiting/${gameid}`, { state: { imgNum: imgNum, nickname: nickname } });
   }
 
   return (
@@ -77,6 +78,7 @@ function PlayerProfile() {
 
 function HostProfile() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const user = useSelector(state => state.user.info);
   const [userId, setUserId] = useState("");
   const [imgNum, setImgNum] = useState("");
@@ -87,7 +89,7 @@ function HostProfile() {
     setHostNickname(user?.nickname);
     setHostProfileImg(user?.img);
     setUserId(user?.userId);
-  }, [user, hostNickname, hostProfileImg]);
+  }, [user]);
 
   function logoutSuccess() {
     console.log("로그아웃 성공");
@@ -108,7 +110,10 @@ function HostProfile() {
   // const [nickname, setNickname] = useState("");
 
   function onClickRefresh() {
-    setImgNum(Math.floor(Math.random() * 10));
+    const ranNum = Math.floor(Math.random() * (10 - 1) + 1);
+    // setImgNum(Math.floor(Math.random() * 10));
+    console.log(ranNum);
+    setImgNum(ranNum);
   }
 
   function onChangeNickname(event) {
@@ -116,11 +121,21 @@ function HostProfile() {
     setHostNickname(nickname);
   }
 
-  function updateProfileSuccess() {
+  async function updateProfileSuccess() {
+    await requestUserInfo(userId, getUserInfoSuccess, getUserInfoFail);
     navigate("/hostmain");
   }
 
   function updateProfileFail(err) {
+    console.log(err);
+  }
+
+  function getUserInfoSuccess(res) {
+    dispatch(setUserInfoToStore(res.data));
+    navigate("/hostmain");
+  }
+
+  function getUserInfoFail(err) {
     console.log(err);
   }
 
@@ -142,7 +157,7 @@ function HostProfile() {
         </CustomText>
       </Box>
       <Box sx={BoxStyle}>
-        <ProfileImage type="rounded" src={hostProfileImg} num={imgNum}></ProfileImage>
+        <ProfileImage type="rounded" src={hostProfileImg} num={imgNum - 1}></ProfileImage>
         <Box sx={IconStyle} onClick={onClickRefresh}>
           <img src={RefreshIcon} alt="refresh" width="25px" />
         </Box>
@@ -152,10 +167,10 @@ function HostProfile() {
         <CustomText>닉네임을 등록해주세요</CustomText>
         <Input type="text" placeholder={hostNickname} onChange={onChangeNickname}></Input>
       </Box>
-      <CustomButton size="small" color="secondary">
+      {/* <CustomButton size="small" color="secondary">
         비밀번호 변경
-      </CustomButton>
-      <CustomButton size="small" color="primary" onClick={onClickUpdateProfile}>
+      </CustomButton> */}
+      <CustomButton size="large" color="primary" onClick={onClickUpdateProfile}>
         프로필 변경
       </CustomButton>
     </Box>

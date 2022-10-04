@@ -83,11 +83,19 @@ export default function Tutorial({ target }) {
                 ))}
           </Carousel>
         </Box>
-        <Link to="/code" style={{ textDecoration: "none" }}>
-          <CustomButton size="large" color="primary" my="0.5vh">
-            입장 코드 입력
-          </CustomButton>
-        </Link>
+        {target === "player" ? (
+          <Link to="/code" style={{ textDecoration: "none" }}>
+            <CustomButton size="large" color="primary" my="0.5vh">
+              입장 코드 입력
+            </CustomButton>
+          </Link>
+        ) : (
+          <Link to="/hostmain" style={{ textDecoration: "none" }}>
+            <CustomButton size="large" color="primary" my="0.5vh">
+              메인으로
+            </CustomButton>
+          </Link>
+        )}
       </Modal>
     </Box>
   );
