@@ -103,14 +103,13 @@ public class RoomController {
 
     @MessageMapping("finish")
     public void gameFinish(String entercode){
-//        JSONObject jsonObject = new JSONObject();
         roomService.finish(entercode);
-//        jsonObject.put("code", "success");
-//        jsonObject.put("status","end");
-//        simpMessagingTemplate.convertAndSend("/sub/room/"+entercode,jsonObject);
 
         ArrayList<PlayerInfoDTO> players = playerService.rankChange(entercode);
         JSONArray rankJson = new JSONArray();
+        JSONObject bef = new JSONObject();
+        bef.put("status", "end");
+        rankJson.add(bef);
         for( PlayerInfoDTO playerInfoDTO : players ){
             JSONObject temp = new JSONObject();
             temp.put("rank", playerInfoDTO.getRank());
