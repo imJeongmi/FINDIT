@@ -50,13 +50,12 @@ export default function HostMain() {
   const navigate = useNavigate();
   const user = useSelector(state => state.user.info);
   const [hostNickname, setHostNickname] = useState("");
-  const [hostProfileImg, setHostProfileImg] = useState("");
+  const [hostProfileImg, setHostProfileImg] = useState(0);
 
   useEffect(() => {
     setHostNickname(user?.nickname);
     setHostProfileImg(user?.img);
   }, [user, hostNickname, hostProfileImg]);
-
 
   function goToSetProfile() {
     navigate("/hostprofile");
@@ -78,7 +77,7 @@ export default function HostMain() {
           </CustomText>
         </LogoNickname>
         <StyledProfileBox onClick={goToSetProfile}>
-          <ProfileImage src={hostProfileImg}></ProfileImage>
+          <ProfileImage num={hostProfileImg - 1}></ProfileImage>
         </StyledProfileBox>
       </StyledHeader>
       <MainPageButton />
