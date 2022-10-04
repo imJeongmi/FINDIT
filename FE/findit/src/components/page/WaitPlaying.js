@@ -12,7 +12,7 @@ import { useState } from "react";
 import ss from "helper/SessionStorage";
 
 const CenterStyle = {
-  margin: "7vh auto",
+  margin: "7vh auto 2vh",
   textAlign: "center",
 };
 
@@ -79,9 +79,6 @@ export default function WaitPlaying() {
     } else if (isGamePlayer() && msg.status === "end") {
       ws.deactivate();
       navigate(`/result/${gameid}`);
-
-
-
     } else if (Array.isArray(msg)) {
       setPlayers(msg);
       findAndSet(msg);
@@ -89,12 +86,12 @@ export default function WaitPlaying() {
   }
 
   function findAndSet(msg) {
-    msg.forEach((player) => {
+    msg.forEach(player => {
       if (player?.nickname === nickname) {
         const temp = player?.sessionId;
         ss.set("sessionId", temp);
       }
-    })
+    });
   }
 
   ws.onConnect = function (frame) {
@@ -131,6 +128,13 @@ export default function WaitPlaying() {
           방장이 시작 버튼을 누르면 게임이 시작돼요
         </CustomText>
       </Box>
+      {!isGamePlayer() && (
+        <Box sx={{ textAlign: "center" }}>
+          <CustomText size="xxl" weight="bold" variant="green">
+            {gameid}
+          </CustomText>
+        </Box>
+      )}
       <RankingBox>
         {players.map((item, idx) => (
           <Box key={idx}>
