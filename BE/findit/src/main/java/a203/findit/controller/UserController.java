@@ -130,7 +130,7 @@ public class UserController {
     }
 
     @PostMapping("/treasures/add")
-    public ResponseEntity createTreasure(@RequestPart(value = "img") MultipartFile img) {
+    public ResponseEntity createTreasure(MultipartFile img) {
         UserDetails currUser = (UserDetails) (SecurityContextHolder.getContext().getAuthentication()).getPrincipal();
 
         if (userService.createTreasure(currUser.getUsername(), img)) {
