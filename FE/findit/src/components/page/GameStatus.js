@@ -40,6 +40,7 @@ export default function GameStatus() {
   const limitMinute = location?.state?.limitMinute;
   const [target, setTarget] = useState(0);
   const [ranking, setRanking] = useState([]);
+  const startTime = ls.get("starttime")
 
   function DeactivateButton() {
     return (
@@ -111,7 +112,7 @@ export default function GameStatus() {
           남은 시간
         </CustomText>
         <br />
-        <Timer limitMinute={limitMinute} target="user" />
+        <Timer startTime={startTime} limitMinute={limitMinute} target="user" />
       </Box>
       <RankingBox>
         {ranking.map((item, idx) => (
