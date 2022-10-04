@@ -63,16 +63,12 @@ export default function AddTreasure() {
 
   function uploadAction(image) {
     const file = dataURLtoFile(image, "treasure.jpeg");
-    
-    const formData = new FormData();
-    formData.append("img", file);
-
-    requestUpload(formData, uploadSuccess, uploadFail);
+    requestUpload(file, uploadSuccess, uploadFail);
   }
 
   function uploadSuccess(res) {
     console.log(res);
-    if (res.ok) { 
+    if (res.ok) {
       console.log("OK");
     }
   }
@@ -94,11 +90,11 @@ export default function AddTreasure() {
     return new File([u8arr], filename, { type: mime });
   }
 
-function exitAddTreasure(e) {
-  e.preventDefault();
-  window.history.back();
-}
-  
+  function exitAddTreasure(e) {
+    e.preventDefault();
+    window.history.back();
+  }
+
   return (
     <Box>
       <Camera
@@ -108,11 +104,11 @@ function exitAddTreasure(e) {
         facingMode="environment"
       />
 
-        <StatusBar>
-          <Box sx={{ position: "absolute", right: "5%" }} onClick={exitAddTreasure}>
-            <ExitButton />
-          </Box>
-        </StatusBar>
+      <StatusBar>
+        <Box sx={{ position: "absolute", right: "5%" }} onClick={exitAddTreasure}>
+          <ExitButton />
+        </Box>
+      </StatusBar>
 
       <GuidelineBox>
         <img src={GuideLine} alt="guideLine" />
