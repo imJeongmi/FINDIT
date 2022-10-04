@@ -163,11 +163,10 @@ public class RoomController {
 
     //FE 구현 안함
     @GetMapping("/room/result/info")
-    public ResponseEntity<ResGameDTO> showGameInfo(@Valid @RequestBody EntercodeDTO entercodeDTO){
-        Game game = gameService.find(entercodeDTO.getEntercode());
-        if(game == null){
-            return ResponseEntity.badRequest().body(null);
-        }
+    public ResponseEntity<ArrayList<ResGameDTO>> showGameInfo(){
+
+        UserDetails currUser = (UserDetails) (SecurityContextHolder.getContext().getAuthentication()).getPrincipal();
+        ArrayList<Game> games = gameService.findByUsername(currUser.getUsername());
 
         ResGameDTO result = ResGameDTO.builder()
                 .createTime(game.getCreateTime())
@@ -179,6 +178,6 @@ public class RoomController {
                 .playTime(game.getPlayTime())
                 .build();
 
-        return ResponseEntity.ok().body(result);
+        return ResponseEntity.ok().body(games);
     }
 }
