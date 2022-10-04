@@ -73,6 +73,15 @@ const ButtonBox = styled(Box)(
     `,
 );
 
+const MessageBox = styled(Box)(
+  () => `
+    position: absolute;
+    left: 50%;
+    bottom: 27vh;
+    transform: translate(-50%);
+  `,
+);
+
 export default function Playing() {
   const [modalOpen, setModalOpen] = useState(false);
   const showRankingModal = () => {
@@ -90,6 +99,7 @@ export default function Playing() {
   const [finalScore, setFinalScore] = useState(0);
   const [myRank, setMyRank] = useState("1st");
   const [findedTreasures, setFindedTreasures] = useState([]);
+  const [notTreasureMsg, setNotTreasureMsg] = useState("");
   const location = useLocation();
   const limitMinute = location?.state?.limitMinute;
   const sessionId = ss.get("sessionId");
@@ -115,13 +125,25 @@ export default function Playing() {
     if (tid !== "NOT TREASURE") {
       setFindedTreasures(findedTreasures => [...findedTreasures, tid]);
       ws.publish({ destination: "/pub/find", body: `${gameid},${tid}` });
+    } else {
+      setNotTreasureMsg("보물이 아니에요");
+      setTimeout(() => setNotTreasureMsg(""), 1500);
     }
     console.log(`findedTreasures : ${findedTreasures}`);
-
   }
 
   function uploadFail(error) {
     console.log(error);
+
+    const tid = "NOT TREASURE";
+    if (tid !== "NOT TREASURE") {
+      setFindedTreasures(findedTreasures => [...findedTreasures, tid]);
+      ws.publish({ destination: "/pub/find", body: `${gameid},${tid}` });
+    } else {
+      setNotTreasureMsg("보물이 아니에요");
+      setTimeout(() => setNotTreasureMsg(""), 1500);
+    }
+    console.log(`findedTreasures : ${findedTreasures}`);
   }
 
   function dataURLtoFile(dataurl, filename) {
@@ -227,6 +249,9 @@ export default function Playing() {
           <CircleButton icon="treasure" size="smaller" opacity="0.6" />
         </Box>
       </ButtonBox>
+      <MessageBox>
+        <CustomText size="xs">{notTreasureMsg}</CustomText>
+      </MessageBox>
       {modalOpen === 1 && <PlayingRanking setModalOpen={setModalOpen} ranking={ranking} />}
       {modalOpen === 2 && (
         <PlayingTreasureList setModalOpen={setModalOpen} findedTreasures={findedTreasures} />
