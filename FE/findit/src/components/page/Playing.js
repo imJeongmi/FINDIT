@@ -122,11 +122,14 @@ export default function Playing() {
   }
 
   function uploadSuccess(res) {
-    const tid = res.data.message;
+    // const tid = res.data.message;
+    const tid = 1
     if (tid !== "NOT TREASURE" && findedTreasures.find(tid) === undefined) {
       setFindedTreasures(findedTreasures => [...findedTreasures, tid]);
       ws.publish({ destination: "/pub/find", body: `${gameid},${tid}` });
-    } else {
+    } 
+
+    else {
       setNotTreasureMsg("보물이 아니에요");
       setTimeout(() => setNotTreasureMsg(""), 1500);
     }
