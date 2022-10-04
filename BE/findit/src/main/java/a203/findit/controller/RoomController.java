@@ -142,26 +142,26 @@ public class RoomController {
         simpMessagingTemplate.convertAndSend("/sub/rank/"+entercode,rankJson);
     }
 
-    @PostMapping("/room/result")
-    public ResponseEntity sendResult(@Valid EntercodeDTO entercodeDTO){
-        //return result && save result >> 등수
-        ArrayList<PlayerInfoDTO> playerInfoDTOS =  playerService.rankChange(entercodeDTO.getEntercode());
-        rankingService.join(playerInfoDTOS,entercodeDTO.getEntercode());
-        return ResponseEntity.ok(playerInfoDTOS);
+//    @GetMapping("/room/result")
+//    public ResponseEntity<List<Ranking>> sendResult(@Valid @RequestBody EntercodeDTO entercodeDTO){
+//        return ResponseEntity.ok().body(rankingService.getRanks(entercodeDTO.getEntercode()));
+//    }
+
+    @GetMapping("/room/result/rank")
+    public ResponseEntity<ArrayList<Ranking>> showResult(@Valid @RequestBody EntercodeDTO entercodeDTO){
+        System.out.println(entercodeDTO.getEntercode());
+        ArrayList<Ranking> rankings = rankingService.getRanks(entercodeDTO.getEntercode());
+        return ResponseEntity.ok().body(rankings);
     }
 
+
+    //FE 구현 안함
     @GetMapping("/room/result/info")
-    public ResponseEntity<Game> showGameInfo(@Valid EntercodeDTO entercodeDTO){
+    public ResponseEntity<Game> showGameInfo(@Valid @RequestBody EntercodeDTO entercodeDTO){
         Game game = gameService.find(entercodeDTO.getEntercode());
         if(game == null){
             return ResponseEntity.badRequest().body(null);
         }
-        return ResponseEntity.ok(game);
-    }
-
-    @GetMapping("/room/result/rank")
-    public ResponseEntity<ArrayList<Ranking>> showResult(@Valid EntercodeDTO entercodeDTO){
-        ArrayList<Ranking> rankings = rankingService.show(entercodeDTO.getEntercode());
-        return ResponseEntity.ok(rankings);
+        return ResponseEntity.ok().body(game);
     }
 }

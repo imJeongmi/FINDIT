@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 public class RankingServiceImpl {
     final private RankingRepository rankingRepository;
 
+    @Transactional
     public void join(ArrayList<PlayerInfoDTO> playerInfoDTOS, String entercode){
         for(int i=0;i< playerInfoDTOS.size();i++){
             PlayerInfoDTO playerInfo = playerInfoDTOS.get(i);
@@ -26,7 +28,8 @@ public class RankingServiceImpl {
             rankingRepository.save(ranking);
         }
     }
-    public ArrayList<Ranking> show(String entercode){
-        return (ArrayList<Ranking>) rankingRepository.findByEntercode(entercode);
+    @Transactional
+    public ArrayList<Ranking> getRanks(String entercode){
+        return rankingRepository.rankByEntercode(entercode);
     }
 }

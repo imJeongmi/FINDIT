@@ -1,13 +1,12 @@
 package a203.findit.service;
 
+import a203.findit.model.dto.req.User.PlayerInfoDTO;
 import a203.findit.model.dto.req.User.RoomDTO;
 import a203.findit.model.entity.Game;
 import a203.findit.model.entity.Mode;
+import a203.findit.model.entity.Ranking;
 import a203.findit.model.entity.User;
-import a203.findit.model.repository.GameRepository;
-import a203.findit.model.repository.MemoryPlayerRepository;
-import a203.findit.model.repository.UserRepository;
-import a203.findit.model.repository.MemoryRoomRepository;
+import a203.findit.model.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +15,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +30,7 @@ public class RoomServiceImpl implements RoomService{
     private final GameRepository gameRepository;
     private final MemoryRoomRepository roomRepository;
     private final MemoryPlayerRepository playerRepository;
+    final private RankingRepository rankingRepository;
 
 
     @Transactional
@@ -63,9 +64,21 @@ public class RoomServiceImpl implements RoomService{
         LocalDateTime now = LocalDateTime.now();
         //inmemory
         roomRepository.findByEnterCode(entercode).setEndTime(now);
+
+
         //DB
         Optional<Game> game = gameRepository.findByEnterCode(entercode);
         game.get().setEndTime(now);
+
+        ArrayList<PlayerInfoDTO> players = playerRepository.rankChange(entercode);
+        for(PlayerInfoDTO playerInfoDTO : players){
+            Ranking ranking = new Ranking();
+            ranking.setGame_entercode(entercode);
+            ranking.setPlayer_nickname(playerInfoDTO.getNickname());
+            ranking.setPlayer_rank(playerInfoDTO.getRank());
+            ranking.setPlayer_score(playerInfoDTO.getScore());
+            rankingRepository.save(ranking);
+        }
 
         Duration duration = Duration.between(game.get().getStartTime(),now);
         game.get().setPlayTime(duration.getSeconds());

@@ -5,11 +5,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 public interface RankingRepository extends JpaRepository<Ranking, Long> {
 
-    @Query(nativeQuery = true, value = "select * from ranking where game_entercode = :entercode")
-    List<Ranking> findByEntercode(String entercode);
+    @Query(nativeQuery = true, value = "select * from ranking " +
+            "where game_entercode = :entercode " +
+            "order by player_rank")
+    ArrayList<Ranking> rankByEntercode(String entercode);
 }
