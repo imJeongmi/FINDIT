@@ -123,7 +123,7 @@ export default function Playing() {
 
   function uploadSuccess(res) {
     const tid = res.data.message;
-    if (tid !== "NOT TREASURE") {
+    if (tid !== "NOT TREASURE" && findedTreasures.find(tid) === undefined) {
       setFindedTreasures(findedTreasures => [...findedTreasures, tid]);
       ws.publish({ destination: "/pub/find", body: `${gameid},${tid}` });
     } else {
@@ -161,6 +161,7 @@ export default function Playing() {
     const msg = JSON.parse(message.body);
     if (msg[0]?.status === "end") {
       const finalRank = msg.slice(1);
+      console.log(finalRank)
       navigate(`/result/${gameid}`, { state: { finalRank: finalRank } });
     } else {
       setRanking(msg);
