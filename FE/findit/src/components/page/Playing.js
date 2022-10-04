@@ -182,7 +182,7 @@ export default function Playing() {
   useEffect(() => {
     if (!!gameid && !!sessionId) {
       ws.subscribe(`/sub/player/${sessionId}`, getScoreFromSocket);
-      ws.subscribe(`/sub/rank/${gameid}`, getRankFromSocket);
+      setInterval(function() {ws.subscribe(`/sub/rank/${gameid}`, getRankFromSocket);}, 58000)
     }
   }, [ws, gameid, sessionId]);
 
