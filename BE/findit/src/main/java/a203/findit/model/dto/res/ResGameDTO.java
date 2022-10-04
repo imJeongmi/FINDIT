@@ -4,6 +4,7 @@ import a203.findit.model.entity.Mode;
 import a203.findit.model.entity.User;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.Column;
 import javax.persistence.FetchType;
@@ -19,17 +20,20 @@ import java.time.LocalDateTime;
 public class ResGameDTO {
     private LocalDateTime createTime;
 
+    @Nullable
     private LocalDateTime startTime;
 
+    @Nullable
     private int limitMin;
 
+    @Nullable
     private LocalDateTime endTime;
 
+    @Nullable
     private Mode mode;
 
     private String entercode;
 
-    private User user;
-
-    private long playTime;
+    @Nullable
+    private Long playTime;
 }
