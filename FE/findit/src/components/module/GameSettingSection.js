@@ -12,6 +12,7 @@ import TreasureIcon from "static/wrapped_gift.svg";
 import { requestGameConfiguration } from "api/host";
 
 import { useNavigate } from "react-router-dom";
+import ls from "helper/LocalStorage";
 
 const StyledTextBox = styled(Box)(
   () => `
@@ -199,7 +200,7 @@ export default function GameSettingSection() {
 
   useEffect(() => {
     if (entercode !== 0) {
-
+      ls.set('entercode', entercode)
       navigate(`/treasure/${entercode}`)
     }
   }, [entercode, navigate])

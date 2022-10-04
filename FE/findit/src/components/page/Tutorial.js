@@ -9,6 +9,7 @@ import CustomButton from "components/atom/CustomButton";
 import CustomText from "components/atom/CustomText";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "./dot.css";
+import "./compass.scss";
 
 import { Link } from "react-router-dom";
 
@@ -53,7 +54,7 @@ export default function Tutorial({ target }) {
   return (
     <Box sx={{ textAlign: "center" }}>
       <Box sx={{ mt: "3vh" }}>
-        <img src={compass} alt="compass" width="100"></img>
+        <img src={compass} alt="compass" width="100" className="floating-small"></img>
       </Box>
       <Modal>
         <Box>
@@ -82,11 +83,19 @@ export default function Tutorial({ target }) {
                 ))}
           </Carousel>
         </Box>
-        <Link to="/code" style={{ textDecoration: "none" }}>
-          <CustomButton size="large" color="primary" my="0.5vh">
-            입장 코드 입력
-          </CustomButton>
-        </Link>
+        {target === "player" ? (
+          <Link to="/code" style={{ textDecoration: "none" }}>
+            <CustomButton size="large" color="primary" my="0.5vh">
+              입장 코드 입력
+            </CustomButton>
+          </Link>
+        ) : (
+          <Link to="/hostmain" style={{ textDecoration: "none" }}>
+            <CustomButton size="large" color="primary" my="0.5vh">
+              메인으로
+            </CustomButton>
+          </Link>
+        )}
       </Modal>
     </Box>
   );

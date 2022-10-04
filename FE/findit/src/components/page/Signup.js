@@ -9,6 +9,8 @@ import { requestJoin } from "api/user";
 
 import { useNavigate } from "react-router-dom";
 
+import "./compass.scss";
+
 const LoginStyle = {
   mt: "5vh",
   mb: "3vh",
@@ -82,7 +84,7 @@ export default function Signup() {
   return (
     <Box sx={{ textAlign: "center" }}>
       <Box sx={{ mt: "3vh" }}>
-        <img src={compass} alt="compass" width="100" />
+        <img src={compass} alt="compass" width="100" className="floating-small" />
       </Box>
       <Modal>
         <Box sx={{ mt: "5vh", mb: "0" }}>

@@ -2,7 +2,7 @@ import React from "react";
 
 import { useState, useRef } from "react";
 import { Box, styled } from "@mui/system";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Camera } from "react-camera-pro";
 
 import GuideLine from "static/guideline.png";
@@ -12,6 +12,7 @@ import CircleButton from "components/atom/CircleButton";
 import ExitButton from "components/atom/ExitButton";
 
 import { requestUpload } from "api/user";
+import ls from "helper/LocalStorage";
 
 const StatusBar = styled(Box)(
   () => `
@@ -52,7 +53,30 @@ const ButtonBox = styled(Box)(
 export default function AddTreasure() {
   const camera = useRef(null);
   const [numberOfCameras, setNumberOfCameras] = useState(0);
-  const [image, setImage] = useState(null);
+  const navigate = useNavigate();
+  const entercode = ls.get('entercode')
+
+  function onClickCamera() {
+    const image = camera.current.takePhoto();
+    uploadAction(image);
+  }
+
+  function uploadAction(image) {
+    const file = dataURLtoFile(image, "treasure.jpeg");
+
+    requestUpload(file, uploadSuccess, uploadFail);
+  }
+
+  function uploadSuccess(res) {
+    console.log(res);
+    if (res.ok) {
+      console.log("OK");
+    }
+  }
+
+  function uploadFail(error) {
+    console.log(error);
+  }
 
   function dataURLtoFile(dataurl, filename) {
     let arr = dataurl.split(","),
@@ -67,28 +91,11 @@ export default function AddTreasure() {
     return new File([u8arr], filename, { type: mime });
   }
 
-  function uploadSuccess(res) {
-    console.log(res);
-    if (res.ok) {
-      console.log("OK");
-    }
-  }
-
-  function uploadFail(error) {
-    console.log(error);
-  }
-
-  function uploadAction(image) {
-    const file = dataURLtoFile(image, "treasure.jpeg");
-
-    const data = {
-      game_id: 39,
-      file: file,
-    };
-
-    requestUpload(data, uploadSuccess, uploadFail);
-  }
-
+function exitAddTreasure(e) {
+  e.preventDefault();
+  window.history.back();
+}
+  
   return (
     <Box>
       <Camera
@@ -98,13 +105,11 @@ export default function AddTreasure() {
         facingMode="environment"
       />
 
-      <Link to="/treasure/:gameid">
         <StatusBar>
-          <Box sx={{ position: "absolute", right: "5%" }}>
+          <Box sx={{ position: "absolute", right: "5%" }} onClick={exitAddTreasure}>
             <ExitButton />
           </Box>
         </StatusBar>
-      </Link>
 
       <GuidelineBox>
         <img src={GuideLine} alt="guideLine" />
@@ -113,13 +118,7 @@ export default function AddTreasure() {
       </GuidelineBox>
 
       <ButtonBox>
-        <Box
-          onClick={() => {
-            const photo = camera.current.takePhoto();
-            setImage(photo);
-            uploadAction(image);
-          }}
-        >
+        <Box onClick={onClickCamera}>
           <CircleButton icon="camera" size="large" opacity="0.8" />
         </Box>
       </ButtonBox>

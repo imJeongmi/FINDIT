@@ -9,9 +9,10 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { getWebsocket } from "helper/websocket";
 import ls from "helper/LocalStorage";
 import { useState } from "react";
+import ss from "helper/SessionStorage";
 
 const CenterStyle = {
-  margin: "7vh auto",
+  margin: "7vh auto 2vh",
   textAlign: "center",
 };
 
@@ -38,7 +39,8 @@ export default function WaitPlaying() {
   const location = useLocation();
   const imgNum = location?.state?.imgNum;
   const nickname = location?.state?.nickname;
-  const [sessionId, setSessionId] = useState("");
+  // let sessionId = ""
+
   // function isPlayer(target) {
   //   if (target === "user") return false;
   //   else return true;
@@ -70,7 +72,7 @@ export default function WaitPlaying() {
     console.log(msg);
     if (isGamePlayer() && msg.status === "start") {
       navigate(`/playing/${gameid}`, {
-        state: { limitMinute: msg?.limitminute, sessionId: sessionId },
+        state: { limitMinute: msg?.limitminute },
       });
     } else if (!isGamePlayer() && msg.status === "start") {
       navigate(`/status/${gameid}`, { state: { limitMinute: msg?.limitminute } });
@@ -79,12 +81,17 @@ export default function WaitPlaying() {
       navigate(`/result/${gameid}`);
     } else if (Array.isArray(msg)) {
       setPlayers(msg);
-      // const temp = msg.find(element => element.nickname === nickname)
-      // console.log(temp)
-      // if (temp) {
-      //   setSessionId(temp?.sessionId)
-      // }
+      findAndSet(msg);
     }
+  }
+
+  function findAndSet(msg) {
+    msg.forEach(player => {
+      if (player?.nickname === nickname) {
+        const temp = player?.sessionId;
+        ss.set("sessionId", temp);
+      }
+    });
   }
 
   ws.onConnect = function (frame) {
@@ -121,10 +128,17 @@ export default function WaitPlaying() {
           방장이 시작 버튼을 누르면 게임이 시작돼요
         </CustomText>
       </Box>
+      {!isGamePlayer() && (
+        <Box sx={{ textAlign: "center" }}>
+          <CustomText size="xxl" weight="bold" variant="green">
+            {gameid}
+          </CustomText>
+        </Box>
+      )}
       <RankingBox>
         {players.map((item, idx) => (
           <Box key={idx}>
-            <RankingList userName={item.nickname} imgNum={0} />
+            <RankingList userName={item.nickname} imgNum={item.profileImg} />
           </Box>
         ))}
       </RankingBox>

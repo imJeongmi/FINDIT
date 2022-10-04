@@ -18,6 +18,7 @@ import { requestUpload } from "api/player";
 import axios from "axios";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { getWebsocket } from "helper/websocket";
+import ss from "helper/SessionStorage";
 
 const StatusBar = styled(Box)(
   () => `
@@ -72,6 +73,15 @@ const ButtonBox = styled(Box)(
     `,
 );
 
+const MessageBox = styled(Box)(
+  () => `
+    position: absolute;
+    left: 50%;
+    bottom: 27vh;
+    transform: translate(-50%);
+  `,
+);
+
 export default function Playing() {
   const [modalOpen, setModalOpen] = useState(false);
   const showRankingModal = () => {
@@ -80,16 +90,51 @@ export default function Playing() {
   const showTreasureModal = () => {
     setModalOpen(2);
   };
+
   const camera = useRef(null);
   const [numberOfCameras, setNumberOfCameras] = useState(0);
-  const [image, setImage] = useState(null);
+
   const { gameid } = useParams();
   const [ranking, setRanking] = useState([]);
   const [finalScore, setFinalScore] = useState(0);
-  const [myRank, setMyRank] = useState('1st');
+  const [myRank, setMyRank] = useState("1st");
+  const [findedTreasures, setFindedTreasures] = useState([]);
+  const [notTreasureMsg, setNotTreasureMsg] = useState("");
   const location = useLocation();
-  const limitMinute = location?.state?.limitMinute
-  const sessionId = location?.state?.sessionId
+  const limitMinute = location?.state?.limitMinute;
+  const sessionId = ss.get("sessionId");
+
+  function onClickCamera() {
+    const image = camera.current.takePhoto();
+    uploadAction(image);
+  }
+
+  function uploadAction(image) {
+    const file = dataURLtoFile(image, "treasure.jpeg");
+
+    const data = {
+      game_id: gameid,
+      file: file,
+    };
+
+    requestUpload(data, uploadSuccess, uploadFail);
+  }
+
+  function uploadSuccess(res) {
+    const tid = res.data.message;
+    if (tid !== "NOT TREASURE") {
+      setFindedTreasures(findedTreasures => [...findedTreasures, tid]);
+      ws.publish({ destination: "/pub/find", body: `${gameid},${tid}` });
+    } else {
+      setNotTreasureMsg("보물이 아니에요");
+      setTimeout(() => setNotTreasureMsg(""), 1500);
+    }
+    console.log(`findedTreasures : ${findedTreasures}`);
+  }
+
+  function uploadFail(error) {
+    console.log(error);
+  }
 
   function dataURLtoFile(dataurl, filename) {
     let arr = dataurl.split(","),
@@ -104,27 +149,6 @@ export default function Playing() {
     return new File([u8arr], filename, { type: mime });
   }
 
-  function uploadSuccess(res) {
-    console.log(res);
-    if (res.ok) {
-      console.log("OK");
-    }
-  }
-
-  function uploadFail(error) {
-    console.log(error);
-  }
-
-  function uploadAction(image) {
-    const file = dataURLtoFile(image, "treasure.jpeg");
-
-    const data = {
-      game_id: 39,
-      file: file,
-    };
-
-    requestUpload(data, uploadSuccess, uploadFail);
-  }
   // useEffect(() => {
   //   if (game) {
   //     console.log(game.info)
@@ -133,26 +157,24 @@ export default function Playing() {
   const ws = getWebsocket();
 
   function getRankFromSocket(message) {
-    const msg = JSON.parse(message.body)
-    setRanking(msg)
-    const temp = msg.find(element => element.sessionId === sessionId)
+    const msg = JSON.parse(message.body);
+    setRanking(msg);
+    const temp = msg.find(element => element.sessionId === sessionId);
     if (temp) {
-      setMyRank(temp?.rank)
+      setMyRank(temp?.rank);
     }
-
   }
 
   function getScoreFromSocket(message) {
-    const msg = JSON.parse(message.body)
-    setFinalScore(msg?.finalscore)
+    const msg = JSON.parse(message.body);
+    setFinalScore(msg?.finalscore);
   }
-
   useEffect(() => {
     if (!!gameid && !!sessionId) {
-      ws.subscribe(`/sub/player/${sessionId}`, getScoreFromSocket)
-      ws.subscribe(`/sub/rank/${gameid}`, getRankFromSocket)
+      ws.subscribe(`/sub/player/${sessionId}`, getScoreFromSocket);
+      setInterval(function() {ws.subscribe(`/sub/rank/${gameid}`, getRankFromSocket);}, 58000)
     }
-  }, [ws, gameid, sessionId])
+  }, [ws, gameid, sessionId]);
 
   return (
     <Box>
@@ -176,7 +198,7 @@ export default function Playing() {
           }}
         >
           <img src={TimerIcon} alt="timerIcon" width="25vw" />
-          
+
           <Timer limitMinute={limitMinute} />
         </Box>
         <Box sx={{ position: "absolute", right: "5%" }}>
@@ -210,21 +232,21 @@ export default function Playing() {
         <Box onClick={showRankingModal}>
           <CircleButton icon="rank" size="smaller" opacity="0.6"></CircleButton>
         </Box>
-        <Box
-          onClick={() => {
-            const photo = camera.current.takePhoto();
-            setImage(photo);
-            uploadAction(image);
-          }}
-        >
+        <Box onClick={onClickCamera}>
           <CircleButton icon="camera" size="large" opacity="0.8" />
         </Box>
         <Box onClick={showTreasureModal}>
           <CircleButton icon="treasure" size="smaller" opacity="0.6" />
         </Box>
       </ButtonBox>
-      {modalOpen === 1 && <PlayingRanking setModalOpen={setModalOpen} ranking={ranking}/>}
-      {modalOpen === 2 && <PlayingTreasureList setModalOpen={setModalOpen} />}
+      <MessageBox>
+        <CustomText size="xs">{notTreasureMsg}</CustomText>
+      </MessageBox>
+      {modalOpen === 1 && <PlayingRanking setModalOpen={setModalOpen} ranking={ranking} />}
+      {modalOpen === 2 && (
+        <PlayingTreasureList setModalOpen={setModalOpen} findedTreasures={findedTreasures} />
+        // <PlayingTreasureList setModalOpen={setModalOpen} findedTreasures={[0, 3, "NOT TREASURE"]} />
+      )}
     </Box>
   );
 }

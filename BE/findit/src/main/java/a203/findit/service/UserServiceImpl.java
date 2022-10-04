@@ -105,8 +105,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Map<String, String> userDetails(String userId) {
-        Map<String, String> result = new HashMap<>();
+    public Map<String, Object> userDetails(String userId) {
+        Map<String, Object> result = new HashMap<>();
 
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -115,7 +115,7 @@ public class UserServiceImpl implements UserService {
         );
 
         result.put("nickname", currUser.getNickname());
-        result.put("img", currUser.getIcon().getImageUrl());
+        result.put("img", currUser.getIcon().getId());
         result.put("userId", currUser.getUsername());
 
         return result;
@@ -133,8 +133,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean updateImg(Long userId, String img) {
-        User user = userRepos.findById(userId).orElseThrow(
+    public Map<String, Object> update(String userId, String nickname, Long img) {
+
+        Map<String, Object> result = new HashMap<>();
+
+        User user = userRepos.findByUsername(userId).orElseThrow(
                 () -> new CustomException(Code.C403)
         );
 
@@ -144,14 +147,17 @@ public class UserServiceImpl implements UserService {
             throw new CustomException(Code.C404);
         }
 
-        Icon icon = iconRepos.findByImageUrl(img).orElseThrow(
+        Icon icon = iconRepos.findById(img).orElseThrow(
                 () -> new CustomException(Code.C401)
         );
 
+        user.setNickname(nickname);
         user.setIcon(icon);
         userRepos.save(user);
 
-        return true;
+        result.put("img", user.getIcon().getId());
+        result.put("nickname", user.getNickname());
+        return result;
     }
 
     @Override
@@ -186,33 +192,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(rollbackOn = {Exception.class})
-    public boolean createTreasure(String username, String treasureName, Long gameId, MultipartFile img) {
-        User currUser = userRepos.findByUsername(username).orElseThrow(
-                () -> new CustomException(Code.C403)
-        );
-
-        Game game = gameRepos.findById(gameId).orElseThrow(
-                () -> new CustomException(Code.C402)
-        );
-
-
-        Treasure newTreasure = Treasure.builder()
-//                .treasureName(treasureName)
-                .user(currUser)
-                .imageUrl(awsService.imageUpload(img))
-                .isDefault(false)
-                .build();
-        IGT igt = IGT.builder().game(game).treasure(newTreasure).build();
-
-        treasureRepos.save(newTreasure);
-        igtRepos.save(igt);
-
-        return true;
-    }
-
-    @Override
-    public boolean createTreasure(String username, String treasureName, MultipartFile img) {
+    public boolean createTreasure(String username,  MultipartFile img) {
         User currUser = userRepos.findByUsername(username).orElseThrow(
                 () -> new CustomException(Code.C403)
         );
