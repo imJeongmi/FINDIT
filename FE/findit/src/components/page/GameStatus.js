@@ -37,7 +37,7 @@ export default function GameStatus() {
   const { gameid } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const limitMinute = location?.state?.limitMinute
+  const limitMinute = location?.state?.limitMinute;
   const [target, setTarget] = useState(0);
   const [ranking, setRanking] = useState([]);
 
@@ -49,41 +49,42 @@ export default function GameStatus() {
     );
   }
 
- function requestRankingListSuccess(res) {
-  }
+  function requestRankingListSuccess(res) {}
 
   function requestRankingListFail(err) {
     console.log("랭킹 요청 실패", err);
   }
 
   function finishGame() {
-    ws.publish({ destination: "/pub/finish", body: `${gameid}` })
+    ws.publish({ destination: "/pub/finish", body: `${gameid}` });
     requestRankingList(gameid, requestRankingListSuccess, requestRankingListFail);
-    navigate(`/result/${gameid}`)
+    navigate(`/result/${gameid}`);
     // ws.deactivate();
   }
 
   function getRankFromSocket(message) {
-    const msg = JSON.parse(message.body)
-    setRanking(msg)
+    const msg = JSON.parse(message.body);
+    setRanking(msg);
   }
 
   function checkEnd() {
-    setTarget(1)
+    setTarget(1);
   }
   const ws = getWebsocket();
 
   useEffect(() => {
     if (!!gameid) {
-      ws.subscribe(`/sub/rank/${gameid}`, getRankFromSocket)
-      setInterval(function () { ws.subscribe(`/sub/private/${gameid}`, checkEnd);}, 58000)
+      ws.subscribe(`/sub/rank/${gameid}`, getRankFromSocket);
+      setInterval(function () {
+        ws.subscribe(`/sub/private/${gameid}`, checkEnd);
+      }, 58000);
     }
-  }, [ws, gameid])
+  }, [ws, gameid]);
 
-// target 값 변동 시, 실행
+  // target 값 변동 시, 실행
   useEffect(() => {
-    isFinished(target)
-  }, [target])
+    isFinished(target);
+  }, [target]);
 
   function isFinished(target) {
     if (target !== 0) return true;
@@ -103,9 +104,6 @@ export default function GameStatus() {
     );
   }
 
-
-
-
   return (
     <Box>
       <Box sx={CenterStyle}>
@@ -116,9 +114,17 @@ export default function GameStatus() {
         <Timer limitMinute={limitMinute} target="user" />
       </Box>
       <RankingBox>
-        {ranking.map((item, idx) => (<RankingList key={idx} rankNum={item.rank} userName={item.nickname} gameScore={item.score} imgNum={item.profileImg} />))}
+        {ranking.map((item, idx) => (
+          <RankingList
+            key={idx}
+            rankNum={item.rank}
+            userName={item.nickname}
+            gameScore={item.score}
+            imgNum={item.profileImg}
+          />
+        ))}
       </RankingBox>
-      <Box>{isFinished ? (<ActivateButton />) : (<DeactivateButton />)}</Box>
+      <Box>{isFinished ? <ActivateButton /> : <DeactivateButton />}</Box>
     </Box>
   );
 }
