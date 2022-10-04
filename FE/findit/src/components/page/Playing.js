@@ -125,8 +125,8 @@ export default function Playing() {
   }
 
   function uploadSuccess(res) {
-    // const tid = res.data.message;
-    const tid = 1;
+    const tid = res.data.message;
+    // const tid = 1;
     if (tid !== "NOT TREASURE" && findedTreasures.indexOf(tid) === -1) {
       setFindedTreasures(findedTreasures => [...findedTreasures, tid]);
       ws.publish({ destination: "/pub/find", body: `${gameid},${tid}` });
