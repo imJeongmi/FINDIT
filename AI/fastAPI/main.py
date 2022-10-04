@@ -62,15 +62,26 @@ db = pymysql.connect(host=host,
                      db=dbname,
                      charset='utf8')
 
-
 @app.post("/check")
 async def upload_file(file: UploadFile = File(...), game_id: str = Form()):
+    print(game_id)
+    cursor = db.cursor()
+
+    sql = """SELECT game_id
+               FROM game
+              WHERE entercode = '%s'""" % (game_id)
+    cursor.execute(sql)
+    row = cursor.fetchone()
+
+    if (row is None):
+        return JSONResponse(content={"message": "WRONG_ENTERCODE"},
+                            status_code=500)
+    game_id = row[0]
     print(game_id)
 
     if not (game_id in IGT):
         digt = []
         cigt = {}
-        cursor = db.cursor()
 
         sql = """SELECT igt.treasure_id, treasure.image_url, treasure.is_default, treasure.treasure_name
                    FROM igt, treasure 
@@ -80,10 +91,11 @@ async def upload_file(file: UploadFile = File(...), game_id: str = Form()):
 
         row = cursor.fetchall()
 
-        if (row == None):
+        if (row is None):
             # DB에 보물이 등록되어 있지 않다.
             # WRONG GAME_ID or WRONG DB
-            return JSONResponse(status_code=500)
+            return JSONResponse(content={"message": "NO_IGT_DB"},
+                                status_code=500)
 
         for tid, tulr, isD, tname in row:
             if isD == b'\x01':
@@ -93,6 +105,8 @@ async def upload_file(file: UploadFile = File(...), game_id: str = Form()):
         Default_IGT[game_id] = digt
         Custom_IGT[game_id] = cigt
         IGT[game_id] = row
+
+        print(IGT[game_id])
 
     img = cv2.imdecode(np.fromstring(file.file.read(), np.uint8), cv2.IMREAD_COLOR)
     ori_img = img;
@@ -114,16 +128,15 @@ async def upload_file(file: UploadFile = File(...), game_id: str = Form()):
     result = non_max_suppression(result, opt['conf-thres'], opt['iou-thres'], classes=[range(17)], agnostic=False)
 
     # Process detections
-
+    # print(result)
     for i, det in enumerate(result):
         s = []
         if len(det):
-            # print("findit")
             for c in det[:, -1].unique():
                 # IGT에 등록된 보물인지 확인한다.
-                if int(c) in Default_IGT[game_id]:
+                if (int(c) + 1) in Default_IGT[game_id]:
                     n = (det[:, -1] == c).sum()  # detections per class
-                    s.append(int(c))
+                    s.append(int(c) + 1)
 
     if len(s) == 0:
         ## CUSTOM 보물인지 확인한다.
