@@ -66,7 +66,7 @@ export default function GameStatus() {
   useEffect(() => {
     if (!!gameid) {
       ws.subscribe(`/sub/rank/${gameid}`, getRankFromSocket)
-      ws.subscribe(`/sub/private/${gameid}`, checkEnd)
+      setInterval(function () { ws.subscribe(`/sub/private/${gameid}`, checkEnd)}, 58000)
     }
   }, [ws, gameid])
 
