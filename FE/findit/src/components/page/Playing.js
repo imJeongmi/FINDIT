@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, startTransition } from "react";
 
 import { Box, styled } from "@mui/system";
 import { Camera } from "react-camera-pro";
@@ -104,6 +104,7 @@ export default function Playing() {
   const limitMinute = location?.state?.limitMinute;
   const sessionId = ss.get("sessionId");
   const navigate = useNavigate();
+  const startTime = ss.get("starttime")
 
   function onClickCamera() {
     console.log("카메라 클릭", notTreasureMsg);
@@ -217,7 +218,7 @@ export default function Playing() {
         >
           <img src={TimerIcon} alt="timerIcon" width="25vw" />
 
-          <Timer limitMinute={limitMinute} />
+          <Timer startTime={startTime} limitMinute={limitMinute} />
         </Box>
         <Box sx={{ position: "absolute", right: "5%" }}>
           <ExitButton />
