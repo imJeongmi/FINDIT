@@ -112,12 +112,12 @@ export default function Playing() {
 
   function uploadSuccess(res) {
     const tid = res.data.message;
-    if (tid != "NOT TREASURE") {
+    if (tid !== "NOT TREASURE") {
       setFindedTreasures(findedTreasures => [...findedTreasures, tid]);
+      ws.publish({ destination: "/pub/find", body: `${gameid},${tid}` });
     }
     console.log(`findedTreasures : ${findedTreasures}`);
 
-    ws.publish({ destination: "/pub/find", body: `${gameid},${tid}` });
   }
 
   function uploadFail(error) {
@@ -152,7 +152,7 @@ export default function Playing() {
       setMyRank(temp?.rank);
     }
   }
-
+  
   function getScoreFromSocket(message) {
     const msg = JSON.parse(message.body);
     setFinalScore(msg?.finalscore);
