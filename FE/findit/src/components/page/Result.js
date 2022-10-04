@@ -84,7 +84,7 @@ export default function Result() {
     // if (gameid) {
     requestRankingList(gameid, requestRankingListSuccess, requestRankingListFail)
     // }
-  }, [gameid]);
+  });
 
   function requestRankingListSuccess(res) {
     setRankingList(res.data)
