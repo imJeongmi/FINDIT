@@ -97,7 +97,7 @@ export default function SelectTreasure() {
       );
       navigate(`/waiting/${gameid}`);
     } else {
-      console.log("보물 선택 ㄱㄱ");
+      alert("보물을 선택해주세요 😥");
     }
   }
   if (!!gameid) {
