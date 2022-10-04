@@ -59,7 +59,8 @@ export default function GameStatus() {
 
   function finishGame() {
     ws.publish({ destination: "/pub/finish", body: `${gameid}` });
-    requestRankingList(gameid, requestRankingListSuccess, requestRankingListFail);
+    setInterval(function () { }, 1000)
+    // requestRankingList(gameid, requestRankingListSuccess, requestRankingListFail);
     navigate(`/result/${gameid}`);
     // ws.deactivate();
   }
