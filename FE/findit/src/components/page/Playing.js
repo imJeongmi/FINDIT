@@ -161,7 +161,9 @@ export default function Playing() {
   const ws = getWebsocket();
 
   function getRankFromSocket(message) {
+    console.log(message.body);
     const msg = JSON.parse(message.body);
+    console.log(msg);
     if (msg[0]?.status === "end") {
       const finalRank = msg.slice(1);
       console.log(finalRank);
@@ -179,11 +181,15 @@ export default function Playing() {
     const msg = JSON.parse(message.body);
     setFinalScore(msg?.finalscore);
   }
+
+  function temp() {}
   useEffect(() => {
     if (!!gameid && !!sessionId) {
       ws.subscribe(`/sub/player/${sessionId}`, getScoreFromSocket);
+      ws.subscribe(`/sub/rank/${gameid}`, getRankFromSocket);
       setInterval(function () {
-        ws.subscribe(`/sub/rank/${gameid}`, getRankFromSocket);
+        // ws.subscribe(`/sub/rank/${gameid}`, getRankFromSocket);
+        ws.subscribe(`/sub`, temp);
       }, 58000);
     }
   }, [ws, gameid, sessionId]);
