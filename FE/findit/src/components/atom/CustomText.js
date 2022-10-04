@@ -46,6 +46,8 @@ function getColor(variant) {
       return "#A7A7A7";
     case "white":
       return "white";
+    case "green":
+      return "#6F8F72";
     default:
       return "#333333";
   }
