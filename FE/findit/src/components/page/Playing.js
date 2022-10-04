@@ -106,11 +106,13 @@ export default function Playing() {
   const navigate = useNavigate();
 
   function onClickCamera() {
+    console.log("카메라 클릭", notTreasureMsg);
     const image = camera.current.takePhoto();
     uploadAction(image);
   }
 
   function uploadAction(image) {
+    console.log("사진 업로드", notTreasureMsg);
     const file = dataURLtoFile(image, "treasure.jpeg");
 
     const data = {
@@ -123,13 +125,11 @@ export default function Playing() {
 
   function uploadSuccess(res) {
     // const tid = res.data.message;
-    const tid = 1
-    if (tid !== "NOT TREASURE" && findedTreasures.find(tid) === undefined) {
+    const tid = 1;
+    if (tid !== "NOT TREASURE" && findedTreasures.indexOf(tid) === -1) {
       setFindedTreasures(findedTreasures => [...findedTreasures, tid]);
       ws.publish({ destination: "/pub/find", body: `${gameid},${tid}` });
-    } 
-
-    else {
+    } else {
       setNotTreasureMsg("보물이 아니에요");
       setTimeout(() => setNotTreasureMsg(""), 1500);
     }
@@ -164,7 +164,7 @@ export default function Playing() {
     const msg = JSON.parse(message.body);
     if (msg[0]?.status === "end") {
       const finalRank = msg.slice(1);
-      console.log(finalRank)
+      console.log(finalRank);
       navigate(`/result/${gameid}`, { state: { finalRank: finalRank } });
     } else {
       setRanking(msg);
@@ -182,7 +182,9 @@ export default function Playing() {
   useEffect(() => {
     if (!!gameid && !!sessionId) {
       ws.subscribe(`/sub/player/${sessionId}`, getScoreFromSocket);
-      setInterval(function () { ws.subscribe(`/sub/rank/${gameid}`, getRankFromSocket); }, 58000)
+      setInterval(function () {
+        ws.subscribe(`/sub/rank/${gameid}`, getRankFromSocket);
+      }, 58000);
     }
   }, [ws, gameid, sessionId]);
 
