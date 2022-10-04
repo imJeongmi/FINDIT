@@ -90,6 +90,9 @@ export default function Result() {
     setRankingList(res.data)
     setTopThreeList(res.data.slice(0, res.data.length <= 3 ? res.data.length : 3))
   }
+  function requestRankingListFail(err) {
+    console.log(err)
+  }
 
   const [rankingList, setRankingList] = useState();
 
