@@ -9,8 +9,7 @@ import { useEffect } from "react";
 import Timer from "components/module/Timer";
 import { useState } from "react";
 
-import { requestRankingList } from "api/player";
-import ls from "helper/LocalStorage";
+import ls from "helper/LocalStorage"
 
 const CenterStyle = {
   margin: "7vh 0 5vh 0",
@@ -51,18 +50,11 @@ export default function GameStatus() {
     );
   }
 
-  function requestRankingListSuccess(res) { }
-
-  function requestRankingListFail(err) {
-    console.log("랭킹 요청 실패", err);
-  }
-
   function finishGame() {
     ws.publish({ destination: "/pub/finish", body: `${gameid}` });
     setInterval(function () { }, 1000)
-    // requestRankingList(gameid, requestRankingListSuccess, requestRankingListFail);
+    ws.deactivate();
     navigate(`/result/${gameid}`);
-    // ws.deactivate();
   }
 
   function getRankFromSocket(message) {
