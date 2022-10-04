@@ -1,13 +1,18 @@
 package a203.findit.controller;
 
+import a203.findit.exception.CustomException;
 import a203.findit.model.dto.req.User.CreateRoomDTO;
 import a203.findit.model.dto.req.User.EntercodeDTO;
 import a203.findit.model.dto.req.User.PlayerInfoDTO;
 import a203.findit.model.dto.res.ApiResponse;
 import a203.findit.model.dto.req.User.RoomDTO;
+import a203.findit.model.dto.res.Code;
 import a203.findit.model.entity.Game;
+import a203.findit.model.entity.IGT;
 import a203.findit.model.entity.Ranking;
 import a203.findit.model.entity.User;
+import a203.findit.model.repository.GameRepository;
+import a203.findit.model.repository.IGTRepository;
 import a203.findit.service.*;
 import lombok.RequiredArgsConstructor;
 import net.bytebuddy.asm.Advice;
@@ -21,12 +26,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -41,6 +45,8 @@ public class RoomController {
     private final PlayerServiceImpl playerService;
     private final RankingServiceImpl rankingService;
     private final GameServiceImpl gameService;
+    private final IGTRepository igtRepos;
+    private final GameRepository gameRepos;
 
     @PostMapping("/room/create2")
     @ResponseBody
@@ -50,6 +56,21 @@ public class RoomController {
         System.out.println("*****************: "+username);
         ApiResponse result = new ApiResponse();
         return result;
+    }
+
+    @Transactional
+    @GetMapping("/room/{entercode}/treasures")
+    public ResponseEntity getIgt(@PathVariable("entercode") String entercode){
+        Map<String, Object> result = new HashMap<>();
+
+        StringBuilder sb = new StringBuilder();
+        String gameId = sb.append(entercode.charAt(1)).append(entercode.charAt(3)).append(entercode.charAt(5)).toString();
+
+        List<Long> tidList = igtRepos.findAllByGameId(Long.parseLong(gameId))
+                .stream().map(x->x.getTreasure().getId()).collect(Collectors.toList());
+
+        result.put("tid", tidList);
+        return ResponseEntity.ok().body(result);
     }
 
     @PostMapping("/room/create")

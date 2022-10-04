@@ -12,7 +12,8 @@ public enum Code {
     C402 (402, "INVALID ID"),
     C403(403, "NO SUCH USER"),
     C404(404, "UNAUTHORIZED"),
-    C405(405, "INVALID FILE TYPE");
+    C405(405, "INVALID FILE TYPE"),
+    C406(406, "NOT FOUND");
 
     private int errCode;
 
