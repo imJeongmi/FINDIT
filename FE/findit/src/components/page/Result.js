@@ -7,6 +7,7 @@ import RankingList from "components/module/RankingList";
 
 import { requestRankingList } from "api/player";
 import { useParams, Link } from "react-router-dom";
+import ls from "helper/LocalStorage";
 
 const CenterStyle = {
   mt: "5vh",
@@ -107,6 +108,15 @@ export default function Result() {
     );
   }
 
+  function isPlayer() {
+    const token = ls.get("accessToken");
+    if (!token) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   return (
     <Box>
       <Box sx={CenterStyle}>
@@ -136,9 +146,12 @@ export default function Result() {
       </RankingBox>
       <ButtonBox>
         <CustomButton size="large" color="secondary">
-          <Link to="/main" style={{ textDecoration: "none", color: "#DA9B9A" }}>
+          {isPlayer() ? (<Link to="/main" style={{ textDecoration: "none", color: "#DA9B9A" }}>
             메인
-          </Link>
+          </Link>) : (<Link to="/hostmain" style={{ textDecoration: "none", color: "#DA9B9A" }}>
+            메인
+          </Link>)}
+          
         </CustomButton>
         <CustomButton size="large">저장하기</CustomButton>
       </ButtonBox>
