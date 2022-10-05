@@ -126,7 +126,7 @@ export default function Playing() {
 
   function uploadSuccess(res) {
     console.log(`res.data: ${res.data}`);
-    const tid = res.data.message;
+    const tid = res.data.tid;
     console.log(`tid: ${tid}`);
     // const tid = 1;
     if (tid !== "NOT TREASURE" && findedTreasures.indexOf(tid) === -1) {
