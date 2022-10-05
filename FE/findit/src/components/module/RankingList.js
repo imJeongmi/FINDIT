@@ -21,11 +21,17 @@ const RankingBox = styled("div")(
 function getRank(rankNum) {
   switch (rankNum) {
     case "1st":
-      return <img src={require("static/1st_place_medal.svg").default} width="30vw" alt="gold medal" />;
+      return (
+        <img src={require("static/1st_place_medal.svg").default} width="30vw" alt="gold medal" />
+      );
     case "2nd":
-      return <img src={require("static/2nd_place_medal.svg").default} width="30vw" alt="silver medal" />;
+      return (
+        <img src={require("static/2nd_place_medal.svg").default} width="30vw" alt="silver medal" />
+      );
     case "3rd":
-      return <img src={require("static/3rd_place_medal.svg").default} width="30vw" alt="bronze medal" />;
+      return (
+        <img src={require("static/3rd_place_medal.svg").default} width="30vw" alt="bronze medal" />
+      );
     default:
       return (
         <Box sx={{ mx: "2.5vw" }}>
@@ -36,14 +42,20 @@ function getRank(rankNum) {
 }
 
 export default function RankingList({ rankNum, userName, gameScore, imgNum }) {
+  let userNameSize = "m";
+  if (userName.length >= 9) {
+    userNameSize = "xxs";
+  } else if (userName.length >= 7) {
+    userNameSize = "xs";
+  }
   return (
     <RankingBox>
       <Box sx={{ mx: "3vw" }}>{getRank(rankNum)}</Box>
       <Box sx={{ position: "absolute", left: "18%" }}>
-        <ProfileImage num={imgNum}/>
+        <ProfileImage num={imgNum} />
       </Box>
       <Box sx={{ position: "absolute", left: "50%", transform: "translate(-50%, 0)" }}>
-        <CustomText size="m">{userName}</CustomText>
+        <CustomText size={userNameSize}>{userName}</CustomText>
       </Box>
       <Box sx={{ position: "absolute", right: "10%" }}>
         <CustomText size="s">{gameScore}</CustomText>
