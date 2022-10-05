@@ -205,7 +205,7 @@ export default function Result() {
         {rankingList.map((rank, idx) => (
           <RankingList
             key={idx}
-            rankNum={idx + 1}
+            rankNum={rank.player_rank}
             userName={rank.player_nickname}
             gameScore={rank.player_score}
             imgNum={rank.player_profileImg}
