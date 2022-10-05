@@ -154,9 +154,9 @@ public class RoomController {
 //    }
 
     @GetMapping("/room/result/rank")
-    public ResponseEntity<ArrayList<Ranking>> showResult(@Valid @RequestBody EntercodeDTO entercodeDTO){
-        System.out.println(entercodeDTO.getEntercode());
-        ArrayList<Ranking> rankings = rankingService.getRanks(entercodeDTO.getEntercode());
+    public ResponseEntity<ArrayList<Ranking>> showResult(@Valid String entercode){
+        System.out.println(entercode);
+        ArrayList<Ranking> rankings = rankingService.getRanks(entercode);
         return ResponseEntity.ok().body(rankings);
     }
 
