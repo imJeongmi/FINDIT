@@ -163,7 +163,7 @@ export default function SelectTreasure() {
             <Box key={key}>
               {treasure !== null && (
                 <TreasureItem
-                  src={treasure}
+                  src={treasure.uri}
                   // selectedItems={selectedItems}
                   // selectedItemHandler={selectedItemHandler}
                   alt="treasure"
