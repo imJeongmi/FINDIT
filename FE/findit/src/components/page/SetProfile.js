@@ -44,7 +44,11 @@ function PlayerProfile() {
 
   function onChangeNickname(e) {
     const nickname = e.target.value;
-    setNickname(nickname);
+    if (nickname.length > 10) {
+      alert("닉네임을 10글자 이하로 작성해 주세요");
+    } else {
+      setNickname(nickname);
+    }
   }
 
   function sendPlayerToWaiting(e) {
@@ -118,7 +122,11 @@ function HostProfile() {
 
   function onChangeNickname(event) {
     const nickname = event.target.value;
-    setHostNickname(nickname);
+    if (nickname.length > 10) {
+      alert("닉네임을 10글자 이하로 작성해 주세요");
+    } else {
+      setHostNickname(nickname);
+    }
   }
 
   async function updateProfileSuccess() {
@@ -141,14 +149,17 @@ function HostProfile() {
 
   function onClickUpdateProfile(event) {
     event.preventDefault();
-    console.log(imgNum, hostNickname);
-    requestUpdateProfile(
-      userId,
-      hostProfileImg,
-      hostNickname,
-      updateProfileSuccess,
-      updateProfileFail,
-    );
+    if (hostNickname.length > 10) {
+      alert("닉네임을 10글자 이하로 작성해 주세요");
+    } else {
+      requestUpdateProfile(
+        userId,
+        hostProfileImg,
+        hostNickname,
+        updateProfileSuccess,
+        updateProfileFail,
+      );
+    }
   }
 
   // 로그아웃 함수 작성

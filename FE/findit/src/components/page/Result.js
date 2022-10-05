@@ -216,15 +216,15 @@ export default function Result() {
         <CustomButton size="large" color="secondary">
           {isPlayer() ? (
             <Link to="/main" style={{ textDecoration: "none", color: "#DA9B9A" }}>
-              메인
+              메인으로
             </Link>
           ) : (
             <Link to="/hostmain" style={{ textDecoration: "none", color: "#DA9B9A" }}>
-              메인
+              메인으로
             </Link>
           )}
         </CustomButton>
-        <CustomButton size="large">저장하기</CustomButton>
+        {/* <CustomButton size="large">저장하기</CustomButton> */}
       </ButtonBox>
     </Box>
   );
