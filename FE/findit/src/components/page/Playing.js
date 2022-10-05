@@ -222,7 +222,7 @@ export default function Playing() {
         >
           <img src={TimerIcon} alt="timerIcon" width="25vw" />
 
-          <Timer startTime={startTime} limitMinute={limitMinute} />
+          <Timer startTime={startTime} limitMinute={limitMinute} gameid={gameid} />
         </Box>
         <Box sx={{ position: "absolute", right: "5%" }}>
           <ExitButton />
