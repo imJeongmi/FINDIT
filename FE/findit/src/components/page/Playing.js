@@ -125,7 +125,7 @@ export default function Playing() {
   }
 
   function uploadSuccess(res) {
-    console.log(`res.data: ${res.data}`);
+    console.log(`res.data: ${res}`);
     const tid = res.data.tid;
     console.log(`tid: ${tid}`);
     // const tid = 1;
