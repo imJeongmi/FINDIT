@@ -11,7 +11,7 @@ export default function Timer({ limitMinute, startTime, target, gameid }) {
   const KR_TIME_DIFF = 9 * 60 * 60 ;
   const ws = getWebsocket();
 
-  console.log(startTime)
+  // console.log(startTime)
   start.setSeconds(start.getSeconds() + KR_TIME_DIFF + limitMinute * 60 - now.getSeconds());
   function MyTimer({ expiryTimestamp, target, gameid }) {
     const {

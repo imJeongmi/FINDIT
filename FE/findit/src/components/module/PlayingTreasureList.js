@@ -57,7 +57,7 @@ export default function PlayingTreasureList({ setModalOpen, findedTreasures }) {
   }
 
   function getGameTreasureListFail(err) {
-    console.log("보물 목록 요청 실패", err);
+    // console.log("보물 목록 요청 실패", err);
   }
 
   if (!!gameid) {
