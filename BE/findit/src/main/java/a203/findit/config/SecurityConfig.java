@@ -26,7 +26,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 
 @Configuration
-//@EnableWebSecurity
+@EnableWebSecurity
 public class SecurityConfig {
 
     private final JwtProvider jwtProvider;
@@ -38,12 +38,12 @@ public class SecurityConfig {
     private static final String[] GET_PUBLIC_URI = {
             "/users",
             "/users/login",
-            "/room"
+            "/room/**"
     };
     private static final String[] POST_PUBLIC_URI = {
             "/users",
             "/users/login",
-            "/room"
+            "/room/**"
     };
     private static final String[] DELETE_PUBLIC_URI = {};
 
