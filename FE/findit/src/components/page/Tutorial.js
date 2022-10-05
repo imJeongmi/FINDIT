@@ -34,12 +34,12 @@ export default function Tutorial({ target }) {
   );
 
   const orderedHostImage = new Array(
-    require("static/tutorial/playerTutorial1.png"),
-    require("static/tutorial/playerTutorial2.png"),
-    require("static/tutorial/playerTutorial3.png"),
-    require("static/tutorial/playerTutorial4.png"),
-    require("static/tutorial/playerTutorial5.png"),
-    require("static/tutorial/playerTutorial6.png"),
+    require("static/tutorial/hostTutorial1.png"),
+    require("static/tutorial/hostTutorial2.png"),
+    require("static/tutorial/hostTutorial3.png"),
+    require("static/tutorial/hostTutorial4.png"),
+    require("static/tutorial/hostTutorial5.png"),
+    require("static/tutorial/hostTutorial6.png"),
   );
 
   const orderedPlayerImage = [
