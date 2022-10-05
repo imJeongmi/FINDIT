@@ -76,7 +76,7 @@ export default function WaitPlaying() {
         state: { limitMinute: msg?.limitminute },
       });
     } else if (!isGamePlayer() && msg.status === "start") {
-      ls.set("starttime", msg.starttime)
+      ls.set("starttime", msg.starttime);
       navigate(`/status/${gameid}`, { state: { limitMinute: msg?.limitminute } });
     } else if (isGamePlayer() && msg.status === "end") {
       ws.deactivate();
@@ -108,7 +108,7 @@ export default function WaitPlaying() {
     if (!!ws && !!gameid) {
       ws.activate();
     }
-  }, [gameid]);
+  }, [ws, gameid]);
 
   function HostButton() {
     return (
