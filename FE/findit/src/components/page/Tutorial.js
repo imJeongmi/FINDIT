@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 
 export default function Tutorial({ target }) {
   const orderedHostText = [
-    "게임 생성 버튼을 누르면 게임 설정 화면이 나타나요",
+    "새로운 Findit!을 누르면 게임 설정 화면이 나타나요",
     "게임 시간과 모드를 설정할 수 있어요",
     "플레이어가 찾을 보물을 선택하고, 커스텀 보물을 추가할 수 있어요",
     "PLAY 버튼을 눌러 게임을 시작하세요",
@@ -34,12 +34,12 @@ export default function Tutorial({ target }) {
   );
 
   const orderedHostImage = new Array(
-    require("static/tutorial/playerTutorial1.png"),
-    require("static/tutorial/playerTutorial2.png"),
-    require("static/tutorial/playerTutorial3.png"),
-    require("static/tutorial/playerTutorial4.png"),
-    require("static/tutorial/playerTutorial5.png"),
-    require("static/tutorial/playerTutorial6.png"),
+    require("static/tutorial/hostTutorial1.png"),
+    require("static/tutorial/hostTutorial2.png"),
+    require("static/tutorial/hostTutorial3.png"),
+    require("static/tutorial/hostTutorial4.png"),
+    require("static/tutorial/hostTutorial5.png"),
+    require("static/tutorial/hostTutorial6.png"),
   );
 
   const orderedPlayerImage = [

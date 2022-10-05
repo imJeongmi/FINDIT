@@ -44,7 +44,7 @@ export default function GameStatus() {
 
   const ws = getWebsocket();
 
-  function temp() { }
+  function temp() {}
 
   useEffect(() => {
     if (!!gameid) {
@@ -120,7 +120,7 @@ export default function GameStatus() {
           남은 시간
         </CustomText>
         <br />
-        <Timer startTime={startTime} limitMinute={limitMinute} target="user" gameid={gameid}/>
+        <Timer startTime={startTime} limitMinute={limitMinute} target="user" gameid={gameid} />
       </Box>
       <RankingBox>
         {ranking.map((item, idx) => (
