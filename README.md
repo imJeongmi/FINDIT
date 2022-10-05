@@ -1,6 +1,6 @@
 # Findit! - README
 ## 1. 프로젝트 소개
-[Findit!](https://findit.life/) : Object Detection과 Classification을 활용한 온오프라인 연계 보물찾기 실시간 웹 게임
+[Findit!](https://findit.life/) : Object Detection과 특징점 검출을 활용한 온오프라인 연계 보물찾기 실시간 웹 게임
 
 ## 프로젝트 배경
 	- 어린시절 친구들과 놀던 때로 돌아가고 싶은 어른들의 욕구
