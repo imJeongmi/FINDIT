@@ -38,12 +38,10 @@ public class SecurityConfig {
     private static final String[] GET_PUBLIC_URI = {
             "/users",
             "/users/login",
-            "/room/**"
     };
     private static final String[] POST_PUBLIC_URI = {
             "/users",
             "/users/login",
-            "/room/**"
     };
     private static final String[] DELETE_PUBLIC_URI = {};
 
