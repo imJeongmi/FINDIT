@@ -4,14 +4,13 @@ import a203.findit.exception.CustomException;
 import a203.findit.model.dto.req.User.CreateRoomDTO;
 import a203.findit.model.dto.req.User.EntercodeDTO;
 import a203.findit.model.dto.req.User.PlayerInfoDTO;
-import a203.findit.model.dto.res.ApiResponse;
+import a203.findit.model.dto.res.*;
 import a203.findit.model.dto.req.User.RoomDTO;
-import a203.findit.model.dto.res.Code;
-import a203.findit.model.dto.res.ResGameDTO;
-import a203.findit.model.dto.res.ResIGT;
 import a203.findit.model.entity.*;
 import a203.findit.model.repository.GameRepository;
 import a203.findit.model.repository.IGTRepository;
+import a203.findit.model.repository.MemoryPlayerRepository;
+import a203.findit.model.repository.UserRepository;
 import a203.findit.service.*;
 import lombok.RequiredArgsConstructor;
 import net.bytebuddy.asm.Advice;
@@ -46,6 +45,7 @@ public class RoomController {
     private final GameServiceImpl gameService;
     private final IGTRepository igtRepos;
     private final GameRepository gameRepos;
+    private final UserRepository userRepos;
 
     @PostMapping("/room/create2")
     @ResponseBody
@@ -154,10 +154,26 @@ public class RoomController {
 //    }
 
     @GetMapping("/room/result/rank/{entercode}")
-    public ResponseEntity<ArrayList<Ranking>> showResult(@Valid @PathVariable String entercode){
+    public ResponseEntity<List<ResRankDTO>> showResult(@Valid @PathVariable String entercode){
         System.out.println(entercode);
+        List<ResRankDTO> result = new ArrayList<>();
+
         ArrayList<Ranking> rankings = rankingService.getRanks(entercode);
-        return ResponseEntity.ok().body(rankings);
+        Map<String, Integer> players = playerService.findAll(entercode).stream()
+                .collect(Collectors.toMap(PlayerInfoDTO::getNickname, PlayerInfoDTO::getProfileImg));
+
+        for (Ranking rank: rankings) {
+            ResRankDTO res = ResRankDTO.builder()
+                    .game_entercode(rank.getGame_entercode())
+                    .player_nickname(rank.getPlayer_nickname())
+                    .player_icon(players.getOrDefault(rank.getPlayer_nickname(),1))
+                    .player_score(rank.getPlayer_score())
+                    .player_rank(rank.getPlayer_rank())
+                    .build();
+            result.add(res);
+        }
+
+        return ResponseEntity.ok().body(result);
     }
 
     //FE 구현 안함
