@@ -181,4 +181,13 @@ public class RoomController {
 
         return ResponseEntity.ok().body(result);
     }
+
+    @GetMapping("/room/{entercode}")
+    public ResponseEntity ValidRoomId(@PathVariable("entercode") String entercode) {
+        if(playerService.valid(entercode)){
+            return ResponseEntity.status(HttpStatus.OK).body(true);
+        }else{
+            return ResponseEntity.badRequest().body("존재하지 않는 입장코드입니다.");
+        }
+    }
 }
