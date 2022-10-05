@@ -154,26 +154,8 @@ public class RoomController {
 //    }
 
     @GetMapping("/room/result/rank/{entercode}")
-    public ResponseEntity<List<ResRankDTO>> showResult(@Valid @PathVariable String entercode){
-        System.out.println(entercode);
-        List<ResRankDTO> result = new ArrayList<>();
-
-        ArrayList<Ranking> rankings = rankingService.getRanks(entercode);
-        Map<String, Integer> players = playerService.findAll(entercode).stream()
-                .collect(Collectors.toMap(PlayerInfoDTO::getNickname, PlayerInfoDTO::getProfileImg));
-
-        for (Ranking rank: rankings) {
-            ResRankDTO res = ResRankDTO.builder()
-                    .game_entercode(rank.getGame_entercode())
-                    .player_nickname(rank.getPlayer_nickname())
-                    .player_icon(players.getOrDefault(rank.getPlayer_nickname(),1))
-                    .player_score(rank.getPlayer_score())
-                    .player_rank(rank.getPlayer_rank())
-                    .build();
-            result.add(res);
-        }
-
-        return ResponseEntity.ok().body(result);
+    public ResponseEntity<ArrayList<Ranking>> showResult(@Valid @PathVariable String entercode){
+        return ResponseEntity.ok().body(rankingService.getRanks(entercode));
     }
 
     //FE 구현 안함
