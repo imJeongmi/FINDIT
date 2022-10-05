@@ -9,8 +9,7 @@ import { useEffect } from "react";
 import Timer from "components/module/Timer";
 import { useState } from "react";
 
-import { requestRankingList } from "api/player";
-import ls from "helper/LocalStorage";
+import ls from "helper/LocalStorage"
 
 const CenterStyle = {
   margin: "7vh 0 5vh 0",
@@ -43,35 +42,6 @@ export default function GameStatus() {
   const [ranking, setRanking] = useState([]);
   const startTime = ls.get("starttime")
 
-  function DeactivateButton() {
-    return (
-      <CustomButton size="large" color="secondary">
-        게임 종료
-      </CustomButton>
-    );
-  }
-
-  function requestRankingListSuccess(res) {}
-
-  function requestRankingListFail(err) {
-    console.log("랭킹 요청 실패", err);
-  }
-
-  function finishGame() {
-    ws.publish({ destination: "/pub/finish", body: `${gameid}` });
-    requestRankingList(gameid, requestRankingListSuccess, requestRankingListFail);
-    navigate(`/result/${gameid}`);
-    // ws.deactivate();
-  }
-
-  function getRankFromSocket(message) {
-    const msg = JSON.parse(message.body);
-    setRanking(msg);
-  }
-
-  function checkEnd() {
-    setTarget(1);
-  }
   const ws = getWebsocket();
 
   useEffect(() => {
@@ -83,6 +53,16 @@ export default function GameStatus() {
     }
   }, [ws, gameid]);
 
+  function getRankFromSocket(message) {
+    const msg = JSON.parse(message.body);
+    setRanking(msg);
+  }
+
+  function checkEnd() {
+    setTarget(1);
+  }
+
+  ////////////////////////////////////
   // target 값 변동 시, 실행
   useEffect(() => {
     isFinished(target);
@@ -91,6 +71,7 @@ export default function GameStatus() {
   function isFinished(target) {
     if (target !== 0) return true;
   }
+  ////////////////////////////////////
 
   function ActivateButton() {
     return (
@@ -103,6 +84,21 @@ export default function GameStatus() {
           보물을 모두 찾은 사람이 있어요
         </CustomText>
       </Box>
+    );
+  }
+
+  function finishGame() {
+    ws.publish({ destination: "/pub/finish", body: `${gameid}` });
+    setInterval(function () { }, 3000)
+    ws.deactivate();
+    navigate(`/result/${gameid}`);
+  }
+
+  function DeactivateButton() {
+    return (
+      <CustomButton size="large" color="secondary">
+        게임 종료
+      </CustomButton>
     );
   }
 
