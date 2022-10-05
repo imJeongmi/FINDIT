@@ -4,14 +4,13 @@ import a203.findit.exception.CustomException;
 import a203.findit.model.dto.req.User.CreateRoomDTO;
 import a203.findit.model.dto.req.User.EntercodeDTO;
 import a203.findit.model.dto.req.User.PlayerInfoDTO;
-import a203.findit.model.dto.res.ApiResponse;
+import a203.findit.model.dto.res.*;
 import a203.findit.model.dto.req.User.RoomDTO;
-import a203.findit.model.dto.res.Code;
-import a203.findit.model.dto.res.ResGameDTO;
-import a203.findit.model.dto.res.ResIGT;
 import a203.findit.model.entity.*;
 import a203.findit.model.repository.GameRepository;
 import a203.findit.model.repository.IGTRepository;
+import a203.findit.model.repository.MemoryPlayerRepository;
+import a203.findit.model.repository.UserRepository;
 import a203.findit.service.*;
 import lombok.RequiredArgsConstructor;
 import net.bytebuddy.asm.Advice;
@@ -46,6 +45,7 @@ public class RoomController {
     private final GameServiceImpl gameService;
     private final IGTRepository igtRepos;
     private final GameRepository gameRepos;
+    private final UserRepository userRepos;
 
     @PostMapping("/room/create2")
     @ResponseBody
@@ -153,11 +153,9 @@ public class RoomController {
 //        return ResponseEntity.ok().body(rankingService.getRanks(entercodeDTO.getEntercode()));
 //    }
 
-    @GetMapping("/room/result/rank")
-    public ResponseEntity<ArrayList<Ranking>> showResult(@Valid @RequestBody EntercodeDTO entercodeDTO){
-        System.out.println(entercodeDTO.getEntercode());
-        ArrayList<Ranking> rankings = rankingService.getRanks(entercodeDTO.getEntercode());
-        return ResponseEntity.ok().body(rankings);
+    @GetMapping("/room/result/rank/{entercode}")
+    public ResponseEntity<ArrayList<Ranking>> showResult(@Valid @PathVariable String entercode){
+        return ResponseEntity.ok().body(rankingService.getRanks(entercode));
     }
 
     //FE 구현 안함

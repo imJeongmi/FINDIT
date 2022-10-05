@@ -44,11 +44,14 @@ export default function GameStatus() {
 
   const ws = getWebsocket();
 
+  function temp() { }
+
   useEffect(() => {
     if (!!gameid) {
       ws.subscribe(`/sub/rank/${gameid}`, getRankFromSocket);
+      ws.subscribe(`/sub/private/${gameid}`, checkEnd);
       setInterval(function () {
-        ws.subscribe(`/sub/private/${gameid}`, checkEnd);
+        ws.subscribe(`/sub`, temp);
       }, 58000);
     }
   }, [ws, gameid]);

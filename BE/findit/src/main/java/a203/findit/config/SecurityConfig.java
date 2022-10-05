@@ -35,7 +35,10 @@ public class SecurityConfig {
 
     private final String frontUrl;
 
-    private static final String[] GET_PUBLIC_URI = {};
+    private static final String[] GET_PUBLIC_URI = {
+            "/users",
+            "/users/login",
+    };
     private static final String[] POST_PUBLIC_URI = {
             "/users",
             "/users/login",

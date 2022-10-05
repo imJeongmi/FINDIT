@@ -77,6 +77,7 @@ public class RoomServiceImpl implements RoomService{
             ranking.setPlayer_nickname(playerInfoDTO.getNickname());
             ranking.setPlayer_rank(playerInfoDTO.getRank());
             ranking.setPlayer_score(playerInfoDTO.getScore());
+            ranking.setPlayer_profileImg(playerInfoDTO.getProfileImg());
             rankingRepository.save(ranking);
         }
 

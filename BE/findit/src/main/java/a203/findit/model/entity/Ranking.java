@@ -24,4 +24,6 @@ public class Ranking {
     private int player_score;
 
     private int player_rank;
+
+    private int player_profileImg;
 }

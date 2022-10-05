@@ -96,9 +96,15 @@ export default function WaitPlaying() {
     });
   }
 
+  function temp() { }
+
   ws.onConnect = function (frame) {
     console.log("연결됨");
     ws.subscribe(`/sub/room/${gameid}`, getDataFromSocket);
+    setInterval(function () {
+      // ws.subscribe(`/sub/rank/${gameid}`, getRankFromSocket);
+      ws.subscribe(`/sub`, temp);
+    }, 58000);
     if (!!nickname) {
       ws.publish({ destination: "/pub/enter", body: `${gameid},${imgNum},${nickname}` });
     }
