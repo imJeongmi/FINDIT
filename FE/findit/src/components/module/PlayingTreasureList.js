@@ -39,7 +39,6 @@ const ButtonBox = styled(Box)(
 );
 
 export default function PlayingTreasureList({ setModalOpen, findedTreasures }) {
-  alert(`findedTreasures : ${findedTreasures}`);
   const closeModal = () => {
     setModalOpen(false);
   };
@@ -48,10 +47,12 @@ export default function PlayingTreasureList({ setModalOpen, findedTreasures }) {
 
   useEffect(() => {
     getGameTreasureList(gameid, getGameTreasureListSuccess, getGameTreasureListFail);
+    alert(`findedTreasures : ${findedTreasures}`);
   }, [gameid]);
 
   function getGameTreasureListSuccess(res) {
-    setTreasureList(Number(res.data));
+    
+    setTreasureList(Number(res.data.tid));
   }
 
   function getGameTreasureListFail(err) {
