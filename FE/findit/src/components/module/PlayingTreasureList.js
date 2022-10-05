@@ -47,12 +47,13 @@ export default function PlayingTreasureList({ setModalOpen, findedTreasures }) {
 
   useEffect(() => {
     getGameTreasureList(gameid, getGameTreasureListSuccess, getGameTreasureListFail);
-    alert(`findedTreasures : ${findedTreasures}`);
+    // alert(`findedTreasures : ${findedTreasures}`);
   }, [gameid]);
 
   function getGameTreasureListSuccess(res) {
-    
-    setTreasureList(Number(res.data.tid));
+    // console.log(res.data);
+    // console.log(res.data.tid);
+    setTreasureList(res.data);
   }
 
   function getGameTreasureListFail(err) {
@@ -72,8 +73,8 @@ export default function PlayingTreasureList({ setModalOpen, findedTreasures }) {
             </CustomText>
           </Box>
           <TreasureBox>
-            {treasureList.map(({ img, tid }, key) => (
-              <Box key={key}>
+            {treasureList.map(({ img, tid }) => (
+              <Box key={tid}>
                 {img !== null && (
                   <TreasureItem
                     src={img}
