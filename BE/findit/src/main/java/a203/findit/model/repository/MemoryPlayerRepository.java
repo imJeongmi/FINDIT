@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.servlet.http.HttpSession;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Repository
@@ -44,14 +45,14 @@ public class MemoryPlayerRepository implements PlayerRepository {
     }
 
     public List<PlayerInfoDTO> getAllPlayers(String entercode){
-        List<PlayerInfoDTO> playerInfoDTOS = new ArrayList<>();
-        int len = roomRepository.findByEnterCode(entercode).getPlayerInfoDTOBySessionId().size();
-        for(int i=0;i<len;i++){
-            String si = roomRepository.findByEnterCode(entercode).getSessionIds().get(i);
-            PlayerInfoDTO playerInfoDTO = roomRepository.findByEnterCode(entercode).getPlayerInfoDTOBySessionId().get(si);
-            playerInfoDTOS.add(playerInfoDTO);
-        }
-        return playerInfoDTOS;
+//        List<PlayerInfoDTO> playerInfoDTOS = new ArrayList<>();
+//        int len = roomRepository.findByEnterCode(entercode).getPlayerInfoDTOBySessionId().size();
+//        for(int i=0;i<len;i++){
+//            String si = roomRepository.findByEnterCode(entercode).getSessionIds().get(i);
+//            PlayerInfoDTO playerInfoDTO = roomRepository.findByEnterCode(entercode).getPlayerInfoDTOBySessionId().get(si);
+//            playerInfoDTOS.add(playerInfoDTO);
+//        }
+        return roomRepository.findByEnterCode(entercode).getPlayerInfoDTOBySessionId().entrySet().stream().map(x->x.getValue()).collect(Collectors.toList());
     }
 
     /*
