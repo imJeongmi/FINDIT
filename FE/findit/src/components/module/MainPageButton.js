@@ -64,7 +64,7 @@ const hostMainButtonContentList = [
   {
     key: 1,
     explanation: "새로운 게임을 시작하고 싶다면",
-    title: "새로운 FindIt!",
+    title: "새로운 Findit!",
     icon: "joystick",
     color: "warningWeek",
   },
