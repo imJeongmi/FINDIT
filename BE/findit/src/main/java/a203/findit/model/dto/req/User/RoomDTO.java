@@ -36,9 +36,9 @@ public class RoomDTO {
 
     private String enterCode;
 
-    public ArrayList<String> sessionIds;
+    public ArrayList<String> sessionIds = new ArrayList<>();
 
-    public HashMap<String, PlayerInfoDTO> playerInfoDTOBySessionId;
+    public Map<String, PlayerInfoDTO> playerInfoDTOBySessionId = new HashMap<>();
     
 //    public HashMap<Long, Set<String>> sessionIdByIGTID;
 
