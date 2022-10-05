@@ -10,8 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReqUpdateImgDTO {
-
     private Long img;
     private String nickname;
-
 }

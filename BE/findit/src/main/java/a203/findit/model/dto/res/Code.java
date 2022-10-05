@@ -19,5 +19,4 @@ public enum Code {
 
     private final String message;
 
-
 }
