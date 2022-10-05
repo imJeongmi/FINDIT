@@ -31,10 +31,10 @@ app.add_middleware(
 )
 
 opt = {
-    "weights": "best.pt",
+    "weights": "best (17).pt",
     # "weights": "best.pt",  # Path to weights file default weights are for nano model
     "img-size": 640,  # default image size
-    "conf-thres": 0.50,  # confidence threshold for inference.
+    "conf-thres": 0.70,  # confidence threshold for inference.
     "iou-thres": 0.45,  # NMS IoU threshold for inference.
     "device": 'cpu'  # device to run our model i.e. 0 or 0,1,2,3 or cpu
 }
@@ -151,7 +151,8 @@ async def upload_file(file: UploadFile = File(...), game_id: str = Form()):
 
     elif len(s) > 1:
         print("Many Item")
-        return JSONResponse(status_code=400)
+        print(s)
+        return JSONResponse(content={"message" : "MANY ITEMS"},status_code=400)
 
     # 보물이 사진에 없다.
     if len(s) == 0:
