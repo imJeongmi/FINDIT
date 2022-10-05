@@ -20,18 +20,18 @@ export default function EnterVerificationCode() {
   const navigate = useNavigate();
 
   function enterSuccess(res) {
-    console.log(res);
+    // console.log(res);
     navigate(`/playerprofile/${enterCode}`);
   }
 
   function enterFail(err) {
     alert("다시 한 번 입력해주세요😥");
-    console.log("게임 입장 실패", err);
+    // console.log("게임 입장 실패", err);
   }
 
   function postEnterCode(event) {
     event.preventDefault();
-    console.log(enterCode);
+    // console.log(enterCode);
     requestEnter(enterCode, enterSuccess, enterFail);
   }
 

@@ -69,7 +69,7 @@ export default function WaitPlaying() {
   // 소켓에서 보내는 메세지
   function getDataFromSocket(message) {
     const msg = JSON.parse(message.body);
-    console.log(msg);
+    
     if (isGamePlayer() && msg.status === "start") {
       ss.set("starttime", msg.starttime);
       navigate(`/playing/${gameid}`, {
@@ -99,7 +99,7 @@ export default function WaitPlaying() {
   function temp() { }
 
   ws.onConnect = function (frame) {
-    console.log("연결됨");
+   
     ws.subscribe(`/sub/room/${gameid}`, getDataFromSocket);
     setInterval(function () {
       // ws.subscribe(`/sub/rank/${gameid}`, getRankFromSocket);

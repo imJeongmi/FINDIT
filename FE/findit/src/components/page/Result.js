@@ -90,7 +90,7 @@ export default function Result() {
   // }, [finalRank]);
 
   useEffect(() => {
-    console.log(gameid);
+    // console.log(gameid);
     if (!!gameid) {
       requestRankingList(gameid, requestRankingListSuccess, requestRankingListFail);
     }
@@ -114,7 +114,7 @@ export default function Result() {
   }
 
   function requestRankingListFail(error) {
-    console.log("에러 발생", error);
+    // console.log("에러 발생", error);
   }
 
   // function AwardsList(rankNum, playerName) {
