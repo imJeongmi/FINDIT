@@ -5,6 +5,7 @@ import a203.findit.model.dto.req.User.CreateUserDTO;
 import a203.findit.model.dto.req.User.LoginUserDTO;
 import a203.findit.model.dto.req.User.UpdateFormDTO;
 import a203.findit.model.dto.res.Code;
+import a203.findit.model.dto.res.ResTreasureDTO;
 import a203.findit.model.entity.*;
 import a203.findit.model.repository.*;
 import a203.findit.security.JwtProvider;
@@ -208,19 +209,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<String> getTreasure() {
+    public List<ResTreasureDTO> getTreasure() {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userRepos.findByUsername(principal.getUsername()).orElseThrow(
                 ()->new CustomException(Code.C403)
         );
+
+        List<ResTreasureDTO> result = new ArrayList<>();
 
         List<Treasure> treasureList = treasureRepos.findByIsDefault(true);
         List<Treasure> customTreasureList = treasureRepos.findByUser(user);
 
         treasureList.addAll(customTreasureList);
 
-        List<String> treasures = treasureList.stream().map(x -> x.getImageUrl()).collect(Collectors.toList());
-        return treasures;
+        for (Treasure t : treasureList) {
+            ResTreasureDTO treasure = ResTreasureDTO.builder()
+                    .tid(t.getId())
+                    .uri(t.getImageUrl())
+                    .build();
+            result.add(treasure);
+        }
+
+        return result;
     }
 
     @Override
