@@ -57,7 +57,7 @@ export default function SelectTreasure() {
   }
 
   function getTreasureListFail(err) {
-    console.log("보물 목록 요청 실패", err);
+    // console.log("보물 목록 요청 실패", err);
   }
 
   // function selectTreasure(key) {
@@ -80,11 +80,11 @@ export default function SelectTreasure() {
   }
 
   function setGameTreasureListSuccess(res) {
-    console.log(res.data);
+    // console.log(res.data);
   }
 
   function setGameTreasureListFail(err) {
-    console.log("선택된 보물 전송 실패", err);
+    // console.log("선택된 보물 전송 실패", err);
   }
 
   function confirm() {

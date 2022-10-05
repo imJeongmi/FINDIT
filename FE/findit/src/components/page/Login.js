@@ -52,11 +52,11 @@ export default function Login() {
   }
 
   function getUserInfoFail(err) {
-    console.log(err);
+    // console.log(err);
   }
 
   function loginFail(res) {
-    console.log(res);
+    // console.log(res);
   }
 
   function onClickLogin(e) {

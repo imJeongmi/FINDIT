@@ -81,7 +81,7 @@ export default function AddTreasure() {
   }
 
   function uploadFail(error) {
-    console.log(error);
+    // console.log(error);
   }
 
   function dataURLtoFile(dataurl, filename) {

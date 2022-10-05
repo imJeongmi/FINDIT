@@ -57,9 +57,9 @@ export default function GameStatus() {
   }, [ws, gameid]);
 
   function getRankFromSocket(message) {
-    console.log("유저 메시지", message);
+    // console.log("유저 메시지", message);
     const msg = JSON.parse(message.body);
-    console.log("파싱한 메시지", msg);
+    // console.log("파싱한 메시지", msg);
     if (msg[0]?.status === "end") {
       // const finalRank = msg.slice(1);
       // console.log("최종 랭크", finalRank)

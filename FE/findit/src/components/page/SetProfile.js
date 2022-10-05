@@ -96,14 +96,13 @@ function HostProfile() {
   }, [user]);
 
   function logoutSuccess() {
-    console.log("로그아웃 성공");
     ls.remove("accessToken");
     ls.remove("refreshToken");
     navigate("/main");
   }
 
   function logoutFail(err) {
-    console.log(err);
+    // console.log(err);
   }
 
   function onClickLogout(event) {
@@ -116,7 +115,7 @@ function HostProfile() {
   function onClickRefresh() {
     const ranNum = Math.floor(Math.random() * (10 - 1) + 1);
     // setImgNum(Math.floor(Math.random() * 10));
-    console.log(ranNum);
+    // console.log(ranNum);
     setHostProfileImg(ranNum);
   }
 
@@ -135,7 +134,7 @@ function HostProfile() {
   }
 
   function updateProfileFail(err) {
-    console.log(err);
+    // console.log(err);
   }
 
   function getUserInfoSuccess(res) {
@@ -144,7 +143,7 @@ function HostProfile() {
   }
 
   function getUserInfoFail(err) {
-    console.log(err);
+    // console.log(err);
   }
 
   function onClickUpdateProfile(event) {
