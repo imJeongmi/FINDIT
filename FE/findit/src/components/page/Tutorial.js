@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 
 export default function Tutorial({ target }) {
   const orderedHostText = [
-    "게임 생성 버튼을 누르면 게임 설정 화면이 나타나요",
+    "새로운 Findit!을 누르면 게임 설정 화면이 나타나요",
     "게임 시간과 모드를 설정할 수 있어요",
     "플레이어가 찾을 보물을 선택하고, 커스텀 보물을 추가할 수 있어요",
     "PLAY 버튼을 눌러 게임을 시작하세요",
