@@ -50,11 +50,21 @@ const ButtonBox = styled(Box)(
     `,
 );
 
+const MessageBox = styled(Box)(
+  () => `
+    position: absolute;
+    left: 50%;
+    bottom: 27vh;
+    transform: translate(-50%);
+  `,
+);
+
 export default function AddTreasure() {
   const camera = useRef(null);
   const [numberOfCameras, setNumberOfCameras] = useState(0);
   const navigate = useNavigate();
-  const entercode = ls.get('entercode')
+  const entercode = ls.get("entercode");
+  const [addTreasureMsg, setAddTreasureMsg] = useState("");
 
   function onClickCamera() {
     const image = camera.current.takePhoto();
@@ -67,10 +77,7 @@ export default function AddTreasure() {
   }
 
   function uploadSuccess(res) {
-    console.log(res);
-    if (res.ok) {
-      console.log("OK");
-    }
+    setAddTreasureMsg("보물이 등록되었어요");
   }
 
   function uploadFail(error) {
@@ -121,6 +128,10 @@ export default function AddTreasure() {
           <CircleButton icon="camera" size="large" opacity="0.8" />
         </Box>
       </ButtonBox>
+
+      <MessageBox>
+        <CustomText size="xs">{addTreasureMsg}</CustomText>
+      </MessageBox>
       {/* <Avatar src={image} sx={{position: "absolute", top:"5%", left:"5^", width:"10vw"}}/> */}
     </Box>
   );

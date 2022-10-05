@@ -104,7 +104,7 @@ export default function Playing() {
   const limitMinute = location?.state?.limitMinute;
   const sessionId = ss.get("sessionId");
   const navigate = useNavigate();
-  const startTime = ss.get("starttime")
+  const startTime = ss.get("starttime");
 
   function onClickCamera() {
     console.log("카메라 클릭", notTreasureMsg);
@@ -165,12 +165,12 @@ export default function Playing() {
   const ws = getWebsocket();
 
   function getRankFromSocket(message) {
-    console.log(message.body);
+    console.log("메시지 바디", message.body);
     const msg = JSON.parse(message.body);
-    console.log(msg);
+    console.log("파싱한 메시지", msg);
     if (msg[0]?.status === "end") {
       const finalRank = msg.slice(1);
-      console.log(finalRank);
+      console.log("최종 랭크", finalRank);
       navigate(`/result/${gameid}`, { state: { finalRank: finalRank } });
     } else {
       setRanking(msg);
@@ -222,7 +222,7 @@ export default function Playing() {
         >
           <img src={TimerIcon} alt="timerIcon" width="25vw" />
 
-          <Timer startTime={startTime} limitMinute={limitMinute} />
+          <Timer startTime={startTime} limitMinute={limitMinute} gameid={gameid} />
         </Box>
         <Box sx={{ position: "absolute", right: "5%" }}>
           <ExitButton />
