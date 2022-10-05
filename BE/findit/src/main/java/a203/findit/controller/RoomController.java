@@ -153,8 +153,8 @@ public class RoomController {
 //        return ResponseEntity.ok().body(rankingService.getRanks(entercodeDTO.getEntercode()));
 //    }
 
-    @GetMapping("/room/result/rank")
-    public ResponseEntity<ArrayList<Ranking>> showResult(@Valid @RequestParam String entercode){
+    @GetMapping("/room/result/rank/{entercode}")
+    public ResponseEntity<ArrayList<Ranking>> showResult(@Valid @PathVariable String entercode){
         System.out.println(entercode);
         ArrayList<Ranking> rankings = rankingService.getRanks(entercode);
         return ResponseEntity.ok().body(rankings);
