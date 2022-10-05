@@ -184,6 +184,7 @@ export default function Playing() {
   }
 
   function temp() {}
+  
   useEffect(() => {
     if (!!gameid && !!sessionId) {
       ws.subscribe(`/sub/player/${sessionId}`, getScoreFromSocket);
