@@ -1,6 +1,7 @@
 package a203.findit.controller;
 
 import a203.findit.exception.CustomException;
+import a203.findit.model.dto.req.ReqDeleteTreasure;
 import a203.findit.model.dto.req.ReqSelectTreasure;
 import a203.findit.model.dto.req.ReqUpdateImgDTO;
 import a203.findit.model.dto.req.ReqUpdatePwDTO;
@@ -52,7 +53,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity login(HttpServletRequest request, HttpServletResponse response, @Valid @RequestBody LoginUserDTO loginUserDTO) {
+    public ResponseEntity login(HttpServletResponse response, @Valid @RequestBody LoginUserDTO loginUserDTO) {
         try {
             Map<String, String> result = userService.login(loginUserDTO);
             SetCookie.setRefreshTokenCookie(response, result.get(REFRESH_TOKEN_KEY));
@@ -107,14 +108,12 @@ public class UserController {
     public ResponseEntity updateImg(@PathVariable("userId") String userId, @RequestBody ReqUpdateImgDTO reqUpdateImgDTO) {
         System.out.println(reqUpdateImgDTO.getImg());
 
-            return ResponseEntity.ok().body(userService.update(userId, reqUpdateImgDTO.getNickname(), reqUpdateImgDTO.getImg()));
+        return ResponseEntity.ok().body(userService.update(userId, reqUpdateImgDTO.getNickname(), reqUpdateImgDTO.getImg()));
     }
 
     @PostMapping("/{userId}/updatePw")
     public ResponseEntity updatePw(@PathVariable("userId") Long userId, @RequestBody ReqUpdatePwDTO reqUpdatePwDTO) {
         UserDetails currUser = (UserDetails) (SecurityContextHolder.getContext().getAuthentication()).getPrincipal();
-        System.out.println(reqUpdatePwDTO.getPw());
-        System.out.println(currUser.getUsername());
         if (userService.updatePw(userId, reqUpdatePwDTO.getPw(), currUser.getUsername())) {
             return ResponseEntity.ok().body("변경되었습니다.");
         }
@@ -139,6 +138,22 @@ public class UserController {
             return ResponseEntity.badRequest().body("잘못된 요청입니다.");
         }
 
+    }
+
+    @PostMapping("/treasures/delete")
+    public ResponseEntity deleteTreasure(@RequestBody ReqDeleteTreasure reqDeleteTreasure){
+        UserDetails currUser = (UserDetails) (SecurityContextHolder.getContext().getAuthentication()).getPrincipal();
+
+        try{
+            userService.deleteTreasure(currUser.getUsername(), reqDeleteTreasure.getTid());
+            return ResponseEntity.ok().body("삭제되었습니다.");
+        } catch (CustomException c){
+            if(c.getCode()==Code.C404)
+                return ResponseEntity.badRequest().body("권한이 없습니다.");
+            else if(c.getCode()==Code.C403)
+                return ResponseEntity.badRequest().body("존재하지 않는 사용자입니다.");
+        }
+        return ResponseEntity.internalServerError().body("예상치 못한 에러;;;");
     }
 
     @GetMapping("/treasures")

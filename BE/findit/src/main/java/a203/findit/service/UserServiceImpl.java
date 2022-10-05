@@ -252,6 +252,21 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
+    @Override
+    public boolean deleteTreasure(String username, Long tid) throws CustomException{
+        Treasure treasure = treasureRepos.findById(tid).orElseThrow(
+                ()->new CustomException(Code.C403)
+        );
+
+        if(!treasure.getUser().getUsername().equals(username)){
+            throw new CustomException(Code.C404);
+        }
+
+        treasureRepos.deleteById(tid);
+
+        return true;
+    }
+
     private Map<String, String> createToken(String name) {
         Map<String, String> result = new HashMap<>();
 

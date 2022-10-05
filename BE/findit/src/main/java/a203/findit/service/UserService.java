@@ -38,4 +38,5 @@ public interface UserService {
     boolean selectTreasure(List<Long> tid, String entercode);
 
 
+    boolean deleteTreasure(String username, Long tid);
 }
