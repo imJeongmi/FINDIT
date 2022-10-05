@@ -25,12 +25,7 @@ function requestUpload(data, success, fail) {
 }
 
 function requestRankingList(gameid, success, fail) {
-  axios
-    .get("https://findit.life/api/v1/room/result/rank", {
-      entercode: gameid,
-    })
-    .then(success)
-    .catch(fail);
+  axios.get(`https://findit.life/api/v1/room/result/rank/${gameid}`).then(success).catch(fail);
 }
 
 function getGameTreasureList(entercode, success, fail) {

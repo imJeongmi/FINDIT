@@ -9,7 +9,7 @@ import { useEffect } from "react";
 import Timer from "components/module/Timer";
 import { useState } from "react";
 
-import ls from "helper/LocalStorage"
+import ls from "helper/LocalStorage";
 
 const CenterStyle = {
   margin: "7vh 0 5vh 0",
@@ -40,7 +40,7 @@ export default function GameStatus() {
   const limitMinute = location?.state?.limitMinute;
   const [target, setTarget] = useState(0);
   const [ranking, setRanking] = useState([]);
-  const startTime = ls.get("starttime")
+  const startTime = ls.get("starttime");
 
   const ws = getWebsocket();
 
@@ -57,8 +57,16 @@ export default function GameStatus() {
   }, [ws, gameid]);
 
   function getRankFromSocket(message) {
+    console.log("유저 메시지", message);
     const msg = JSON.parse(message.body);
-    setRanking(msg);
+    console.log("파싱한 메시지", msg);
+    if (msg[0]?.status === "end") {
+      // const finalRank = msg.slice(1);
+      // console.log("최종 랭크", finalRank)
+      navigate(`/result/${gameid}`);
+    } else {
+      setRanking(msg);
+    }
   }
 
   function checkEnd() {
@@ -92,9 +100,9 @@ export default function GameStatus() {
 
   function finishGame() {
     ws.publish({ destination: "/pub/finish", body: `${gameid}` });
-    setInterval(function () { }, 3000)
-    ws.deactivate();
-    navigate(`/result/${gameid}`);
+    setInterval(function () {}, 3000);
+    // ws.deactivate();
+    // navigate(`/result/${gameid}`);
   }
 
   function DeactivateButton() {
