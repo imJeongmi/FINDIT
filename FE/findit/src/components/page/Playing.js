@@ -132,7 +132,9 @@ export default function Playing() {
     if (tid !== "NOT TREASURE" && findedTreasures.indexOf(tid) === -1) {
       setFindedTreasures(findedTreasures => [...findedTreasures, tid]);
       ws.publish({ destination: "/pub/find", body: `${gameid},${tid}` });
-      console.log(`찾은 보물 ${tid}가 findedTreasures에 저장되었어요 => findedTreasures : ${findedTreasures}`);
+      console.log(
+        `찾은 보물 ${tid}가 findedTreasures에 저장되었어요 => findedTreasures : ${findedTreasures}`,
+      );
       console.log("사진 업로드 완료");
     } else {
       setNotTreasureMsg("보물이 아니에요");
@@ -187,7 +189,7 @@ export default function Playing() {
   }
 
   function temp() {}
-  
+
   useEffect(() => {
     if (!!gameid && !!sessionId) {
       ws.subscribe(`/sub/player/${sessionId}`, getScoreFromSocket);
@@ -198,6 +200,11 @@ export default function Playing() {
       }, 58000);
     }
   }, [ws, gameid, sessionId]);
+
+  function exitGame() {
+    ws.deactivate();
+    navigate("/main");
+  }
 
   return (
     <Box>
@@ -224,7 +231,7 @@ export default function Playing() {
 
           <Timer startTime={startTime} limitMinute={limitMinute} gameid={gameid} />
         </Box>
-        <Box sx={{ position: "absolute", right: "5%" }}>
+        <Box sx={{ position: "absolute", right: "5%" }} onClick={exitGame}>
           <ExitButton />
         </Box>
       </StatusBar>
