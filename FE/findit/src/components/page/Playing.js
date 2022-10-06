@@ -77,8 +77,21 @@ const MessageBox = styled(Box)(
   () => `
     position: absolute;
     left: 50%;
-    bottom: 27vh;
+    bottom: 29vh;
     transform: translate(-50%);
+  `,
+);
+
+const ToastBox = styled(Box)(
+  () => `
+    border-radius: 25px;
+    background-color: black;
+    opacity: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 35px;
+    width: 180px;
   `,
 );
 
@@ -272,9 +285,14 @@ export default function Playing() {
         </Box>
       </ButtonBox>
       <MessageBox>
-        <CustomText size="xs" shadow="white">
-          {TreasureMsg}
-        </CustomText>
+        {TreasureMsg !== "" && (
+          <ToastBox>
+            <CustomText size="xs" variant="white">
+              {/* {TreasureMsg} */}
+              보물이 아닙니다
+            </CustomText>
+          </ToastBox>
+        )}
       </MessageBox>
       {modalOpen === 1 && <PlayingRanking setModalOpen={setModalOpen} ranking={ranking} />}
       {modalOpen === 2 && (

@@ -2,13 +2,12 @@ import React from "react";
 import { styled } from "@mui/system";
 
 const CustomSpan = styled("span")(
-  ({ size, variant, weight, mx, my, shadow }) => `
+  ({ size, variant, weight, mx, my }) => `
   color: ${getColor(variant)};
   font-size: ${getSize(size)};
   margin: ${getMarginY(my)}px ${getMarginX(mx)}px;
   padding: 0;
   font-family: ${getWeight(weight)};
-  text-shadow: ${getTextShadow(shadow)};
   `,
 );
 
@@ -83,18 +82,12 @@ function getMarginX(mx) {
   }
 }
 
-function getTextShadow(shadow) {
-  if (shadow === "white") {
-    return "-0.5px 0 #fff, 0 0.5px #fff, 0.5px 0 #fff, 0 -0.5px #fff";
-  }
-}
-
 export default function CustomText({ variant, children, weight, size, mx, my, shadow }) {
   return (
     //  텍스트는 크게 large, medium, small 사이즈로 구분되며
     // 색상은 primary, black, white 로 구분됩니다.
     // 두가지 모두 적용시켜주셔야 합니다.
-    <CustomSpan variant={variant} size={size} weight={weight} mx={mx} my={my} shadow={shadow}>
+    <CustomSpan variant={variant} size={size} weight={weight} mx={mx} my={my}>
       {children}
     </CustomSpan>
   );
