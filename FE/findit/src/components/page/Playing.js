@@ -189,7 +189,7 @@ export default function Playing() {
   }
 
   function temp() {}
-  
+
   useEffect(() => {
     if (!!gameid && !!sessionId) {
       ws.subscribe(`/sub/player/${sessionId}`, getScoreFromSocket);
@@ -200,6 +200,11 @@ export default function Playing() {
       }, 58000);
     }
   }, [ws, gameid, sessionId]);
+
+  function exitGame() {
+    ws.deactivate();
+    navigate("/main");
+  }
 
   return (
     <Box>
@@ -226,7 +231,7 @@ export default function Playing() {
 
           <Timer startTime={startTime} limitMinute={limitMinute} gameid={gameid} />
         </Box>
-        <Box sx={{ position: "absolute", right: "5%" }}>
+        <Box sx={{ position: "absolute", right: "5%" }} onClick={exitGame}>
           <ExitButton />
         </Box>
       </StatusBar>
