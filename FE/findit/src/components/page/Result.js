@@ -5,7 +5,9 @@ import CustomButton from "components/atom/CustomButton";
 import ProfileImage from "components/atom/ProfileImage";
 import RankingList from "components/module/RankingList";
 
-import { Link, useLocation, useParams } from "react-router-dom";
+import { getWebsocket } from "helper/websocket";
+
+import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
 
 import { requestRankingList } from "api/player";
 import ls from "helper/LocalStorage";
@@ -48,6 +50,9 @@ const ButtonBox = styled(Box)(
 );
 
 export default function Result() {
+  const ws = getWebsocket();
+  const navigate = useNavigate();
+
   function getRank(rankNum) {
     switch (rankNum) {
       case 1:
@@ -150,6 +155,10 @@ export default function Result() {
     }
   }
 
+  useEffect(() => {
+    ws.deactivate();
+  }, [ws]);
+
   return (
     <Box>
       <Box sx={CenterStyle}>
@@ -215,6 +224,9 @@ export default function Result() {
       <ButtonBox>
         <CustomButton size="large" color="secondary">
           {isPlayer() ? (
+            // <Link to="/main" style={{ textDecoration: "none", color: "#DA9B9A" }}>
+            //   메인으로
+            // </Link>
             <Link to="/main" style={{ textDecoration: "none", color: "#DA9B9A" }}>
               메인으로
             </Link>
