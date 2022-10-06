@@ -84,11 +84,11 @@ public class MemoryPlayerRepository implements PlayerRepository {
     /*
      igtid에서 같은 entercode 내에 igtid 의 emtpy 여부 / 개수 => 개수 리턴
      */
-    public int howManyPeopleFoundTid(Long igtid){
+    public int howManyPeopleFoundTid(Long igtid,String entercode){
         int cnt=0;
         for(PlayerInfoDTO playerInfoDTO : playerInfoDTOSInMemory){
             for(Long tid : playerInfoDTO.getIGTIds()){
-                if(tid == igtid) {
+                if(playerInfoDTO.getEntercode().equals(entercode) && tid == igtid) {
                     cnt++;
                 }
             }

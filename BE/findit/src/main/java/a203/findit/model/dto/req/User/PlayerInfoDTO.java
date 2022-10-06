@@ -27,11 +27,11 @@ public class PlayerInfoDTO {
     public PlayerInfoDTO(PlayerEnterDTO playerEnterDTO,String sessionId){
         this.profileImg = playerEnterDTO.getProfileImg();
         this.nickname = playerEnterDTO.getNickname();
-        this.entercode = playerEnterDTO.getEntercode();
-        this.sessionId = sessionId;
         this.score = 0;
-        this.IGTIds = new ArrayList<>();
+        this.sessionId = sessionId;
         this.rank = 0;
+        this.entercode = playerEnterDTO.getEntercode();
         this.count = 0;
+        this.IGTIds = new ArrayList<>();
     }
 }

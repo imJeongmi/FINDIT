@@ -40,7 +40,7 @@ public class PlayerServiceImpl implements PlayerService {
 
         PlayerInfoDTO playerInfoDTO = playerRepository.findPlayerInfoDTO(entercode, sessionId);
 
-        int cnt = playerRepository.howManyPeopleFoundTid(treasureId);
+        int cnt = playerRepository.howManyPeopleFoundTid(treasureId,entercode);
         int plusscore = 50;
         if(playerRepository.isExistSame(sessionId, treasureId)) return new AfterFindDTO();
         else{
