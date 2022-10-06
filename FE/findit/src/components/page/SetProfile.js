@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import { Box } from "@mui/system";
+import { Box, styled } from "@mui/system";
 
 import CircleButton from "components/atom/CircleButton";
 import CustomButton from "components/atom/CustomButton";
@@ -31,6 +31,16 @@ const IconStyle = {
   position: "absolute",
   left: "65%",
 };
+
+const ButtonBox = styled(Box)(
+  () => `
+  text-align: center;
+  position: absolute;
+  top: 75vh;
+  left: 50%;
+  transform: translate(-50%);
+  `,
+);
 
 function PlayerProfile() {
   const [nickname, setNickname] = useState();
@@ -73,9 +83,11 @@ function PlayerProfile() {
         <CustomText>닉네임을 등록해주세요</CustomText>
         <Input type="text" placeholder="닉네임" onChange={onChangeNickname}></Input>
       </Box>
-      <CustomButton size="large" color="primary" onClick={sendPlayerToWaiting}>
-        확인
-      </CustomButton>
+      <ButtonBox>
+        <CustomButton size="large" color="primary" onClick={sendPlayerToWaiting}>
+          확인
+        </CustomButton>
+      </ButtonBox>
     </Box>
   );
 }
@@ -186,9 +198,11 @@ function HostProfile() {
       {/* <CustomButton size="small" color="secondary">
         비밀번호 변경
       </CustomButton> */}
-      <CustomButton size="large" color="primary" onClick={onClickUpdateProfile}>
-        프로필 변경
-      </CustomButton>
+      <ButtonBox>
+        <CustomButton size="large" color="primary" onClick={onClickUpdateProfile}>
+          프로필 변경
+        </CustomButton>
+      </ButtonBox>
     </Box>
   );
 }

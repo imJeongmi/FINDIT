@@ -17,7 +17,7 @@ const TreasureBox = styled(Box)(
     left: 50%;
     transform: translate(-50%, -50%);
     width: 80vw;
-    height: 40vh;
+    height: 41vh;
     overflow: scroll; 
     `,
 );

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Box } from "@mui/system";
+import { Box, styled } from "@mui/system";
 
 import EnterCode from "components/atom/EnterCode";
 import Modal from "components/atom/Modal";
@@ -14,6 +14,16 @@ import { useNavigate } from "react-router-dom";
 import { requestEnter } from "api/player";
 
 import "./compass.scss";
+
+const ButtonBox = styled(Box)(
+  () => `
+  text-align: center;
+  position: absolute;
+  top: 50vh;
+  left: 50%;
+  transform: translate(-50%);
+  `,
+);
 
 export default function EnterVerificationCode() {
   const [enterCode, setEnterCode] = useState("");
@@ -50,9 +60,11 @@ export default function EnterVerificationCode() {
           <CustomText size="xs">게임에 입장하기 위해 전달받은 코드를 입력하세요</CustomText>
           <EnterCode enterCode={enterCode} setEnterCode={setEnterCode}></EnterCode>
         </Box>
-        <CustomButton size="large" color="primary" onClick={postEnterCode}>
-          입장하기
-        </CustomButton>
+        <ButtonBox>
+          <CustomButton size="large" color="primary" onClick={postEnterCode}>
+            입장하기
+          </CustomButton>
+        </ButtonBox>
       </Modal>
     </Box>
   );

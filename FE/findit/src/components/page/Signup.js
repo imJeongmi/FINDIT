@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box } from "@mui/system";
+import { Box, styled } from "@mui/system";
 import Modal from "components/atom/Modal";
 import Input from "components/atom/Input";
 import CustomButton from "components/atom/CustomButton";
@@ -18,6 +18,16 @@ const LoginStyle = {
   flexDirection: "column",
   alignItems: "end",
 };
+
+const ButtonBox = styled(Box)(
+  () => `
+  text-align: center;
+  position: absolute;
+  top: 50vh;
+  left: 50%;
+  transform: translate(-50%);
+  `
+)
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -113,9 +123,11 @@ export default function Signup() {
             onChange={onChangeConfirm}
           />
         </Box>
-        <CustomButton size="large" color="secondary" my="0" onClick={onClickSignup}>
-          회원가입
-        </CustomButton>
+        <ButtonBox>
+          <CustomButton size="large" color="secondary" onClick={onClickSignup}>
+            회원가입
+          </CustomButton>
+        </ButtonBox>
       </Modal>
     </Box>
   );

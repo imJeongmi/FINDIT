@@ -33,6 +33,16 @@ const RankingBox = styled(Box)(
     `,
 );
 
+const ButtonBox = styled(Box)(
+  () => `
+  text-align: center;
+  position: absolute;
+  top: 75vh;
+  left: 50%;
+  transform: translate(-50%);
+  `,
+);
+
 export default function GameStatus() {
   const { gameid } = useParams();
   const navigate = useNavigate();
@@ -40,6 +50,7 @@ export default function GameStatus() {
   const limitMinute = location?.state?.limitMinute;
   const [target, setTarget] = useState(0);
   const [ranking, setRanking] = useState([]);
+  const [finishMsg, setFinishMsg] = useState("");
   const startTime = ls.get("starttime");
 
   const ws = getWebsocket();
@@ -80,7 +91,10 @@ export default function GameStatus() {
   }, [target]);
 
   function isFinished(target) {
-    if (target !== 0) return true;
+    if (target !== 0) {
+      setFinishMsg("보물을 모두 찾은 사람이 있어요");
+      return true;
+    }
   }
   ////////////////////////////////////
 
@@ -88,11 +102,13 @@ export default function GameStatus() {
     return (
       // solid style
       <Box sx={ButtonStyle}>
-        <CustomButton size="large" color="secondary" onClick={finishGame}>
-          게임 종료
-        </CustomButton>
+        <ButtonBox>
+          <CustomButton size="large" color="secondary" onClick={finishGame}>
+            게임 종료
+          </CustomButton>
+        </ButtonBox>
         <CustomText variant="grey" size="xs">
-          보물을 모두 찾은 사람이 있어요
+          {finishMsg}
         </CustomText>
       </Box>
     );
