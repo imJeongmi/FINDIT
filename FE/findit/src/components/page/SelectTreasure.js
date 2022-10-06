@@ -36,6 +36,16 @@ const AddTreasureButton = styled(Box)(
   `,
 );
 
+const ButtonBox = styled(Box)(
+  () => `
+  text-align: center;
+  position: absolute;
+  top: 75vh;
+  left: 50%;
+  transform: translate(-50%);
+  `,
+);
+
 export default function SelectTreasure() {
   const navigate = useNavigate();
   const [treasureList, setTreasureList] = useState([]);
@@ -139,11 +149,11 @@ export default function SelectTreasure() {
             </AddTreasureButton>
           </Link>
         </Box>
-        <Box>
+        <ButtonBox>
           <CustomButton size="large" color="secondary" onClick={confirm}>
             보물 설정 완료
           </CustomButton>
-        </Box>
+        </ButtonBox>
       </Box>
     );
   } else {

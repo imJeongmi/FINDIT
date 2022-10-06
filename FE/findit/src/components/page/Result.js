@@ -46,6 +46,10 @@ const ButtonBox = styled(Box)(
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: absolute;
+  top: 75vh;
+  left: 50%;
+  transform: translate(-50%);
   `,
 );
 
