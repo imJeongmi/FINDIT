@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Box } from "@mui/system";
+import { Box, styled } from "@mui/system";
 import { Carousel } from "react-responsive-carousel";
 import Modal from "components/atom/Modal";
 
