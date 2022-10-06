@@ -13,11 +13,11 @@ import { getGameTreasureList } from "api/player";
 const TreasureBox = styled(Box)(
   () => `
     position: absolute;
-    top: 55%;
+    top: 48%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 80vw;
-    height: 50vh;
+    height: 40vh;
     overflow: scroll; 
     `,
 );
