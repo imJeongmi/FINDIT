@@ -69,14 +69,14 @@ export default function WaitPlaying() {
   // 소켓에서 보내는 메세지
   function getDataFromSocket(message) {
     const msg = JSON.parse(message.body);
-    console.log(msg);
+    
     if (isGamePlayer() && msg.status === "start") {
       ss.set("starttime", msg.starttime);
       navigate(`/playing/${gameid}`, {
         state: { limitMinute: msg?.limitminute },
       });
     } else if (!isGamePlayer() && msg.status === "start") {
-      ls.set("starttime", msg.starttime)
+      ls.set("starttime", msg.starttime);
       navigate(`/status/${gameid}`, { state: { limitMinute: msg?.limitminute } });
     } else if (isGamePlayer() && msg.status === "end") {
       ws.deactivate();
@@ -99,7 +99,7 @@ export default function WaitPlaying() {
   function temp() { }
 
   ws.onConnect = function (frame) {
-    console.log("연결됨");
+   
     ws.subscribe(`/sub/room/${gameid}`, getDataFromSocket);
     setInterval(function () {
       // ws.subscribe(`/sub/rank/${gameid}`, getRankFromSocket);
@@ -114,7 +114,7 @@ export default function WaitPlaying() {
     if (!!ws && !!gameid) {
       ws.activate();
     }
-  }, [gameid]);
+  }, [ws, gameid]);
 
   function HostButton() {
     return (

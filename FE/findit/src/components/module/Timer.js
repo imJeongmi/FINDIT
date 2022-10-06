@@ -1,22 +1,28 @@
 import CustomText from "components/atom/CustomText";
+import { getWebsocket } from "helper/websocket";
 import React from "react";
 import { useTimer } from "react-timer-hook";
 
 
 
-export default function Timer({ limitMinute, startTime, target }) {
+export default function Timer({ limitMinute, startTime, target, gameid }) {
   const now = new Date();
-  const time = new Date(startTime);
-  const KR_TIME_DIFF = 9 * 60 * 60 * 1000;
-  console.log(startTime)
-  time.setSeconds(time.getSeconds() + KR_TIME_DIFF + limitMinute * 60 - now.getSeconds());
-  function MyTimer({ expiryTimestamp, target }) {
+  const start = new Date(startTime);
+  const KR_TIME_DIFF = 9 * 60 * 60 ;
+  const ws = getWebsocket();
+
+  // console.log(startTime)
+  start.setSeconds(start.getSeconds() + KR_TIME_DIFF + limitMinute * 60 - now.getSeconds());
+  function MyTimer({ expiryTimestamp, target, gameid }) {
     const {
       seconds,
       minutes,
     } = useTimer({
       expiryTimestamp,
-      onExpire: () => console.warn("onExpire called")
+      onExpire: () => {
+        ws.publish({ destination: "/pub/finish", body: `${gameid}` });
+        setInterval(function () { }, 3000);
+      }
     });
 
     if (target === "user") {
@@ -30,6 +36,6 @@ export default function Timer({ limitMinute, startTime, target }) {
     }
   }
   return (
-    <MyTimer expiryTimestamp={time} target={target} />
+    <MyTimer expiryTimestamp={start} target={target} gameid={gameid} />
   );
 }

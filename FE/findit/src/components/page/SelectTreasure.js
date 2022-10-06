@@ -57,7 +57,7 @@ export default function SelectTreasure() {
   }
 
   function getTreasureListFail(err) {
-    console.log("보물 목록 요청 실패", err);
+    // console.log("보물 목록 요청 실패", err);
   }
 
   // function selectTreasure(key) {
@@ -80,11 +80,11 @@ export default function SelectTreasure() {
   }
 
   function setGameTreasureListSuccess(res) {
-    console.log(res.data);
+    // console.log(res.data);
   }
 
   function setGameTreasureListFail(err) {
-    console.log("선택된 보물 전송 실패", err);
+    // console.log("선택된 보물 전송 실패", err);
   }
 
   function confirm() {
@@ -117,8 +117,8 @@ export default function SelectTreasure() {
             <Box key={idx}>
               {treasure !== null && (
                 <TreasureItem
-                  idx={idx}
-                  src={treasure}
+                  idx={treasure.tid}
+                  src={treasure.uri}
                   selectedItems={selectedItems}
                   selectedItemHandler={selectedItemHandler}
                   alt="treasure"
@@ -163,7 +163,7 @@ export default function SelectTreasure() {
             <Box key={key}>
               {treasure !== null && (
                 <TreasureItem
-                  src={treasure}
+                  src={treasure.uri}
                   // selectedItems={selectedItems}
                   // selectedItemHandler={selectedItemHandler}
                   alt="treasure"

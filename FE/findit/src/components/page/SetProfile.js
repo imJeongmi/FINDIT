@@ -44,7 +44,11 @@ function PlayerProfile() {
 
   function onChangeNickname(e) {
     const nickname = e.target.value;
-    setNickname(nickname);
+    if (nickname.length > 10) {
+      alert("닉네임을 10글자 이하로 작성해 주세요");
+    } else {
+      setNickname(nickname);
+    }
   }
 
   function sendPlayerToWaiting(e) {
@@ -92,14 +96,13 @@ function HostProfile() {
   }, [user]);
 
   function logoutSuccess() {
-    console.log("로그아웃 성공");
     ls.remove("accessToken");
     ls.remove("refreshToken");
     navigate("/main");
   }
 
   function logoutFail(err) {
-    console.log(err);
+    // console.log(err);
   }
 
   function onClickLogout(event) {
@@ -112,13 +115,17 @@ function HostProfile() {
   function onClickRefresh() {
     const ranNum = Math.floor(Math.random() * (10 - 1) + 1);
     // setImgNum(Math.floor(Math.random() * 10));
-    console.log(ranNum);
+    // console.log(ranNum);
     setHostProfileImg(ranNum);
   }
 
   function onChangeNickname(event) {
     const nickname = event.target.value;
-    setHostNickname(nickname);
+    if (nickname.length > 10) {
+      alert("닉네임을 10글자 이하로 작성해 주세요");
+    } else {
+      setHostNickname(nickname);
+    }
   }
 
   async function updateProfileSuccess() {
@@ -127,7 +134,7 @@ function HostProfile() {
   }
 
   function updateProfileFail(err) {
-    console.log(err);
+    // console.log(err);
   }
 
   function getUserInfoSuccess(res) {
@@ -136,19 +143,22 @@ function HostProfile() {
   }
 
   function getUserInfoFail(err) {
-    console.log(err);
+    // console.log(err);
   }
 
   function onClickUpdateProfile(event) {
     event.preventDefault();
-    console.log(imgNum, hostNickname);
-    requestUpdateProfile(
-      userId,
-      hostProfileImg,
-      hostNickname,
-      updateProfileSuccess,
-      updateProfileFail,
-    );
+    if (hostNickname.length > 10) {
+      alert("닉네임을 10글자 이하로 작성해 주세요");
+    } else {
+      requestUpdateProfile(
+        userId,
+        hostProfileImg,
+        hostNickname,
+        updateProfileSuccess,
+        updateProfileFail,
+      );
+    }
   }
 
   // 로그아웃 함수 작성

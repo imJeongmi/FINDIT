@@ -13,11 +13,11 @@ import { getGameTreasureList } from "api/player";
 const TreasureBox = styled(Box)(
   () => `
     position: absolute;
-    top: 55%;
+    top: 48%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 80vw;
-    height: 50vh;
+    height: 40vh;
     overflow: scroll; 
     `,
 );
@@ -57,7 +57,7 @@ export default function PlayingTreasureList({ setModalOpen, findedTreasures }) {
   }
 
   function getGameTreasureListFail(err) {
-    console.log("보물 목록 요청 실패", err);
+    // console.log("보물 목록 요청 실패", err);
   }
 
   if (!!gameid) {

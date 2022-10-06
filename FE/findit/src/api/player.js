@@ -25,16 +25,12 @@ function requestUpload(data, success, fail) {
 }
 
 function requestRankingList(gameid, success, fail) {
-  axios
-    .get("https://findit.life/api/v1/room/result/rank", {
-      entercode: gameid,
-    })
-    .then(success)
-    .catch(fail);
+  axios.get(`https://findit.life/api/v1/room/result/rank/${gameid}`).then(success).catch(fail);
 }
 
+// 방에서 정한 보물 조회
 function getGameTreasureList(entercode, success, fail) {
-  PlayerApi.get(`https://findit.life/api/v1/room/${entercode}/treasures`).then(success).catch(fail);
+  PlayerApi.get(`room/${entercode}/treasures`).then(success).catch(fail);
 }
 
 export { requestEnter, requestUpload, requestRankingList, getGameTreasureList };

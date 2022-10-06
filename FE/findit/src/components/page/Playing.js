@@ -99,21 +99,21 @@ export default function Playing() {
   const [finalScore, setFinalScore] = useState(0);
   const [myRank, setMyRank] = useState("1st");
   const [findedTreasures, setFindedTreasures] = useState([]);
-  const [notTreasureMsg, setNotTreasureMsg] = useState("");
+  const [TreasureMsg, setTreasureMsg] = useState("");
   const location = useLocation();
   const limitMinute = location?.state?.limitMinute;
   const sessionId = ss.get("sessionId");
   const navigate = useNavigate();
-  const startTime = ss.get("starttime")
+  const startTime = ss.get("starttime");
 
   function onClickCamera() {
-    console.log("카메라 클릭", notTreasureMsg);
+    console.log("카메라 클릭", TreasureMsg);
     const image = camera.current.takePhoto();
     uploadAction(image);
   }
 
   function uploadAction(image) {
-    console.log("사진 업로드 시작", notTreasureMsg);
+    console.log("사진 업로드 시작", TreasureMsg);
     const file = dataURLtoFile(image, "treasure.jpeg");
 
     const data = {
@@ -132,11 +132,13 @@ export default function Playing() {
     if (tid !== "NOT TREASURE" && findedTreasures.indexOf(tid) === -1) {
       setFindedTreasures(findedTreasures => [...findedTreasures, tid]);
       ws.publish({ destination: "/pub/find", body: `${gameid},${tid}` });
+      setTreasureMsg("보물을 획득했어요");
+      setTimeout(() => setTreasureMsg(""), 1500);
       console.log(`찾은 보물 ${tid}가 findedTreasures에 저장되었어요 => findedTreasures : ${findedTreasures}`);
       console.log("사진 업로드 완료");
     } else {
-      setNotTreasureMsg("보물이 아니에요");
-      setTimeout(() => setNotTreasureMsg(""), 1500);
+      setTreasureMsg("보물이 아니에요");
+      setTimeout(() => setTreasureMsg(""), 1500);
     }
   }
 
@@ -165,12 +167,12 @@ export default function Playing() {
   const ws = getWebsocket();
 
   function getRankFromSocket(message) {
-    console.log(message.body);
+    console.log("메시지 바디", message.body);
     const msg = JSON.parse(message.body);
-    console.log(msg);
+    console.log("파싱한 메시지", msg);
     if (msg[0]?.status === "end") {
       const finalRank = msg.slice(1);
-      console.log(finalRank);
+      console.log("최종 랭크", finalRank);
       navigate(`/result/${gameid}`, { state: { finalRank: finalRank } });
     } else {
       setRanking(msg);
@@ -187,7 +189,7 @@ export default function Playing() {
   }
 
   function temp() {}
-  
+
   useEffect(() => {
     if (!!gameid && !!sessionId) {
       ws.subscribe(`/sub/player/${sessionId}`, getScoreFromSocket);
@@ -198,6 +200,11 @@ export default function Playing() {
       }, 58000);
     }
   }, [ws, gameid, sessionId]);
+
+  function exitGame() {
+    ws.deactivate();
+    navigate("/main");
+  }
 
   return (
     <Box>
@@ -222,9 +229,9 @@ export default function Playing() {
         >
           <img src={TimerIcon} alt="timerIcon" width="25vw" />
 
-          <Timer startTime={startTime} limitMinute={limitMinute} />
+          <Timer startTime={startTime} limitMinute={limitMinute} gameid={gameid} />
         </Box>
-        <Box sx={{ position: "absolute", right: "5%" }}>
+        <Box sx={{ position: "absolute", right: "5%" }} onClick={exitGame}>
           <ExitButton />
         </Box>
       </StatusBar>
@@ -263,7 +270,7 @@ export default function Playing() {
         </Box>
       </ButtonBox>
       <MessageBox>
-        <CustomText size="xs">{notTreasureMsg}</CustomText>
+        <CustomText size="xs">{TreasureMsg}</CustomText>
       </MessageBox>
       {modalOpen === 1 && <PlayingRanking setModalOpen={setModalOpen} ranking={ranking} />}
       {modalOpen === 2 && (

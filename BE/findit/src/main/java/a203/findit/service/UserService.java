@@ -4,6 +4,7 @@ package a203.findit.service;
 import a203.findit.model.dto.req.User.CreateUserDTO;
 import a203.findit.model.dto.req.User.LoginUserDTO;
 import a203.findit.model.dto.req.User.UpdateFormDTO;
+import a203.findit.model.dto.res.ResTreasureDTO;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,9 +33,10 @@ public interface UserService {
 
     boolean createTreasure(String username, MultipartFile img);
 
-    List<String> getTreasure();
+    List<ResTreasureDTO> getTreasure();
 
     boolean selectTreasure(List<Long> tid, String entercode);
 
 
+    boolean deleteTreasure(String username, Long tid);
 }

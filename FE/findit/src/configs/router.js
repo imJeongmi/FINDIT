@@ -16,14 +16,15 @@ import WaitPlaying from "components/page/WaitPlaying";
 import GameStatus from "components/page/GameStatus";
 import Playing from "components/page/Playing";
 import AddTreasure from "components/page/AddTreasure";
+import ls from "helper/LocalStorage";
 
 function checkAuth() {
-  return true;
+  return !!ls.get("accessToken");
 }
 
 function CheckAuth({ children }) {
   if (checkAuth()) return children;
-  return <Navigate to="/" />;
+  return <Navigate to="/main" />;
 }
 
 export default function RouterConfiguration() {
