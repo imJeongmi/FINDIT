@@ -135,6 +135,7 @@ async def upload_file(file: UploadFile = File(...), game_id: str = Form()):
         if len(det):
             for c in det[:, -1].unique():
                 # IGT에 등록된 보물인지 확인한다.
+                print(int(c))
                 if (int(c) + 1) in Default_IGT[game_id]:
                     n = (det[:, -1] == c).sum()  # detections per class
                     s.append(int(c) + 1)
@@ -159,7 +160,7 @@ async def upload_file(file: UploadFile = File(...), game_id: str = Form()):
         return JSONResponse(content={"message": "NOT TREASURE"},
                             status_code=200)
 
-    return JSONResponse(content={"result": s[0]},
+    return JSONResponse(content={"message": s[0]},
                         status_code=200)
 
 

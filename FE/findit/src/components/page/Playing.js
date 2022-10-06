@@ -99,7 +99,7 @@ export default function Playing() {
   const [finalScore, setFinalScore] = useState(0);
   const [myRank, setMyRank] = useState("1st");
   const [findedTreasures, setFindedTreasures] = useState([]);
-  const [notTreasureMsg, setNotTreasureMsg] = useState("");
+  const [TreasureMsg, setTreasureMsg] = useState("");
   const location = useLocation();
   const limitMinute = location?.state?.limitMinute;
   const sessionId = ss.get("sessionId");
@@ -107,13 +107,13 @@ export default function Playing() {
   const startTime = ss.get("starttime");
 
   function onClickCamera() {
-    console.log("카메라 클릭", notTreasureMsg);
+    console.log("카메라 클릭", TreasureMsg);
     const image = camera.current.takePhoto();
     uploadAction(image);
   }
 
   function uploadAction(image) {
-    console.log("사진 업로드 시작", notTreasureMsg);
+    console.log("사진 업로드 시작", TreasureMsg);
     const file = dataURLtoFile(image, "treasure.jpeg");
 
     const data = {
@@ -132,13 +132,13 @@ export default function Playing() {
     if (tid !== "NOT TREASURE" && findedTreasures.indexOf(tid) === -1) {
       setFindedTreasures(findedTreasures => [...findedTreasures, tid]);
       ws.publish({ destination: "/pub/find", body: `${gameid},${tid}` });
-      console.log(
-        `찾은 보물 ${tid}가 findedTreasures에 저장되었어요 => findedTreasures : ${findedTreasures}`,
-      );
+      setTreasureMsg("보물을 획득했어요");
+      setTimeout(() => setTreasureMsg(""), 1500);
+      console.log(`찾은 보물 ${tid}가 findedTreasures에 저장되었어요 => findedTreasures : ${findedTreasures}`);
       console.log("사진 업로드 완료");
     } else {
-      setNotTreasureMsg("보물이 아니에요");
-      setTimeout(() => setNotTreasureMsg(""), 1500);
+      setTreasureMsg("보물이 아니에요");
+      setTimeout(() => setTreasureMsg(""), 1500);
     }
   }
 
@@ -270,7 +270,7 @@ export default function Playing() {
         </Box>
       </ButtonBox>
       <MessageBox>
-        <CustomText size="xs">{notTreasureMsg}</CustomText>
+        <CustomText size="xs">{TreasureMsg}</CustomText>
       </MessageBox>
       {modalOpen === 1 && <PlayingRanking setModalOpen={setModalOpen} ranking={ranking} />}
       {modalOpen === 2 && (
