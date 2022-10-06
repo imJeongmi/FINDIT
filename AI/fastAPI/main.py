@@ -31,7 +31,7 @@ app.add_middleware(
 )
 
 opt = {
-    "weights": "best (17).pt",
+    "weights": "best (18).pt",
     # "weights": "best.pt",  # Path to weights file default weights are for nano model
     "img-size": 640,  # default image size
     "conf-thres": 0.70,  # confidence threshold for inference.
