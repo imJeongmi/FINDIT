@@ -77,7 +77,7 @@ const MessageBox = styled(Box)(
   () => `
     position: absolute;
     left: 50%;
-    bottom: 29vh;
+    bottom: 40vh;
     transform: translate(-50%);
   `,
 );
@@ -288,8 +288,7 @@ export default function Playing() {
         {TreasureMsg !== "" && (
           <ToastBox>
             <CustomText size="xs" variant="white">
-              {/* {TreasureMsg} */}
-              보물이 아닙니다
+              {TreasureMsg}
             </CustomText>
           </ToastBox>
         )}
