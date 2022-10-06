@@ -134,7 +134,9 @@ export default function Playing() {
       ws.publish({ destination: "/pub/find", body: `${gameid},${tid}` });
       setTreasureMsg("보물을 획득했어요");
       setTimeout(() => setTreasureMsg(""), 1500);
-      console.log(`찾은 보물 ${tid}가 findedTreasures에 저장되었어요 => findedTreasures : ${findedTreasures}`);
+      console.log(
+        `찾은 보물 ${tid}가 findedTreasures에 저장되었어요 => findedTreasures : ${findedTreasures}`,
+      );
       console.log("사진 업로드 완료");
     } else {
       setTreasureMsg("보물이 아니에요");
@@ -270,7 +272,9 @@ export default function Playing() {
         </Box>
       </ButtonBox>
       <MessageBox>
-        <CustomText size="xs">{TreasureMsg}</CustomText>
+        <CustomText size="xs" shadow="white">
+          {TreasureMsg}
+        </CustomText>
       </MessageBox>
       {modalOpen === 1 && <PlayingRanking setModalOpen={setModalOpen} ranking={ranking} />}
       {modalOpen === 2 && (
