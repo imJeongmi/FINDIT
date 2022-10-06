@@ -27,11 +27,23 @@ const RankingBox = styled(Box)(
     `,
 );
 
+const ButtonBox = styled(Box)(
+  () => `
+  text-align: center;
+  position: absolute;
+  top: 75vh;
+  left: 50%;
+  transform: translate(-50%);
+  `,
+);
+
 function PlayerButton() {
   return (
-    <CustomButton size="large" color="info" my="0">
-      대기중
-    </CustomButton>
+    <ButtonBox>
+      <CustomButton size="large" color="info">
+        대기중
+      </CustomButton>
+    </ButtonBox>
   );
 }
 
@@ -69,7 +81,7 @@ export default function WaitPlaying() {
   // 소켓에서 보내는 메세지
   function getDataFromSocket(message) {
     const msg = JSON.parse(message.body);
-    
+
     if (isGamePlayer() && msg.status === "start") {
       ss.set("starttime", msg.starttime);
       navigate(`/playing/${gameid}`, {
@@ -96,10 +108,9 @@ export default function WaitPlaying() {
     });
   }
 
-  function temp() { }
+  function temp() {}
 
   ws.onConnect = function (frame) {
-   
     ws.subscribe(`/sub/room/${gameid}`, getDataFromSocket);
     setInterval(function () {
       // ws.subscribe(`/sub/rank/${gameid}`, getRankFromSocket);
@@ -119,9 +130,11 @@ export default function WaitPlaying() {
   function HostButton() {
     return (
       // solid style
-      <CustomButton size="large" my="0" onClick={startGame}>
-        PLAY
-      </CustomButton>
+      <ButtonBox>
+        <CustomButton size="large" onClick={startGame}>
+          PLAY
+        </CustomButton>
+      </ButtonBox>
     );
   }
 
@@ -150,15 +163,13 @@ export default function WaitPlaying() {
           </Box>
         ))}
       </RankingBox>
-      <Box sx={{ textAlign: "center" }}>
-        {isGamePlayer() ? (
-          // <Link to="/tutorial">
-          // </Link>
-          <PlayerButton />
-        ) : (
-          <HostButton />
-        )}
-      </Box>
+      {isGamePlayer() ? (
+        // <Link to="/tutorial">
+        // </Link>
+        <PlayerButton />
+      ) : (
+        <HostButton />
+      )}
     </Box>
   );
 }

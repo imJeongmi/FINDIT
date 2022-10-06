@@ -13,6 +13,16 @@ import "./compass.scss";
 
 import { Link } from "react-router-dom";
 
+const ButtonBox = styled(Box)(
+  () => `
+  text-align: center;
+  position: absolute;
+  top: 50vh;
+  left: 50%;
+  transform: translate(-50%);
+  `,
+);
+
 export default function Tutorial({ target }) {
   const orderedHostText = [
     "새로운 Findit!을 누르면 게임 설정 화면이 나타나요",
@@ -83,19 +93,23 @@ export default function Tutorial({ target }) {
                 ))}
           </Carousel>
         </Box>
-        {target === "player" ? (
-          <Link to="/code" style={{ textDecoration: "none" }}>
-            <CustomButton size="large" color="primary" my="0.5vh">
-              입장 코드 입력
-            </CustomButton>
-          </Link>
-        ) : (
-          <Link to="/hostmain" style={{ textDecoration: "none" }}>
-            <CustomButton size="large" color="primary" my="0.5vh">
-              메인으로
-            </CustomButton>
-          </Link>
-        )}
+        <Box sx={{ mt: "3vh"}}>
+          {target === "player" ? (
+            <Link to="/code" style={{ textDecoration: "none" }}>
+              <ButtonBox>
+              <CustomButton size="large" color="primary" my="0.5vh">
+                입장 코드 입력
+              </CustomButton></ButtonBox>
+            </Link>
+          ) : (
+            <Link to="/hostmain" style={{ textDecoration: "none" }}>
+              <ButtonBox>
+              <CustomButton size="large" color="primary" my="0.5vh">
+                메인으로
+              </CustomButton></ButtonBox>
+            </Link>
+          )}
+        </Box>
       </Modal>
     </Box>
   );

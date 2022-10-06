@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Box } from "@mui/system";
+import { Box, styled } from "@mui/system";
 import Modal from "components/atom/Modal";
 import Input from "components/atom/Input";
 import CustomButton from "components/atom/CustomButton";
@@ -23,6 +23,16 @@ const LoginStyle = {
   flexDirection: "column",
   alignItems: "end",
 };
+
+const ButtonBox = styled(Box)(
+  () => `
+  text-align: center;
+  position: absolute;
+  top: 50vh;
+  left: 50%;
+  transform: translate(-50%);
+  `,
+);
 
 export default function Login() {
   const navigate = useNavigate();
@@ -111,9 +121,11 @@ export default function Login() {
             </CustomText>
           </Box>
         </Box>
-        <CustomButton size="large" onClick={onClickLogin}>
-          로그인
-        </CustomButton>
+        <ButtonBox>
+          <CustomButton size="large" onClick={onClickLogin}>
+            로그인
+          </CustomButton>
+        </ButtonBox>
       </Modal>
     </Box>
   );
