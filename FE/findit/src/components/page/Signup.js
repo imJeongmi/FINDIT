@@ -124,7 +124,7 @@ export default function Signup() {
           />
         </Box>
         <ButtonBox>
-          <CustomButton size="large" color="secondary" onClick={onClickSignup}>
+          <CustomButton size="large" color="secondary" onClick={onClickSignup} my="0.5vh">
             회원가입
           </CustomButton>
         </ButtonBox>
