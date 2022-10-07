@@ -11,10 +11,22 @@
 ## 2. 프로젝트 요약
 - 기술스택
 
+| 역할 | 기술 |
+| --- | --- |
+| Front | React, React Router Dom, MUI, Redux, Stompjs |
+| Back | Spring Boot, Spring Security, Grdale, JPA, MySQL, Websocket |
+| AI | Fast API, YOLOv5 |
+| ETC | AWS, S3, EC2, Figma, Nginx(+Certbot), JWT, Jenkins |
+
 - 아키텍처    
 ![image.png](./image.png)
 ## 3. 팀원 소개 및 담당 역할
+- 고동훤 (donghar@naver.com) : Restful API, Infra, 팀장
 - 최희선 (heesunmelody@gmail.com) : Restful API, Websocket, Infra, UCC
+- 박철민 : AI(YOLO),Fast API
+- 박정미 : 디자인, 플레이 페이지, PPT
+- 백경원 : 디자인, websocket, 발표
+- 정진아 : 디자인 총괄, 메인, 보물선택
 
 ## 4. Wiki
 - [Wiki 바로가기](https://lab.ssafy.com/s07-ai-image-sub2/S07P22A203/-/wikis/home)
