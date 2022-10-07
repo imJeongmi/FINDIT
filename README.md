@@ -23,10 +23,10 @@
 ## 3. 팀원 소개 및 담당 역할
 - 고동훤 (donghar@naver.com) : Restful API, Infra, 팀장
 - 최희선 (heesunmelody@gmail.com) : Restful API, Websocket, Infra, UCC
-- 박철민 : AI(YOLO),Fast API
-- 박정미 : 디자인, 플레이 페이지, PPT
-- 백경원 : 디자인, websocket, 발표
-- 정진아 : 디자인 총괄, 메인, 보물선택
+- 박철민 (fe26ming@gmail.com) : AI(YOLO),Fast API
+- 박정미 (qkrwjdal419@gmail.com) : 디자인, 플레이 페이지, PPT
+- 백경원 (wynne.baek@gmail.com) : 디자인, websocket, 발표
+- 정진아 (jina092400@gmail.com) : 디자인 총괄, 메인, 보물선택
 
 ## 4. Wiki
 - [Wiki 바로가기](https://lab.ssafy.com/s07-ai-image-sub2/S07P22A203/-/wikis/home)
