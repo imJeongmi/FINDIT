@@ -23,7 +23,7 @@ const ButtonBox = styled(Box)(
   () => `
   text-align: center;
   position: absolute;
-  top: 50vh;
+  top: 60vh;
   left: 50%;
   transform: translate(-50%);
   `
