@@ -122,7 +122,7 @@ export default function Login() {
           </Box>
         </Box>
         <ButtonBox>
-          <CustomButton size="large" onClick={onClickLogin}>
+          <CustomButton size="large" onClick={onClickLogin} my="0.5vh">
             로그인
           </CustomButton>
         </ButtonBox>
