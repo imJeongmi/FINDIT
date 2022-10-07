@@ -61,7 +61,7 @@ export default function EnterVerificationCode() {
           <EnterCode enterCode={enterCode} setEnterCode={setEnterCode}></EnterCode>
         </Box>
         <ButtonBox>
-          <CustomButton size="large" color="primary" onClick={postEnterCode}>
+          <CustomButton size="large" color="primary" onClick={postEnterCode} my="0.5vh">
             입장하기
           </CustomButton>
         </ButtonBox>
